@@ -4,8 +4,18 @@ module.exports = {
       "./pages/**/*.{js,ts,jsx,tsx}",
       "./components/**/*.{js,ts,jsx,tsx}",
    ],
+   darkMode: "class",
    theme: {
-      extend: {},
+      extend: {
+         colors: {
+            "light-primary": "#E5E8EF",
+            "light-bg": "#fff",
+            "light-text": "#30373D",
+            "dark-primary": "#2B2B2B",
+            "dark-bg": "#1F1F1F",
+            "dark-text": "#F7F8FA",
+         },
+      },
    },
    plugins: [],
 };
