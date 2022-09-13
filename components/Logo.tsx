@@ -51,7 +51,7 @@ const Logo = (props: any) => {
          />
       </svg>
    );
-   if (theme === "dark") {
+   if (theme == "dark") {
       logo = (
          <svg
             width={props.width}
