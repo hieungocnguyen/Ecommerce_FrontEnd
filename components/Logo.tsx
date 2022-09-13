@@ -5,10 +5,7 @@ import { useEffect, useState } from "react";
 const Logo = (props: any) => {
    const { theme, setTheme } = useTheme();
 
-   useEffect(() => {
-      console.log(theme);
-   }, [theme]);
-   let logo = (
+   let logo: any = (
       <svg
          width={props.width}
          height="38"
@@ -102,6 +99,10 @@ const Logo = (props: any) => {
          </svg>
       );
    }
+   useEffect(() => {
+      console.log(theme);
+   }, [theme]);
+
    return <div className="cursor-pointer">{logo}</div>;
 };
 
