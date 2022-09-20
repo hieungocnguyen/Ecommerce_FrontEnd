@@ -15,7 +15,9 @@ const Header = () => {
          </div>
          <div>
             <Link href="/">
-               <Logo width="125" />
+               <a>
+                  <Logo width="125" />
+               </a>
             </Link>
          </div>
          <div className="mr-7 flex items-center">
