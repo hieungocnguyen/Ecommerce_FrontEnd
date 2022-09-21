@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import Logo from "./Logo";
-import ThemeToggler from "./ThemeToggler";
+import Logo from "../Logo";
+import ThemeToggler from "../ThemeToggler";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 
 const Header = () => {
@@ -26,7 +26,7 @@ const Header = () => {
                   Sign in
                </button>
             </Link>
-            <button className="w-10 h-10 hover:bg-slate-300 flex items-center justify-center hover: rounded-lg">
+            <button className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg">
                <HiOutlineShoppingCart className="w-6 h-6" />
             </button>
          </div>

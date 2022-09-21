@@ -6,7 +6,7 @@
 
 @layer base {
    body {
-      @apply dark:bg-dark-bg dark:text-dark-text bg-light-bg text-light-text;
+      @apply dark:bg-dark-bg dark:text-dark-text bg-[#F7F8FA] text-light-text;
    }
 }
 html {
