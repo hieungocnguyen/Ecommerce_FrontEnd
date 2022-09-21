@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import Logo from "./Logo";
+import Logo from "../Logo";
 import { AiFillFacebook, AiFillInstagram } from "react-icons/ai";
 
 const Footer = () => {
@@ -22,7 +22,7 @@ const Footer = () => {
             </div>
             <div className="text-center">
                <div className="font-semibold text-sm">Social</div>
-               <div className="flex text-[25px] justify-center mt-[10px] gap-2">
+               <div className="flex text-[28px] justify-center mt-[10px] gap-2">
                   <Link href="/">
                      <a>
                         <AiFillFacebook />

@@ -1,11 +1,8 @@
-import Head from "next/head";
-import Image from "next/image";
-import Footer from "../components/Layout/Footer";
-import Header from "../components/Layout/Header";
-import Layout from "../components/Layout/Layout";
-import ProductItem from "../components/ProductItem";
+import React from "react";
+import Layout from "../../components/Layout/Layout";
+import ProductItem from "../../components/ProductItem";
 
-export default function Home() {
+const index = () => {
    const mockProduct = [
       {
          id: 1,
@@ -52,18 +49,14 @@ export default function Home() {
    ];
    return (
       <div>
-         <Layout title="Home">
-            <div className="my-6">
-               <h1 className="text-center font-bold text-xl my-5">
-                  Featured Products
-               </h1>
-               <div className="grid lg:grid-cols-5 grid-cols-3 gap-10">
-                  {mockProduct.map((i) => (
-                     <ProductItem key={i.id} product={i} />
-                  ))}
-               </div>
-            </div>
+         <Layout title="Products">
+            <h2 className="text-center">Featured Products</h2>
+            {mockProduct.map((i) => (
+               <ProductItem key={i.id} product={i} />
+            ))}
          </Layout>
       </div>
    );
-}
+};
+
+export default index;

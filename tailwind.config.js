@@ -14,6 +14,7 @@ module.exports = {
             "dark-primary": "#2B2B2B",
             "dark-bg": "#1F1F1F",
             "dark-text": "#F7F8FA",
+            "blue-main": "#525EC1",
          },
       },
    },
