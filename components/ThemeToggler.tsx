@@ -9,7 +9,7 @@ const ThemeToggler = () => {
    if (!mounted) return null;
    return (
       <button
-         className="w-8 h-8 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:border-[3px] hover:border-dark-primary transition-colors"
+         className="w-8 h-8 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800"
          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
          aria-label="Toggle Dark Mode"
       >
