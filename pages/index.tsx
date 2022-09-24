@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 import Advertise from "../components/Advertise";
+import CategoryList from "../components/CategoryList";
 import Footer from "../components/Layout/Footer";
 import Header from "../components/Layout/Header";
 import Layout from "../components/Layout/Layout";
@@ -68,23 +69,25 @@ export default function Home() {
    return (
       <div>
          <Layout title="Home">
-            <div className="my-7">
+            <div className="my-4">
                <form onSubmit={search}>
                   <input
                      type="text"
                      placeholder="Type something..."
                      ref={searchInput}
-                     className="rounded-lg px-8 py-[4px] font-semibold outline-none mr-3 w-[40%] bg-light-primary dark:bg-dark-primary"
+                     className="rounded-lg px-8 py-[6px] font-semibold outline-none mr-3 w-[40%] bg-light-primary dark:bg-dark-primary"
                   />
                   <button
                      type="submit"
-                     className="bg-blue-main rounded-lg p-[5px] font-semibold text-white hover:opacity-80"
+                     className="bg-blue-main rounded-lg py-[7px] px-[10px] font-semibold text-white hover:opacity-80 text-sm"
                   >
                      <span>Search</span>
                   </button>
                </form>
             </div>
-            <div className="my-6">
+            <div className="text-center font-bold text-xl mb-3">Category</div>
+            <CategoryList />
+            <div className="my-5">
                <Advertise />
                <h1 className="text-center font-bold text-xl my-5">
                   Featured Products
