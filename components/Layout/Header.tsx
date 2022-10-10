@@ -21,14 +21,16 @@ const Header = () => {
             </Link>
          </div>
          <div className="mr-7 flex items-center">
-            <Link href="/">
-               <button className="p-2 bg-[#525EC1] text-light-bg rounded-lg mr-4 text-sm font-semibold hover:opacity-75">
+            <Link href="/signin">
+               <button className="py-2 px-3 bg-[#525EC1] text-light-bg rounded-lg mr-4 text-sm font-semibold hover:opacity-75">
                   Sign in
                </button>
             </Link>
-            <button className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg">
-               <HiOutlineShoppingCart className="w-6 h-6" />
-            </button>
+            <Link href="/cart">
+               <button className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg">
+                  <HiOutlineShoppingCart className="w-6 h-6" />
+               </button>
+            </Link>
          </div>
       </div>
    );

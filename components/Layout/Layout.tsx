@@ -13,7 +13,9 @@ const Layout = ({ title, children }) => {
          <header>
             <Header />
          </header>
-         <main className="w-[90%] mx-auto text-center">{children}</main>
+         <main className="w-[90%] mx-auto text-center min-h-[calc(100vh-60px-178px)]">
+            {children}
+         </main>
          <footer>
             <Footer />
          </footer>

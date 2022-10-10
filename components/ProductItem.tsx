@@ -18,13 +18,13 @@ const ProductItem = (props: any) => {
             <div className="text-blue-main font-bold">
                {props.product.price}
             </div>
-            <div className="flex justify-between my-6">
+            <div className="grid grid-cols-4 my-4 gap-3">
                <Link href={`/product/${props.product.id}`}>
-                  <button className="lg:w-[130px] h-[40px] text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-sm sm:w-[90px]">
+                  <button className=" col-span-3 h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-sm ">
                      Detail
                   </button>
                </Link>
-               <button className=" h-[40px] w-[40px] text-white bg-blue-main rounded-lg hover:opacity-80 flex items-center justify-center text-lg">
+               <button className=" col-span-1 h-9 text-white bg-blue-main rounded-lg hover:opacity-80 flex items-center justify-center text-lg">
                   <HiOutlineShoppingCart />
                </button>
             </div>

@@ -1,17 +1,34 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import Advertise from "../components/Advertise";
 import CategoryList from "../components/CategoryList";
 import Footer from "../components/Layout/Footer";
 import Header from "../components/Layout/Header";
 import Layout from "../components/Layout/Layout";
 import ProductItem from "../components/ProductItem";
+import SearchBar from "../components/SearchBar";
+import axios from "axios";
 
-export default function Home() {
+export default function Home({ categories }) {
    const router = useRouter();
    const searchInput = useRef(null);
+   // const [cate, setCate] = useState([]);
+   // useEffect(() => {
+   //    const loadCate = async () => {
+   //       try {
+   //          const res = await axios.get(
+   //             "http://localhost:8080/ecommerce/api/agency-field/all"
+   //          );
+   //          console.log(res.data.data);
+   //          setCate(res.data.data);
+   //       } catch (error) {
+   //          console.log(error);
+   //       }
+   //    };
+   //    loadCate();
+   // }, []);
 
    const mockProduct = [
       {
@@ -69,30 +86,13 @@ export default function Home() {
    return (
       <div>
          <Layout title="Home">
-            <div className="my-4">
-               <form onSubmit={search}>
-                  <input
-                     type="text"
-                     placeholder="Type something..."
-                     ref={searchInput}
-                     className="rounded-lg px-8 py-[6px] font-semibold outline-none mr-3 w-[40%] bg-light-primary dark:bg-dark-primary"
-                  />
-                  <button
-                     type="submit"
-                     className="bg-blue-main rounded-lg py-[7px] px-[10px] font-semibold text-white hover:opacity-80 text-sm"
-                  >
-                     <span>Search</span>
-                  </button>
-               </form>
-            </div>
+            <SearchBar />
             <div className="text-center font-bold text-xl mb-3">Category</div>
-            <CategoryList />
-            <div className="my-5">
+            <CategoryList categories={categories} />
+            <div className="">
                <Advertise />
-               <h1 className="text-center font-bold text-xl my-5">
-                  Featured Products
-               </h1>
-               <div className="grid lg:grid-cols-5 grid-cols-3 gap-10">
+               <h1 className="text-center font-bold text-xl my-5">All Posts</h1>
+               <div className="grid lg:grid-cols-5 grid-cols-2 gap-10">
                   {mockProduct.map((i) => (
                      <ProductItem key={i.id} product={i} />
                   ))}
@@ -102,3 +102,10 @@ export default function Home() {
       </div>
    );
 }
+export const getStaticProps = async () => {
+   const res = await axios.get(
+      "http://localhost:8080/ecommerce/api/category/all"
+   );
+   const categories = await res.data.data;
+   return { props: { categories } };
+};

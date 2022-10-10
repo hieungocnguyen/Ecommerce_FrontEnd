@@ -4,56 +4,23 @@ import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
+import axios from "axios";
 
-const CategoryList = () => {
-   const mockCate = [
-      {
-         id: 1,
-         name: "Fashion",
-      },
-      {
-         id: 2,
-         name: "Technology",
-      },
-      {
-         id: 3,
-         name: "Book",
-      },
-      {
-         id: 4,
-         name: "Food",
-      },
-      {
-         id: 5,
-         name: "Phone",
-      },
-      {
-         id: 6,
-         name: "Laptop",
-      },
-      {
-         id: 7,
-         name: "Decorate",
-      },
-      {
-         id: 8,
-         name: "Something",
-      },
-   ];
+const CategoryList = ({ categories }) => {
    return (
-      <div className="">
+      <div className="my-5">
          <Swiper
-            slidesPerView={4}
+            slidesPerView={5}
             spaceBetween={20}
             loop={true}
             className="mySwiper h-[40px]"
          >
-            {mockCate.map((i) => (
+            {categories.map((i) => (
                <SwiperSlide
                   key={i.id}
                   className="bg-blue-main text-white rounded-lg font-semibold text-sm hover:opacity-80 flex justify-center"
                >
-                  <Link href={`/category/${i.name.toLocaleLowerCase()}`}>
+                  <Link href={`/category/${i.id}`}>
                      <a className="flex items-center w-[100%] justify-center active:cursor-grab">
                         {i.name}
                      </a>
