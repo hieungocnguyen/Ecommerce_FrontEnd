@@ -10,6 +10,8 @@ import axios from "axios";
 const CategoryPage = ({ categories, category }) => {
    const router = useRouter();
    const { slug } = router.query;
+   console.log(category);
+
    return (
       <div>
          <Layout title="Category Page">
@@ -34,7 +36,11 @@ const CategoryPage = ({ categories, category }) => {
                <div className="lg:col-span-9 sm:col-span-6">
                   <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-10">
                      {dataProduct.map((i) => (
-                        <ProductItem key={i.id} product={i} />
+                        <ProductItem
+                           key={i.id}
+                           product={i}
+                           addToCartHandler={undefined}
+                        />
                      ))}
                   </div>
                </div>
@@ -62,14 +68,14 @@ const CategoryPage = ({ categories, category }) => {
 export default CategoryPage;
 export const getStaticProps = async (context) => {
    const res = await axios.get(
-      "http://localhost:8080/ecommerce/api/category/all"
+      "http://localhost:8080/ou-ecommerce/api/category/all"
    );
    const categories = await res.data.data;
 
    // request category detail
    const id = context.params.slug;
    const resCategory = await axios.get(
-      "http://localhost:8080/ecommerce/api/category/" + id
+      "http://localhost:8080/ou-ecommerce/api/category/" + id
    );
    const category = await resCategory.data.data;
    return { props: { categories, category } };
@@ -83,7 +89,7 @@ export async function getStaticPaths() {
       };
    }
    const res = await axios.get(
-      "http://localhost:8080/ecommerce/api/category/all"
+      "http://localhost:8080/ou-ecommerce/api/category/all"
    );
    const category = await res.data.data;
    const paths = category.map((cate) => ({

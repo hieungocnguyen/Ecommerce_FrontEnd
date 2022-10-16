@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import Advertise from "../components/Advertise";
 import CategoryList from "../components/CategoryList";
 import Footer from "../components/Layout/Footer";
@@ -10,10 +10,13 @@ import Layout from "../components/Layout/Layout";
 import ProductItem from "../components/ProductItem";
 import SearchBar from "../components/SearchBar";
 import axios from "axios";
+import { Store } from "../utils/Store";
+import API, { endpoints } from "../API";
 
-export default function Home({ categories }) {
+export default function Home({ categories, salePosts }) {
    const router = useRouter();
    const searchInput = useRef(null);
+   const { state, dispatch } = useContext(Store);
    // const [cate, setCate] = useState([]);
    // useEffect(() => {
    //    const loadCate = async () => {
@@ -74,6 +77,17 @@ export default function Home({ categories }) {
          price: 5000,
       },
    ];
+   const addToCartHandler = async (product) => {
+      const existItem = state.cart.cartItems.find((x) => x._id === product._id);
+      const quantity = existItem ? existItem.quantity + 1 : 1;
+      // const { data } = await axios.get(`/api/products/${product._id}`);
+      // if (data.countInStock < quantity) {
+      //    window.alert("Sorry. Product is out of stock");
+      //    return;
+      // }
+      dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+      // router.push("/cart");
+   };
    const search = (e: any) => {
       e.preventDefault();
       const query = searchInput.current.value;
@@ -93,8 +107,12 @@ export default function Home({ categories }) {
                <Advertise />
                <h1 className="text-center font-bold text-xl my-5">All Posts</h1>
                <div className="grid lg:grid-cols-5 grid-cols-2 gap-10">
-                  {mockProduct.map((i) => (
-                     <ProductItem key={i.id} product={i} />
+                  {salePosts.map((i) => (
+                     <ProductItem
+                        key={i.id}
+                        product={i}
+                        addToCartHandler={addToCartHandler}
+                     />
                   ))}
                </div>
             </div>
@@ -103,9 +121,11 @@ export default function Home({ categories }) {
    );
 }
 export const getStaticProps = async () => {
-   const res = await axios.get(
-      "http://localhost:8080/ecommerce/api/category/all"
+   const resCategories = await axios.get(
+      "http://localhost:8080/ou-ecommerce/api/category/all"
    );
-   const categories = await res.data.data;
-   return { props: { categories } };
+   const categories = await resCategories.data.data;
+   const resAllProduct = await API.get(endpoints["get_all_salePost"]);
+   const salePosts = await resAllProduct.data.data;
+   return { props: { categories, salePosts } };
 };
