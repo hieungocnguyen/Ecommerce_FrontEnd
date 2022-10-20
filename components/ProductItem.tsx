@@ -14,7 +14,7 @@ const ProductItem = ({ product, addToCartHandler }) => {
             className="w-[160px] h-[160px] object-cover rounded-lg mx-auto my-[24px]"
          />
          <div className="mx-7 text-center">
-            <div className="font-semibold truncate">{product.title}</div>
+            <div className="font-semibold line-clamp-2">{product.title}</div>
             <div className="text-blue-main font-bold">{product.finalPrice}</div>
             <div className="grid grid-cols-4 my-4 gap-3">
                <Link href={`/sale_post/${product.id}`}>

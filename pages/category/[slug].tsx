@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import React from "react";
-import CategoryList from "../../components/CategoryList";
 import Layout from "../../components/Layout/Layout";
 import ProductItem from "../../components/ProductItem";
 import SearchBar from "../../components/SearchBar";
@@ -10,16 +9,14 @@ import axios from "axios";
 const CategoryPage = ({ categories, category }) => {
    const router = useRouter();
    const { slug } = router.query;
-   console.log(category);
 
    return (
       <div>
          <Layout title="Category Page">
-            <SearchBar />
+            <SearchBar categories={categories} />
             <div className="text-center font-bold text-xl mb-3 capitalize">
                {category.name}
             </div>
-            <CategoryList categories={categories} />
             <div className="grid grid-cols-12 gap-10 ">
                {/* filter section */}
                <div className="  lg:col-span-3 sm:col-span-6 px-4 bg-dark-primary rounded-lg h-fit ">

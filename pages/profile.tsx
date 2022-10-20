@@ -34,6 +34,7 @@ const Profile = () => {
                   <div>Lastname: {user.lastName}</div>
                   <div>Email: {user.email}</div>
                   <div>Phone: {user.phone}</div>
+                  <div>Address: {user.address}</div>
                </div>
                <Link href="/editprofile">
                   <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">

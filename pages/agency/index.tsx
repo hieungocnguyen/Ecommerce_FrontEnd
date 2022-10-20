@@ -1,5 +1,5 @@
 const AgencyHome = () => {
-   return <div>Agency Home</div>;
+   return <div>Agency Home Management</div>;
 };
 
 export default AgencyHome;

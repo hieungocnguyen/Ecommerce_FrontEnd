@@ -18,11 +18,11 @@ const Header = () => {
    const { cart, userInfo } = state;
    const [numberItem, setNumberItem] = useState(0);
 
-   const [closeMenu, setCloseMenu] = useState(true);
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
       Cookies.remove("userInfo");
       Cookies.remove("accessToken");
+      Cookies.remove("cartItems");
       router.push("/");
       toast.success("sign out success", {
          position: "bottom-center",
@@ -44,7 +44,7 @@ const Header = () => {
       if (userInfo) {
          loadNumberofItems();
       }
-   }, []);
+   }, [numberItem, cart]);
 
    useEffect(() => {
       if (userInfo != null) {
@@ -52,24 +52,30 @@ const Header = () => {
             <div className="relative">
                <img
                   src={userInfo.avatar}
-                  className="w-[40px] h-[40px] rounded-full cursor-pointer"
+                  className="w-[40px] h-[40px] rounded-full cursor-pointer border-[3px] border-blue-main"
                   alt="avatar"
                   onClick={handleToggleMenu}
                />
                <div
                   id="menuUser"
-                  className="absolute top-14 right-0 dark:bg-dark-primary rounded-lg z-10 hidden"
+                  className="absolute top-14 right-0 dark:bg-dark-primary 
+                  bg-light-primary rounded-lg z-10 hidden font-semibold"
                >
                   <Link href="/profile">
-                     <div className="p-3 cursor-pointer hover:opacity-80">
+                     <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
                         Profile
                      </div>
                   </Link>
-                  <div className="p-3 cursor-pointer hover:opacity-80">
+                  <Link href="/orders">
+                     <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
+                        Orders
+                     </div>
+                  </Link>
+                  <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
                      Wishlist
                   </div>
                   <div
-                     className="p-3 cursor-pointer hover:opacity-80 whitespace-nowrap"
+                     className="p-3 px-4 cursor-pointer hover:text-blue-main transition-all whitespace-nowrap"
                      onClick={logoutClickHandler}
                   >
                      Sign out
@@ -110,7 +116,7 @@ const Header = () => {
                <button className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mr-6 relative">
                   <HiOutlineShoppingCart className="w-6 h-6" />
                   {numberItem > 0 ? (
-                     <div className="absolute bg-blue-main rounded-full top-0 right-[-5px] font-semibold w-5 h-5 flex justify-center items-center text-sm">
+                     <div className="absolute bg-blue-main rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
                         {numberItem}
                      </div>
                   ) : (

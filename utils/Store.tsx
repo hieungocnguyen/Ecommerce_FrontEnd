@@ -35,6 +35,17 @@ function reducer(state: any, action: { type: any; payload: any }) {
          Cookies.set("cartItems", JSON.stringify(cartItems));
          return { ...state, cart: { ...state.cart, cartItems } };
       }
+      case "CART_REMOVE_ITEM": {
+         const cartItems = state.cart.cartItems.filter(
+            (item) => item !== action.payload
+         );
+         Cookies.set("cartItems", JSON.stringify(cartItems));
+         return { ...state, cart: { ...state.cart, cartItems } };
+      }
+      case "CART_REMOVE_ALL_ITEM": {
+         Cookies.remove("cartItems");
+         return { ...state, cart: { ...state.cart } };
+      }
       case "USER_LOGIN":
          return { ...state, userInfo: action.payload };
       case "USER_LOGOUT":

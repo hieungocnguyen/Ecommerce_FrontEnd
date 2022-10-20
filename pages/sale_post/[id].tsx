@@ -6,26 +6,31 @@ import Layout from "../../components/Layout/Layout";
 
 import Cookies from "js-cookie";
 import { Store } from "../../utils/Store";
+import { useRouter } from "next/router";
+import { type } from "os";
+type;
 
 const ProductPage = (salePost) => {
    const { state, dispatch } = useContext(Store);
-   const [checkedItems, setCheckedItems] = useState([]);
-   const handleChecked = (e) => {
-      var updatedList = [...checkedItems];
-      if (e.target.checked) {
-         updatedList = [...checkedItems, e.target.value];
+   const [quantityItems, setQuantityItems] = useState([]);
+   const router = useRouter();
+   const handleChangeQuantity = (item, quantity) => {
+      var updatedList = [...quantityItems];
+      var objItem = { id: item.id, quantity: quantity };
+      if (quantity > 0) {
+         updatedList = [...quantityItems, objItem];
       } else {
-         updatedList.splice(checkedItems.indexOf(e.target.value), 1);
+         updatedList.splice(quantityItems.indexOf(quantity), 1);
       }
-      setCheckedItems(updatedList);
+      setQuantityItems(updatedList);
    };
    const handleAddToCart = () => {
-      const addtoCart = async (id) => {
+      const addtoCart = async (i) => {
          const res = await axios.post(
             "http://localhost:8080/ou-ecommerce/api/cart/add-to-cart",
             {
-               itemID: Number(id),
-               quantity: 1,
+               itemID: Number(i.id),
+               quantity: i.quantity,
             },
             {
                headers: {
@@ -33,24 +38,32 @@ const ProductPage = (salePost) => {
                },
             }
          );
-         dispatch({ type: "CART_ADD_ITEM", payload: { id } });
+         dispatch({
+            type: "CART_ADD_ITEM",
+            payload: { id: i.id, quantity: i.quantity },
+         });
       };
-      checkedItems.map((i) => {
-         addtoCart(i);
-      });
+      if (Cookies.get("accessToken")) {
+         quantityItems.map((i) => {
+            addtoCart(i);
+         });
+      } else {
+         router.push("/signin");
+      }
    };
+   //function number input
 
    return (
       <Layout title="Detail">
-         <div className="grid lg:grid-cols-2 grid-cols-1 gap-8 m-8 ">
-            <div className="overflow-hidden aspect-square">
+         <div className="grid lg:grid-cols-3 grid-cols-1 gap-8 m-8 ">
+            <div className="overflow-hidden aspect-square col-span-1">
                <img
                   src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8aGVhZHBob25lfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1000&q=60"
                   alt="tai nghe"
                   className="w-full h-full object-cover rounded-lg"
                />
             </div>
-            <div>
+            <div className="col-span-2">
                <div className="font-semibold text-3xl text-left">
                   {salePost.salePost.title}
                </div>
@@ -61,20 +74,29 @@ const ProductPage = (salePost) => {
                            className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
                            key={item.id}
                         >
-                           <div className="flex items-center pl-3">
-                              <input
-                                 id={item.id}
-                                 type="checkbox"
-                                 value={item.id}
-                                 className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                 onChange={handleChecked}
-                              ></input>
+                           <div className="grid grid-cols-3 items-center pl-3">
                               <label
                                  htmlFor={item.id}
-                                 className="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300"
+                                 className="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300 text-left"
                               >
                                  {item.name}
                               </label>
+                              {/* number input */}
+                              {/* <div className="flex">
+                                 <button onClick={DecreaseItem}>-</button>
+                                 {numberItems ? (
+                                    <div>{numberItems}</div>
+                                 ) : (
+                                    <div>0</div>
+                                 )}
+                                 <button onClick={IncrementItem}>+</button>
+                              </div> */}
+                              <input
+                                 type="number"
+                                 onChange={(e) =>
+                                    handleChangeQuantity(item, e.target.value)
+                                 }
+                              />
                               <div>{item.unitPrice}</div>
                            </div>
                         </li>
@@ -82,10 +104,10 @@ const ProductPage = (salePost) => {
                   </ul>
                   <div>
                      <button
-                        className="bg-blue-main w-[80%] h-[60px] flex items-center justify-center rounded-lg mx-auto my-8 font-semibold hover:opacity-80"
+                        className="bg-blue-main w-[70%] h-[60px] flex items-center justify-center rounded-lg mx-auto my-8 font-semibold hover:opacity-80 text-white"
                         onClick={handleAddToCart}
                      >
-                        Add checked item to your cart
+                        Add to your cart
                      </button>
                   </div>
                </div>

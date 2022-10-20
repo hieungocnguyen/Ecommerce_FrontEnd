@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import axios from "axios";
 import API, { endpoints } from "../API";
+import { useRouter } from "next/router";
+import toast, { Toaster } from "react-hot-toast";
 
 const Register = () => {
    const {
@@ -14,6 +16,7 @@ const Register = () => {
       formState: { errors },
    } = useForm();
    const [selectedImage, setSelectedImage] = useState();
+   const router = useRouter();
    const imageChange = (e) => {
       // console.log(e.target.files[0]);
 
@@ -61,8 +64,14 @@ const Register = () => {
                },
             }
          );
+         toast.success("Done!", {
+            position: "bottom-center",
+         });
+         router.push("/signin");
       } catch (error) {
-         console.log(error);
+         toast.error("Something wrong, check again!", {
+            position: "bottom-center",
+         });
       }
    };
 
@@ -169,6 +178,7 @@ const Register = () => {
                </div>
             </Link>
          </div>
+         <Toaster />
       </Layout>
    );
 };

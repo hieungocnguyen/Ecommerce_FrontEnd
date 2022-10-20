@@ -11,6 +11,11 @@ export let endpoints = {
    //cart API
    add_to_cart: "cart/add-to-cart",
    get_cart_by_id: (userID) => `/cart/get-cart/${userID}`,
+   get_total: (userID) => `/cart/get-total-price-in-cart/${userID}`,
+   payment_cart: (paymentTypeID) => `/cart/payment-cart/${paymentTypeID}`,
+   clear_cart: `/cart/clear-cart`,
+   //order API
+   order_user: (userID) => `/order/orders-agency/user/${userID}`,
 };
 export const authAxios = () =>
    axios.create({

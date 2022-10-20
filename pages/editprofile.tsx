@@ -7,6 +7,7 @@ import Layout from "../components/Layout/Layout";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 const EditProfile = () => {
    const { state, dispatch } = useContext(Store);
@@ -19,6 +20,7 @@ const EditProfile = () => {
       register,
       handleSubmit,
       watch,
+      setValue,
       formState: { errors },
    } = useForm();
    const [selectedImage, setSelectedImage] = useState();
@@ -41,6 +43,10 @@ const EditProfile = () => {
       if (userInfo) {
          loadUser();
       }
+      setValue("firstName", userInfo.firstName);
+      setValue("lastName", userInfo.lastName);
+      setValue("email", userInfo.email);
+      setValue("address", userInfo.address);
    }, [userInfo]);
    const submitHandler = async ({ firstName, lastName, email, address }) => {
       const formData = new FormData();
@@ -78,8 +84,15 @@ const EditProfile = () => {
          );
 
          Cookies.set("userInfo", JSON.stringify(dataCurrentUser.data.data));
+         toast.success("Done!", {
+            position: "bottom-center",
+         });
          router.push("/profile");
-      } catch (error) {}
+      } catch (error) {
+         toast.error("Something wrong, check again!", {
+            position: "bottom-center",
+         });
+      }
    };
    return (
       <Layout title="Edit Profile">
@@ -100,15 +113,19 @@ const EditProfile = () => {
          </div> */}
          <form onSubmit={handleSubmit(submitHandler)}>
             <div className="flex justify-center">
-               <img
-                  src={
-                     selectedImage
-                        ? URL.createObjectURL(selectedImage)
-                        : userInfo.avatar
-                  }
-                  alt="Thumb"
-                  className="w-[280px] h-[280px] rounded-full my-10"
-               />
+               {selectedImage ? (
+                  <img
+                     src={URL.createObjectURL(selectedImage)}
+                     alt="Thumb"
+                     className="w-[280px] h-[280px] rounded-full my-10"
+                  />
+               ) : (
+                  <img
+                     src={user.avatar}
+                     alt="Thumb"
+                     className="w-[280px] h-[280px] rounded-full my-10"
+                  />
+               )}
             </div>
             <div className="flex flex-col max-w-md mx-auto">
                <input
@@ -124,7 +141,6 @@ const EditProfile = () => {
                   FirstName
                </label>
                <input
-                  defaultValue={userInfo.firstName}
                   name="firstName"
                   placeholder="FirstName"
                   className="p-4 rounded-lg"
@@ -137,7 +153,6 @@ const EditProfile = () => {
                   Lastname
                </label>
                <input
-                  defaultValue={userInfo.lastName}
                   name="lastName"
                   placeholder="Lastname"
                   className="p-4 rounded-lg"
@@ -150,7 +165,6 @@ const EditProfile = () => {
                   Email
                </label>
                <input
-                  defaultValue={userInfo.email}
                   name="email"
                   id="email"
                   placeholder="Email"
@@ -164,7 +178,6 @@ const EditProfile = () => {
                   Address
                </label>
                <input
-                  defaultValue={userInfo.address}
                   name="address"
                   id="address"
                   placeholder="Address"
@@ -176,8 +189,12 @@ const EditProfile = () => {
                Change
             </button>
          </form>
+         <Toaster />
       </Layout>
    );
 };
 
 export default EditProfile;
+function saveSettings(settings: any): Promise<unknown> {
+   throw new Error("Function not implemented.");
+}

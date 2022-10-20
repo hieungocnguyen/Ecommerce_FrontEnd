@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef, useEffect, useState, useContext } from "react";
 import Advertise from "../components/Advertise";
-import CategoryList from "../components/CategoryList";
 import Footer from "../components/Layout/Footer";
 import Header from "../components/Layout/Header";
 import Layout from "../components/Layout/Layout";
@@ -12,11 +11,14 @@ import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { Store } from "../utils/Store";
 import API, { endpoints } from "../API";
+import { userInfo } from "os";
+import Cookies from "js-cookie";
 
 export default function Home({ categories, salePosts }) {
    const router = useRouter();
    const searchInput = useRef(null);
    const { state, dispatch } = useContext(Store);
+   const { userInfo } = state;
    // const [cate, setCate] = useState([]);
    // useEffect(() => {
    //    const loadCate = async () => {
@@ -78,14 +80,20 @@ export default function Home({ categories, salePosts }) {
       },
    ];
    const addToCartHandler = async (product) => {
-      const existItem = state.cart.cartItems.find((x) => x._id === product._id);
-      const quantity = existItem ? existItem.quantity + 1 : 1;
+      if (Cookies.get("accessToken")) {
+         const existItem = state.cart.cartItems.find(
+            (x) => x._id === product._id
+         );
+         const quantity = existItem ? existItem.quantity + 1 : 1;
+         dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+      } else {
+         router.push("/signin");
+      }
       // const { data } = await axios.get(`/api/products/${product._id}`);
       // if (data.countInStock < quantity) {
       //    window.alert("Sorry. Product is out of stock");
       //    return;
       // }
-      dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
       // router.push("/cart");
    };
    const search = (e: any) => {
@@ -100,10 +108,11 @@ export default function Home({ categories, salePosts }) {
    return (
       <div>
          <Layout title="Home">
-            <SearchBar />
-            <div className="text-center font-bold text-xl mb-3">Category</div>
-            <CategoryList categories={categories} />
-            <div className="">
+            <SearchBar categories={categories} />
+
+            {/* <div className="text-center font-bold text-xl mb-3">Category</div> */}
+            {/* <CategoryList categories={categories} /> */}
+            <div className="my-8">
                <Advertise />
                <h1 className="text-center font-bold text-xl my-5">All Posts</h1>
                <div className="grid lg:grid-cols-5 grid-cols-2 gap-10">
