@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@heroicons/react": "^2.0.10",
+    "@mui/material": "^5.10.10",
     "@tailwindcss/line-clamp": "^0.4.2",
     "axios": "^1.1.0",
     "js-cookie": "^3.0.1",
@@ -21,6 +24,8 @@
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.4.0",
     "react-modern-drawer": "^1.1.2",
+    "react-star-ratings": "^2.3.0",
+    "react-stars": "^2.2.5",
     "swiper": "^8.4.2"
   },
   "devDependencies": {

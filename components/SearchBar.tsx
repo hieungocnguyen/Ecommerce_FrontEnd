@@ -10,11 +10,7 @@ const SearchBar = ({ categories }) => {
    const search = (e: any) => {
       e.preventDefault();
       const query = searchInput.current.value;
-      if (!query) {
-         searchInput.current.focus();
-      } else {
-         router.push(`/search?input=${query}`);
-      }
+      router.push(`/search?input=${query}`);
    };
    const handleOpenCategory = () => {
       const container = document.getElementById("container-category");
@@ -60,6 +56,7 @@ const SearchBar = ({ categories }) => {
                <input
                   type="text"
                   placeholder="Type something..."
+                  defaultValue=""
                   ref={searchInput}
                   className="rounded-lg px-8 py-[6px] font-semibold outline-none w-[500px] bg-light-primary dark:bg-dark-primary ml-8 mr-4"
                />

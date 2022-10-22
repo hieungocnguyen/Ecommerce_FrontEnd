@@ -17,6 +17,7 @@ const Header = () => {
    const [replacePart, setReplacePart] = useState(<></>);
    const { cart, userInfo } = state;
    const [numberItem, setNumberItem] = useState(0);
+   const [rolePart, setRolePart] = useState(<></>);
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -66,6 +67,22 @@ const Header = () => {
                         Profile
                      </div>
                   </Link>
+                  {userInfo.role.name === "ROLE_GENERAL" ? (
+                     <></>
+                  ) : (
+                     <Link
+                        href={
+                           userInfo.role.name === "ROLE_ADMIN"
+                              ? "/admin"
+                              : "/manager"
+                        }
+                     >
+                        <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all whitespace-nowrap">
+                           {rolePart}
+                        </div>
+                     </Link>
+                  )}
+
                   <Link href="/orders">
                      <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
                         Orders
@@ -94,7 +111,17 @@ const Header = () => {
             </div>
          );
       }
-   }, [userInfo]);
+   }, [userInfo, rolePart]);
+   useEffect(() => {
+      if (userInfo != null) {
+         if (userInfo.role.name === "ROLE_ADMIN") {
+            setRolePart(<div>Admin Page</div>);
+         }
+         if (userInfo.role.name === "ROLE_MANAGER") {
+            setRolePart(<div>Manager Page</div>);
+         }
+      }
+   }, []);
 
    return (
       <div className="bg-light-primary dark:bg-dark-primary flex justify-between items-center w-[90%] mx-auto rounded-b-lg py-[10px]">

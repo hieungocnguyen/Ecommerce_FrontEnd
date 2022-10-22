@@ -84,6 +84,10 @@ const EditProfile = () => {
          );
 
          Cookies.set("userInfo", JSON.stringify(dataCurrentUser.data.data));
+         dispatch({
+            type: "USER_LOGIN",
+            payload: dataCurrentUser.data.data,
+         });
          toast.success("Done!", {
             position: "bottom-center",
          });

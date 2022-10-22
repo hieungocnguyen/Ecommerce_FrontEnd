@@ -5,7 +5,7 @@ import Layout from "./Layout/Layout";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import Link from "next/link";
 
-const ProductItem = ({ product, addToCartHandler }) => {
+const ProductItem = ({ product }) => {
    return (
       <div className=" bg-light-primary dark:bg-dark-primary rounded-lg">
          <img
@@ -16,18 +16,12 @@ const ProductItem = ({ product, addToCartHandler }) => {
          <div className="mx-7 text-center">
             <div className="font-semibold line-clamp-2">{product.title}</div>
             <div className="text-blue-main font-bold">{product.finalPrice}</div>
-            <div className="grid grid-cols-4 my-4 gap-3">
+            <div className="grid grid-cols-1 my-4">
                <Link href={`/sale_post/${product.id}`}>
-                  <button className=" col-span-3 h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-sm ">
+                  <button className=" h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-sm ">
                      Detail
                   </button>
                </Link>
-               <button
-                  className=" col-span-1 h-9 text-white bg-blue-main rounded-lg hover:opacity-80 flex items-center justify-center text-lg"
-                  onClick={() => addToCartHandler(product)}
-               >
-                  <HiOutlineShoppingCart />
-               </button>
             </div>
          </div>
       </div>

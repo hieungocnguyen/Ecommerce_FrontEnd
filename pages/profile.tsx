@@ -20,8 +20,8 @@ const Profile = () => {
    }, []);
    return (
       <Layout title="Profile User">
-         <div className="flex items-center gap-10 justify-center my-10">
-            <div className="flex justify-center">
+         <div className="flex items-center flex-col justify-center my-10">
+            <div className="flex justify-center mb-8">
                <img
                   src={user.avatar}
                   alt="avatar"
@@ -36,11 +36,31 @@ const Profile = () => {
                   <div>Phone: {user.phone}</div>
                   <div>Address: {user.address}</div>
                </div>
-               <Link href="/editprofile">
-                  <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
-                     Edit profile
-                  </button>
-               </Link>
+               <div className="flex flex-col">
+                  <Link href="/editprofile">
+                     <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
+                        Edit profile
+                     </button>
+                  </Link>
+                  <Link href="/changepassword">
+                     <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
+                        Change Password
+                     </button>
+                  </Link>
+                  {userInfo ? (
+                     userInfo.role.name === "ROLE_GENERAL" ? (
+                        <Link href="/editprofile">
+                           <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
+                              Register to become agency
+                           </button>
+                        </Link>
+                     ) : (
+                        <></>
+                     )
+                  ) : (
+                     <></>
+                  )}
+               </div>
             </div>
          </div>
       </Layout>

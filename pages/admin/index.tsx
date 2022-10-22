@@ -1,5 +1,11 @@
+import Layout from "../../components/Layout/Layout";
+
 const AdminHome = () => {
-   return <div>Admin Home</div>;
+   return (
+      <Layout title="Admin Dashboard">
+         <div>Admin Home</div>
+      </Layout>
+   );
 };
 
 export default AdminHome;

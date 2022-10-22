@@ -117,11 +117,7 @@ export default function Home({ categories, salePosts }) {
                <h1 className="text-center font-bold text-xl my-5">All Posts</h1>
                <div className="grid lg:grid-cols-5 grid-cols-2 gap-10">
                   {salePosts.map((i) => (
-                     <ProductItem
-                        key={i.id}
-                        product={i}
-                        addToCartHandler={addToCartHandler}
-                     />
+                     <ProductItem key={i.id} product={i} />
                   ))}
                </div>
             </div>
