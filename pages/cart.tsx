@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import API, { authAxios, endpoints } from "../API";
@@ -17,6 +18,10 @@ const Cart = () => {
    const [totalPrice, setTotalPrice] = useState(0);
    const router = useRouter();
 
+   const loadTotalCart = async () => {
+      const resTotal = await API.get(endpoints["get_total"](userInfo.id));
+      setTotalPrice(resTotal.data.data);
+   };
    useEffect(() => {
       const loadItemsFromCart = async () => {
          const resItems = await API.get(
@@ -24,10 +29,7 @@ const Cart = () => {
          );
          setItemsInCart(resItems.data.data.cartItemSet);
       };
-      const loadTotalCart = async () => {
-         const resTotal = await API.get(endpoints["get_total"](userInfo.id));
-         setTotalPrice(resTotal.data.data);
-      };
+      loadTotalCart();
       if (Cookies.get("accessToken")) {
          loadItemsFromCart();
          loadTotalCart();
@@ -70,6 +72,20 @@ const Cart = () => {
          setTotalPrice(0);
       } catch (error) {}
    };
+   const handleDelete = async (item) => {
+      try {
+         const resDelete = await authAxios().delete(
+            endpoints["delete_item_in_cart"](item.itemPost.id)
+         );
+         console.log(resDelete.data);
+         setItemsInCart(resDelete.data.data);
+         dispatch({ type: "CART_REMOVE_ITEM", payload: item });
+         loadTotalCart();
+         toast.success(`Delete item "${item.itemPost.name}" successful!`, {
+            position: "bottom-center",
+         });
+      } catch (error) {}
+   };
    if (!initialRenderComplete) {
       return null;
    } else {
@@ -102,7 +118,10 @@ const Cart = () => {
                   <div className="col-span-1 text-blue-main font-semibold">
                      {i.quantity * i.itemPost.unitPrice}
                   </div>
-                  <button className="col-span-1 flex items-center justify-center hover:opacity-80">
+                  <button
+                     className="col-span-1 flex items-center justify-center hover:opacity-80"
+                     onClick={() => handleDelete(i)}
+                  >
                      <div className="w-10 h-10 bg-blue-main text-white p-2 flex justify-center items-center text-xl rounded-lg">
                         <BiTrash />
                      </div>

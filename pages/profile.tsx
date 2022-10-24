@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import API, { endpoints } from "../API";
@@ -8,14 +9,26 @@ const Profile = () => {
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
    const [user, setUser] = useState<any>({});
+   const [waitAccept, setWaitAccept] = useState(false);
 
    useEffect(() => {
       const loadUser = async () => {
          const resUser = await API.get(endpoints["user"](userInfo.id));
          setUser(resUser.data.data);
       };
+      const loadInfoAgency = async () => {
+         const resAllAgency = await API.get(endpoints["all_agency"]);
+         resAllAgency.data.data.map((i) => {
+            if (userInfo.username === i.manager.username) {
+               if (i.isCensored === 0) {
+                  setWaitAccept(true);
+               }
+            }
+         });
+      };
       if (userInfo) {
          loadUser();
+         loadInfoAgency();
       }
    }, []);
    return (
@@ -49,11 +62,18 @@ const Profile = () => {
                   </Link>
                   {userInfo ? (
                      userInfo.role.name === "ROLE_GENERAL" ? (
-                        <Link href="/editprofile">
-                           <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
-                              Register to become agency
-                           </button>
-                        </Link>
+                        waitAccept ? (
+                           <div>
+                              Waiting administrator accept your register
+                              application
+                           </div>
+                        ) : (
+                           <Link href="/registerAgency">
+                              <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
+                                 Register to become agency
+                              </button>
+                           </Link>
+                        )
                      ) : (
                         <></>
                      )
@@ -66,5 +86,4 @@ const Profile = () => {
       </Layout>
    );
 };
-
-export default Profile;
+export default dynamic(() => Promise.resolve(Profile), { ssr: false });

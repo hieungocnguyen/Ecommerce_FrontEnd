@@ -44,7 +44,10 @@ const SearchBar = ({ categories }) => {
                </Link>
                {categories.map((i) => (
                   <Link href={`/category/${i.id}`} key={i.id}>
-                     <div className="bg-blue-main rounded-lg h-10 flex items-center  justify-center hover:opacity-80 cursor-pointer">
+                     <div
+                        className="bg-blue-main rounded-lg h-10 flex items-center  justify-center hover:opacity-80 cursor-pointer"
+                        onClick={handleOpenCategory}
+                     >
                         <a className="font-semibold text-sm text-white">
                            {i.name}
                         </a>

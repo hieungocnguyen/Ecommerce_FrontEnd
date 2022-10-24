@@ -18,6 +18,7 @@ const Header = () => {
    const { cart, userInfo } = state;
    const [numberItem, setNumberItem] = useState(0);
    const [rolePart, setRolePart] = useState(<></>);
+   const [agency, setAgency] = useState<any>({});
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -32,6 +33,24 @@ const Header = () => {
    const handleToggleMenu = () => {
       const menu = document.querySelector("#menuUser");
       menu.classList.toggle("hidden");
+   };
+   const forwardManagerDashboard = async () => {
+      const resAllAgency = await API.get(endpoints["all_agency"]);
+      resAllAgency.data.data.map(async (a) => {
+         if (a.manager.id === userInfo.id) {
+            const resInfoAngency = await API.get(
+               endpoints["agency_info"](a.id)
+            );
+            setAgency(a);
+            Cookies.set("agencyInfo", JSON.stringify(a));
+            dispatch({ type: "AGENCY_INFO_SET", payload: a });
+         }
+      });
+      if (userInfo.role.name === "ROLE_ADMIN") {
+         router.push("/DashboardAdmin");
+      } else {
+         router.push("/DashboardManager");
+      }
    };
    useEffect(() => {
       const loadNumberofItems = async () => {
@@ -67,20 +86,19 @@ const Header = () => {
                         Profile
                      </div>
                   </Link>
-                  {userInfo.role.name === "ROLE_GENERAL" ? (
-                     <></>
-                  ) : (
-                     <Link
-                        href={
-                           userInfo.role.name === "ROLE_ADMIN"
-                              ? "/admin"
-                              : "/manager"
-                        }
-                     >
-                        <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all whitespace-nowrap">
+                  {userInfo ? (
+                     userInfo.role.name === "ROLE_GENERAL" ? (
+                        <></>
+                     ) : (
+                        <div
+                           className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all whitespace-nowrap"
+                           onClick={forwardManagerDashboard}
+                        >
                            {rolePart}
                         </div>
-                     </Link>
+                     )
+                  ) : (
+                     <></>
                   )}
 
                   <Link href="/orders">

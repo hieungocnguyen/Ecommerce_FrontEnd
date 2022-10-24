@@ -19,6 +19,9 @@ const initialState = {
    userInfo: Cookies.get("userInfo")
       ? JSON.parse(Cookies.get("userInfo"))
       : null,
+   agencyInfo: Cookies.get("agencyInfo")
+      ? JSON.parse(Cookies.get("agencyInfo"))
+      : null,
 };
 function reducer(state: any, action: { type: any; payload: any }) {
    switch (action.type) {
@@ -46,6 +49,10 @@ function reducer(state: any, action: { type: any; payload: any }) {
          Cookies.remove("cartItems");
          return { ...state, cart: { ...state.cart } };
       }
+      case "AGENCY_INFO_SET":
+         return { ...state, agencyInfo: action.payload };
+      case "AGENCY_INFO_REMOVE":
+         return { ...state, agencyInfo: null };
       case "USER_LOGIN":
          return { ...state, userInfo: action.payload };
       case "USER_LOGOUT":

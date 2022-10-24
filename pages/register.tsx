@@ -29,8 +29,6 @@ const Register = () => {
       confirmPassword,
       genderID,
    }) => {
-      console.log(selectedImage);
-
       const formData = new FormData();
 
       if (password !== confirmPassword) {

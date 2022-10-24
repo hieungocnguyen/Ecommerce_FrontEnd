@@ -1,64 +1,125 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import ProductItem from "../../components/ProductItem";
 import SearchBar from "../../components/SearchBar";
 import { dataProduct } from "../../mockproduct.js";
 import axios from "axios";
+import API, { endpoints } from "../../API";
+import { Slider } from "@mui/material";
 
+function valuetext(value: number) {
+   return `${value}°C`;
+}
 const CategoryPage = ({ categories, category }) => {
+   const [salePosts, setSalePosts] = useState([]);
    const router = useRouter();
+   const [page, setPage] = useState(0);
+   const kw = router.query.input;
+   const [datePost, setDatePost] = useState(["2020-06-01", "2023-06-01"]);
+   const [value, setValue] = useState<number[]>([100000, 500000]);
    const { slug } = router.query;
+   useEffect(() => {
+      const loadPosts = async () => {
+         const resPosts = await API.post(endpoints["search_salePost"], {
+            categoryID: Number(slug),
+         });
+         setSalePosts(resPosts.data.data.listResult);
+      };
+      loadPosts();
+   }, [slug]);
+   const handleSubmitFilter = async (e) => {
+      e.preventDefault();
+      const resPosts = await API.post(endpoints["search_salePost"], {
+         kw: "",
+         page: page,
+         category: Number(slug),
+         fromDate: new Date(datePost[0]).toLocaleDateString("en-US"),
+         fromPrice: value[0],
+         toDate: new Date(datePost[1]).toLocaleDateString("en-US"),
+         toPrice: value[1],
+      });
+      setSalePosts(resPosts.data.data.listResult);
+      console.log(resPosts.data.data.listResult);
+   };
+   const handleChange = (event: Event, newValue: number | number[]) => {
+      setValue(newValue as number[]);
+   };
 
    return (
-      <div>
-         <Layout title="Category Page">
-            <SearchBar categories={categories} />
-            <div className="text-center font-bold text-xl mb-3 capitalize">
-               {category.name}
-            </div>
-            <div className="grid grid-cols-12 gap-10 ">
-               {/* filter section */}
-               <div className="  lg:col-span-3 sm:col-span-6 px-4 bg-dark-primary rounded-lg h-fit ">
-                  <h2 className="font-bold pt-4 pb-4 text-lg">Filter</h2>
-                  <div className=" text-left pl-4">
-                     <div className="whitespace-nowrap gap-2 cursor-pointer hover:text-blue-main my-2">
-                        Sort Ascending
-                     </div>
-                     <div className="whitespace-nowrap gap-2 cursor-pointer hover:text-blue-main my-2">
-                        Sort Descending
-                     </div>
-                  </div>
+      <Layout title="Search Page">
+         <SearchBar categories={categories} />
+         <div className="text-2xl my-8">Category {category.title}</div>
+         <div className="grid grid-cols-8 gap-8">
+            {/* filter side */}
+            <form
+               onSubmit={handleSubmitFilter}
+               className="col-span-2 dark:bg-dark-primary bg-light-primary rounded-lg text-left p-6 h-fit"
+            >
+               <div className="flex justify-between mb-4 items-center">
+                  <label htmlFor="fromDate" className="font-semibold">
+                     From Date:
+                  </label>
+                  <input
+                     type="date"
+                     id="fromDate"
+                     className="p-2"
+                     defaultValue={datePost[0]}
+                     onChange={(e) => {
+                        setDatePost([e.target.value, datePost[1]]);
+                     }}
+                  />
                </div>
-               <div className="lg:col-span-9 sm:col-span-6">
-                  <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-10">
-                     {dataProduct.map((i) => (
-                        <ProductItem
-                           key={i.id}
-                           product={i}
-                           addToCartHandler={undefined}
-                        />
-                     ))}
-                  </div>
+               <div className="flex justify-between mb-4 items-center">
+                  <label htmlFor="toDate" className="font-semibold">
+                     To Date:
+                  </label>
+                  <input
+                     type="date"
+                     id="toDate"
+                     className="p-2"
+                     defaultValue={datePost[1]}
+                     onChange={(e) => {
+                        setDatePost([datePost[0], e.target.value]);
+                     }}
+                  />
                </div>
-            </div>
-            {/* paging */}
-            <div className="flex justify-center items-center gap-4 my-8">
-               <div className="border-blue-main border-[2px] rounded-lg h-9 w-9 font-semibold flex items-center justify-center hover:bg-blue-main cursor-pointer">
-                  1
+               <div className="font-semibold mb-4">Price:</div>
+               <div className="w-full">
+                  <Slider
+                     getAriaLabel={() => "Temperature range"}
+                     value={value}
+                     onChange={handleChange}
+                     valueLabelDisplay="auto"
+                     getAriaValueText={valuetext}
+                     max={1000000}
+                     min={0}
+                     sx={{
+                        color: "#525EC1",
+                     }}
+                  />
                </div>
-               <div className="border-blue-main border-[2px]  rounded-lg h-9 w-9 font-semibold flex items-center justify-center hover:bg-blue-main cursor-pointer ">
-                  1
+               <div className="flex justify-center">
+                  <button
+                     className="p-4 bg-blue-main text-white rounded-lg font-semibold my-4 hover:opacity-80"
+                     type="submit"
+                  >
+                     Apply filter
+                  </button>
                </div>
-               <div className="border-blue-main border-[2px]  rounded-lg h-9 w-9 font-semibold flex items-center justify-center hover:bg-blue-main cursor-pointer ">
-                  1
+            </form>
+            {/* posts side */}
+            {salePosts ? (
+               <div className="col-span-6 grid grid-cols-4 gap-8 mb-8">
+                  {salePosts.map((post) => (
+                     <ProductItem key={post.id} product={post} />
+                  ))}
                </div>
-               <div className="border-blue-main border-[2px]  rounded-lg h-9 w-9 font-semibold flex items-center justify-center hover:bg-blue-main cursor-pointer ">
-                  1
-               </div>
-            </div>
-         </Layout>
-      </div>
+            ) : (
+               <></>
+            )}
+         </div>
+      </Layout>
    );
 };
 

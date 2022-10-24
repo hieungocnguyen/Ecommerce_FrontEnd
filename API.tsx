@@ -6,6 +6,7 @@ export let endpoints = {
    // user API
    register: "/user/register",
    user: (userID) => `/user/${userID}`,
+   change_password: (userID) => `/user/change-password/${userID}`,
    // sale post API
    get_all_salePost: "sale-post/all",
    search_salePost: "/sale-post/search",
@@ -15,12 +16,17 @@ export let endpoints = {
    get_total: (userID) => `/cart/get-total-price-in-cart/${userID}`,
    payment_cart: (paymentTypeID) => `/cart/payment-cart/${paymentTypeID}`,
    clear_cart: `/cart/clear-cart`,
+   delete_item_in_cart: (itemID) => `/cart/remove-item/${itemID}`,
    //order API
    order_user: (userID) => `/order/orders-agency/user/${userID}`,
    //comment
    comment_post: (postID) => `/action/comment/create/${postID}`,
    comment_all: `action/comment/all`,
    comment_all_post: (postID) => `/action/comment/${postID}/all`,
+   //agency
+   register_agency: `/agency/register`,
+   all_agency: `/agency/all`,
+   agency_info: (agencyID) => `/agency/${agencyID}`,
 };
 export const authAxios = () =>
    axios.create({
