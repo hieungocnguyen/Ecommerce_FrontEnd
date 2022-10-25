@@ -10,6 +10,10 @@ export let endpoints = {
    // sale post API
    get_all_salePost: "sale-post/all",
    search_salePost: "/sale-post/search",
+   publish_salePost: (postID) => `/sale-post/published/${postID}`,
+   unpublish_salePost: (postID) => `/sale-post/un-published/${postID}`,
+   salePost: (postID) => `/sale-post/${postID}`,
+   create_salePost: (agencyID) => `/sale-post/create/${agencyID}`,
    //cart API
    add_to_cart: "cart/add-to-cart",
    get_cart_by_id: (userID) => `/cart/get-cart/${userID}`,
