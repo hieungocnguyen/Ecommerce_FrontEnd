@@ -67,7 +67,7 @@ const SearchBar = ({ categories }) => {
                   type="submit"
                   className="bg-blue-main rounded-lg py-[7px] px-[10px] font-semibold text-white hover:opacity-80 text-sm"
                >
-                  <span>Tìm kiếm</span>
+                  <span>Search</span>
                </button>
             </form>
          </div>

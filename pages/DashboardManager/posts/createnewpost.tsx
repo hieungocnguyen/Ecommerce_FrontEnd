@@ -1,4 +1,4 @@
-import LayoutDashboard from "../../../components/Dashboard/LayoutDashboard";
+import LayoutDashboard from "../../../components/Dashboard/LayoutDashboardManager";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -80,7 +80,7 @@ const CreateNewPost = () => {
             }
 
             const resCreate = await authAxios().post(
-               endpoints["create_salePost"](1),
+               endpoints["create_salePost"](agencyInfo.id),
                {
                   avatar: imageURL,
                   brand: values.brand,

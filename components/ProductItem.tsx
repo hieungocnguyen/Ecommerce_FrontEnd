@@ -18,7 +18,7 @@ const ProductItem = ({ product }) => {
             <div className="text-blue-main font-bold">{product.finalPrice}</div>
             <div className="grid grid-cols-1 my-4">
                <Link href={`/sale_post/${product.id}`}>
-                  <button className=" h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-sm ">
+                  <button className=" h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-sm">
                      Detail
                   </button>
                </Link>

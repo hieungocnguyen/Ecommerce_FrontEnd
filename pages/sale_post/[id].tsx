@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import API, { authAxios, endpoints } from "../../API";
@@ -11,6 +12,8 @@ import Rating from "@mui/material/Rating";
 import toast, { Toaster } from "react-hot-toast";
 import { BiStore } from "react-icons/bi";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 type;
 
 const ProductPage = (salePost) => {
@@ -18,14 +21,27 @@ const ProductPage = (salePost) => {
    const [quantityItems, setQuantityItems] = useState([]);
    const [comments, setComments] = useState([]);
    const [rates, setRates] = useState();
+   const [mainPic, setMainPic] = useState(salePost.salePost.avatar);
    const router = useRouter();
    const { id } = router.query;
+   const [starAvg, setStarAvg] = useState(0);
+   const [commentCount, setCommentCount] = useState(0);
    useEffect(() => {
       const loadComment = async () => {
          const resComments = await API.get(endpoints["comment_all_post"](id));
          setComments(resComments.data.data);
       };
+      const loadStarAvg = async () => {
+         const resStar = await API.get(endpoints["star_avg_post"](id));
+         setStarAvg(resStar.data.data);
+      };
+      const loadCommentCount = async () => {
+         const resCount = await API.get(endpoints["count_comment_post"](id));
+         setCommentCount(resCount.data.data);
+      };
       loadComment();
+      loadStarAvg();
+      loadCommentCount();
    }, []);
    const handleChangeQuantity = (item, quantity) => {
       var updatedList = [...quantityItems];
@@ -69,24 +85,104 @@ const ProductPage = (salePost) => {
 
    return (
       <Layout title="Detail">
-         <div className="font-semibold text-3xl text-center my-8">
-            {salePost.salePost.title}
-         </div>
-         <div className="grid lg:grid-cols-5 grid-cols-1 lg:gap-8">
+         <div className="grid lg:grid-cols-5 grid-cols-1 lg:gap-8 my-8">
             {/* left part */}
             <div className="col-span-2 ">
                <div className="overflow-hidden aspect-square relative">
                   <Image
-                     src={salePost.salePost.avatar}
+                     src={mainPic}
                      alt="tai nghe"
                      className="object-cover rounded-lg"
                      layout="fill"
                   />
                </div>
-               {/* agency info */}
-               <div className=" dark:bg-dark-primary rounded-lg items-center grid grid-cols-4 my-6">
-                  <Link href={`/agencyinfo/${salePost.salePost.agency.id}`}>
-                     <div className="overflow-hidden aspect-square relative col-span-1 items-center flex justify-center cursor-pointer">
+               <Swiper
+                  loop={true}
+                  slidesPerView={5}
+                  className="mySwiper h-[100px] rounded-lg overflow-hidden mt-4"
+               >
+                  {salePost.salePost.picturePostSet.map((pic) => (
+                     <SwiperSlide key={pic.id}>
+                        <div
+                           className="overflow-hidden mx-2 rounded-lg cursor-pointer"
+                           onClick={(e) => {
+                              setMainPic(pic.image);
+                           }}
+                        >
+                           <img
+                              src={pic.image}
+                              alt="img"
+                              className="object-cover aspect-square"
+                           />
+                        </div>
+                     </SwiperSlide>
+                  ))}
+               </Swiper>
+            </div>
+            {/* right part */}
+            <div className="col-span-3">
+               <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8 text-left">
+                  <div className="font-extrabold text-left bg-blue-main rounded-lg p-1 w-fit mb-2 text-white">
+                     {salePost.salePost.sellStatus.name}
+                  </div>
+                  <div className="font-semibold text-3xl text-left">
+                     {salePost.salePost.title}
+                  </div>
+                  <div className="flex gap-2 my-2">
+                     <div>
+                        <Rating
+                           sx={{
+                              "& .MuiRating-iconFilled": {
+                                 color: "#525EC1",
+                              },
+                              "& .MuiRating-iconEmpty": {
+                                 color: "#656b99",
+                              },
+                           }}
+                           value={starAvg}
+                           readOnly
+                        />
+                     </div>
+                     <div>{commentCount} Comments</div>
+                  </div>
+                  <div className="text-left mb-4">
+                     <div className="line-through">
+                        {salePost.salePost.initialPrice.toLocaleString(
+                           "en-US",
+                           {
+                              style: "currency",
+                              currency: "VND",
+                           }
+                        )}
+                     </div>
+                     <div className="font-semibold text-2xl text-blue-main">
+                        {salePost.salePost.finalPrice.toLocaleString("en-US", {
+                           style: "currency",
+                           currency: "VND",
+                        })}
+                     </div>
+                  </div>
+                  <div className="mb-3">
+                     <div className="font-semibold">Description:</div>
+                     <div>{salePost.salePost.description}</div>
+                  </div>
+                  <div className="mb-3">
+                     <div className="font-semibold">Brand:</div>
+                     <div>{salePost.salePost.brand}</div>
+                  </div>
+                  <div className="mb-3">
+                     <div className="font-semibold">Origin:</div>
+                     <div>{salePost.salePost.origin}</div>
+                  </div>
+                  <div className="mb-3">
+                     <div className="font-semibold">Manufacturer:</div>
+                     <div>{salePost.salePost.manufacturer}</div>
+                  </div>
+               </div>
+               <div className=" dark:bg-dark-primary bg-light-primary rounded-lg my-4 text-left px-8 py-4">
+                  <div className="font-semibold mb-3">Angency Info</div>
+                  <div className="flex items-center">
+                     <div className="overflow-hidden ">
                         <Image
                            src={salePost.salePost.agency.avatar}
                            alt="avatar-agency"
@@ -95,79 +191,78 @@ const ProductPage = (salePost) => {
                            className="rounded-full"
                         />
                      </div>
-                  </Link>
-                  <div className="text-left col-span-2">
-                     <div className="font-semibold whitespace-nowrap text-xl">
-                        {salePost.salePost.agency.name}
+                     <div className="text-left ml-4">
+                        <div className="font-semibold whitespace-nowrap text-xl text-blue-main">
+                           {salePost.salePost.agency.name}
+                        </div>
+                        <div className=" whitespace-nowrap">
+                           {salePost.salePost.agency.field.name}
+                        </div>
                      </div>
-                     <div className=" whitespace-nowrap text-lg">
-                        {salePost.salePost.agency.field.name}
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-            {/* right part */}
-            <div className="col-span-3">
-               <div>
-                  <ul>
-                     <li className="grid grid-cols-6 items-center text-center font-semibold w-full pb-4 rounded-t-lg border-b border-gray-200 dark:border-gray-600">
-                        <div className="text-left">Avatar</div>
-                        <div className="text-left col-span-2">Title</div>
-                        <div>Quantity</div>
-                        <div>Unit Price</div>
-                        <div>Inventory</div>
-                     </li>
-                     {salePost.salePost.itemPostSet.map((item) => (
-                        <li
-                           className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
-                           key={item.id}
-                        >
-                           <div className="grid grid-cols-6 items-center">
-                              <div className="overflow-hidden aspect-square relative w-12 h-12 my-4">
-                                 <Image
-                                    src={item.avatar}
-                                    alt="image item"
-                                    layout="fill"
-                                    className="rounded-lg"
-                                 />
-                              </div>
-
-                              <label
-                                 htmlFor={item.id}
-                                 className="w-full text-sm text-left font-medium text-gray-900 dark:text-gray-300 col-span-2"
-                              >
-                                 {item.name}
-                              </label>
-                              <input
-                                 type="number"
-                                 className="w-[40px] mx-auto text-center"
-                                 defaultValue="0"
-                                 onChange={(e) =>
-                                    handleChangeQuantity(item, e.target.value)
-                                 }
-                              />
-                              <div>{item.unitPrice}</div>
-                              <div>{item.inventory}</div>
-                           </div>
-                        </li>
-                     ))}
-                  </ul>
-                  <div>
-                     <button
-                        className="bg-blue-main w-[70%] h-[60px] flex items-center justify-center rounded-lg mx-auto my-8 font-semibold hover:opacity-80 text-white"
-                        onClick={handleAddToCart}
-                     >
-                        Add to your cart
-                     </button>
                   </div>
                </div>
             </div>
          </div>
+         {/* items */}
+         <div className="col-span-3">
+            <div>
+               <ul>
+                  <li className="grid grid-cols-6 items-center text-center font-semibold w-full pb-4 rounded-t-lg border-b border-gray-200 dark:border-gray-600">
+                     <div className="text-left">Avatar</div>
+                     <div className="text-left col-span-2">Title</div>
+                     <div>Quantity</div>
+                     <div>Unit Price</div>
+                     <div>Inventory</div>
+                  </li>
+                  {salePost.salePost.itemPostSet.map((item) => (
+                     <li
+                        className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
+                        key={item.id}
+                     >
+                        <div className="grid grid-cols-6 items-center">
+                           <div className="overflow-hidden aspect-square relative w-12 h-12 my-4">
+                              <Image
+                                 src={item.avatar}
+                                 alt="image item"
+                                 layout="fill"
+                                 className="rounded-lg"
+                              />
+                           </div>
 
+                           <label
+                              htmlFor={item.id}
+                              className="w-full text-sm text-left font-medium text-gray-900 dark:text-gray-300 col-span-2"
+                           >
+                              {item.name}
+                           </label>
+                           <input
+                              type="number"
+                              disabled={item.inventory > 0 ? false : true}
+                              className="w-[40px] mx-auto text-center disabled:cursor-not-allowed"
+                              defaultValue="0"
+                              onChange={(e) =>
+                                 handleChangeQuantity(item, e.target.value)
+                              }
+                           />
+                           <div>{item.unitPrice}</div>
+                           <div>{item.inventory}</div>
+                        </div>
+                     </li>
+                  ))}
+               </ul>
+               <div>
+                  <button
+                     className="bg-blue-main w-[70%] h-[60px] flex items-center justify-center rounded-lg mx-auto my-8 font-semibold hover:opacity-80 text-white"
+                     onClick={handleAddToCart}
+                  >
+                     Add to your cart
+                  </button>
+               </div>
+            </div>
+         </div>
          {/* comment */}
          <div className="grid grid-cols-1 my-8">
-            <div className="col-span-3 dark:bg-dark-primary rounded-lg">
+            <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg">
                <div className="font-semibold text-left mt-8 ml-8 text-lg">
                   Feedback
                </div>
@@ -175,6 +270,8 @@ const ProductPage = (salePost) => {
                   postID={id}
                   comments={comments}
                   setComments={setComments}
+                  setStarAvg={setStarAvg}
+                  setCommentCount={setCommentCount}
                />
                {comments.reverse().map((c) => (
                   <div key={c.id} className="flex mb-8 ml-20">
@@ -214,7 +311,13 @@ const ProductPage = (salePost) => {
    );
 };
 
-const CommentForm = ({ postID, comments, setComments }) => {
+const CommentForm = ({
+   postID,
+   comments,
+   setComments,
+   setStarAvg,
+   setCommentCount,
+}) => {
    const { state, dispatch } = useContext(Store);
    const { cart, userInfo } = state;
    const [content, setContent] = useState("");
@@ -233,6 +336,13 @@ const CommentForm = ({ postID, comments, setComments }) => {
             content: content,
             starRate: value,
          });
+         const resCount = await API.get(
+            endpoints["count_comment_post"](postID)
+         );
+         setCommentCount(resCount.data.data);
+         const resStar = await API.get(endpoints["star_avg_post"](postID));
+         setStarAvg(resStar.data.data);
+         setCommentCount(resCount.data.data);
 
          setComments([...comments, res.data.data]);
          setContent("");

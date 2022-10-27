@@ -7,6 +7,7 @@ export let endpoints = {
    register: "/user/register",
    user: (userID) => `/user/${userID}`,
    change_password: (userID) => `/user/change-password/${userID}`,
+   user_all: `/user/all`,
    // sale post API
    get_all_salePost: "sale-post/all",
    search_salePost: "/sale-post/search",
@@ -14,6 +15,9 @@ export let endpoints = {
    unpublish_salePost: (postID) => `/sale-post/un-published/${postID}`,
    salePost: (postID) => `/sale-post/${postID}`,
    create_salePost: (agencyID) => `/sale-post/create/${agencyID}`,
+   add_item_salepost: (postID) => `/item/create/${postID}`,
+   star_avg_post: (postID) => `/sale-post/get-star-average-rate/${postID}`,
+   count_comment_post: (postID) => `/action/comment/${postID}/count-comment`,
    //cart API
    add_to_cart: "cart/add-to-cart",
    get_cart_by_id: (userID) => `/cart/get-cart/${userID}`,
@@ -23,6 +27,9 @@ export let endpoints = {
    delete_item_in_cart: (itemID) => `/cart/remove-item/${itemID}`,
    //order API
    order_user: (userID) => `/order/orders-agency/user/${userID}`,
+   order_agency: (agencyID) => `/order/orders-agency/agency/${agencyID}`,
+   change_state: (orderAgencyID, stateID) =>
+      `/order/orders-agency/${orderAgencyID}/${stateID}`,
    //comment
    comment_post: (postID) => `/action/comment/create/${postID}`,
    comment_all: `action/comment/all`,
@@ -31,6 +38,11 @@ export let endpoints = {
    register_agency: `/agency/register`,
    all_agency: `/agency/all`,
    agency_info: (agencyID) => `/agency/${agencyID}`,
+   uncensored_agency: `/censorship/uncensored`,
+   //category
+   category_all: `/category/all`,
+   //stat
+   stat_post_category: `/sale-post/stats-by-category`,
 };
 export const authAxios = () =>
    axios.create({
