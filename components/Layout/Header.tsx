@@ -106,9 +106,11 @@ const Header = () => {
                         Orders
                      </div>
                   </Link>
-                  <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
-                     Wishlist
-                  </div>
+                  <Link href={"/wishlist"}>
+                     <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
+                        Wishlist
+                     </div>
+                  </Link>
                   <div
                      className="p-3 px-4 cursor-pointer hover:text-blue-main transition-all whitespace-nowrap"
                      onClick={logoutClickHandler}

@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import API, { authAxios, endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
@@ -18,31 +17,28 @@ const Cart = () => {
    const [totalPrice, setTotalPrice] = useState(0);
    const router = useRouter();
 
-   const loadTotalCart = async () => {
-      const resTotal = await API.get(endpoints["get_total"](userInfo.id));
-      setTotalPrice(resTotal.data.data);
-   };
    useEffect(() => {
+      const loadTotalCart = async () => {
+         const resTotal = await API.get(endpoints["get_total"](userInfo.id));
+         setTotalPrice(resTotal.data.data);
+      };
       const loadItemsFromCart = async () => {
          const resItems = await API.get(
             endpoints["get_cart_by_id"](userInfo.id)
          );
          setItemsInCart(resItems.data.data.cartItemSet);
       };
-      loadTotalCart();
-      if (Cookies.get("accessToken")) {
+      if (userInfo) {
          loadItemsFromCart();
          loadTotalCart();
       } else {
          router.push("/signin");
+         toast.error("Login to view cart!", {
+            position: "bottom-center",
+         });
       }
       setInitialRenderComplete(true);
-   }, []);
-   // if (itemsInCart) {
-   //    console.log(itemsInCart);
-   // } else {
-   //    console.log("empty");
-   // }
+   }, [router, userInfo]);
    const handlePaymentbyCash = async () => {
       try {
          const resPayment = await authAxios().post(
@@ -80,7 +76,6 @@ const Cart = () => {
          console.log(resDelete.data);
          setItemsInCart(resDelete.data.data);
          dispatch({ type: "CART_REMOVE_ITEM", payload: item });
-         loadTotalCart();
          toast.success(`Delete item "${item.itemPost.name}" successful!`, {
             position: "bottom-center",
          });

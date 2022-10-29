@@ -130,7 +130,7 @@ const RegisterAgency = () => {
                   }}
                />
             </div>
-            <div className="grid grid-cols-2 items-center gap-4 mt-4">
+            {/* <div className="grid grid-cols-2 items-center gap-4 mt-4">
                <label htmlFor="field" className="font-semibold text-left pl-4 ">
                   Field
                </label>
@@ -142,7 +142,7 @@ const RegisterAgency = () => {
                      setField(Number(e.target.value));
                   }}
                />
-            </div>
+            </div> */}
             <div className="grid grid-cols-2 items-center gap-4 mt-4">
                <label
                   htmlFor="hotline"

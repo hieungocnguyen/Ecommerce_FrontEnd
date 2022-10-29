@@ -45,10 +45,10 @@ const EditProfile = () => {
       }
       setValue("firstName", userInfo.firstName);
       setValue("lastName", userInfo.lastName);
-      setValue("email", userInfo.email);
       setValue("address", userInfo.address);
+      setValue("phone", userInfo.phone);
    }, [userInfo]);
-   const submitHandler = async ({ firstName, lastName, email, address }) => {
+   const submitHandler = async ({ firstName, lastName, phone, address }) => {
       const formData = new FormData();
       if (changeAvatar) {
          const resUploadCloudinary = await API.post(
@@ -65,8 +65,8 @@ const EditProfile = () => {
 
       formData.append("firstName", firstName);
       formData.append("lastName", lastName);
-      formData.append("email", email);
       formData.append("address", address);
+      formData.append("phone", phone);
       try {
          //update info user
          const resRegister = await authAxios().put(
@@ -166,19 +166,6 @@ const EditProfile = () => {
                   htmlFor="username"
                   className="font-semibold text-left pt-5 pb-2"
                >
-                  Email
-               </label>
-               <input
-                  name="email"
-                  id="email"
-                  placeholder="Email"
-                  className="p-4 rounded-lg"
-                  {...register("email")}
-               />
-               <label
-                  htmlFor="username"
-                  className="font-semibold text-left pt-5 pb-2"
-               >
                   Address
                </label>
                <input
@@ -187,6 +174,19 @@ const EditProfile = () => {
                   placeholder="Address"
                   className="p-4 rounded-lg"
                   {...register("address")}
+               />
+               <label
+                  htmlFor="username"
+                  className="font-semibold text-left pt-5 pb-2"
+               >
+                  Phone
+               </label>
+               <input
+                  name="phone"
+                  id="phone"
+                  placeholder="Phone"
+                  className="p-4 rounded-lg"
+                  {...register("phone")}
                />
             </div>
             <button className="px-6 py-3 bg-blue-main rounded-lg font-semibold text-white hover:opacity-80 my-8">

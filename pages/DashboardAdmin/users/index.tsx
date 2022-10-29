@@ -34,7 +34,9 @@ const UsersAdminDashboard = () => {
                         />
                      </div>
                      <div className="text-lg font-semibold text-blue-main">
-                        {a.firstName} {a.lastName}
+                        {a.firstName
+                           ? `${a.firstName} ${a.lastName}`
+                           : "Undeclared Name"}
                      </div>
 
                      <div className="text-sm text-center">

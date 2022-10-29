@@ -14,25 +14,87 @@ import API, { endpoints } from "../API";
 import { userInfo } from "os";
 import Cookies from "js-cookie";
 
-export default function Home({ categories, salePosts }) {
+export default function Home({ categories }) {
    const router = useRouter();
    const searchInput = useRef(null);
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
+   const [salePosts, setSalePost] = useState([]);
+   const [numberPage, setnumberPage] = useState(1);
+   useEffect(() => {
+      const loadPosts = async () => {
+         const resPosts = await API.post(endpoints["search_salePost"], {
+            page: numberPage,
+         });
+         setSalePost(resPosts.data.data.listResult);
+      };
+      loadPosts();
+      const pages = document.querySelectorAll(".paginator");
+      for (let i = 0; i < pages.length; i++) {
+         if (i === numberPage - 1) {
+            pages[i].classList.add("bg-blue-main");
+         } else {
+            pages[i].classList.remove("bg-blue-main");
+         }
+      }
+   }, [numberPage]);
+
    return (
       <div>
          <Layout title="Home">
             <SearchBar categories={categories} />
-
-            {/* <div className="text-center font-bold text-xl mb-3">Category</div> */}
-            {/* <CategoryList categories={categories} /> */}
             <div className="my-8">
                <Advertise />
                <h1 className="text-center font-bold text-xl my-5">All Posts</h1>
-               <div className="grid lg:grid-cols-5 grid-cols-2 gap-10">
+               <div className="grid lg:grid-cols-4 grid-cols-2 gap-10">
                   {salePosts.map((i) => (
                      <ProductItem key={i.id} product={i} />
                   ))}
+               </div>
+               <div
+                  className="flex gap-4
+                justify-center mt-8"
+               >
+                  <div
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                     onClick={(e) => {
+                        setnumberPage(1);
+                     }}
+                  >
+                     1
+                  </div>
+                  <div
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                     onClick={(e) => {
+                        setnumberPage(2);
+                     }}
+                  >
+                     2
+                  </div>
+                  <div
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                     onClick={(e) => {
+                        setnumberPage(3);
+                     }}
+                  >
+                     3
+                  </div>
+                  <div
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                     onClick={(e) => {
+                        setnumberPage(4);
+                     }}
+                  >
+                     4
+                  </div>
+                  <div
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                     onClick={(e) => {
+                        setnumberPage(5);
+                     }}
+                  >
+                     5
+                  </div>
                </div>
             </div>
          </Layout>
@@ -44,7 +106,5 @@ export const getStaticProps = async () => {
       "http://localhost:8080/ou-ecommerce/api/category/all"
    );
    const categories = await resCategories.data.data;
-   const resAllProduct = await API.get(endpoints["get_all_salePost"]);
-   const salePosts = await resAllProduct.data.data;
-   return { props: { categories, salePosts } };
+   return { props: { categories } };
 };

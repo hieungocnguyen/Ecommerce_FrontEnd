@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -10,11 +11,14 @@ const Profile = () => {
    const { userInfo } = state;
    const [user, setUser] = useState<any>({});
    const [waitAccept, setWaitAccept] = useState(false);
+   const [authProvider, setAuthProvider] = useState(0);
 
    useEffect(() => {
       const loadUser = async () => {
          const resUser = await API.get(endpoints["user"](userInfo.id));
          setUser(resUser.data.data);
+         setAuthProvider(resUser.data.data.authProvider.id);
+         console.log(resUser.data.data.authProvider.id);
       };
       const loadInfoAgency = async () => {
          const resAllAgency = await API.get(endpoints["all_agency"]);
@@ -30,7 +34,7 @@ const Profile = () => {
          loadUser();
          loadInfoAgency();
       }
-   }, []);
+   }, [userInfo]);
    return (
       <Layout title="Profile User">
          <div className="flex items-center flex-col justify-center my-10">
@@ -38,7 +42,7 @@ const Profile = () => {
                <img
                   src={user.avatar}
                   alt="avatar"
-                  className="w-[240px] h-[240px] rounded-full"
+                  className="w-[240px] h-[240px] rounded-full object-cover"
                />
             </div>
             <div className="text-left">
@@ -55,11 +59,15 @@ const Profile = () => {
                         Edit profile
                      </button>
                   </Link>
-                  <Link href="/changepassword">
-                     <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
-                        Change Password
-                     </button>
-                  </Link>
+                  {authProvider == 1 ? (
+                     <Link href="/changepassword">
+                        <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
+                           Change Password
+                        </button>
+                     </Link>
+                  ) : (
+                     <></>
+                  )}
                   {userInfo ? (
                      userInfo.role.name === "ROLE_GENERAL" ? (
                         waitAccept ? (

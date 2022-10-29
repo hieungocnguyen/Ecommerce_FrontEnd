@@ -48,7 +48,6 @@ const Signin = () => {
          });
       }
    };
-
    return (
       <Layout title="Sign in">
          <div className="pt-6">
@@ -80,17 +79,26 @@ const Signin = () => {
                      className="p-4 rounded-lg"
                   />
                </div>
-               <button className="bg-blue-main py-3 px-5  mt-5 mb-10 cursor-pointer hover:opacity-80 rounded-lg font-semibold text-white">
-                  Sign in
+               <button className="bg-blue-main py-3 px-5 my-4 cursor-pointer hover:opacity-80 rounded-lg font-semibold text-white ">
+                  Sign in with Mallity
                </button>
+               <Link href="/forgotPassword">
+                  <div className="text-blue-main cursor-pointer mb-10">
+                     Forgt password?
+                  </div>
+               </Link>
             </form>
             <div className="flex flex-col max-w-sm mx-auto">
-               <button className="p-2 bg-blue-main rounded-lg hover:opacity-80 mb-4 font-semibold text-white">
-                  Sign in with Google
-               </button>
-               <button className="p-2 bg-blue-main rounded-lg hover:opacity-80 mb-4 font-semibold text-white">
-                  Sign in with Facebook
-               </button>
+               <Link href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/ou-ecommerce/login-google&response_type=code&client_id=405256729803-ldem34qntvtuhmtenig599itet2489ga.apps.googleusercontent.com&approval_prompt=force">
+                  <button className="p-2 bg-[#EA4335] rounded-lg hover:opacity-80 mb-4 font-semibold text-white">
+                     Sign in with Google
+                  </button>
+               </Link>
+               <Link href="https://www.facebook.com/dialog/oauth?scope=email&client_id=555265043013184&redirect_uri=http://localhost:8080/ou-ecommerce/login-facebook">
+                  <button className="p-2 bg-[#1877f2] rounded-lg hover:opacity-80 mb-4 font-semibold text-white">
+                     Sign in with Facebook
+                  </button>
+               </Link>
             </div>
             <div className="my-4">
                Don&apos;t have an account?{" "}

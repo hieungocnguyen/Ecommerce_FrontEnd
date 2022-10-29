@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
+import { BiCategoryAlt } from "react-icons/bi";
 
 const SearchBar = ({ categories }) => {
    const router = useRouter();
@@ -28,10 +29,13 @@ const SearchBar = ({ categories }) => {
       <div>
          <div className="my-4 flex justify-center w-full">
             <button
-               className="py-[7px] px-[10px] bg-blue-main rounded-lg font-semibold text-sm hover:opacity-80 text-white"
+               className="py-[7px] px-[10px] bg-blue-main rounded-lg font-semibold text-sm hover:opacity-80 text-white flex items-center gap-2"
                onClick={handleOpenCategory}
             >
-               Category
+               <div>
+                  <BiCategoryAlt className="text-xl" />
+               </div>
+               <div>Category</div>
             </button>
             <div
                className="hidden grid-cols-5 gap-8 absolute z-10 top-[128px] dark:bg-dark-primary bg-light-primary rounded-lg p-8 w-[90%] transition-all "

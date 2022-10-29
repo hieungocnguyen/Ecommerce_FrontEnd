@@ -5,7 +5,7 @@ import API, { authAxios, endpoints } from "../../API";
 import Layout from "../../components/Layout/Layout";
 import Cookies from "js-cookie";
 import { Store } from "../../utils/Store";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Image from "next/image";
 import { type } from "os";
 import Rating from "@mui/material/Rating";
@@ -14,6 +14,7 @@ import { BiStore } from "react-icons/bi";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import moment from "moment";
 type;
 
 const ProductPage = (salePost) => {
@@ -143,7 +144,7 @@ const ProductPage = (salePost) => {
                            readOnly
                         />
                      </div>
-                     <div>{commentCount} Comments</div>
+                     <div>{commentCount} Comment</div>
                   </div>
                   <div className="text-left mb-4">
                      <div className="line-through">
@@ -163,8 +164,8 @@ const ProductPage = (salePost) => {
                      </div>
                   </div>
                   <div className="mb-3">
-                     <div className="font-semibold">Description:</div>
-                     <div>{salePost.salePost.description}</div>
+                     <div className="font-semibold">Manufacturer:</div>
+                     <div>{salePost.salePost.manufacturer}</div>
                   </div>
                   <div className="mb-3">
                      <div className="font-semibold">Brand:</div>
@@ -175,30 +176,40 @@ const ProductPage = (salePost) => {
                      <div>{salePost.salePost.origin}</div>
                   </div>
                   <div className="mb-3">
-                     <div className="font-semibold">Manufacturer:</div>
-                     <div>{salePost.salePost.manufacturer}</div>
+                     <div className="font-semibold">Description:</div>
+                     <div>{salePost.salePost.description}</div>
                   </div>
                </div>
                <div className=" dark:bg-dark-primary bg-light-primary rounded-lg my-4 text-left px-8 py-4">
                   <div className="font-semibold mb-3">Angency Info</div>
-                  <div className="flex items-center">
-                     <div className="overflow-hidden ">
-                        <Image
-                           src={salePost.salePost.agency.avatar}
-                           alt="avatar-agency"
-                           width={70}
-                           height={70}
-                           className="rounded-full"
-                        />
-                     </div>
-                     <div className="text-left ml-4">
-                        <div className="font-semibold whitespace-nowrap text-xl text-blue-main">
-                           {salePost.salePost.agency.name}
+                  <div className="flex justify-between">
+                     <div className="flex items-center">
+                        <div className="overflow-hidden ">
+                           <Image
+                              src={salePost.salePost.agency.avatar}
+                              alt="avatar-agency"
+                              width={70}
+                              height={70}
+                              className="rounded-full"
+                           />
                         </div>
-                        <div className=" whitespace-nowrap">
-                           {salePost.salePost.agency.field.name}
+                        <div className="text-left ml-4">
+                           <div className="font-semibold whitespace-nowrap text-xl text-blue-main">
+                              {salePost.salePost.agency.name}
+                           </div>
+                           <div className=" whitespace-nowrap">
+                              {salePost.salePost.agency.field.name}
+                           </div>
+                           <div className=" whitespace-nowrap">
+                              {salePost.salePost.agency.address}
+                           </div>
                         </div>
                      </div>
+                     <Link href={`/agencyinfo/${salePost.salePost.agency.id}`}>
+                        <div className="bg-blue-main rounded-lg w-16 h-16 flex justify-center items-center hover:bg-opacity-80 cursor-pointer">
+                           <BiStore className="text-3xl" />
+                        </div>
+                     </Link>
                   </div>
                </div>
             </div>
@@ -262,8 +273,8 @@ const ProductPage = (salePost) => {
          </div>
          {/* comment */}
          <div className="grid grid-cols-1 my-8">
-            <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg">
-               <div className="font-semibold text-left mt-8 ml-8 text-lg">
+            <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
+               <div className="font-semibold text-left ml-8 text-lg">
                   Feedback
                </div>
                <CommentForm
@@ -288,6 +299,7 @@ const ProductPage = (salePost) => {
                         <div className="font-semibold text-blue-main">
                            {c.author.lastName} {c.author.firstName}
                         </div>
+
                         <div>{c.content}</div>
                         <Rating
                            sx={{
@@ -321,31 +333,39 @@ const CommentForm = ({
    const { state, dispatch } = useContext(Store);
    const { cart, userInfo } = state;
    const [content, setContent] = useState("");
+   const router = useRouter();
    const [value, setValue] = React.useState<number | null>(0);
    const onChangeContent = (e) => {
       setContent(e.target.value);
    };
    const addComment = async (event) => {
       event.preventDefault();
-      if (content == "" || value == 0) {
-         toast.error("Please comment anh rating before send feedbacl!", {
-            position: "bottom-center",
-         });
-      } else {
-         const res = await authAxios().post(endpoints["comment_post"](postID), {
-            content: content,
-            starRate: value,
-         });
-         const resCount = await API.get(
-            endpoints["count_comment_post"](postID)
-         );
-         setCommentCount(resCount.data.data);
-         const resStar = await API.get(endpoints["star_avg_post"](postID));
-         setStarAvg(resStar.data.data);
-         setCommentCount(resCount.data.data);
+      if (userInfo) {
+         if (content == "" || value == 0) {
+            toast.error("Please comment anh rating before send feedback!", {
+               position: "bottom-center",
+            });
+         } else {
+            const res = await authAxios().post(
+               endpoints["comment_post"](postID),
+               {
+                  content: content,
+                  starRate: value,
+               }
+            );
+            const resCount = await API.get(
+               endpoints["count_comment_post"](postID)
+            );
+            setCommentCount(resCount.data.data);
+            const resStar = await API.get(endpoints["star_avg_post"](postID));
+            setStarAvg(resStar.data.data);
+            setCommentCount(resCount.data.data);
 
-         setComments([...comments, res.data.data]);
-         setContent("");
+            setComments([...comments, res.data.data]);
+            setContent("");
+         }
+      } else {
+         router.push("/signin");
       }
    };
 

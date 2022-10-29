@@ -38,6 +38,8 @@ const CreateNewPost = () => {
       initialPrice: null,
       finalPrice: null,
       brand: null,
+      manufacturer: null,
+      origin: null,
    });
    const [selectedImage, setSelectedImage] = useState();
    const [importImage, setImportImage] = useState(false);
@@ -89,6 +91,8 @@ const CreateNewPost = () => {
                   initialPrice: values.initialPrice,
                   sellStatusID: values.sellStatusID,
                   title: values.title,
+                  manufacturer: values.manufacturer,
+                  origin: values.origin,
                }
             );
             if (resCreate) {
@@ -280,6 +284,46 @@ const CreateNewPost = () => {
                            },
                         }}
                      />
+                  </div>
+                  <div className="mb-4 grid grid-cols-2 gap-4">
+                     <div>
+                        <CssTextField
+                           fullWidth
+                           label="Manufacturer"
+                           name="manufacturer"
+                           onChange={handleChange}
+                           required
+                           value={values.manufacturer}
+                           variant="outlined"
+                           InputProps={{
+                              style: { color: "white", outline: "white" },
+                           }}
+                           InputLabelProps={{
+                              style: {
+                                 color: "white",
+                              },
+                           }}
+                        />
+                     </div>
+                     <div>
+                        <CssTextField
+                           fullWidth
+                           label="Origin"
+                           name="origin"
+                           onChange={handleChange}
+                           required
+                           value={values.origin}
+                           variant="outlined"
+                           InputProps={{
+                              style: { color: "white", outline: "white" },
+                           }}
+                           InputLabelProps={{
+                              style: {
+                                 color: "white",
+                              },
+                           }}
+                        />
+                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4 mb-4">
                      <CssTextField

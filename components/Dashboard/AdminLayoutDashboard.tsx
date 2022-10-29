@@ -36,7 +36,7 @@ const AdminLayoutDashboard = ({ children }) => {
       <>
          <div className="grid grid-cols-6">
             {/* Side Bar */}
-            <div className="col-span-1 bg-dark-primary h-screen relative">
+            <div className="col-span-1 bg-dark-primary h-screen sticky top-0">
                <div className="flex justify-center my-4">
                   <Link href="/">
                      <Logo width="125" />

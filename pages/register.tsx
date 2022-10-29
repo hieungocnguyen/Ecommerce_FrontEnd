@@ -7,6 +7,7 @@ import axios from "axios";
 import API, { endpoints } from "../API";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
+import Loader from "../components/Loader";
 
 const Register = () => {
    const {
@@ -17,6 +18,7 @@ const Register = () => {
    } = useForm();
    const [selectedImage, setSelectedImage] = useState();
    const router = useRouter();
+   let [loading, setLoading] = useState(false);
    const imageChange = (e) => {
       // console.log(e.target.files[0]);
 
@@ -32,21 +34,26 @@ const Register = () => {
       const formData = new FormData();
 
       if (password !== confirmPassword) {
-         console.log("password dont match");
+         toast.error(" Confirm password does not match, check again!", {
+            position: "bottom-center",
+         });
          return;
       }
       try {
-         const resUploadCloudinary = await API.post(
-            endpoints["upload_cloudinary"],
-            { file: selectedImage },
-            {
-               headers: {
-                  "Content-Type": "multipart/form-data",
-               },
-            }
-         );
-         // console.log(resUploadCloudinary.data.data);
-         formData.append("avatar", resUploadCloudinary.data.data);
+         setLoading(true);
+         if (selectedImage) {
+            const resUploadCloudinary = await API.post(
+               endpoints["upload_cloudinary"],
+               { file: selectedImage },
+               {
+                  headers: {
+                     "Content-Type": "multipart/form-data",
+                  },
+               }
+            );
+            // console.log(resUploadCloudinary.data.data);
+            formData.append("avatar", resUploadCloudinary.data.data);
+         }
          formData.append("username", username);
          formData.append("password", password);
          formData.append("rePassword", confirmPassword);
@@ -62,14 +69,43 @@ const Register = () => {
                },
             }
          );
-         toast.success("Done!", {
-            position: "bottom-center",
-         });
-         router.push("/signin");
+
+         if (resRegister) {
+            setLoading(false);
+            router.push("/signin");
+            toast.success("Done!", {
+               position: "bottom-center",
+            });
+         }
       } catch (error) {
-         toast.error("Something wrong, check again!", {
-            position: "bottom-center",
-         });
+         console.log(error.response.data.data);
+
+         if (error.response.data.data.username) {
+            toast.error(`Username:${error.response.data.data.username}`, {
+               position: "bottom-center",
+            });
+         }
+         if (error.response.data.data.email) {
+            toast.error(`Email:${error.response.data.data.email}`, {
+               position: "bottom-center",
+            });
+         }
+         if (error.response.data.data.password) {
+            toast.error(`Password:${error.response.data.data.password}`, {
+               position: "bottom-center",
+            });
+         }
+         if (error.response.data.data.rePassword) {
+            toast.error(`Repassword: ${error.response.data.data.rePassword}`, {
+               position: "bottom-center",
+            });
+         }
+         if (error.response.data.data.avatar) {
+            toast.error(`Avatar: ${error.response.data.data.avatar}`, {
+               position: "bottom-center",
+            });
+         }
+         setLoading(false);
       }
    };
 
@@ -136,12 +172,16 @@ const Register = () => {
                   >
                      Gender
                   </label>
-                  <input
-                     type="number"
-                     id=" genderID"
+                  <select
+                     name="cars"
+                     id="cars"
                      {...register("genderID")}
                      className="p-4 rounded-lg"
-                  />
+                  >
+                     <option value={1}>Male</option>
+                     <option value={2}>Female</option>
+                     <option value={3}>Undefined</option>
+                  </select>
 
                   <label
                      htmlFor="avatar"
@@ -154,7 +194,7 @@ const Register = () => {
                         <img
                            src={URL.createObjectURL(selectedImage)}
                            alt="Thumb"
-                           className="w-[280px] h-[280px] rounded-full my-10"
+                           className="w-[280px] h-[280px] rounded-full my-10 object-cover"
                         />
                      </div>
                   )}
@@ -176,6 +216,7 @@ const Register = () => {
                </div>
             </Link>
          </div>
+         {loading ? <Loader /> : <></>}
          <Toaster />
       </Layout>
    );

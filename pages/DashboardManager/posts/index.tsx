@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineDelete } from "react-icons/ai";
-import { BiEditAlt, BiPlus } from "react-icons/bi";
+import { BiEditAlt, BiPlus, BiImages } from "react-icons/bi";
 import API, { endpoints } from "../../../API";
 import LayoutDashboard from "../../../components/Dashboard/LayoutDashboardManager";
 import Loader from "../../../components/Loader";
@@ -112,7 +112,7 @@ const Posts = () => {
                                     </div>
                                  )}
                               </div>
-                              <div className="flex justify-end gap-2">
+                              <div className="flex justify-end gap-1">
                                  <Link href={`/DashboardManager/posts/${p.id}`}>
                                     <div className="p-2 hover:bg-neutral-600 hover:bg-opacity-30 rounded-lg cursor-pointer">
                                        <BiEditAlt className="text-2xl  " />

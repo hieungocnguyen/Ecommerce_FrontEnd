@@ -16,23 +16,24 @@ const Search = ({ categories }) => {
    const [page, setPage] = useState(0);
    const kw = router.query.input;
    const [datePost, setDatePost] = useState(["2017-06-01", "2023-06-01"]);
-   const [value, setValue] = useState<number[]>([100000, 500000]);
+   const [value, setValue] = useState<number[]>([100000, 5000000]);
+   const [numberPage, setnumberPage] = useState(1);
    useEffect(() => {
       const loadPosts = async () => {
          const resPosts = await API.post(endpoints["search_salePost"], {
             kw: router.query.input,
-            page: 0,
+            page: numberPage,
          });
          setSalePosts(resPosts.data.data.listResult);
       };
       loadPosts();
-   }, [router.query.input]);
+   }, [router.query.input, numberPage]);
 
    const handleSubmitFilter = async (e) => {
       e.preventDefault();
       const resPosts = await API.post(endpoints["search_salePost"], {
          kw: router.query.input,
-         page: page,
+         page: numberPage,
          fromDate: new Date(datePost[0]).toLocaleDateString("en-US"),
          fromPrice: value[0],
          toDate: new Date(datePost[1]).toLocaleDateString("en-US"),
@@ -93,7 +94,9 @@ const Search = ({ categories }) => {
                      onChange={handleChange}
                      valueLabelDisplay="auto"
                      getAriaValueText={valuetext}
-                     max={1000000}
+                     step={1000000}
+                     marks
+                     max={10000000}
                      min={0}
                      sx={{
                         color: "#525EC1",
@@ -114,6 +117,43 @@ const Search = ({ categories }) => {
                {salePosts.map((post) => (
                   <ProductItem key={post.id} product={post} />
                ))}
+            </div>
+         </div>
+         <div
+            className="flex gap-4
+                justify-center my-8"
+         >
+            <div
+               className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer"
+               onClick={(e) => {
+                  setnumberPage(1);
+               }}
+            >
+               1
+            </div>
+            <div
+               className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer"
+               onClick={(e) => {
+                  setnumberPage(2);
+               }}
+            >
+               2
+            </div>
+            <div
+               className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer"
+               onClick={(e) => {
+                  setnumberPage(3);
+               }}
+            >
+               3
+            </div>
+            <div
+               className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer"
+               onClick={(e) => {
+                  setnumberPage(4);
+               }}
+            >
+               4
             </div>
          </div>
       </Layout>
