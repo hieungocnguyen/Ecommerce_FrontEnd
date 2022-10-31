@@ -73,6 +73,9 @@ const ProductPage = (salePost) => {
             type: "CART_ADD_ITEM",
             payload: { id: i.id, quantity: i.quantity },
          });
+         toast.success("Add to cart successfully !", {
+            position: "bottom-center",
+         });
       };
       if (Cookies.get("accessToken")) {
          quantityItems.map((i) => {
@@ -206,7 +209,7 @@ const ProductPage = (salePost) => {
                         </div>
                      </div>
                      <Link href={`/agencyinfo/${salePost.salePost.agency.id}`}>
-                        <div className="bg-blue-main rounded-lg w-16 h-16 flex justify-center items-center hover:bg-opacity-80 cursor-pointer">
+                        <div className="bg-blue-main rounded-lg w-16 h-16 flex justify-center items-center hover:bg-opacity-80 cursor-pointer text-white">
                            <BiStore className="text-3xl" />
                         </div>
                      </Link>

@@ -8,18 +8,18 @@ const Advertise = () => {
    return (
       <Swiper
          rewind={true}
-         className="mySwiper h-[500px] rounded-lg overflow-hidden"
+         className="mySwiper h-[550px] rounded-lg overflow-hidden"
       >
          <SwiperSlide>
             <img
-               src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+               src="https://img.freepik.com/free-vector/banner-black-friday-super-sale-realistic-3d-black-shopping-basket_548887-26.jpg?w=1380&t=st=1667118921~exp=1667119521~hmac=ca9ae8237e37466c08b3dc33d2da9904d08cc2b39b0e151f88025f93ab0409e8"
                alt="img"
                className="w-[100%] object-cover"
             />
          </SwiperSlide>
          <SwiperSlide>
             <img
-               src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8c2hvcHBpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=1000&q=60"
+               src="https://img.freepik.com/premium-vector/online-shopping-concept-shopping-cart-with-bags-standing-upon-big-mobile-phone-flat-vector-design_196604-35.jpg?w=1380"
                alt="img"
                className="w-[100%] object-cover"
             />

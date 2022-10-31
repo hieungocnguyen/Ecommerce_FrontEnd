@@ -45,7 +45,7 @@ const ProductItem = ({ product }) => {
    return (
       <div className=" bg-light-primary dark:bg-dark-primary rounded-lg">
          <div className="flex justify-between m-2 items-center">
-            <div className="bg-red-500 font-semibold p-1 w-fit rounded-lg whitespace-nowrap text-sm">
+            <div className="bg-red-500 font-semibold p-1 w-fit rounded-lg whitespace-nowrap text-sm text-white">
                {product.sellStatus.name}
             </div>
             <div className="mr-2">

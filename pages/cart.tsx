@@ -8,6 +8,7 @@ import axios from "axios";
 import { BiTrash } from "react-icons/bi";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
+import Loader from "../components/Loader";
 
 const Cart = () => {
    const { state, dispatch } = useContext(Store);
@@ -15,6 +16,7 @@ const Cart = () => {
    const [initialRenderComplete, setInitialRenderComplete] = useState(false);
    const [itemsInCart, setItemsInCart] = useState([]);
    const [totalPrice, setTotalPrice] = useState(0);
+   let [loading, setLoading] = useState(false);
    const router = useRouter();
 
    useEffect(() => {
@@ -40,6 +42,7 @@ const Cart = () => {
       setInitialRenderComplete(true);
    }, [router, userInfo]);
    const handlePaymentbyCash = async () => {
+      setLoading(true);
       try {
          const resPayment = await authAxios().post(
             endpoints["payment_cart"](1)
@@ -51,6 +54,7 @@ const Cart = () => {
          toast.success("Payment successful!", {
             position: "bottom-center",
          });
+         setLoading(false);
       } catch (error) {}
    };
    const handleClearCart = async () => {
@@ -148,7 +152,7 @@ const Cart = () => {
                   </button>
                </div>
             </div>
-
+            {loading ? <Loader /> : <></>}
             <Toaster />
          </Layout>
       );

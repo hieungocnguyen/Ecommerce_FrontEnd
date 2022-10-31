@@ -21,6 +21,7 @@ export default function Home({ categories }) {
    const { userInfo } = state;
    const [salePosts, setSalePost] = useState([]);
    const [numberPage, setnumberPage] = useState(1);
+   const [hotAgency, setHotAgency] = useState<any>([]);
    useEffect(() => {
       const loadPosts = async () => {
          const resPosts = await API.post(endpoints["search_salePost"], {
@@ -37,6 +38,13 @@ export default function Home({ categories }) {
             pages[i].classList.remove("bg-blue-main");
          }
       }
+      const loadHotAagencies = async () => {
+         const resHot = await API.get(
+            "http://localhost:8080/ou-ecommerce/api/agency/top-agency/4"
+         );
+         setHotAgency(resHot.data.data);
+      };
+      loadHotAagencies();
    }, [numberPage]);
 
    return (
@@ -56,7 +64,7 @@ export default function Home({ categories }) {
                 justify-center mt-8"
                >
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator "
                      onClick={(e) => {
                         setnumberPage(1);
                      }}
@@ -64,7 +72,7 @@ export default function Home({ categories }) {
                      1
                   </div>
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator "
                      onClick={(e) => {
                         setnumberPage(2);
                      }}
@@ -72,7 +80,7 @@ export default function Home({ categories }) {
                      2
                   </div>
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator "
                      onClick={(e) => {
                         setnumberPage(3);
                      }}
@@ -80,7 +88,7 @@ export default function Home({ categories }) {
                      3
                   </div>
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator "
                      onClick={(e) => {
                         setnumberPage(4);
                      }}
@@ -88,7 +96,7 @@ export default function Home({ categories }) {
                      4
                   </div>
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator "
                      onClick={(e) => {
                         setnumberPage(5);
                      }}
@@ -97,6 +105,16 @@ export default function Home({ categories }) {
                   </div>
                </div>
             </div>
+            {/* <div className="my-8">
+               <h1 className="text-center font-bold text-xl my-5">
+                  Hot Agency
+               </h1>
+               <div>
+                  {hotAgency.map((h) => (
+                     <div key={h.id}>{hotAgency.name}</div>
+                  ))}
+               </div>
+            </div> */}
          </Layout>
       </div>
    );

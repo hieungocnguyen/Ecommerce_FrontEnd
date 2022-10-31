@@ -19,43 +19,56 @@ const ForgotPassword = () => {
    };
    const handleSendMail = async () => {
       setLoading(true);
-      try {
-         const resReset = await API.post(endpoints["reset_password"], {
-            email: email,
-         });
-         if (resReset.data.code == 200) {
-            toast.success("Check confirm code in your email", {
-               position: "bottom-center",
+      if (email) {
+         try {
+            const resReset = await API.post(endpoints["reset_password"], {
+               email: email,
             });
-            setLoading(false);
-            setHasSent(true);
-            setCode("");
-         } else {
-            setLoading(false);
-            toast.error(resReset.data.message, {
+            if (resReset.data.code == 200) {
+               toast.success("Check confirm code in your email", {
+                  position: "bottom-center",
+               });
+               setLoading(false);
+               setHasSent(true);
+               setCode("");
+            } else {
+               setLoading(false);
+               toast.error(resReset.data.message, {
+                  position: "bottom-center",
+               });
+            }
+         } catch (error) {
+            toast.error(error.response.data.data, {
                position: "bottom-center",
             });
          }
-      } catch (error) {
-         toast.error(error.response.data.data, {
+      } else {
+         toast.error("Email empty!", {
             position: "bottom-center",
          });
+         setLoading(false);
       }
    };
    const handleConfirm = async () => {
-      try {
-         const resReset = await API.post(endpoints["confirm_code"], {
-            code: code,
-            email: email,
-         });
-         if (resReset) {
-            toast.success("Reset password successfully", {
+      if (email) {
+         try {
+            const resReset = await API.post(endpoints["confirm_code"], {
+               code: code,
+               email: email,
+            });
+            if (resReset) {
+               toast.success("Reset password successfully", {
+                  position: "bottom-center",
+               });
+               router.push("/signin");
+            }
+         } catch (error) {
+            toast.error(error.response.data.data, {
                position: "bottom-center",
             });
-            router.push("/signin");
          }
-      } catch (error) {
-         toast.error(error.response.data.data, {
+      } else {
+         toast.error("Code empty!", {
             position: "bottom-center",
          });
       }

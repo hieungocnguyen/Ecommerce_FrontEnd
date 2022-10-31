@@ -72,7 +72,7 @@ const Header = () => {
             <div className="relative">
                <img
                   src={userInfo.avatar}
-                  className="w-[40px] h-[40px] rounded-full cursor-pointer border-[3px] border-blue-main"
+                  className="w-[40px] h-[40px] rounded-full cursor-pointer border-[3px] border-blue-main object-cover"
                   alt="avatar"
                   onClick={handleToggleMenu}
                />
