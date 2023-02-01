@@ -115,7 +115,13 @@ const Cart = () => {
                   </div>
                   <div className="col-span-1 ">{i.quantity}</div>
                   <div className="col-span-1 text-blue-main font-semibold">
-                     {i.quantity * i.itemPost.unitPrice}
+                     {(i.quantity * i.itemPost.unitPrice).toLocaleString(
+                        "it-IT",
+                        {
+                           style: "currency",
+                           currency: "VND",
+                        }
+                     )}
                   </div>
                   <button
                      className="col-span-1 flex items-center justify-center hover:opacity-80"
@@ -137,7 +143,10 @@ const Cart = () => {
                <div className="text-2xl">
                   Total:{" "}
                   <span className="text-blue-main font-bold text-3xl">
-                     {totalPrice}
+                     {totalPrice.toLocaleString("it-IT", {
+                        style: "currency",
+                        currency: "VND",
+                     })}
                   </span>
                </div>
                <div className="flex flex-col my-4 w-1/3">

@@ -113,7 +113,7 @@ const Search = ({ categories }) => {
                </div>
             </form>
             {/* posts side */}
-            <div className="col-span-6 grid grid-cols-4 gap-8">
+            <div className="col-span-6 grid grid-cols-3 gap-8">
                {salePosts.map((post) => (
                   <ProductItem key={post.id} product={post} />
                ))}

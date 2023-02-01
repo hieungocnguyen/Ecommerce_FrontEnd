@@ -97,7 +97,7 @@ const RegisterAgency = () => {
                <input
                   type="file"
                   id="avatar"
-                  className="p-4 rounded-lg w-full"
+                  className="p-4 rounded-lg w-full bg-light-primary dark:bg-dark-primary"
                   onChange={imageChange}
                />
             </div>
@@ -108,7 +108,7 @@ const RegisterAgency = () => {
                <input
                   type="text"
                   id="name"
-                  className="p-4 rounded-lg"
+                  className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                   onChange={(e) => {
                      setName(e.target.value);
                   }}
@@ -124,7 +124,7 @@ const RegisterAgency = () => {
                <input
                   type="text"
                   id="address"
-                  className="p-4 rounded-lg"
+                  className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                   onChange={(e) => {
                      setAddress(e.target.value);
                   }}
@@ -153,7 +153,7 @@ const RegisterAgency = () => {
                <input
                   type="text"
                   id="hotline"
-                  className="p-4 rounded-lg"
+                  className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                   onChange={(e) => {
                      setHotline(e.target.value);
                   }}

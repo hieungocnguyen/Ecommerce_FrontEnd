@@ -127,7 +127,7 @@ const Register = () => {
                      type="text"
                      id="username"
                      {...register("username")}
-                     className="p-4 rounded-lg"
+                     className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                   />
                   <label
                      htmlFor="password"
@@ -139,7 +139,7 @@ const Register = () => {
                      type="password"
                      id="password"
                      {...register("password")}
-                     className="p-4 rounded-lg"
+                     className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                   />
                   <label
                      htmlFor="confirmPassword"
@@ -151,7 +151,7 @@ const Register = () => {
                      type="password"
                      id=" confirmPassword"
                      {...register("confirmPassword")}
-                     className="p-4 rounded-lg"
+                     className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                   />
                   <label
                      htmlFor="confirmPassword"
@@ -164,7 +164,7 @@ const Register = () => {
                      type="email"
                      id=" email"
                      {...register("email")}
-                     className="p-4 rounded-lg"
+                     className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                   />
                   <label
                      htmlFor="genderID"
@@ -176,7 +176,7 @@ const Register = () => {
                      name="cars"
                      id="cars"
                      {...register("genderID")}
-                     className="p-4 rounded-lg"
+                     className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                   >
                      <option value={1}>Male</option>
                      <option value={2}>Female</option>

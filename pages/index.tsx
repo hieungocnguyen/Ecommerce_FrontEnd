@@ -33,9 +33,9 @@ export default function Home({ categories }) {
       const pages = document.querySelectorAll(".paginator");
       for (let i = 0; i < pages.length; i++) {
          if (i === numberPage - 1) {
-            pages[i].classList.add("bg-blue-main");
+            pages[i].classList.add(...["bg-blue-main", "text-white"]);
          } else {
-            pages[i].classList.remove("bg-blue-main");
+            pages[i].classList.remove(...["bg-blue-main", "text-white"]);
          }
       }
       const loadHotAagencies = async () => {
@@ -53,7 +53,9 @@ export default function Home({ categories }) {
             <SearchBar categories={categories} />
             <div className="my-8">
                <Advertise />
-               <h1 className="text-center font-bold text-xl my-5">All Posts</h1>
+               <h1 className="text-center font-bold text-2xl my-5">
+                  All Posts
+               </h1>
                <div className="grid lg:grid-cols-4 grid-cols-2 gap-10">
                   {salePosts.map((i) => (
                      <ProductItem key={i.id} product={i} />
@@ -64,7 +66,7 @@ export default function Home({ categories }) {
                 justify-center mt-8"
                >
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator "
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
                      onClick={(e) => {
                         setnumberPage(1);
                      }}
@@ -72,7 +74,7 @@ export default function Home({ categories }) {
                      1
                   </div>
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator "
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
                      onClick={(e) => {
                         setnumberPage(2);
                      }}
@@ -80,7 +82,7 @@ export default function Home({ categories }) {
                      2
                   </div>
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator "
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
                      onClick={(e) => {
                         setnumberPage(3);
                      }}
@@ -88,7 +90,7 @@ export default function Home({ categories }) {
                      3
                   </div>
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator "
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
                      onClick={(e) => {
                         setnumberPage(4);
                      }}
@@ -96,7 +98,7 @@ export default function Home({ categories }) {
                      4
                   </div>
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator "
+                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
                      onClick={(e) => {
                         setnumberPage(5);
                      }}

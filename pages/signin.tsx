@@ -2,11 +2,12 @@ import Layout from "../components/Layout/Layout";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import axios from "axios";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
+import Loader from "../components/Loader";
 
 const Signin = () => {
    const {
@@ -19,9 +20,11 @@ const Signin = () => {
    const { userInfo } = state;
    const router = useRouter();
    const { redirect } = router.query;
+   const [loading, setLoading] = useState(false);
 
    const submitHandler = async ({ username, password }) => {
       try {
+         setLoading(true);
          const dataToken = await axios.post(
             "http://localhost:8080/ou-ecommerce/authenticate",
             {
@@ -41,11 +44,23 @@ const Signin = () => {
 
          Cookies.set("userInfo", JSON.stringify(dataCurrentUser.data.data));
          dispatch({ type: "USER_LOGIN", payload: dataCurrentUser.data.data });
+         if (dataCurrentUser.data) {
+            setLoading(false);
+         }
          router.push("/");
+         toast.success(
+            `Sign in successful! Hello ${dataCurrentUser.data.data.firstName} ${dataCurrentUser.data.data.lastName}`,
+            {
+               position: "top-center",
+            }
+         );
       } catch (error) {
-         toast.error("Sign in failed, try again", {
-            position: "bottom-center",
-         });
+         console.log(error.response.data.status);
+         if (error.response.data.status === 401) {
+            toast.error("Username or password incorrect, try again !", {
+               position: "top-center",
+            });
+         }
       }
    };
    return (
@@ -109,6 +124,7 @@ const Signin = () => {
                </Link>
             </div>
          </div>
+         {loading ? <Loader /> : <></>}
          <Toaster />
       </Layout>
    );
