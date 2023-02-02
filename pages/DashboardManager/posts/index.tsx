@@ -62,21 +62,21 @@ const Posts = () => {
                <div className="flex justify-between my-8">
                   <div className="font-semibold text-2xl">Your Post</div>
                   <Link href="/DashboardManager/posts/createnewpost">
-                     <button className="font-semibold bg-blue-main p-2 rounded-lg hover:opacity-80 flex items-center">
+                     <button className="font-semibold bg-blue-main p-2 rounded-lg hover:opacity-80 flex items-center text-dark-text">
                         <BiPlus className="text-lg mr-1" />
                         Add new post
                      </button>
                   </Link>
                </div>
                <div className="">
-                  <div className="grid grid-cols-8 font-semibold bg-dark-primary bg-opacity-80 p-6 rounded-t-lg">
+                  <div className="grid grid-cols-8 font-semibold dark:bg-dark-primary bg-light-primary rounded-lg bg-opacity-80 p-6 rounded-t-lg">
                      <div className="col-span-3">Name</div>
                      <div className="col-span-1">Price</div>
                      <div className="col-span-2">Category</div>
                      <div className="col-span-1">Status</div>
                      <div></div>
                   </div>
-                  <div className="bg-dark-primary bg-opacity-30 rounded-b-lg p-6">
+                  <div className="dark:bg-dark-primary bg-light-primary rounded-lg bg-opacity-30 rounded-b-lg p-6">
                      {posts ? (
                         posts.map((p) => (
                            <div
