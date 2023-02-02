@@ -239,15 +239,15 @@ const AgencyHome = () => {
                      Hi {agencyInfo ? agencyInfo.name : ""}, Welcome back!
                   </div>
                   <div className="grid grid-cols-3 gap-8 mt-10">
-                     <div className="bg-neutral-800 flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
+                     <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
                         <div>Follow</div>
                         <div>0</div>
                      </div>
-                     <div className="bg-neutral-800 flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
+                     <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
                         <div>Post</div>
                         <div>{countPosts}</div>
                      </div>
-                     <div className="bg-neutral-800 flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
+                     <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
                         <div>Order</div>
                         <div>{countOrders}</div>
                      </div>
@@ -262,10 +262,10 @@ const AgencyHome = () => {
                         Statistical by category
                      </div>
                      <div className="grid grid-cols-5 gap-4">
-                        <div className="col-span-3 bg-dark-primary rounded-lg p-8">
+                        <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                            <Doughnut data={dataCate} />
                         </div>
-                        <div className="col-span-2 bg-dark-primary rounded-lg p-8">
+                        <div className="col-span-2 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                            <div className="grid grid-cols-3 font-semibold text-lg border-b-2 pb-2">
                               <div className="col-span-2">Category</div>
                               <div className="">Posts</div>
@@ -293,10 +293,10 @@ const AgencyHome = () => {
                            Revenue by year
                         </div>
                         <div className="grid grid-cols-5 gap-4">
-                           <div className="col-span-3 bg-dark-primary rounded-lg p-8">
+                           <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                               <Bar options={options} data={databyYear} />
                            </div>
-                           <div className=" col-span-2 grid grid-cols-2 bg-dark-primary rounded-lg p-8 ">
+                           <div className=" col-span-2 grid grid-cols-2 dark:bg-dark-primary bg-light-primary rounded-lg p-8 ">
                               <div className="">
                                  <div className="text-lg font-semibold">
                                     Year
@@ -326,10 +326,10 @@ const AgencyHome = () => {
                            Revenue month by year
                         </div>
                         <div className="grid grid-cols-5 gap-4">
-                           <div className="col-span-3 bg-dark-primary rounded-lg p-8">
+                           <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                               <Line options={options} data={databyMonth} />
                            </div>
-                           <div className=" col-span-2 grid grid-cols-2 bg-dark-primary rounded-lg p-8">
+                           <div className=" col-span-2 grid grid-cols-2 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                               <div className="">
                                  <div className="text-lg font-semibold">
                                     Year
@@ -359,10 +359,10 @@ const AgencyHome = () => {
                            Revenue quarter by year
                         </div>
                         <div className="grid grid-cols-5 gap-4">
-                           <div className="col-span-3 bg-dark-primary rounded-lg p-8">
+                           <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                               <Line options={options} data={databyQuarter} />
                            </div>
-                           <div className=" col-span-2 grid grid-cols-2 bg-dark-primary rounded-lg p-8">
+                           <div className=" col-span-2 grid grid-cols-2 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                               <div className="">
                                  <div className="text-lg font-semibold">
                                     Quarter (2022)
