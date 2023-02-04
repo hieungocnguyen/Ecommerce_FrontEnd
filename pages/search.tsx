@@ -8,7 +8,7 @@ import ProductItem from "../components/ProductItem";
 import SearchBar from "../components/SearchBar";
 
 function valuetext(value: number) {
-   return `${value}°C`;
+   return `${value}VND`;
 }
 const Search = ({ categories }) => {
    const [salePosts, setSalePosts] = useState([]);
@@ -18,6 +18,7 @@ const Search = ({ categories }) => {
    const [datePost, setDatePost] = useState(["2017-06-01", "2023-06-01"]);
    const [value, setValue] = useState<number[]>([100000, 5000000]);
    const [numberPage, setnumberPage] = useState(1);
+   const [totalPage, setTotalPage] = useState(1);
    useEffect(() => {
       const loadPosts = async () => {
          const resPosts = await API.post(endpoints["search_salePost"], {
@@ -25,6 +26,7 @@ const Search = ({ categories }) => {
             page: numberPage,
          });
          setSalePosts(resPosts.data.data.listResult);
+         setTotalPage(resPosts.data.data.totalPage);
       };
       loadPosts();
    }, [router.query.input, numberPage]);
@@ -49,9 +51,13 @@ const Search = ({ categories }) => {
    return (
       <Layout title="Search Page">
          <SearchBar categories={categories} />
-         <div className="text-2xl my-8 italic">
-            Result for &quot;{router.query.input}&quot;
-         </div>
+         {router.query.input ? (
+            <div className="text-2xl my-8 italic">
+               Result for &quot;{router.query.input}&quot;
+            </div>
+         ) : (
+            <div> </div>
+         )}
          <div className="grid grid-cols-8 gap-8">
             {/* filter side */}
             <form
@@ -94,10 +100,10 @@ const Search = ({ categories }) => {
                      onChange={handleChange}
                      valueLabelDisplay="auto"
                      getAriaValueText={valuetext}
-                     step={1000000}
-                     marks
+                     step={200000}
+                     // marks
                      max={10000000}
-                     min={0}
+                     min={100000}
                      sx={{
                         color: "#525EC1",
                      }}
@@ -123,38 +129,23 @@ const Search = ({ categories }) => {
             className="flex gap-4
                 justify-center my-8"
          >
-            <div
-               className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer"
-               onClick={(e) => {
-                  setnumberPage(1);
-               }}
-            >
-               1
-            </div>
-            <div
-               className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer"
-               onClick={(e) => {
-                  setnumberPage(2);
-               }}
-            >
-               2
-            </div>
-            <div
-               className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer"
-               onClick={(e) => {
-                  setnumberPage(3);
-               }}
-            >
-               3
-            </div>
-            <div
-               className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer"
-               onClick={(e) => {
-                  setnumberPage(4);
-               }}
-            >
-               4
-            </div>
+            {totalPage > 1 ? (
+               Array.from(Array(totalPage), (e, i) => {
+                  return (
+                     <div
+                        key={i}
+                        className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
+                        onClick={(e) => {
+                           setnumberPage(i + 1);
+                        }}
+                     >
+                        {i + 1}
+                     </div>
+                  );
+               })
+            ) : (
+               <div></div>
+            )}
          </div>
       </Layout>
    );

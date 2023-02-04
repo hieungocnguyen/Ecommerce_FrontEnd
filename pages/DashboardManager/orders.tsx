@@ -38,7 +38,7 @@ const Orders = () => {
                   {orders.map((o) => (
                      <div
                         key={o.id}
-                        className="grid grid-cols-4 items-center  dark:bg-dark-primary bg-light-primary rounded-lg rounded-lg p-8 mb-4"
+                        className="grid grid-cols-4 items-center  dark:bg-dark-primary bg-light-primary rounded-lg p-8 mb-4"
                      >
                         <div>
                            {new Date(o.orders.createdDate).toLocaleDateString(

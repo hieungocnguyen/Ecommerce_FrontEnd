@@ -13,6 +13,7 @@ import { Store } from "../utils/Store";
 import API, { endpoints } from "../API";
 import { userInfo } from "os";
 import Cookies from "js-cookie";
+import { unstable_composeClasses } from "@mui/material";
 
 export default function Home({ categories }) {
    const router = useRouter();
@@ -22,12 +23,14 @@ export default function Home({ categories }) {
    const [salePosts, setSalePost] = useState([]);
    const [numberPage, setnumberPage] = useState(1);
    const [hotAgency, setHotAgency] = useState<any>([]);
+   const [totalPage, setTotalPage] = useState(1);
    useEffect(() => {
       const loadPosts = async () => {
          const resPosts = await API.post(endpoints["search_salePost"], {
             page: numberPage,
          });
          setSalePost(resPosts.data.data.listResult);
+         setTotalPage(resPosts.data.data.totalPage);
       };
       loadPosts();
       const pages = document.querySelectorAll(".paginator");
@@ -65,7 +68,24 @@ export default function Home({ categories }) {
                   className="flex gap-4
                 justify-center mt-8"
                >
-                  <div
+                  {totalPage > 1 ? (
+                     Array.from(Array(totalPage), (e, i) => {
+                        return (
+                           <div
+                              key={i}
+                              className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
+                              onClick={(e) => {
+                                 setnumberPage(i + 1);
+                              }}
+                           >
+                              {i + 1}
+                           </div>
+                        );
+                     })
+                  ) : (
+                     <div></div>
+                  )}
+                  {/* <div
                      className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
                      onClick={(e) => {
                         setnumberPage(1);
@@ -104,7 +124,7 @@ export default function Home({ categories }) {
                      }}
                   >
                      5
-                  </div>
+                  </div> */}
                </div>
             </div>
             {/* <div className="my-8">
