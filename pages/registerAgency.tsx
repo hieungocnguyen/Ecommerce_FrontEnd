@@ -1,12 +1,13 @@
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import API, { authAxios, endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import Loader from "../components/Loader";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
+import { log } from "console";
 
 const RegisterAgency = () => {
    const [selectedImage, setSelectedImage] = useState();
@@ -19,6 +20,7 @@ const RegisterAgency = () => {
    const { userInfo } = state;
    const router = useRouter();
    let [loading, setLoading] = useState(false);
+
    const imageChange = (e) => {
       setSelectedImage(e.target.files[0]);
    };
@@ -41,7 +43,7 @@ const RegisterAgency = () => {
             endpoints["register_agency"],
             {
                address: address,
-               avatar: avatar,
+               avatar: resUploadCloudinary.data.data,
                fieldID: field,
                hotline: hotline,
                managerID: userInfo.id,
@@ -61,7 +63,7 @@ const RegisterAgency = () => {
          dispatch({ type: "USER_LOGIN", payload: dataCurrentUser.data.data });
          if (resRegister) {
             setLoading(false);
-            router.push("/");
+            router.push("/profile");
          }
       } catch (error) {
          console.log(error);
@@ -83,7 +85,7 @@ const RegisterAgency = () => {
                   alt="Avatar"
                   width={250}
                   height={250}
-                  className="rounded-full my-10"
+                  className="rounded-full my-10 object-cover"
                />
             </div>
 
@@ -130,19 +132,6 @@ const RegisterAgency = () => {
                   }}
                />
             </div>
-            {/* <div className="grid grid-cols-2 items-center gap-4 mt-4">
-               <label htmlFor="field" className="font-semibold text-left pl-4 ">
-                  Field
-               </label>
-               <input
-                  type="number"
-                  id="field"
-                  className="p-4 rounded-lg"
-                  onChange={(e) => {
-                     setField(Number(e.target.value));
-                  }}
-               />
-            </div> */}
             <div className="grid grid-cols-2 items-center gap-4 mt-4">
                <label
                   htmlFor="hotline"
@@ -158,6 +147,37 @@ const RegisterAgency = () => {
                      setHotline(e.target.value);
                   }}
                />
+            </div>
+            <div className="grid grid-cols-2 items-center gap-4 mt-4">
+               <label htmlFor="fields" className="font-semibold text-left pl-4">
+                  Field
+               </label>
+               <select
+                  name="fields"
+                  id="fields"
+                  className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
+                  onChange={(e) => {
+                     setField(Number(e.target.value));
+                     console.log(e.target.value);
+                  }}
+               >
+                  <option value={1}>Thời trang</option>
+                  <option value={2}>Dược phẩm</option>
+                  <option value={3}>Đồ gia dụng</option>
+                  <option value={4}>Đồ handmade - Mỹ nghệ</option>
+                  <option value={5}>Thực phẩm</option>
+                  <option value={6}>Phụ kiện công nghệ</option>
+                  <option value={7}>Đồ chơi trẻ emc</option>
+                  <option value={8}>Phụ kiện - Trang sức</option>
+                  <option value={9}>Sách</option>
+                  <option value={10}>Văn phòng phẩm</option>
+                  <option value={11}>Chăm sóc thú cưng</option>
+                  <option value={12}>Thể thao - Du lịch</option>
+                  <option value={13}>Mỹ phẩm - Chăm sóc sắc đẹp</option>
+                  <option value={14}>Dịch vụ</option>
+                  <option value={15}>Xe - Phụ kiện xe</option>
+                  <option value={16}>Khác</option>
+               </select>
             </div>
             <div className="my-8">
                <button

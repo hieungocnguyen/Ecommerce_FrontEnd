@@ -25,7 +25,7 @@ const Header = () => {
       Cookies.remove("userInfo");
       Cookies.remove("accessToken");
       Cookies.remove("cartItems");
-      router.push("/");
+      router.push("/signin");
       toast.success("sign out success", {
          position: "bottom-center",
       });
@@ -171,42 +171,6 @@ const Header = () => {
                   )}
                </button>
             </Link>
-
-            {/* {userInfo ? (
-               <div className="relative">
-                  <img
-                     src={userInfo.avatar}
-                     className="w-[40px] h-[40px] rounded-full cursor-pointer"
-                     alt="avatar"
-                     onClick={handleToggleMenu}
-                  />
-                  <div
-                     id="menuUser"
-                     className="absolute top-14 right-0 dark:bg-dark-primary rounded-lg z-10 hidden"
-                  >
-                     <div className="p-3 cursor-pointer hover:opacity-80">
-                        Profile
-                     </div>
-                     <div className="p-3 cursor-pointer hover:opacity-80">
-                        Wishlist
-                     </div>
-                     <div
-                        className="p-3 cursor-pointer hover:opacity-80 whitespace-nowrap"
-                        onClick={logoutClickHandler}
-                     >
-                        Sign out
-                     </div>
-                  </div>
-               </div>
-            ) : (
-               <div>
-                  <Link href="/signin">
-                     <button className="py-2 px-3 bg-[#525EC1] text-light-bg rounded-lg mr-4 text-sm font-semibold hover:opacity-75">
-                        Sign in
-                     </button>
-                  </Link>
-               </div>
-            )} */}
             {replacePart}
          </div>
          <Toaster />

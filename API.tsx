@@ -49,11 +49,13 @@ export let endpoints = {
    comment_all_post: (postID) => `/action/comment/${postID}/all`,
    //agency
    register_agency: `/agency/register`,
+   all_agency_cesorship: `/censorship/all`,
    all_agency: `/agency/all`,
    agency_info: (agencyID) => `/agency/${agencyID}`,
    uncensored_agency: `/censorship/uncensored`,
    accept_agency: (censorshipID) => `/censorship/accepted/${censorshipID}`,
    deny_agency: (censorshipID) => `/censorship/denied/${censorshipID}`,
+   agency_fields_all: `/agency-field/all`,
    //category
    category_all: `/category/all`,
    //stat

@@ -20,7 +20,7 @@ const LayoutDashboard = ({ children }) => {
       Cookies.remove("userInfo");
       Cookies.remove("accessToken");
       Cookies.remove("cartItems");
-      router.push("/");
+      router.push("/signin");
       toast.success("sign out success", {
          position: "bottom-center",
       });
@@ -44,7 +44,7 @@ const LayoutDashboard = ({ children }) => {
                               : "https://images.unsplash.com/photo-1612994370726-5d4d609fca1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
                         }
                         alt="avatar"
-                        className="rounded-full"
+                        className="rounded-full object-cover"
                         width={90}
                         height={90}
                      />

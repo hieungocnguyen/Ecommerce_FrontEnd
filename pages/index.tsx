@@ -1,25 +1,17 @@
-import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef, useEffect, useState, useContext } from "react";
 import Advertise from "../components/Advertise";
-import Footer from "../components/Layout/Footer";
-import Header from "../components/Layout/Header";
 import Layout from "../components/Layout/Layout";
 import ProductItem from "../components/ProductItem";
 import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { Store } from "../utils/Store";
 import API, { endpoints } from "../API";
-import { userInfo } from "os";
-import Cookies from "js-cookie";
-import { unstable_composeClasses } from "@mui/material";
+import { log } from "console";
+import HotAgency from "../components/HotAgency";
 
 export default function Home({ categories }) {
-   const router = useRouter();
-   const searchInput = useRef(null);
    const { state, dispatch } = useContext(Store);
-   const { userInfo } = state;
    const [salePosts, setSalePost] = useState([]);
    const [numberPage, setnumberPage] = useState(1);
    const [hotAgency, setHotAgency] = useState<any>([]);
@@ -33,6 +25,7 @@ export default function Home({ categories }) {
          setTotalPage(resPosts.data.data.totalPage);
       };
       loadPosts();
+
       const pages = document.querySelectorAll(".paginator");
       for (let i = 0; i < pages.length; i++) {
          if (i === numberPage - 1) {
@@ -41,102 +34,51 @@ export default function Home({ categories }) {
             pages[i].classList.remove(...["bg-blue-main", "text-white"]);
          }
       }
-      const loadHotAagencies = async () => {
-         const resHot = await API.get(
-            "http://localhost:8080/ou-ecommerce/api/agency/top-agency/4"
-         );
-         setHotAgency(resHot.data.data);
-      };
-      loadHotAagencies();
    }, [numberPage]);
 
    return (
       <div>
          <Layout title="Home">
             <SearchBar categories={categories} />
-            <div className="my-8">
+            <div>
                <Advertise />
-               <h1 className="text-center font-bold text-2xl my-5">
-                  All Posts
-               </h1>
-               <div className="grid lg:grid-cols-4 grid-cols-2 gap-10">
-                  {salePosts.map((i) => (
-                     <ProductItem key={i.id} product={i} />
-                  ))}
+               <div className="my-16">
+                  <HotAgency />
                </div>
-               <div
-                  className="flex gap-4
-                justify-center mt-8"
-               >
-                  {totalPage > 1 ? (
-                     Array.from(Array(totalPage), (e, i) => {
-                        return (
-                           <div
-                              key={i}
-                              className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
-                              onClick={(e) => {
-                                 setnumberPage(i + 1);
-                              }}
-                           >
-                              {i + 1}
-                           </div>
-                        );
-                     })
-                  ) : (
-                     <div></div>
-                  )}
-                  {/* <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
-                     onClick={(e) => {
-                        setnumberPage(1);
-                     }}
-                  >
-                     1
+               <div className="my-8">
+                  <h1 className="text-center font-bold text-2xl my-5">
+                     All Posts
+                  </h1>
+                  <div className="grid lg:grid-cols-4 grid-cols-2 gap-10">
+                     {salePosts.map((i) => (
+                        <ProductItem key={i.id} product={i} />
+                     ))}
                   </div>
+                  {/* paginate */}
                   <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
-                     onClick={(e) => {
-                        setnumberPage(2);
-                     }}
+                     className="flex gap-4
+                   justify-center mt-8"
                   >
-                     2
+                     {totalPage > 1 ? (
+                        Array.from(Array(totalPage), (e, i) => {
+                           return (
+                              <div
+                                 key={i}
+                                 className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
+                                 onClick={(e) => {
+                                    setnumberPage(i + 1);
+                                 }}
+                              >
+                                 {i + 1}
+                              </div>
+                           );
+                        })
+                     ) : (
+                        <div></div>
+                     )}
                   </div>
-                  <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
-                     onClick={(e) => {
-                        setnumberPage(3);
-                     }}
-                  >
-                     3
-                  </div>
-                  <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
-                     onClick={(e) => {
-                        setnumberPage(4);
-                     }}
-                  >
-                     4
-                  </div>
-                  <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
-                     onClick={(e) => {
-                        setnumberPage(5);
-                     }}
-                  >
-                     5
-                  </div> */}
                </div>
             </div>
-            {/* <div className="my-8">
-               <h1 className="text-center font-bold text-xl my-5">
-                  Hot Agency
-               </h1>
-               <div>
-                  {hotAgency.map((h) => (
-                     <div key={h.id}>{hotAgency.name}</div>
-                  ))}
-               </div>
-            </div> */}
          </Layout>
       </div>
    );

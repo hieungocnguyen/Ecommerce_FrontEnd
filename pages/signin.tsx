@@ -46,16 +46,13 @@ const Signin = () => {
          dispatch({ type: "USER_LOGIN", payload: dataCurrentUser.data.data });
          if (dataCurrentUser.data) {
             setLoading(false);
-         }
-         router.push("/");
-         toast.success(
-            `Sign in successful! Hello ${dataCurrentUser.data.data.firstName} ${dataCurrentUser.data.data.lastName}`,
-            {
+            router.push("/");
+            toast.success(`Sign in successful!`, {
                position: "top-center",
-            }
-         );
+            });
+         }
       } catch (error) {
-         console.log(error.response.data.status);
+         setLoading(false);
          if (error.response.data.status === 401) {
             toast.error("Username or password incorrect, try again !", {
                position: "top-center",
@@ -80,6 +77,7 @@ const Signin = () => {
                      id="username"
                      {...register("username")}
                      className="p-4 rounded-lg"
+                     required
                   />
                   <label
                      htmlFor="password"
@@ -92,6 +90,7 @@ const Signin = () => {
                      id="password"
                      {...register("password")}
                      className="p-4 rounded-lg"
+                     required
                   />
                </div>
                <button className="bg-blue-main py-3 px-5 my-4 cursor-pointer hover:opacity-80 rounded-lg font-semibold text-white ">

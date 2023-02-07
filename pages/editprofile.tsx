@@ -88,7 +88,7 @@ const EditProfile = () => {
             type: "USER_LOGIN",
             payload: dataCurrentUser.data.data,
          });
-         toast.success("Done!", {
+         toast.success("Change your infomation successful!", {
             position: "bottom-center",
          });
          router.push("/profile");

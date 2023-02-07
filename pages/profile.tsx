@@ -18,7 +18,6 @@ const Profile = () => {
          const resUser = await API.get(endpoints["user"](userInfo.id));
          setUser(resUser.data.data);
          setAuthProvider(resUser.data.data.authProvider.id);
-         console.log(resUser.data.data.authProvider.id);
       };
       const loadInfoAgency = async () => {
          const resAllAgency = await API.get(endpoints["all_agency"]);

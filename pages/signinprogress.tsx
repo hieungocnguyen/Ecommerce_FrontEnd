@@ -27,6 +27,9 @@ const SignGG = () => {
          dispatch({ type: "USER_LOGIN", payload: resUser.data.data });
          if (resUser) {
             router.push("/");
+            toast.success("Sign in successful!", {
+               position: "bottom-center",
+            });
          }
       };
       if (jwt) {

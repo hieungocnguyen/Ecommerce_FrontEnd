@@ -16,33 +16,37 @@ const UsersAdminDashboard = () => {
       <AdminLayoutDashboard>
          <div className="w-[90%] mx-auto">
             <div className="flex justify-between my-10">
-               <div className="font-semibold text-2xl">User</div>
+               <div className="font-semibold text-2xl">User List</div>
             </div>
-            <div className="grid grid-cols-4 gap-8">
-               {users.map((a) => (
-                  <div
-                     key={a.id}
-                     className="bg-neutral-800 rounded-lg flex flex-col items-center py-6"
+            <div className="rounded-lg bg-dark-primary overflow-hidden shadow-2xl shadow-dark-shadow">
+               <ul className="grid grid-cols-12 p-5 bg-dark-spot items-center font-semibold">
+                  <li className="col-span-1">Avatar</li>
+                  <li className="col-span-2">Name</li>
+                  <li className="col-span-2">Phone number</li>
+                  <li className="col-span-3">Email</li>
+                  <li className="col-span-4">Address</li>
+               </ul>
+               {users.map((user) => (
+                  <ul
+                     className="grid grid-cols-12 p-5  items-center hover:bg-dark-spot cursor-pointer"
+                     key={user.id}
                   >
-                     <div className="flex justify-center my-4">
+                     <li className="col-span-1">
                         <Image
-                           src={a.avatar}
+                           src={user.avatar}
                            alt=""
-                           width={120}
-                           height={120}
-                           className="rounded-full"
+                           width={42}
+                           height={42}
+                           className="object-cover rounded-full"
                         />
-                     </div>
-                     <div className="text-lg font-semibold text-blue-main">
-                        {a.firstName
-                           ? `${a.firstName} ${a.lastName}`
-                           : "Undeclared Name"}
-                     </div>
-
-                     <div className="text-sm text-center">
-                        {a.address ? a.address : "Undeclared Address"}
-                     </div>
-                  </div>
+                     </li>
+                     <li className="col-span-2">
+                        {user.firstName} {user.lastName}
+                     </li>
+                     <li className="col-span-2">{user.phone}</li>
+                     <li className="col-span-3">{user.email}</li>
+                     <li className="col-span-4">{user.address}</li>
+                  </ul>
                ))}
             </div>
          </div>

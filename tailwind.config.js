@@ -15,6 +15,8 @@ module.exports = {
             "dark-bg": "#1F1F1F",
             "dark-text": "#F7F8FA",
             "blue-main": "#525EC1",
+            "dark-spot": "#343537",
+            "dark-shadow": "#18181b",
          },
       },
    },
