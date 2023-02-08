@@ -32,24 +32,26 @@ const AgenciesAdminDashboard = () => {
                {agencies
                   .filter((agency) => agency.isCensored === 1)
                   .map((agency) => (
-                     <ul
-                        className="grid grid-cols-12 p-5  items-center hover:bg-dark-spot cursor-pointer"
+                     <Link
+                        href={`/DashboardAdmin/agencies/${agency.id}`}
                         key={agency.id}
                      >
-                        <li className="col-span-1">
-                           <Image
-                              src={agency.avatar}
-                              alt=""
-                              width={42}
-                              height={42}
-                              className="object-cover rounded-full"
-                           />
-                        </li>
-                        <li className="col-span-3">{agency.name}</li>
-                        <li className="col-span-2">{agency.field.name}</li>
-                        <li className="col-span-2">{agency.hotline}</li>
-                        <li className="col-span-4">{agency.address}</li>
-                     </ul>
+                        <ul className="grid grid-cols-12 p-5  items-center hover:bg-dark-spot cursor-pointer">
+                           <li className="col-span-1">
+                              <Image
+                                 src={agency.avatar}
+                                 alt=""
+                                 width={42}
+                                 height={42}
+                                 className="object-cover rounded-full"
+                              />
+                           </li>
+                           <li className="col-span-3">{agency.name}</li>
+                           <li className="col-span-2">{agency.field.name}</li>
+                           <li className="col-span-2">{agency.hotline}</li>
+                           <li className="col-span-4">{agency.address}</li>
+                        </ul>
+                     </Link>
                   ))}
             </div>
          </div>

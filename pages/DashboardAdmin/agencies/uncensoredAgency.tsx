@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { BiCheck, BiX } from "react-icons/bi";
 import API, { authAxios, endpoints } from "../../../API";
 import AdminLayoutDashboard from "../../../components/Dashboard/AdminLayoutDashboard";
+import emptyvector from "../../../public/empty-box.png";
 
 const AgenciesAdminDashboard = () => {
    const [uncensored, setUncensored] = useState([]);
@@ -26,43 +28,62 @@ const AgenciesAdminDashboard = () => {
             <div className="flex justify-between my-10">
                <div className="font-semibold text-2xl">Uncensored Agencies</div>
             </div>
-            <div className="grid grid-cols-4 gap-8">
-               {uncensored.map((a) => (
-                  <div
-                     key={a.id}
-                     className="bg-neutral-800 rounded-lg flex flex-col items-center py-6"
-                  >
-                     <div className="flex justify-center my-2">
-                        <Image
-                           src={a.agency.avatar}
-                           alt=""
-                           width={120}
-                           height={120}
-                           className="rounded-full"
-                        />
-                     </div>
-                     <div className="text-lg font-semibold text-blue-main">
-                        {a.agency.name}
-                     </div>
-                     <div className="">{a.agency.address}</div>
-                     <div className="">{a.agency.hotline}</div>
-                     <div className="flex gap-4 my-4">
-                        <div
-                           className="text-green-600 font-semibold bg-green-600 bg-opacity-30 p-2 rounded-lg cursor-pointer"
-                           onClick={() => handleAccept(a.id)}
-                        >
-                           Accept
-                        </div>
-                        <div
-                           className="text-red-600 font-semibold bg-red-600 bg-opacity-30 rounded-lg p-2 cursor-pointer"
-                           onClick={() => handleDeny(a.id)}
-                        >
-                           Deny
-                        </div>
-                     </div>
-                  </div>
-               ))}
-            </div>
+            {uncensored ? (
+               <div className="rounded-lg bg-dark-primary overflow-hidden shadow-2xl shadow-dark-shadow">
+                  <ul className="grid grid-cols-12 p-5 bg-dark-spot items-center font-semibold">
+                     <li className="col-span-1">Avatar</li>
+                     <li className="col-span-3">Name</li>
+                     <li className="col-span-2">Field</li>
+                     <li className="col-span-2">Hotline</li>
+                     <li className="col-span-3">Address</li>
+                  </ul>
+                  {uncensored.map((agency) => (
+                     <ul
+                        className="grid grid-cols-12 p-5  items-center hover:bg-dark-spot cursor-pointer relative"
+                        key={agency.id}
+                     >
+                        <li className="col-span-1">
+                           <Image
+                              src={agency.agency.avatar}
+                              alt=""
+                              width={42}
+                              height={42}
+                              className="object-cover rounded-full"
+                           />
+                        </li>
+                        <li className="col-span-3">{agency.agency.name}</li>
+                        <li className="col-span-2">
+                           {agency.agency.field.name}
+                        </li>
+                        <li className="col-span-2">{agency.agency.hotline}</li>
+                        <li className="col-span-3">{agency.agency.address}</li>
+                        <li className="flex gap-5 text-3xl absolute right-5">
+                           <div
+                              className="p-1 rounded-lg bg-[#36b37e] text-[#86e8ab] hover:text-white"
+                              onClick={() => handleAccept(agency.id)}
+                           >
+                              <BiCheck />
+                           </div>
+                           <div
+                              className="p-1 rounded-lg bg-[#ff5630] text-[#ffac82] hover:text-white"
+                              onClick={() => handleDeny(agency.id)}
+                           >
+                              <BiX />
+                           </div>
+                        </li>
+                     </ul>
+                  ))}
+               </div>
+            ) : (
+               <div className="relative w-80 h-80 rounded-md overflow-hidden mx-auto">
+                  <Image
+                     src={emptyvector}
+                     alt="Empty"
+                     layout="fill"
+                     objectFit="cover"
+                  ></Image>
+               </div>
+            )}
          </div>
       </AdminLayoutDashboard>
    );

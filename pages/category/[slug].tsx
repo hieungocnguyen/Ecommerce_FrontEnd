@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import ProductItem from "../../components/ProductItem";
 import SearchBar from "../../components/SearchBar";
-import { dataProduct } from "../../mockproduct.js";
 import axios from "axios";
 import API, { endpoints } from "../../API";
 import { Slider } from "@mui/material";
