@@ -56,6 +56,8 @@ export let endpoints = {
    accept_agency: (censorshipID) => `/censorship/accepted/${censorshipID}`,
    deny_agency: (censorshipID) => `/censorship/denied/${censorshipID}`,
    agency_fields_all: `/agency-field/all`,
+   ban_agency: (agencyID) => `/agency/ban/${agencyID}`,
+   unban_agency: (agencyID) => `/agency/unban/${agencyID}`,
    //category
    category_all: `/category/all`,
    //stat

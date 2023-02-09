@@ -28,7 +28,7 @@ const AgenciesAdminDashboard = () => {
             <div className="flex justify-between my-10">
                <div className="font-semibold text-2xl">Uncensored Agencies</div>
             </div>
-            {uncensored ? (
+            {uncensored.length > 0 ? (
                <div className="rounded-lg bg-dark-primary overflow-hidden shadow-2xl shadow-dark-shadow">
                   <ul className="grid grid-cols-12 p-5 bg-dark-spot items-center font-semibold">
                      <li className="col-span-1">Avatar</li>

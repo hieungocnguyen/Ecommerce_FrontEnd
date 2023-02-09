@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { log } from "console";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -5,14 +6,134 @@ import API, { endpoints } from "../../../../API";
 import AdminLayoutDashboard from "../../../../components/Dashboard/AdminLayoutDashboard";
 import Image from "next/image";
 import axios from "axios";
-import { BiMap, BiPhone } from "react-icons/bi";
+import { BiMap, BiPhone, BiRadioCircle } from "react-icons/bi";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import {
+   CategoryScale,
+   LinearScale,
+   BarElement,
+   Title,
+   PointElement,
+   LineElement,
+} from "chart.js";
+import { Bar, Line } from "react-chartjs-2";
+import Link from "next/link";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(
+   CategoryScale,
+   LinearScale,
+   BarElement,
+   Title,
+   Tooltip,
+   Legend,
+   LinearScale,
+   PointElement,
+   LineElement
+);
 
 const AgencyPage = ({ agencyInfo }) => {
    const router = useRouter();
    const id = router.query.id;
    const [agency, setAgency] = useState<any>({});
    const [openTab, setOpenTab] = useState(1);
-   const color = "red";
+   const [countPosts, setCountPosts] = useState(0);
+   const [countOrders, setCountOrders] = useState(0);
+   const [respondCateStat, setRespondCateStat] = useState([]);
+   const [lablesRespondRevenueByYear, setLablesRespondRevenueByYear] = useState(
+      []
+   );
+   const [valuesRespondRevenueByYear, setValuesRespondRevenueByYear] = useState(
+      []
+   );
+   const [lablesRespondRevenueByMonth, setLablesRespondRevenueByMonth] =
+      useState([]);
+   const [valuesRespondRevenueByMonth, setValuesRespondRevenueByMonth] =
+      useState([]);
+   const [lablesRespondRevenueByQuarter, setLablesRespondRevenueByQuarter] =
+      useState([]);
+   const [valuesRespondRevenueByQuarter, setValuesRespondRevenueByQuarter] =
+      useState([]);
+   const [yearStatMonth, setYearStatMonth] = useState(2022);
+   const [yearStatQuarter, setYearStatQuarter] = useState(2022);
+
+   useEffect(() => {
+      setRespondCateStat([]);
+      setLablesRespondRevenueByYear([]);
+      setValuesRespondRevenueByYear([]);
+      setLablesRespondRevenueByMonth([]);
+      setValuesRespondRevenueByMonth([]);
+      setLablesRespondRevenueByQuarter([]);
+      setValuesRespondRevenueByQuarter([]);
+
+      const loadCount = async () => {
+         const resPosts = await API.post(endpoints["search_salePost"], {
+            nameOfAgency: agencyInfo.name,
+         });
+         setCountPosts(resPosts.data.data.listResult.length);
+         const resOrders = await API.get(
+            endpoints["order_agency"](agencyInfo.id)
+         );
+         setCountOrders(resOrders.data.data.length);
+      };
+
+      const loadRevenueByYear = async () => {
+         const resRevenueByYear = await API.get(
+            endpoints["revenue_by_year"](agencyInfo.id)
+         );
+
+         resRevenueByYear.data.data.map((r) => {
+            setLablesRespondRevenueByYear((lablesRespondRevenueByYear) => [
+               ...lablesRespondRevenueByYear,
+               r[0],
+            ]);
+            setValuesRespondRevenueByYear((valuesRespondRevenueByYear) => [
+               ...valuesRespondRevenueByYear,
+               r[1],
+            ]);
+         });
+      };
+      const loadRevenueByMonth = async () => {
+         const resRevenueByYear = await API.get(
+            endpoints["revenue_by_month"](yearStatMonth, agencyInfo.id)
+         );
+
+         resRevenueByYear.data.data.map((r) => {
+            setLablesRespondRevenueByMonth((lablesRespondRevenueByMonth) => [
+               ...lablesRespondRevenueByMonth,
+               r[0],
+            ]);
+            setValuesRespondRevenueByMonth((valuesRespondRevenueByMonth) => [
+               ...valuesRespondRevenueByMonth,
+               r[1],
+            ]);
+         });
+      };
+      const loadRevenueByQuarter = async () => {
+         const resRevenueByQuarter = await API.get(
+            endpoints["revenue_by_quarter"](yearStatQuarter, agencyInfo.id)
+         );
+         resRevenueByQuarter.data.data.map((r) => {
+            setLablesRespondRevenueByQuarter(
+               (lablesRespondRevenueByQuarter) => [
+                  ...lablesRespondRevenueByQuarter,
+                  r[0],
+               ]
+            );
+            setValuesRespondRevenueByQuarter(
+               (valuesRespondRevenueByQuarter) => [
+                  ...valuesRespondRevenueByQuarter,
+                  r[1],
+               ]
+            );
+         });
+      };
+
+      loadCount();
+      loadRevenueByYear();
+      loadRevenueByMonth();
+      loadRevenueByQuarter();
+   }, []);
 
    useEffect(() => {
       const fetchAgency = async () => {
@@ -22,12 +143,72 @@ const AgencyPage = ({ agencyInfo }) => {
       if (id) {
          fetchAgency();
       }
-   }, [id]);
+   }, [id, agency]);
+
+   const databyYear = {
+      labels: lablesRespondRevenueByYear,
+      datasets: [
+         {
+            label: "Revenue",
+            data: valuesRespondRevenueByYear,
+
+            backgroundColor: "#525EC1",
+         },
+      ],
+   };
+   const databyMonth = {
+      labels: lablesRespondRevenueByMonth,
+      datasets: [
+         {
+            label: "Revenue",
+            data: valuesRespondRevenueByMonth,
+            borderColor: "#525EC1",
+            backgroundColor: "white",
+         },
+      ],
+   };
+   const databyQuarter = {
+      labels: lablesRespondRevenueByQuarter,
+      datasets: [
+         {
+            label: "Revenue",
+            data: valuesRespondRevenueByQuarter,
+            borderColor: "#525EC1",
+            backgroundColor: "white",
+         },
+      ],
+   };
+   const options = {
+      responsive: true,
+      plugins: {
+         legend: {
+            position: "top" as const,
+         },
+      },
+   };
+
+   const handleBanAgency = async () => {
+      const res = await API.patch(endpoints["ban_agency"](id));
+   };
+
+   const handleUnbanAgency = async () => {
+      const res = await API.patch(endpoints["unban_agency"](id));
+   };
+
    return (
       <AdminLayoutDashboard>
          <div className="w-[90%] mx-auto">
-            <div className="flex justify-between my-10">
+            <div className="my-10">
                <div className="font-semibold text-2xl">Agency</div>
+               <div className="flex gap-2 mt-2 items-center text-sm font-medium">
+                  <div className="opacity-60">Admin Dashboard</div>
+                  <BiRadioCircle />
+                  <Link href="/DashboardAdmin/agencies">
+                     <div className="cursor-pointer">List</div>
+                  </Link>
+                  <BiRadioCircle />
+                  <div className="opacity-60">Agency</div>
+               </div>
             </div>
             <div className="mb-10">
                <div className="grid grid-cols-12 gap-6">
@@ -56,13 +237,27 @@ const AgencyPage = ({ agencyInfo }) => {
                         </div>
                      </div>
                      <div className=" row-span-1 flex justify-center items-center">
-                        <div className=" bg-[#ff5630] text-[#ffe4d6] p-4 w-full rounded-lg font-bold text-center cursor-pointer">
-                           Ban {agency.name}
-                        </div>
+                        {agency.isActive == 1 ? (
+                           <div
+                              className=" bg-[#ff5630] text-[#ffe4d6] p-4 w-full rounded-lg font-bold text-lg text-center cursor-pointer"
+                              onClick={handleBanAgency}
+                           >
+                              Ban {agency.name}
+                           </div>
+                        ) : (
+                           <div
+                              className=" bg-[#37d571] text-[#e5ffd6] p-4 w-full rounded-lg font-bold text-lg text-center cursor-pointer"
+                              onClick={handleUnbanAgency}
+                           >
+                              Unban {agency.name}
+                           </div>
+                        )}
                      </div>
                   </div>
                </div>
             </div>
+            {/* tabs reveane */}
+            <div className="font-semibold text-xl">Revenue</div>
             <div className="">
                <div className="flex flex-wrap">
                   <div className="w-full">
@@ -86,7 +281,7 @@ const AgencyPage = ({ agencyInfo }) => {
                               href="#link1"
                               role="tablist"
                            >
-                              Profile
+                              By year
                            </a>
                         </li>
                         <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
@@ -105,7 +300,7 @@ const AgencyPage = ({ agencyInfo }) => {
                               href="#link2"
                               role="tablist"
                            >
-                              Settings
+                              Month by year
                            </a>
                         </li>
                         <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
@@ -124,7 +319,7 @@ const AgencyPage = ({ agencyInfo }) => {
                               href="#link3"
                               role="tablist"
                            >
-                              Options
+                              Quarter by year
                            </a>
                         </li>
                      </ul>
@@ -135,46 +330,46 @@ const AgencyPage = ({ agencyInfo }) => {
                                  className={openTab === 1 ? "block" : "hidden"}
                                  id="link1"
                               >
-                                 <p>
-                                    Collaboratively administrate empowered
-                                    markets via plug-and-play networks.
-                                    Dynamically procrastinate B2C users after
-                                    installed base benefits.
-                                    <br />
-                                    <br /> Dramatically visualize customer
-                                    directed convergence without revolutionary
-                                    ROI.
-                                 </p>
+                                 <div>
+                                    <div className="">
+                                       <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8">
+                                          <Bar
+                                             options={options}
+                                             data={databyYear}
+                                          />
+                                       </div>
+                                    </div>
+                                 </div>
                               </div>
                               <div
                                  className={openTab === 2 ? "block" : "hidden"}
                                  id="link2"
                               >
-                                 <p>
-                                    Completely synergize resource taxing
-                                    relationships via premier niche markets.
-                                    Professionally cultivate one-to-one customer
-                                    service with robust ideas.
-                                    <br />
-                                    <br />
-                                    Dynamically innovate resource-leveling
-                                    customer service for state of the art
-                                    customer service.
-                                 </p>
+                                 <div>
+                                    <div className=" gap-4">
+                                       <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8">
+                                          <Line
+                                             options={options}
+                                             data={databyMonth}
+                                          />
+                                       </div>
+                                    </div>
+                                 </div>
                               </div>
                               <div
                                  className={openTab === 3 ? "block" : "hidden"}
                                  id="link3"
                               >
-                                 <p>
-                                    Efficiently unleash cross-media information
-                                    without cross-media value. Quickly maximize
-                                    timely deliverables for real-time schemas.
-                                    <br />
-                                    <br /> Dramatically maintain
-                                    clicks-and-mortar solutions without
-                                    functional solutions.
-                                 </p>
+                                 <div>
+                                    <div className="gap-4">
+                                       <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8">
+                                          <Line
+                                             options={options}
+                                             data={databyQuarter}
+                                          />
+                                       </div>
+                                    </div>
+                                 </div>
                               </div>
                            </div>
                         </div>
