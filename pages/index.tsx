@@ -9,6 +9,8 @@ import { Store } from "../utils/Store";
 import API, { endpoints } from "../API";
 import { log } from "console";
 import HotAgency from "../components/HotAgency";
+import CompareProduct from "../components/CompareProduct";
+import { BiGitCompare } from "react-icons/bi";
 
 export default function Home({ categories }) {
    const { state, dispatch } = useContext(Store);
@@ -16,6 +18,7 @@ export default function Home({ categories }) {
    const [numberPage, setnumberPage] = useState(1);
    const [hotAgency, setHotAgency] = useState<any>([]);
    const [totalPage, setTotalPage] = useState(1);
+   const [openCompare, setOpenCompare] = useState(false);
    useEffect(() => {
       const loadPosts = async () => {
          const resPosts = await API.post(endpoints["search_salePost"], {

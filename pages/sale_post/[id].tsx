@@ -27,6 +27,7 @@ const ProductPage = (salePost) => {
    const { id } = router.query;
    const [starAvg, setStarAvg] = useState(0);
    const [commentCount, setCommentCount] = useState(0);
+
    useEffect(() => {
       const loadComment = async () => {
          const resComments = await API.get(endpoints["comment_all_post"](id));
@@ -44,6 +45,7 @@ const ProductPage = (salePost) => {
       loadStarAvg();
       loadCommentCount();
    }, []);
+
    const handleChangeQuantity = (item, quantity) => {
       var updatedList = [...quantityItems];
       var objItem = { id: item.id, quantity: quantity };
@@ -85,7 +87,6 @@ const ProductPage = (salePost) => {
          router.push("/signin");
       }
    };
-   //function number input
 
    return (
       <Layout title="Detail">

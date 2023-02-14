@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "./Layout/Layout";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import Link from "next/link";
@@ -10,10 +10,12 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import moment from "moment";
 import { BiGitCompare } from "react-icons/bi";
+import { Store } from "../utils/Store";
 
 const ProductItem = ({ product }) => {
    const [stateLike, setStateLike] = useState(false);
    const router = useRouter();
+
    const handleAddToWishList = async () => {
       if (!Cookies.get("accessToken")) {
          router.push("/signin");
@@ -29,6 +31,21 @@ const ProductItem = ({ product }) => {
          endpoints["like_post"](product.id)
       );
       loadLikeStatus();
+   };
+   const handleAddCompare = () => {
+      let products = JSON.parse(localStorage.getItem("products"));
+      if (products === null) {
+         products = [];
+         products.push(product);
+      } else {
+         const existproduct = products.find((p) => p.id === product.id);
+         existproduct
+            ? products.map((p) => {
+                 p.id === product.id ? product : existproduct;
+              })
+            : products.push(product);
+      }
+      localStorage.setItem("products", JSON.stringify(products));
    };
    const loadLikeStatus = async () => {
       const resStatus = await authAxios().get(
@@ -101,7 +118,10 @@ const ProductItem = ({ product }) => {
                      </button>
                   )}
                </div>
-               <div className="h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-xl w-full flex justify-center items-center">
+               <div
+                  className="h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-xl w-full flex justify-center items-center cursor-pointer"
+                  onClick={handleAddCompare}
+               >
                   <BiGitCompare />
                </div>
             </div>
