@@ -9,12 +9,14 @@ import { authAxios, endpoints } from "../API";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { BiGitCompare } from "react-icons/bi";
+import { BiGitCompare, BiUndo } from "react-icons/bi";
 import { Store } from "../utils/Store";
+import toast, { Toaster } from "react-hot-toast";
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, inCompare }) => {
    const [stateLike, setStateLike] = useState(false);
    const router = useRouter();
+   const { state, dispatch } = useContext(Store);
 
    const handleAddToWishList = async () => {
       if (!Cookies.get("accessToken")) {
@@ -33,19 +35,32 @@ const ProductItem = ({ product }) => {
       loadLikeStatus();
    };
    const handleAddCompare = () => {
-      let products = JSON.parse(localStorage.getItem("products"));
-      if (products === null) {
-         products = [];
-         products.push(product);
-      } else {
-         const existproduct = products.find((p) => p.id === product.id);
-         existproduct
-            ? products.map((p) => {
-                 p.id === product.id ? product : existproduct;
-              })
-            : products.push(product);
-      }
-      localStorage.setItem("products", JSON.stringify(products));
+      dispatch({
+         type: "COMPARE_ADD_PRODUCT",
+         payload: {
+            id: product.id,
+            avatar: product.avatar,
+            title: product.title,
+            finalPrice: product.finalPrice,
+            initialPrice: product.initialPrice,
+            category: product.category,
+            sellStatus: product.sellStatus,
+         },
+      });
+      toast.success(`Add to compare successful!`, {
+         position: "top-center",
+      });
+   };
+   const handleRemoveCompare = () => {
+      dispatch({
+         type: "COMPARE_REMOVE_PRODUCT",
+         payload: {
+            id: product.id,
+         },
+      });
+      toast.success(`Remove compare successful!`, {
+         position: "top-center",
+      });
    };
    const loadLikeStatus = async () => {
       const resStatus = await authAxios().get(
@@ -118,12 +133,21 @@ const ProductItem = ({ product }) => {
                      </button>
                   )}
                </div>
-               <div
-                  className="h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-xl w-full flex justify-center items-center cursor-pointer"
-                  onClick={handleAddCompare}
-               >
-                  <BiGitCompare />
-               </div>
+               {inCompare ? (
+                  <div
+                     className="h-9 text-white bg-red-800 rounded-lg hover:opacity-80 font-semibold text-xl w-full flex justify-center items-center cursor-pointer"
+                     onClick={handleRemoveCompare}
+                  >
+                     <BiUndo />
+                  </div>
+               ) : (
+                  <div
+                     className="h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-xl w-full flex justify-center items-center cursor-pointer"
+                     onClick={handleAddCompare}
+                  >
+                     <BiGitCompare />
+                  </div>
+               )}
             </div>
          </div>
       </div>

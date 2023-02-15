@@ -54,7 +54,7 @@ export default function Home({ categories }) {
                   </h1>
                   <div className="grid lg:grid-cols-4 grid-cols-2 gap-10">
                      {salePosts.map((i) => (
-                        <ProductItem key={i.id} product={i} />
+                        <ProductItem key={i.id} product={i} inCompare={false} />
                      ))}
                   </div>
                   {/* paginate */}

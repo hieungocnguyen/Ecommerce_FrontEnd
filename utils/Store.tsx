@@ -1,4 +1,3 @@
-import { log, timeLog } from "console";
 import Cookies from "js-cookie";
 import {
    createContext,
@@ -12,6 +11,11 @@ import {
 export const Store = createContext(null);
 
 const initialState = {
+   compare: {
+      products: Cookies.get("compare")
+         ? JSON.parse(Cookies.get("compare"))
+         : [],
+   },
    cart: {
       cartItems: Cookies.get("cartItems")
          ? JSON.parse(Cookies.get("cartItems"))
@@ -37,6 +41,8 @@ function reducer(state: any, action: { type: any; payload: any }) {
               )
             : [...state.cart.cartItems, newItem];
          Cookies.set("cartItems", JSON.stringify(cartItems));
+         console.log({ ...state, cart: { ...state.cart, cartItems } });
+
          return { ...state, cart: { ...state.cart, cartItems } };
       }
       case "CART_REMOVE_ITEM": {
@@ -66,6 +72,32 @@ function reducer(state: any, action: { type: any; payload: any }) {
                paymentMethod: "",
             },
          };
+      case "COMPARE_ADD_PRODUCT": {
+         const newProduct = action.payload;
+         const existProduct = state.compare.products.find(
+            (item) => item.id === newProduct.id
+         );
+         const products = existProduct
+            ? state.compare.products.map((product) =>
+                 product.id === existProduct ? newProduct : product
+              )
+            : [...state.compare.products, newProduct];
+         Cookies.set("compare", JSON.stringify(products));
+
+         return { ...state, compare: { ...state.compare, products } };
+      }
+      case "COMPARE_REMOVE_PRODUCT": {
+         const products = state.compare.products.filter(
+            (item) => item.id !== action.payload.id
+         );
+
+         Cookies.set("compare", JSON.stringify(products));
+         return { ...state, compare: { ...state.compare, products } };
+      }
+      // case "COMPARE_REMOVE_ALL_PRODUCT": {
+      //    Cookies.remove("cartItems");
+      //    return { ...state, compare: { ...state.compare } };
+      // }
       default:
          return state;
    }

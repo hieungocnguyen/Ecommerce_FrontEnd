@@ -58,7 +58,11 @@ const AgencyPage = ({ agencyInfo }) => {
             <div className="col-span-6 8">
                <div className="col-span-2 grid grid-cols-4 gap-8">
                   {salePosts.map((post) => (
-                     <ProductItem key={post.id} product={post} />
+                     <ProductItem
+                        key={post.id}
+                        product={post}
+                        inCompare={false}
+                     />
                   ))}
                </div>
                <div

@@ -1,12 +1,21 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiGitCompare } from "react-icons/bi";
 import CompareProduct from "../CompareProduct";
 import Footer from "./Footer";
 import Header from "./Header";
+import Cookies from "js-cookie";
 
 const Layout = ({ title, children }) => {
    const [openCompare, setOpenCompare] = useState(false);
+   const [lengthCompare, setLengthCompare] = useState(0);
+   useEffect(() => {
+      let length = Cookies.get("compare")
+         ? JSON.parse(Cookies.get("compare")).length
+         : 0;
+      setLengthCompare(length);
+   }, [openCompare]);
+
    return (
       <div>
          <Head>
@@ -24,6 +33,11 @@ const Layout = ({ title, children }) => {
             onClick={() => setOpenCompare(!openCompare)}
          >
             <BiGitCompare />
+            <div
+               className={`w-3 h-3 bg-red-600 absolute top-0 right-0 rounded-full ${
+                  lengthCompare === 0 ? "hidden" : ""
+               }`}
+            ></div>
          </div>
          <CompareProduct openCompare={openCompare} />
          <footer>

@@ -1,7 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
-import { BiHomeAlt, BiLogIn, BiPackage, BiReceipt } from "react-icons/bi";
+import {
+   BiChevronRight,
+   BiHomeAlt,
+   BiLogIn,
+   BiPackage,
+   BiReceipt,
+   BiStats,
+} from "react-icons/bi";
 import API, { endpoints } from "../../API";
 import { Store } from "../../utils/Store";
 import Logo from "../Logo";
@@ -15,6 +22,9 @@ const LayoutDashboard = ({ children }) => {
    const { userInfo, agencyInfo } = state;
    const [agency, setAgency] = useState<any>({});
    const router = useRouter();
+   const [openStatisticle, setOpenStatisticle] = useState(false);
+   const [openPost, setOpenPost] = useState(false);
+
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
       Cookies.remove("userInfo");
@@ -25,6 +35,7 @@ const LayoutDashboard = ({ children }) => {
          position: "bottom-center",
       });
    };
+
    return (
       <>
          <div className="grid grid-cols-6">
@@ -51,30 +62,82 @@ const LayoutDashboard = ({ children }) => {
                   </div>
                   <div className="mx-4 p-4 bg-slate-500 bg-opacity-10 rounded-lg ">
                      <div className="font-semibold">
-                        {agencyInfo ? agencyInfo.name : "hjghj"}
+                        {agencyInfo ? agencyInfo.name : ""}
                      </div>
                      <div className="text-sm">Manager Agency</div>
                   </div>
                </div>
-               <div className="mt-20 mx-4">
+               {/* navigate */}
+               <div className="mt-10 mx-4">
                   <Link href="/DashboardManager">
                      <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
                         <BiHomeAlt className="text-lg" />
                         General
                      </div>
                   </Link>
-                  <Link href="/DashboardManager/posts">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+
+                  <div>
+                     <div
+                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3"
+                        onClick={() => setOpenPost(!openPost)}
+                     >
                         <BiReceipt className="text-lg" />
-                        Posts
+                        Post
+                        <BiChevronRight
+                           className={`absolute right-6 font-semibold text-2xl transition-all ${
+                              openPost ? "rotate-90" : ""
+                           }`}
+                        />
                      </div>
-                  </Link>
+                     <div
+                        className={`font-semibold text-sm pl-8 ${
+                           openPost ? "" : "hidden"
+                        }`}
+                     >
+                        <Link href="/DashboardManager/posts/createnewpost">
+                           <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                              Create
+                           </div>
+                        </Link>
+                        <Link href="/DashboardManager/posts">
+                           <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                              List
+                           </div>
+                        </Link>
+                     </div>
+                  </div>
                   <Link href="/DashboardManager/orders">
                      <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
                         <BiPackage className="text-lg" />
-                        Orders
+                        Order
                      </div>
                   </Link>
+                  <div>
+                     <div
+                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3"
+                        onClick={() => setOpenStatisticle(!openStatisticle)}
+                     >
+                        <BiStats className="text-lg" />
+                        Statistical
+                        <BiChevronRight
+                           className={`absolute right-6 font-semibold text-2xl transition-all ${
+                              openStatisticle ? "rotate-90" : ""
+                           }`}
+                        />
+                     </div>
+                     <div
+                        className={`font-semibold text-sm pl-8 ${
+                           openStatisticle ? "" : "hidden"
+                        }`}
+                     >
+                        <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                           Category
+                        </div>
+                        <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                           Revenue
+                        </div>
+                     </div>
+                  </div>
                </div>
                <div className="absolute bottom-4 flex justify-center items-center gap-2 w-full">
                   <Link href="/">

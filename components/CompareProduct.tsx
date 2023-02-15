@@ -1,11 +1,14 @@
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
+import Cookies from "js-cookie";
 
 const CompareProduct = (props) => {
    const [products, setProducts] = useState([]);
    useEffect(() => {
-      const products = JSON.parse(localStorage.getItem("products"));
-      setProducts(products ? products : []);
+      setProducts(
+         Cookies.get("compare") ? JSON.parse(Cookies.get("compare")) : []
+      );
    }, [props]);
    return (
       <div
@@ -13,14 +16,14 @@ const CompareProduct = (props) => {
             props.openCompare ? "flex" : "hidden"
          }`}
       >
-         <div className="w-[90%] h-4/5 bg-dark-spot rounded-lg p-6">
+         <div className="w-[90%] h-4/5 bg-dark-spot rounded-lg p-6 overflow-auto ">
             <div className="text-left font-semibold text-xl">
-               Compare Product
+               Comparing Product
             </div>
             <div className="mt-4">
-               <div className={`grid grid-cols-4 gap-4`}>
+               <div className={`grid grid-cols-4 gap-4 `}>
                   {products.map((p) => (
-                     <ProductItem key={p.id} product={p} />
+                     <ProductItem key={p.id} product={p} inCompare={true} />
                   ))}
                </div>
             </div>
@@ -29,3 +32,4 @@ const CompareProduct = (props) => {
    );
 };
 export default CompareProduct;
+// export default dynamic(() => Promise.resolve(CompareProduct), { ssr: false });

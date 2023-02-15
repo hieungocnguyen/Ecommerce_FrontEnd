@@ -111,7 +111,7 @@ const CategoryPage = ({ categories, category }) => {
             {salePosts ? (
                <div className="col-span-6 grid grid-cols-4 gap-8 mb-8">
                   {salePosts.map((post) => (
-                     <ProductItem key={post.id} product={post} />
+                     <ProductItem key={post.id} product={post} inCompare={false} />
                   ))}
                </div>
             ) : (
