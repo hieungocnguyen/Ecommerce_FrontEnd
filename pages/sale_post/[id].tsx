@@ -14,8 +14,6 @@ import { BiStore } from "react-icons/bi";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import moment from "moment";
-type;
 
 const ProductPage = (salePost) => {
    const { state, dispatch } = useContext(Store);

@@ -130,12 +130,16 @@ const LayoutDashboard = ({ children }) => {
                            openStatisticle ? "" : "hidden"
                         }`}
                      >
-                        <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
-                           Category
-                        </div>
-                        <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
-                           Revenue
-                        </div>
+                        <Link href="/DashboardManager/statisticle/category">
+                           <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                              Category
+                           </div>
+                        </Link>
+                        <Link href="/DashboardManager/statisticle/revenue">
+                           <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                              Revenue
+                           </div>
+                        </Link>
                      </div>
                   </div>
                </div>

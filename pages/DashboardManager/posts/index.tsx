@@ -4,18 +4,28 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineDelete } from "react-icons/ai";
-import { BiEditAlt, BiPlus, BiImages } from "react-icons/bi";
+import {
+   BiEditAlt,
+   BiPlus,
+   BiImages,
+   BiEdit,
+   BiTrashAlt,
+} from "react-icons/bi";
 import API, { endpoints } from "../../../API";
 import LayoutDashboard from "../../../components/Dashboard/LayoutDashboardManager";
 import Loader from "../../../components/Loader";
 import { Store } from "../../../utils/Store";
+import Image from "next/image";
+import EditPost from "../../../components/EditPost";
 
 const Posts = () => {
    const { state, dispatch } = useContext(Store);
    const { userInfo, agencyInfo } = state;
-   const [posts, setPosts] = useState([]);
+   const [posts, setPosts] = useState<any>([]);
    const router = useRouter();
-   const [open, setOpen] = useState(null);
+   const [postID, setPostID] = useState(0);
+   const [loading, setLoading] = useState(false);
+   // const [enabled, setEnabled] = useState(false);
 
    const loadPosts = async () => {
       const resPosts = await API.post(endpoints["search_salePost"], {
@@ -26,13 +36,7 @@ const Posts = () => {
    useEffect(() => {
       loadPosts();
    }, []);
-   const handleOpenMenu = (event) => {
-      setOpen(event.currentTarget);
-   };
 
-   const handleCloseMenu = () => {
-      setOpen(null);
-   };
    const handlePublishPost = async (id) => {
       const resPublish = await API.patch(endpoints["publish_salePost"](id));
       loadPosts();
@@ -54,79 +58,95 @@ const Posts = () => {
          position: "bottom-center",
       });
    };
+   const handleRouting = async (id) => {
+      setTimeout(() => setLoading(true), 25);
+      router.push(`/DashboardManager/posts/${id}`);
+      setLoading(false);
+   };
 
    return (
       <>
          <LayoutDashboard>
             <div className="w-[90%] mx-auto">
-               <div className="flex justify-between my-8">
-                  <div className="font-semibold text-2xl">Your Post</div>
+               <div className="flex justify-between items-center my-8">
+                  <div className="font-semibold text-2xl">Post List</div>
                </div>
-               <div className="">
-                  <div className="grid grid-cols-8 font-semibold dark:bg-dark-primary bg-light-primary rounded-lg bg-opacity-80 p-6 rounded-t-lg">
-                     <div className="col-span-3">Name</div>
-                     <div className="col-span-1">Price</div>
-                     <div className="col-span-2">Category</div>
-                     <div className="col-span-1">Status</div>
-                     <div></div>
-                  </div>
-                  <div className="dark:bg-dark-primary bg-light-primary rounded-lg bg-opacity-30 rounded-b-lg p-6">
-                     {posts ? (
-                        posts.map((p) => (
+               <div className="rounded-lg bg-dark-primary overflow-hidden shadow-2xl shadow-dark-shadow">
+                  <ul className="grid grid-cols-12 p-5 bg-dark-spot items-center font-semibold">
+                     <li className="col-span-1">Avatar</li>
+                     <li className="col-span-4">Title</li>
+                     <li className="col-span-1">Brand</li>
+                     <li className="col-span-2">Category</li>
+                     <li className="col-span-2">Price</li>
+                     <li className="col-span-1">Publish</li>
+                     <li className="col-span-1"></li>
+                  </ul>
+                  {posts.map((post) => (
+                     <div key={post.id}>
+                        <ul className="grid grid-cols-12 p-5 items-center hover:bg-dark-bg cursor-pointer relative">
+                           {/* <Link href={`/DashboardManager/posts/${post.id}`}> */}
                            <div
-                              key={p.id}
-                              className="grid grid-cols-8 mb-10 items-center"
+                              className="col-span-10 grid grid-cols-10 items-center"
+                              onClick={() => handleRouting(post.id)}
                            >
-                              <div className="col-span-3 flex items-center">
-                                 <img
-                                    src={p.avatar}
+                              <li className="col-span-1">
+                                 <Image
+                                    src={post.avatar}
                                     alt=""
-                                    className="w-10 h-10 rounded-full mr-6"
+                                    width={42}
+                                    height={42}
+                                    className="object-cover rounded-full"
                                  />
-                                 {p.title}
-                              </div>
-                              <div className="col-span-1">{p.finalPrice}</div>
-                              <div className="col-span-2">
-                                 {p.category.name}
-                              </div>
-                              <div className="col-span-1">
-                                 {p.isActive === 1 ? (
-                                    <div
-                                       className=" p-1 bg-green-600 text-white  rounded-lg flex justify-center cursor-pointer hover:bg-opacity-80"
-                                       onClick={() => handleUnpublishPost(p.id)}
-                                    >
-                                       Published
-                                    </div>
-                                 ) : (
-                                    <div
-                                       className=" p-1 bg-red-600 text-white  rounded-lg flex justify-center cursor-pointer hover:bg-opacity-80"
-                                       onClick={() => handlePublishPost(p.id)}
-                                    >
-                                       Unpublished
-                                    </div>
-                                 )}
-                              </div>
-                              <div className="flex justify-end gap-1">
-                                 <Link href={`/DashboardManager/posts/${p.id}`}>
-                                    <div className="p-2 hover:bg-neutral-600 hover:bg-opacity-30 rounded-lg cursor-pointer">
-                                       <BiEditAlt className="text-2xl  " />
-                                    </div>
-                                 </Link>
-                                 <div
-                                    className=" p-2 hover:bg-red-600 hover:bg-opacity-30 rounded-lg cursor-pointer"
-                                    onClick={() => handleDeletePost(p.id)}
-                                 >
-                                    <AiOutlineDelete className="text-2xl text-red-600 " />
-                                 </div>
-                              </div>
+                              </li>
+                              <li className="col-span-4">{post.title}</li>
+                              <li className="col-span-1">{post.brand}</li>
+                              <li className="col-span-2">
+                                 {post.category.name}
+                              </li>
+                              <li className="col-span-2">
+                                 {post.initialPrice}
+                              </li>
                            </div>
-                        ))
-                     ) : (
-                        <Loader />
-                     )}
-                  </div>
+                           {/* </Link> */}
+                           <li className="col-span-1">
+                              <label className="relative inline-flex items-center cursor-pointer">
+                                 <input
+                                    type="checkbox"
+                                    value=""
+                                    className="sr-only peer"
+                                    checked={post.isActive ? true : false}
+                                    onClick={() => {
+                                       post.isActive
+                                          ? handleUnpublishPost(post.id)
+                                          : handlePublishPost(post.id);
+                                    }}
+                                 />
+                                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-main"></div>
+                              </label>
+                           </li>
+                           <li className="col-span-1 flex justify-end items-center gap-4 text-xl text-white absolute z-20 right-4">
+                              <div
+                                 className="p-3 rounded-lg dark:bg-dark-spot hover:dark:bg-green-800"
+                                 onClick={() => setPostID(post.id)}
+                              >
+                                 <BiEdit className="" />
+                              </div>
+                              <div
+                                 className="p-3 rounded-lg dark:bg-dark-spot hover:dark:bg-red-800"
+                                 onClick={() => {
+                                    handleDeletePost(post.id);
+                                 }}
+                              >
+                                 <BiTrashAlt />
+                              </div>
+                           </li>
+                        </ul>
+                     </div>
+                  ))}
+                  <EditPost postID={postID} setPostID={setPostID} />
                </div>
             </div>
+            {loading ? <Loader /> : <></>}
             <Toaster />
          </LayoutDashboard>
       </>
