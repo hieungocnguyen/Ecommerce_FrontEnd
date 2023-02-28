@@ -13,7 +13,7 @@ import { BiGitCompare, BiUndo } from "react-icons/bi";
 import { Store } from "../utils/Store";
 import toast, { Toaster } from "react-hot-toast";
 
-const ProductItem = ({ product, inCompare }) => {
+const ProductItem = ({ product, inCompare, setLoading }) => {
    const [stateLike, setStateLike] = useState(false);
    const router = useRouter();
    const { state, dispatch } = useContext(Store);
@@ -26,12 +26,18 @@ const ProductItem = ({ product, inCompare }) => {
             endpoints["like_post"](product.id)
          );
          loadLikeStatus();
+         toast.success("Add to wishlist successful!", {
+            position: "top-center",
+         });
       }
    };
    const handleRemoveToWishList = async () => {
       const resRemove = await authAxios().get(
          endpoints["like_post"](product.id)
       );
+      toast.success("Remove from wishlist successful!", {
+         position: "top-center",
+      });
       loadLikeStatus();
    };
    const handleAddCompare = () => {
@@ -68,12 +74,18 @@ const ProductItem = ({ product, inCompare }) => {
       );
       setStateLike(resStatus.data.data);
    };
+   const handleDetailRoute = () => {
+      setTimeout(() => setLoading(true));
+      router.push(`/sale_post/${product.id}`);
+      setLoading(false);
+   };
    useEffect(() => {
       if (Cookies.get("accessToken")) {
          loadLikeStatus();
       }
       setStateLike(false);
    }, []);
+
    return (
       <div className=" bg-light-primary dark:bg-dark-primary rounded-lg">
          <div className="flex justify-between m-2 items-center">
@@ -110,11 +122,12 @@ const ProductItem = ({ product, inCompare }) => {
             <div>{product.category.name}</div>
             <div className="grid grid-cols-4 my-4 gap-3">
                <div className="col-span-2">
-                  <Link href={`/sale_post/${product.id}`}>
-                     <button className=" h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-sm w-full">
-                        Detail
-                     </button>
-                  </Link>
+                  <button
+                     className=" h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-sm w-full"
+                     onClick={handleDetailRoute}
+                  >
+                     Detail
+                  </button>
                </div>
                <div>
                   {!stateLike ? (

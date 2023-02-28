@@ -21,7 +21,7 @@ const HotAgency = () => {
          <div className="grid grid-cols-4 gap-8">
             {hotAgency.map((agency) => (
                <Link href={`/agencyinfo/${agency[0].id}`} key={agency.id}>
-                  <div className="bg-dark-primary rounded-lg flex items-center gap-4 p-4 cursor-pointer">
+                  <div className="dark:bg-dark-primary bg-light-primary rounded-lg flex items-center gap-4 p-4 cursor-pointer dark:text-dark-text text-light-text">
                      <div className="relative overflow-hidden w-20 h-20 rounded-xl">
                         <Image
                            src={agency[0].avatar}

@@ -52,6 +52,17 @@ const Header = () => {
          router.push("/DashboardManager");
       }
    };
+
+   const handleCartRoute = () => {
+      if (userInfo) {
+         router.push("/cart");
+      } else {
+         toast.error("Login to view cart!", {
+            position: "top-center",
+         });
+      }
+   };
+
    useEffect(() => {
       const loadNumberofItems = async () => {
          const resNumber = await API.get(
@@ -159,18 +170,19 @@ const Header = () => {
             </Link>
          </div>
          <div className="mr-10 flex items-center">
-            <Link href="/cart">
-               <button className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mr-6 relative">
-                  <HiOutlineShoppingCart className="w-6 h-6" />
-                  {numberItem > 0 ? (
-                     <div className="absolute bg-blue-main rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
-                        {numberItem}
-                     </div>
-                  ) : (
-                     <></>
-                  )}
-               </button>
-            </Link>
+            <button
+               className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mr-6 relative"
+               onClick={handleCartRoute}
+            >
+               <HiOutlineShoppingCart className="w-6 h-6" />
+               {numberItem > 0 ? (
+                  <div className="absolute bg-blue-main rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
+                     {numberItem}
+                  </div>
+               ) : (
+                  <></>
+               )}
+            </button>
             {replacePart}
          </div>
          <Toaster />

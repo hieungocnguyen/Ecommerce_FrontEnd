@@ -11,6 +11,7 @@ import { log } from "console";
 import HotAgency from "../components/HotAgency";
 import CompareProduct from "../components/CompareProduct";
 import { BiGitCompare } from "react-icons/bi";
+import Loader from "../components/Loader";
 
 export default function Home({ categories }) {
    const { state, dispatch } = useContext(Store);
@@ -19,6 +20,7 @@ export default function Home({ categories }) {
    const [hotAgency, setHotAgency] = useState<any>([]);
    const [totalPage, setTotalPage] = useState(1);
    const [openCompare, setOpenCompare] = useState(false);
+   const [loading, setLoading] = useState(false);
    useEffect(() => {
       const loadPosts = async () => {
          const resPosts = await API.post(endpoints["search_salePost"], {
@@ -54,7 +56,12 @@ export default function Home({ categories }) {
                   </h1>
                   <div className="grid lg:grid-cols-4 grid-cols-2 gap-10">
                      {salePosts.map((i) => (
-                        <ProductItem key={i.id} product={i} inCompare={false} />
+                        <ProductItem
+                           key={i.id}
+                           product={i}
+                           inCompare={false}
+                           setLoading={setLoading}
+                        />
                      ))}
                   </div>
                   {/* paginate */}
@@ -82,6 +89,7 @@ export default function Home({ categories }) {
                   </div>
                </div>
             </div>
+            {loading ? <Loader /> : <></>}
          </Layout>
       </div>
    );

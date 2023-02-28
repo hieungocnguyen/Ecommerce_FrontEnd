@@ -35,7 +35,7 @@ const Posts = () => {
    };
    useEffect(() => {
       loadPosts();
-   }, []);
+   }, [postID]);
 
    const handlePublishPost = async (id) => {
       const resPublish = await API.patch(endpoints["publish_salePost"](id));
@@ -59,7 +59,7 @@ const Posts = () => {
       });
    };
    const handleRouting = async (id) => {
-      setTimeout(() => setLoading(true), 25);
+      setTimeout(() => setLoading(true));
       router.push(`/DashboardManager/posts/${id}`);
       setLoading(false);
    };
@@ -67,17 +67,17 @@ const Posts = () => {
    return (
       <>
          <LayoutDashboard>
-            <div className="w-[90%] mx-auto">
+            <div className="relative">
                <div className="flex justify-between items-center my-8">
                   <div className="font-semibold text-2xl">Post List</div>
                </div>
                <div className="rounded-lg bg-dark-primary overflow-hidden shadow-2xl shadow-dark-shadow">
                   <ul className="grid grid-cols-12 p-5 bg-dark-spot items-center font-semibold">
                      <li className="col-span-1">Avatar</li>
-                     <li className="col-span-4">Title</li>
-                     <li className="col-span-1">Brand</li>
-                     <li className="col-span-2">Category</li>
+                     <li className="col-span-3">Title</li>
                      <li className="col-span-2">Price</li>
+                     <li className="col-span-2">Brand</li>
+                     <li className="col-span-2">Category</li>
                      <li className="col-span-1">Publish</li>
                      <li className="col-span-1"></li>
                   </ul>
@@ -98,13 +98,24 @@ const Posts = () => {
                                     className="object-cover rounded-full"
                                  />
                               </li>
-                              <li className="col-span-4">{post.title}</li>
-                              <li className="col-span-1">{post.brand}</li>
+                              <li className="col-span-3">{post.title}</li>
+                              <li className="col-span-2">
+                                 <div className="text-blue-main font-semibold">
+                                    {post.finalPrice.toLocaleString("it-IT", {
+                                       style: "currency",
+                                       currency: "VND",
+                                    })}
+                                 </div>
+                                 <div className="text-sm line-through opacity-80">
+                                    {post.initialPrice.toLocaleString("it-IT", {
+                                       style: "currency",
+                                       currency: "VND",
+                                    })}
+                                 </div>
+                              </li>
+                              <li className="col-span-2">{post.brand}</li>
                               <li className="col-span-2">
                                  {post.category.name}
-                              </li>
-                              <li className="col-span-2">
-                                 {post.initialPrice}
                               </li>
                            </div>
                            {/* </Link> */}
@@ -143,7 +154,11 @@ const Posts = () => {
                         </ul>
                      </div>
                   ))}
-                  <EditPost postID={postID} setPostID={setPostID} />
+                  <EditPost
+                     postID={postID}
+                     setPostID={setPostID}
+                     setLoading={setLoading}
+                  />
                </div>
             </div>
             {loading ? <Loader /> : <></>}

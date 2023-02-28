@@ -96,12 +96,12 @@ const LayoutDashboard = ({ children }) => {
                      >
                         <Link href="/DashboardManager/posts/createnewpost">
                            <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
-                              Create
+                              Create Post
                            </div>
                         </Link>
                         <Link href="/DashboardManager/posts">
                            <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
-                              List
+                              List Post
                            </div>
                         </Link>
                      </div>
@@ -109,7 +109,7 @@ const LayoutDashboard = ({ children }) => {
                   <Link href="/DashboardManager/orders">
                      <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
                         <BiPackage className="text-lg" />
-                        Order
+                        Order Tracking
                      </div>
                   </Link>
                   <div>
@@ -158,7 +158,7 @@ const LayoutDashboard = ({ children }) => {
                </div>
             </div>
             {/* Main Content */}
-            <main className="col-span-5">{children}</main>
+            <main className="col-span-5 mx-10">{children}</main>
             <Toaster />
          </div>
       </>

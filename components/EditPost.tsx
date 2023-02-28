@@ -9,7 +9,10 @@ import {
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import API, { endpoints } from "../API";
-import { BiExit } from "react-icons/bi";
+import { BiCloudUpload, BiExit } from "react-icons/bi";
+import dynamic from "next/dynamic";
+import Loader from "./Loader";
+import { toast } from "react-hot-toast";
 
 const CssTextField = styled(TextField)({
    "& .MuiOutlinedInput-root": {
@@ -25,10 +28,11 @@ const CssTextField = styled(TextField)({
    },
 });
 
-const EditPost = ({ postID, setPostID }) => {
+const EditPost = ({ postID, setPostID, setLoading }) => {
    const [post, setPost] = useState<any>();
    const [selectedImage, setSelectedImage] = useState();
    const [importImage, setImportImage] = useState(false);
+   const [titleVali, setTitleVali] = useState(false);
 
    const fetchPost = async () => {
       const { data } = await API.get(endpoints["salePost"](postID));
@@ -42,19 +46,44 @@ const EditPost = ({ postID, setPostID }) => {
 
    const handleUpdatePost = async (event) => {
       event.preventDefault();
+      setLoading(true);
+      let imageURL = post.avatar;
+      if (post.title.length <= 20) {
+         setTitleVali(true);
+      } else {
+         try {
+            if (importImage) {
+               const resUploadCloudinary = await API.post(
+                  endpoints["upload_cloudinary"],
+                  { file: selectedImage },
+                  {
+                     headers: {
+                        "Content-Type": "multipart/form-data",
+                     },
+                  }
+               );
+               imageURL = resUploadCloudinary.data.data;
+            }
+            const resUpdate = await API.put(endpoints["salePost"](post.id), {
+               ...post,
+               avatar: imageURL,
+            });
 
-      // const resUpdate = await API.put(endpoints["salePost"](post.id), {
-      //    avatar: valuesPost.avatar,
-      //    brand: valuesPost.brand,
-      //    categoryID: valuesPost.categoryID,
-      //    description: valuesPost.description,
-      //    finalPrice: valuesPost.finalPrice,
-      //    initialPrice: valuesPost.initialPrice,
-      //    manufacturer: valuesPost.manufacturer,
-      //    origin: valuesPost.origin,
-      //    sellStatusID: valuesPost.sellStatusID,
-      //    title: valuesPost.title,
-      // });
+            if (resUpdate) {
+               setLoading(false);
+               setPostID(0);
+               toast.success("Update information successful!", {
+                  position: "top-center",
+               });
+            }
+         } catch (error) {
+            setLoading(false);
+            setPostID(0);
+            toast.error(error.response.data.data, {
+               position: "top-center",
+            });
+         }
+      }
    };
 
    const imageChange = (e) => {
@@ -63,15 +92,15 @@ const EditPost = ({ postID, setPostID }) => {
    };
 
    const handlePostChange = (event) => {
-      // setValuesPost({
-      //    ...valuesPost,
-      //    [event.target.name]: event.target.value,
-      // });
+      setPost({
+         ...post,
+         [event.target.name]: event.target.value,
+      });
    };
 
    return (
       <div
-         className={`fixed top-0 w-4/5 h-screen z-20 justify-center items-center backdrop-blur-sm  ${
+         className={`absolute top-0 right-1/2 w-[100%] translate-x-1/2 z-20 justify-center items-center  ${
             postID > 0 ? "flex" : "hidden"
          }`}
       >
@@ -82,7 +111,10 @@ const EditPost = ({ postID, setPostID }) => {
                      <div>Edit Post </div>
                      <div
                         className="p-3 bg-red-800 cursor-pointer rounded-lg"
-                        onClick={() => setPostID(0)}
+                        onClick={() => {
+                           setPostID(0);
+                           setPost(undefined);
+                        }}
                      >
                         <BiExit />
                      </div>
@@ -91,38 +123,36 @@ const EditPost = ({ postID, setPostID }) => {
                      className="grid grid-cols-4 gap-8"
                      onSubmit={handleUpdatePost}
                   >
-                     <div className="col-span-1 bg-neutral-800 rounded-lg flex flex-col items-center justify-center px-8">
-                        <div className="mt-6 font-semibold text-lg">
-                           Avatar post
-                        </div>
-                        <div className=" my-4 ">
-                           <Image
-                              src={
-                                 selectedImage
-                                    ? URL.createObjectURL(selectedImage)
-                                    : post.avatar
-                              }
-                              alt="avatar"
-                              width={180}
-                              height={180}
-                              className="rounded-full"
-                           />
-                        </div>
-                        {/* upload image */}
-                        <div className="mb-8">
-                           <label
-                              htmlFor="upload-photo"
-                              className="cursor-pointer text-white hover:text-blue-main p-4"
-                           >
-                              Upload image
-                           </label>
-                           <input
-                              type="file"
-                              name="photo"
-                              id="upload-photo"
-                              className="opacity-0 absolute z-[-1]"
-                              onChange={imageChange}
-                           />
+                     <div className="col-span-1 bg-neutral-800 rounded-lg flex flex-col items-center h-fit p-8">
+                        <div className="font-semibold text-lg mb-4">Avatar</div>
+                        <div className="">
+                           <div className="relative overflow-hidden w-32 h-32 rounded-xl">
+                              <Image
+                                 src={
+                                    selectedImage
+                                       ? URL.createObjectURL(selectedImage)
+                                       : post.avatar
+                                 }
+                                 alt="avatar"
+                                 layout="fill"
+                                 className="object-cover"
+                              />
+                              <label
+                                 className={`absolute w-full h-full top-0 hover:bg-dark-primary hover:opacity-90 opacity-0  z-20 cursor-pointer `}
+                                 htmlFor="upload-photo"
+                              >
+                                 <div className="w-full h-full text-5xl flex justify-center items-center">
+                                    <BiCloudUpload />
+                                 </div>
+                                 <input
+                                    type="file"
+                                    name="photo"
+                                    id="upload-photo"
+                                    className="hidden"
+                                    onChange={imageChange}
+                                 />
+                              </label>
+                           </div>
                         </div>
                      </div>
                      <div className="col-span-3 bg-neutral-800 rounded-lg p-8">
@@ -133,7 +163,13 @@ const EditPost = ({ postID, setPostID }) => {
                               name="title"
                               onChange={handlePostChange}
                               required
-                              value={post.title}
+                              defaultValue={post.title}
+                              error={titleVali}
+                              helperText={
+                                 titleVali
+                                    ? "Title post must more than 20 characters"
+                                    : ""
+                              }
                               variant="outlined"
                               InputProps={{
                                  style: { color: "white", outline: "white" },
@@ -162,7 +198,7 @@ const EditPost = ({ postID, setPostID }) => {
                                  labelId="category-input"
                                  id="demo-simple-select"
                                  name="categoryID"
-                                 value={post.categoryID}
+                                 defaultValue={post.category.id}
                                  label="Category"
                                  onChange={handlePostChange}
                                  sx={{
@@ -183,6 +219,7 @@ const EditPost = ({ postID, setPostID }) => {
                                     },
                                  }}
                               >
+                                 <MenuItem value={undefined}>----</MenuItem>
                                  <MenuItem value={1}>
                                     Moms, Kids & Babies
                                  </MenuItem>
@@ -223,7 +260,7 @@ const EditPost = ({ postID, setPostID }) => {
                                  labelId="sellstatus-input"
                                  id="demo-simple-select"
                                  name="sellStatusID"
-                                 value={post.sellStatusID}
+                                 defaultValue={post.sellStatus.id}
                                  label="Status"
                                  onChange={handlePostChange}
                                  sx={{
@@ -244,6 +281,7 @@ const EditPost = ({ postID, setPostID }) => {
                                     },
                                  }}
                               >
+                                 <MenuItem value={undefined}>IN STOCK</MenuItem>
                                  <MenuItem value={1}>IN STOCK</MenuItem>
                                  <MenuItem value={2}>BEST SELLER</MenuItem>
                                  <MenuItem value={3}>PROMOTION</MenuItem>
@@ -260,7 +298,7 @@ const EditPost = ({ postID, setPostID }) => {
                               name="brand"
                               onChange={handlePostChange}
                               required
-                              value={post.brand}
+                              defaultValue={post.brand}
                               variant="outlined"
                               InputProps={{
                                  style: { color: "white", outline: "white" },
@@ -280,7 +318,7 @@ const EditPost = ({ postID, setPostID }) => {
                                  name="manufacturer"
                                  onChange={handlePostChange}
                                  required
-                                 value={post.manufacturer}
+                                 defaultValue={post.manufacturer}
                                  variant="outlined"
                                  InputProps={{
                                     style: { color: "white", outline: "white" },
@@ -299,7 +337,7 @@ const EditPost = ({ postID, setPostID }) => {
                                  name="origin"
                                  onChange={handlePostChange}
                                  required
-                                 value={post.origin}
+                                 defaultValue={post.origin}
                                  variant="outlined"
                                  InputProps={{
                                     style: { color: "white", outline: "white" },
@@ -319,7 +357,7 @@ const EditPost = ({ postID, setPostID }) => {
                               name="finalPrice"
                               onChange={handlePostChange}
                               required
-                              value={post.finalPrice}
+                              defaultValue={post.finalPrice}
                               variant="outlined"
                               type="number"
                               InputProps={{
@@ -337,7 +375,7 @@ const EditPost = ({ postID, setPostID }) => {
                               name="initialPrice"
                               onChange={handlePostChange}
                               required
-                              value={post.initialPrice}
+                              defaultValue={post.initialPrice}
                               variant="outlined"
                               InputProps={{
                                  style: { color: "white", outline: "white" },
@@ -356,7 +394,7 @@ const EditPost = ({ postID, setPostID }) => {
                               name="description"
                               onChange={handlePostChange}
                               required
-                              value={post.description}
+                              defaultValue={post.description}
                               variant="outlined"
                               InputProps={{
                                  style: { color: "white", outline: "white" },
@@ -380,7 +418,7 @@ const EditPost = ({ postID, setPostID }) => {
                   </form>
                </div>
             ) : (
-               <div>0</div>
+               <div></div>
             )}
          </div>
       </div>
@@ -388,3 +426,4 @@ const EditPost = ({ postID, setPostID }) => {
 };
 
 export default EditPost;
+// export default dynamic(() => Promise.resolve(EditPost), { ssr: false });

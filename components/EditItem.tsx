@@ -1,79 +1,242 @@
 import { styled, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import API, { endpoints } from "../API";
+import Image from "next/image";
+import { BiCloudUpload } from "react-icons/bi";
+import toast from "react-hot-toast";
+import dynamic from "next/dynamic";
 
-const EditItem = ({ item, setIsOPenModel }) => {
-   const [values, setValues] = useState({
-      avatar: "",
-      inventory: item.inventory,
-      name: item.name,
-      unitPrice: item.unitPrice,
-   });
+const CssTextField = styled(TextField)({
+   "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+         borderColor: "white",
+      },
+      "&:hover fieldset": {
+         borderColor: "#525EC1",
+      },
+      "&.Mui-focused fieldset": {
+         borderColor: "#525EC1",
+      },
+   },
+});
+
+const EditItem = ({ itemID, setItemID, setLoading }) => {
+   const [valueItem, setValueItem] = useState<any>();
+   const [selectedImage, setSelectedImage] = useState();
+   const [importImage, setImportImage] = useState(false);
+
+   const imageChange = (e) => {
+      setSelectedImage(e.target.files[0]);
+      setImportImage(true);
+   };
+
+   const fetchItem = async () => {
+      const { data } = await API.get(endpoints["item"](itemID));
+      setValueItem(data.data);
+   };
+
    const handleChange = (event) => {
-      setValues({
-         ...values,
+      setValueItem({
+         ...valueItem,
          [event.target.name]: event.target.value,
       });
    };
+
    const handleChangeSubmit = async (e) => {
       e.preventDefault();
-      const resSave = await API.put(endpoints["item"](item.id), {
-         inventory: item.inventory,
-         name: item.name,
-         unitPrice: item.unitPrice,
-      });
-      setIsOPenModel(false);
+      let imageURL = valueItem.avatar;
+      try {
+         setLoading(true);
+         if (importImage) {
+            const resUploadCloudinary = await API.post(
+               endpoints["upload_cloudinary"],
+               { file: selectedImage },
+               {
+                  headers: {
+                     "Content-Type": "multipart/form-data",
+                  },
+               }
+            );
+            imageURL = resUploadCloudinary.data.data;
+         }
+
+         const resUpdate = await API.put(endpoints["item"](itemID), {
+            inventory: valueItem.inventory,
+            name: valueItem.name,
+            unitPrice: valueItem.unitPrice,
+            avatar: imageURL,
+            description: valueItem.description,
+         });
+         console.log(resUpdate);
+
+         if (resUpdate) {
+            setLoading(false);
+            setItemID(-1);
+            setImportImage(false);
+            toast.success("Update successful!", {
+               position: "top-center",
+            });
+         }
+      } catch (error) {}
+
+      setItemID(-1);
    };
+
    useEffect(() => {
-      console.log(item.id);
-      setValues({
-         avatar: "",
-         inventory: item.inventory,
-         name: item.name,
-         unitPrice: item.unitPrice,
-      });
-   }, []);
+      if (itemID != -1) {
+         fetchItem();
+      }
+   }, [itemID]);
+
    return (
-      <div className="fixed top-0 right-0 w-screen h-screen flex items-center justify-center z-10">
-         <div className="bg-dark-primary p-10 flex flex-col justify-center items-center">
-            <form onSubmit={handleChangeSubmit}>
-               <div className="text-center my-4 text-lg font-semibold">
-                  Edit item
+      <div className="bg-neutral-800 rounded-lg p-8">
+         <div className="flex justify-between mb-4">
+            <div className="font-semibold text-xl">Edit item</div>
+            <div
+               className="p-3 bg-blue-main rounded-lg font-semibold cursor-pointer shadow-sm shadow-blue-main hover:shadow-lg hover:shadow-blue-main"
+               onClick={() => {
+                  setItemID(-1);
+                  setImportImage(false);
+                  setValueItem(undefined);
+               }}
+            >
+               Close
+            </div>
+         </div>
+         {valueItem ? (
+            <form
+               className="grid grid-cols-4 gap-8"
+               onSubmit={handleChangeSubmit}
+            >
+               <div className="col-span-1 bg-neutral-800 rounded-lg flex flex-col items-center h-fit p-4">
+                  <div className="">
+                     <div className="relative overflow-hidden w-44 h-44 rounded-xl">
+                        <Image
+                           src={
+                              selectedImage
+                                 ? URL.createObjectURL(selectedImage)
+                                 : valueItem.avatar
+                           }
+                           alt="avatar"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                        <label
+                           className={`absolute w-full h-full top-0 hover:bg-dark-primary hover:opacity-90 opacity-0  z-20 cursor-pointer `}
+                           htmlFor="upload-photo-edit-item"
+                        >
+                           <div className="w-full h-full text-5xl flex justify-center items-center">
+                              <BiCloudUpload />
+                           </div>
+                           <input
+                              type="file"
+                              name="photo"
+                              id="upload-photo-edit-item"
+                              className="hidden"
+                              onChange={imageChange}
+                           />
+                        </label>
+                     </div>
+                  </div>
                </div>
-               <div className="">
-                  <input
-                     type="text"
-                     defaultValue={values.name}
-                     className="p-4 my-2 rounded-lg"
-                  />
-               </div>
-               <div>
-                  <input
-                     type="text"
-                     defaultValue={values.inventory}
-                     className="p-4 my-2 rounded-lg"
-                  />
-               </div>
-               <div>
-                  <input
-                     type="text"
-                     defaultValue={values.unitPrice}
-                     className="p-4 my-2 rounded-lg"
-                  />
-               </div>
-               <div className="flex justify-center my-4 ">
-                  <button
-                     type="submit"
-                     className="bg-blue-main p-4 hover:bg-opacity-80 rounded-lg text-white"
-                  >
-                     Save
-                  </button>
+               <div className="col-span-3">
+                  <div className="mb-4">
+                     <CssTextField
+                        fullWidth
+                        label="Name"
+                        name="name"
+                        onChange={handleChange}
+                        required
+                        defaultValue={valueItem.name}
+                        variant="outlined"
+                        InputProps={{
+                           style: { color: "white", outline: "white" },
+                        }}
+                        InputLabelProps={{
+                           style: {
+                              color: "white",
+                           },
+                        }}
+                     />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                     <div className="col-span-1">
+                        <CssTextField
+                           fullWidth
+                           label="Unit Price"
+                           name="unitPrice"
+                           type="number"
+                           onChange={handleChange}
+                           required
+                           variant="outlined"
+                           defaultValue={valueItem.unitPrice}
+                           InputProps={{
+                              style: { color: "white", outline: "white" },
+                           }}
+                           InputLabelProps={{
+                              style: {
+                                 color: "white",
+                              },
+                           }}
+                        />
+                     </div>
+                     <div className="col-span-1">
+                        <CssTextField
+                           fullWidth
+                           label="Inventory"
+                           name="inventory"
+                           type="number"
+                           onChange={handleChange}
+                           required
+                           defaultValue={valueItem.inventory}
+                           variant="outlined"
+                           InputProps={{
+                              style: { color: "white", outline: "white" },
+                           }}
+                           InputLabelProps={{
+                              style: {
+                                 color: "white",
+                              },
+                           }}
+                        />
+                     </div>
+                  </div>
+                  <div className="mb-4">
+                     <CssTextField
+                        fullWidth
+                        label="Description"
+                        name="description"
+                        onChange={handleChange}
+                        required
+                        defaultValue={valueItem.description}
+                        variant="outlined"
+                        InputProps={{
+                           style: { color: "white", outline: "white" },
+                        }}
+                        InputLabelProps={{
+                           style: {
+                              color: "white",
+                           },
+                        }}
+                     />
+                  </div>
+
+                  <div className="flex justify-end mt-4">
+                     <button
+                        className="py-3 px-6 bg-blue-main hover:bg-opacity-80 rounded-lg font-semibold text-white"
+                        type="submit"
+                     >
+                        Update
+                     </button>
+                  </div>
                </div>
             </form>
-            <button onClick={() => setIsOPenModel(false)}>Close</button>
-         </div>
+         ) : (
+            <div></div>
+         )}
       </div>
    );
 };
 
 export default EditItem;
+// export default dynamic(() => Promise.resolve(EditItem), { ssr: false });

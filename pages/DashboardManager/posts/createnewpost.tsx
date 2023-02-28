@@ -15,6 +15,7 @@ import React from "react";
 import API, { authAxios, endpoints } from "../../../API";
 import { Store } from "../../../utils/Store";
 import Loader from "../../../components/Loader";
+import { BiCloudUpload } from "react-icons/bi";
 
 const CssTextField = styled(TextField)({
    "& .MuiOutlinedInput-root": {
@@ -31,16 +32,18 @@ const CssTextField = styled(TextField)({
 });
 
 const CreateNewPost = () => {
-   const [values, setValues] = useState({
-      title: "",
-      categoryID: null,
-      sellStatusID: null,
-      initialPrice: null,
-      finalPrice: null,
-      brand: null,
-      manufacturer: null,
-      origin: null,
-   });
+   // const [values, setValues] = useState({
+   //    title: "",
+   //    categoryID: null,
+   //    sellStatusID: null,
+   //    initialPrice: null,
+   //    finalPrice: null,
+   //    brand: null,
+   //    manufacturer: null,
+   //    origin: null,
+   //    description: "",
+   // });
+   const [values, setValues] = useState<any>({});
    const [selectedImage, setSelectedImage] = useState();
    const [importImage, setImportImage] = useState(false);
    const { state, dispatch } = useContext(Store);
@@ -49,7 +52,7 @@ const CreateNewPost = () => {
    let [loading, setLoading] = useState(false);
    const router = useRouter();
    const imageChange = (e) => {
-      setSelectedImage(e.target.files[0]);
+      setSelectedImage(e.target.files[0] ? e.target.files[0] : selectedImage);
       setImportImage(true);
    };
    const handleChange = (event) => {
@@ -84,15 +87,8 @@ const CreateNewPost = () => {
             const resCreate = await authAxios().post(
                endpoints["create_salePost"](agencyInfo.id),
                {
+                  ...values,
                   avatar: imageURL,
-                  brand: values.brand,
-                  categoryID: values.categoryID,
-                  finalPrice: values.finalPrice,
-                  initialPrice: values.initialPrice,
-                  sellStatusID: values.sellStatusID,
-                  title: values.title,
-                  manufacturer: values.manufacturer,
-                  origin: values.origin,
                }
             );
             if (resCreate) {
@@ -105,41 +101,41 @@ const CreateNewPost = () => {
    return (
       <LayoutDashboard>
          <div className="w-[90%] mx-auto">
-            <div className="font-semibold text-2xl my-8">Create new post</div>
+            <div className="font-semibold text-2xl my-8">Create a new post</div>
             <form
                className="grid grid-cols-4 gap-8"
                onSubmit={handleCreatePost}
             >
-               <div className="col-span-1 bg-neutral-800 rounded-lg flex flex-col items-center h-fit">
-                  <div className="mt-6 font-semibold text-lg">Avatar post</div>
-                  <div className=" my-4 ">
-                     <Image
-                        src={
-                           selectedImage
-                              ? URL.createObjectURL(selectedImage)
-                              : "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg"
-                        }
-                        alt="avatar"
-                        width={180}
-                        height={180}
-                        className="rounded-full"
-                     />
-                  </div>
-                  {/* upload image */}
-                  <div className="mb-8">
-                     <label
-                        htmlFor="upload-photo"
-                        className="cursor-pointer text-white hover:text-blue-main p-4"
-                     >
-                        Upload image
-                     </label>
-                     <input
-                        type="file"
-                        name="photo"
-                        id="upload-photo"
-                        className="opacity-0 absolute z-[-1]"
-                        onChange={imageChange}
-                     />
+               <div className="col-span-1 bg-neutral-800 rounded-lg flex flex-col items-center h-fit py-8">
+                  <div className="font-semibold text-lg mb-2">Avatar</div>
+                  <div className="">
+                     <div className="relative overflow-hidden w-32 h-32 rounded-xl">
+                        <Image
+                           src={
+                              selectedImage
+                                 ? URL.createObjectURL(selectedImage)
+                                 : "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg"
+                           }
+                           alt="avatar"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                        <label
+                           className={`absolute w-full h-full top-0 hover:bg-dark-primary hover:opacity-90 opacity-0  z-20 cursor-pointer `}
+                           htmlFor="upload-photo"
+                        >
+                           <div className="w-full h-full text-5xl flex justify-center items-center">
+                              <BiCloudUpload />
+                           </div>
+                           <input
+                              type="file"
+                              name="photo"
+                              id="upload-photo"
+                              className="hidden"
+                              onChange={imageChange}
+                           />
+                        </label>
+                     </div>
                   </div>
                </div>
                <div className="col-span-3 bg-neutral-800 rounded-lg p-8">
@@ -351,6 +347,25 @@ const CreateNewPost = () => {
                         onChange={handleChange}
                         required
                         value={values.initialPrice}
+                        variant="outlined"
+                        InputProps={{
+                           style: { color: "white", outline: "white" },
+                        }}
+                        InputLabelProps={{
+                           style: {
+                              color: "white",
+                           },
+                        }}
+                     />
+                  </div>
+                  <div className="mb-4">
+                     <CssTextField
+                        fullWidth
+                        label="Description"
+                        name="description"
+                        onChange={handleChange}
+                        required
+                        value={values.description}
                         variant="outlined"
                         InputProps={{
                            style: { color: "white", outline: "white" },
