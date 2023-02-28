@@ -15,12 +15,12 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
-const ProductPage = (salePost) => {
+const ProductPage = ({ salePost }) => {
    const { state, dispatch } = useContext(Store);
    const [quantityItems, setQuantityItems] = useState([]);
    const [comments, setComments] = useState([]);
    const [rates, setRates] = useState();
-   const [mainPic, setMainPic] = useState(salePost.salePost.avatar);
+   const [mainPic, setMainPic] = useState(salePost.avatar);
    const router = useRouter();
    const { id } = router.query;
    const [starAvg, setStarAvg] = useState(0);
@@ -88,9 +88,9 @@ const ProductPage = (salePost) => {
 
    return (
       <Layout title="Detail">
-         <div className="grid lg:grid-cols-5 grid-cols-1 lg:gap-8 my-8">
+         <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-8 gap-8 my-8 mx-16 ">
             {/* left part */}
-            <div className="col-span-2 ">
+            <div className="col-span-5 ">
                <div className="overflow-hidden aspect-square relative">
                   <Image
                      src={mainPic}
@@ -100,22 +100,23 @@ const ProductPage = (salePost) => {
                   />
                </div>
                <Swiper
-                  loop={true}
-                  slidesPerView={5}
-                  className="mySwiper h-[100px] rounded-lg overflow-hidden mt-4"
+                  slidesPerView={4}
+                  spaceBetween={20}
+                  className="mySwiper rounded-lg overflow-hidden mt-4 w-3/4"
                >
-                  {salePost.salePost.picturePostSet.map((pic) => (
+                  {salePost.picturePostSet.map((pic) => (
                      <SwiperSlide key={pic.id}>
                         <div
-                           className="overflow-hidden mx-2 rounded-lg cursor-pointer"
+                           className="overflow-hidden aspect-square relative cursor-pointer"
                            onClick={(e) => {
                               setMainPic(pic.image);
                            }}
                         >
-                           <img
+                           <Image
                               src={pic.image}
                               alt="img"
-                              className="object-cover aspect-square"
+                              className="object-cover rounded-lg"
+                              layout="fill"
                            />
                         </div>
                      </SwiperSlide>
@@ -123,17 +124,18 @@ const ProductPage = (salePost) => {
                </Swiper>
             </div>
             {/* right part */}
-            <div className="col-span-3">
+            <div className="col-span-7">
                <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8 text-left">
-                  <div className="font-extrabold text-left bg-blue-main rounded-lg p-1 w-fit mb-2 text-white">
-                     {salePost.salePost.sellStatus.name}
+                  <div className="font-semibold text-4xl text-left h-20 leading-10">
+                     {salePost.title}
                   </div>
-                  <div className="font-semibold text-3xl text-left">
-                     {salePost.salePost.title}
-                  </div>
-                  <div className="flex gap-2 my-2">
+                  <div className="flex items-center gap-2 my-3 text-lg">
+                     <div className="rounded-lg border-2 border-blue-main p-2 text-blue-main font-semibold">
+                        {salePost.sellStatus.name}
+                     </div>
                      <div>
                         <Rating
+                           size="large"
                            sx={{
                               "& .MuiRating-iconFilled": {
                                  color: "#525EC1",
@@ -146,78 +148,62 @@ const ProductPage = (salePost) => {
                            readOnly
                         />
                      </div>
-                     <div>{commentCount} Comment</div>
+                     <div className="font-semibold">{commentCount} Comment</div>
                   </div>
                   <div className="text-left mb-4">
-                     <div className="line-through">
-                        {salePost.salePost.initialPrice.toLocaleString(
-                           "en-US",
-                           {
-                              style: "currency",
-                              currency: "VND",
-                           }
-                        )}
+                     <div className=" text-4xl text-blue-main font-bold">
+                        {salePost.finalPrice.toLocaleString("it-IT", {
+                           style: "currency",
+                           currency: "VND",
+                        })}
                      </div>
-                     <div className="font-semibold text-2xl text-blue-main">
-                        {salePost.salePost.finalPrice.toLocaleString("en-US", {
+                     <div className="line-through text-xl font-semibold opacity-60">
+                        {salePost.initialPrice.toLocaleString("it-IT", {
                            style: "currency",
                            currency: "VND",
                         })}
                      </div>
                   </div>
-                  <div className="mb-3">
-                     <div className="font-semibold">Manufacturer:</div>
-                     <div>{salePost.salePost.manufacturer}</div>
+                  <div className="font-semibold mb-2 text-lg">
+                     Brand:{" "}
+                     <span className="font-medium">{salePost.brand}</span>
                   </div>
-                  <div className="mb-3">
-                     <div className="font-semibold">Brand:</div>
-                     <div>{salePost.salePost.brand}</div>
+                  <div className="font-semibold mb-2 text-lg">
+                     Origin:{" "}
+                     <span className="font-medium">{salePost.origin}</span>
                   </div>
-                  <div className="mb-3">
-                     <div className="font-semibold">Origin:</div>
-                     <div>{salePost.salePost.origin}</div>
-                  </div>
-                  <div className="mb-3">
-                     <div className="font-semibold">Description:</div>
-                     <div>{salePost.salePost.description}</div>
+                  <div className="font-semibold text-lg">
+                     Manufacturer:{" "}
+                     <span className="font-medium">
+                        {salePost.manufacturer}
+                     </span>
                   </div>
                </div>
-               <div className=" dark:bg-dark-primary bg-light-primary rounded-lg my-4 text-left px-8 py-4">
-                  <div className="font-semibold mb-3">Angency Info</div>
-                  <div className="flex justify-between">
-                     <div className="flex items-center">
-                        <div className="overflow-hidden ">
-                           <Image
-                              src={salePost.salePost.agency.avatar}
-                              alt="avatar-agency"
-                              width={70}
-                              height={70}
-                              className="rounded-full"
-                           />
-                        </div>
-                        <div className="text-left ml-4">
-                           <div className="font-semibold whitespace-nowrap text-xl text-blue-main">
-                              {salePost.salePost.agency.name}
-                           </div>
-                           <div className=" whitespace-nowrap">
-                              {salePost.salePost.agency.field.name}
-                           </div>
-                           <div className=" whitespace-nowrap">
-                              {salePost.salePost.agency.address}
-                           </div>
-                        </div>
+               <div className="grid grid-cols-12 gap-8 mt-8 ">
+                  <div className="col-span-7 bg-blue-main rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all">
+                     Choose item to add to cart
+                  </div>
+                  <div className="col-span-5 bg-dark-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-lg hover:shadow-dark-primary transition-all">
+                     <div className="relative h-20 w-20 overflow-hidden rounded-xl ">
+                        <Image
+                           src={salePost.agency.avatar}
+                           alt="avatar"
+                           layout="fill"
+                           className="object-cover"
+                        />
                      </div>
-                     <Link href={`/agencyinfo/${salePost.salePost.agency.id}`}>
-                        <div className="bg-blue-main rounded-lg w-16 h-16 flex justify-center items-center hover:bg-opacity-80 cursor-pointer text-white">
-                           <BiStore className="text-3xl" />
+                     <div className="text-left ">
+                        <div className="font-semibold text-lg">
+                           {salePost.agency.name}
                         </div>
-                     </Link>
+                        <div>{salePost.agency.field.name}</div>
+                     </div>
                   </div>
                </div>
             </div>
          </div>
          {/* items */}
-         <div className="col-span-3">
+         {/* <div className="col-span-3">
             <div>
                <ul>
                   <li className="grid grid-cols-6 items-center text-center font-semibold w-full pb-4 rounded-t-lg border-b border-gray-200 dark:border-gray-600">
@@ -272,7 +258,7 @@ const ProductPage = (salePost) => {
                   </button>
                </div>
             </div>
-         </div>
+         </div> */}
          {/* comment */}
          <div className="grid grid-cols-1 my-8">
             <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
@@ -288,13 +274,12 @@ const ProductPage = (salePost) => {
                />
                {comments.reverse().map((c) => (
                   <div key={c.id} className="flex mb-8 ml-20">
-                     <div className="overflow-hidden ">
+                     <div className="overflow-hidden relative h-16 w-16 ">
                         <Image
                            src={c.author.avatar}
-                           alt=""
-                           width={50}
-                           height={50}
-                           className="rounded-full"
+                           alt="avatar"
+                           layout="fill"
+                           className="rounded-full object-cover "
                         />
                      </div>
                      <div className="flex flex-col items-start ml-6">
@@ -385,6 +370,7 @@ const CommentForm = ({
             </div>
             <div className="my-4">
                <Rating
+                  size="large"
                   sx={{
                      "& .MuiRating-iconFilled": {
                         color: "#525EC1",
