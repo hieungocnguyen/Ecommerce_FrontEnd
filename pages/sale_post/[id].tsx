@@ -14,6 +14,7 @@ import { BiStore } from "react-icons/bi";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import ItemsInPost from "../../components/ItemsInPost";
 
 const ProductPage = ({ salePost }) => {
    const { state, dispatch } = useContext(Store);
@@ -25,6 +26,7 @@ const ProductPage = ({ salePost }) => {
    const { id } = router.query;
    const [starAvg, setStarAvg] = useState(0);
    const [commentCount, setCommentCount] = useState(0);
+   const [isOpenItemsModal, setIsOpenItemsModal] = useState(true);
 
    useEffect(() => {
       const loadComment = async () => {
@@ -129,7 +131,7 @@ const ProductPage = ({ salePost }) => {
                   <div className="font-semibold text-4xl text-left h-20 leading-10">
                      {salePost.title}
                   </div>
-                  <div className="flex items-center gap-2 my-3 text-lg">
+                  <div className="flex items-center gap-2 my-4 text-lg">
                      <div className="rounded-lg border-2 border-blue-main p-2 text-blue-main font-semibold">
                         {salePost.sellStatus.name}
                      </div>
@@ -150,7 +152,7 @@ const ProductPage = ({ salePost }) => {
                      </div>
                      <div className="font-semibold">{commentCount} Comment</div>
                   </div>
-                  <div className="text-left mb-4">
+                  <div className="text-left mb-4 mt-8">
                      <div className=" text-4xl text-blue-main font-bold">
                         {salePost.finalPrice.toLocaleString("it-IT", {
                            style: "currency",
@@ -164,26 +166,28 @@ const ProductPage = ({ salePost }) => {
                         })}
                      </div>
                   </div>
-                  <div className="font-semibold mb-2 text-lg">
-                     Brand:{" "}
-                     <span className="font-medium">{salePost.brand}</span>
-                  </div>
-                  <div className="font-semibold mb-2 text-lg">
-                     Origin:{" "}
-                     <span className="font-medium">{salePost.origin}</span>
-                  </div>
-                  <div className="font-semibold text-lg">
-                     Manufacturer:{" "}
-                     <span className="font-medium">
-                        {salePost.manufacturer}
-                     </span>
+                  <div className="mb-4 mt-8">
+                     <div className="font-semibold mb-2 text-lg">
+                        Brand:{" "}
+                        <span className="font-medium">{salePost.brand}</span>
+                     </div>
+                     <div className="font-semibold mb-2 text-lg">
+                        Origin:{" "}
+                        <span className="font-medium">{salePost.origin}</span>
+                     </div>
+                     <div className="font-semibold text-lg">
+                        Manufacturer:{" "}
+                        <span className="font-medium">
+                           {salePost.manufacturer}
+                        </span>
+                     </div>
                   </div>
                </div>
                <div className="grid grid-cols-12 gap-8 mt-8 ">
-                  <div className="col-span-7 bg-blue-main rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all">
+                  <div className="col-span-7 bg-blue-main text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all">
                      Choose item to add to cart
                   </div>
-                  <div className="col-span-5 bg-dark-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-lg hover:shadow-dark-primary transition-all">
+                  <div className="col-span-5 dark:bg-dark-primary bg-light-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-lg dark:hover:shadow-dark-primary hover:shadow-light-primary transition-all">
                      <div className="relative h-20 w-20 overflow-hidden rounded-xl ">
                         <Image
                            src={salePost.agency.avatar}
@@ -200,6 +204,18 @@ const ProductPage = ({ salePost }) => {
                      </div>
                   </div>
                </div>
+            </div>
+         </div>
+         <div
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+               isOpenItemsModal ? "flex" : "hidden"
+            }`}
+         >
+            <div className="w-3/4 h-[32rem] ">
+               <ItemsInPost
+                  items={salePost.itemPostSet}
+                  setIsOpenItemsModal={setIsOpenItemsModal}
+               />
             </div>
          </div>
          {/* items */}

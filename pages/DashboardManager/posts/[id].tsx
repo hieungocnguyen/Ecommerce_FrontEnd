@@ -48,35 +48,28 @@ const ItemsOfPost = () => {
 
    const addImageSet = async (image) => {
       try {
-         if (importImage) {
-            setLoading(true);
-            if (image) {
-               const uploadCloud = await API.post(
-                  endpoints["upload_cloudinary"],
-                  {
-                     file: image,
-                  },
-                  {
-                     headers: {
-                        "Content-Type": "multipart/form-data",
-                     },
-                  }
-               );
-               const createPicture = await API.post(
-                  endpoints["create_piture"],
-                  {
-                     image: uploadCloud.data.data,
-                     postID: id,
-                  }
-               );
-               if (createPicture) {
-                  setLoading(false);
-                  toast.success("Add picture successful!", {
-                     position: "top-center",
-                  });
-               }
-               loadItems();
+         setLoading(true);
+         const uploadCloud = await API.post(
+            endpoints["upload_cloudinary"],
+            {
+               file: image,
+            },
+            {
+               headers: {
+                  "Content-Type": "multipart/form-data",
+               },
             }
+         );
+         const createPicture = await API.post(endpoints["create_piture"], {
+            image: uploadCloud.data.data,
+            postID: id,
+         });
+         if (createPicture) {
+            setLoading(false);
+            toast.success("Add picture successful!", {
+               position: "top-center",
+            });
+            loadItems();
          }
       } catch (error) {
          setLoading(false);
@@ -225,7 +218,6 @@ const ItemsOfPost = () => {
                         className="hidden"
                         onChange={(e) => {
                            addImageSet(e.target.files[0]);
-                           setImportImage(true);
                         }}
                      />
                   </div>
