@@ -149,7 +149,7 @@ const Header = () => {
             setRolePart(<div>Admin Page</div>);
          }
          if (userInfo.role.name === "ROLE_MANAGER") {
-            setRolePart(<div>Manager Page</div>);
+            setRolePart(<div>Manage Page</div>);
          }
       }
    }, []);

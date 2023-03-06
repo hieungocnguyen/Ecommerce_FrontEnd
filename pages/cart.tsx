@@ -5,18 +5,20 @@ import Layout from "../components/Layout/Layout";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { BiTrash } from "react-icons/bi";
+import { BiTrash, BiTrashAlt } from "react-icons/bi";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../components/Loader";
+import Image from "next/image";
+import { AiOutlineClear } from "react-icons/ai";
 
 const Cart = () => {
    const { state, dispatch } = useContext(Store);
-   const { userInfo, cart } = state;
+   const { userInfo } = state;
    const [initialRenderComplete, setInitialRenderComplete] = useState(false);
    const [itemsInCart, setItemsInCart] = useState([]);
    const [totalPrice, setTotalPrice] = useState(0);
-   let [loading, setLoading] = useState(false);
+   const [loading, setLoading] = useState(false);
    const router = useRouter();
 
    useEffect(() => {
@@ -41,22 +43,25 @@ const Cart = () => {
       }
       setInitialRenderComplete(true);
    }, [router, userInfo]);
-   const handlePaymentbyCash = async () => {
-      setLoading(true);
-      try {
-         const resPayment = await authAxios().post(
-            endpoints["payment_cart"](1)
-         );
-         console.log(resPayment.data);
-         Cookies.remove("cartItems");
-         setItemsInCart([]);
-         setTotalPrice(0);
-         toast.success("Payment successful!", {
-            position: "bottom-center",
-         });
-         setLoading(false);
-      } catch (error) {}
-   };
+
+   // const handlePaymentbyCash = async () => {
+   //    setLoading(true);
+   //    try {
+   //       const resPayment = await authAxios().post(
+   //          endpoints["payment_cart"](1)
+   //       );
+   //       Cookies.remove("cartItems");
+   //       setItemsInCart([]);
+   //       setTotalPrice(0);
+   //       toast.success("Payment successful!", {
+   //          position: "bottom-center",
+   //       });
+   //       setLoading(false);
+   //    } catch (error) {
+   //       console.log(error);
+   //    }
+   // };
+
    const handleClearCart = async () => {
       try {
          const resClearCart = await authAxios().put(endpoints["clear_cart"]);
@@ -68,9 +73,9 @@ const Cart = () => {
             type: "CART_REMOVE_ALL_ITEM",
             payload: {},
          });
-         setItemsInCart([]);
-         setTotalPrice(0);
-      } catch (error) {}
+      } catch (error) {
+         console.log(error);
+      }
    };
    const handleDelete = async (item) => {
       try {
@@ -85,71 +90,139 @@ const Cart = () => {
          });
       } catch (error) {}
    };
+
+   const handleChangeQuantity = (item: any, quantity: number) => {
+      const fetchUpdateCart = async () => {
+         const res = await authAxios().patch(endpoints["update_cart"], {
+            itemID: item.itemPost.id,
+            quantity: quantity,
+         });
+         toast.success("Update quantity successful!", {
+            position: "top-center",
+            duration: 700,
+         });
+      };
+      fetchUpdateCart();
+   };
+
+   const handleRouteCheckout = () => {
+      setTimeout(() => setLoading(true));
+      router.push("/checkout/payment");
+      setLoading(false);
+   };
+
    if (!initialRenderComplete) {
       return null;
    } else {
       return (
-         <Layout title="Your Cart">
-            <div className="font-semibold text-2xl pt-4 pb-10">Your Cart</div>
-            <div className="grid grid-cols-6 dark:bg-dark-primary bg-light-primary h-16 items-center rounded-t-lg font-semibold">
-               <div className="">Image</div>
-               <div className="col-span-2">Title</div>
-               <div>Quantity</div>
-               <div>Price</div>
-               <div>Remove</div>
-            </div>
-            {itemsInCart.map((i) => (
-               <div
-                  key={i.id}
-                  className="grid grid-cols-6 items-center dark:bg-dark-primary bg-light-primary rounded-lg overflow-hidden my-4"
-               >
-                  <div className="flex justify-center">
-                     <img
-                        src={i.itemPost.avatar}
-                        alt="avatar item"
-                        className="w-20 h-20 m-4 rounded-lg col-span-1"
-                     />
-                  </div>
-                  <div className="font-semibold col-span-2">
-                     {i.itemPost.name}
-                  </div>
-                  <div className="col-span-1 ">{i.quantity}</div>
-                  <div className="col-span-1 text-blue-main font-semibold">
-                     {(i.quantity * i.itemPost.unitPrice).toLocaleString(
-                        "it-IT",
-                        {
-                           style: "currency",
-                           currency: "VND",
-                        }
-                     )}
-                  </div>
+         <Layout title="Cart">
+            <div className="flex justify-between pt-8 pb-4 px-12 mx-8">
+               <div className="font-semibold text-3xl text-left">Your Cart</div>
+               <div>
                   <button
-                     className="col-span-1 flex items-center justify-center hover:opacity-80"
-                     onClick={() => handleDelete(i)}
+                     className="bg-blue-main px-8 py-3 rounded-lg font-semibold hover:shadow-md hover:shadow-blue-main transition-all flex items-center gap-1 text-white"
+                     onClick={handleClearCart}
                   >
-                     <div className="w-10 h-10 bg-blue-main text-white p-2 flex justify-center items-center text-xl rounded-lg">
-                        <BiTrash />
-                     </div>
+                     <AiOutlineClear className="text-xl" />
+                     <div>Clear cart</div>
                   </button>
                </div>
-            ))}
-            <button
-               className="text-white bg-red-700 rounded-lg font-semibold h-10 flex items-center justify-center w-2/3 mx-auto my-4 hover:opacity-80"
-               onClick={handleClearCart}
-            >
-               Remove all items in your cart
-            </button>
-            <div className="dark:bg-dark-primary bg-light-primary rounded-b-lg flex my-4 justify-around  items-center">
-               <div className="text-2xl">
-                  Total:{" "}
-                  <span className="text-blue-main font-bold text-3xl">
-                     {totalPrice.toLocaleString("it-IT", {
-                        style: "currency",
-                        currency: "VND",
-                     })}
-                  </span>
+            </div>
+            <div className="grid grid-cols-12 h-16 items-center rounded-t-lg font-bold text-left p-6">
+               <div className="col-span-2">Image</div>
+               <div className="col-span-3">Title</div>
+               <div className="col-span-2">Quantity</div>
+               <div className="col-span-2">Unit Price</div>
+               <div className="col-span-2">Price</div>
+               <div className="col-span-1"></div>
+            </div>
+            {itemsInCart
+               .sort((a, b) => (a.id < b.id ? 1 : -1))
+               .map((i) => (
+                  <div
+                     key={i.id}
+                     className="grid grid-cols-12 items-center dark:bg-dark-primary bg-light-primary rounded-lg overflow-hidden mb-4 p-4 text-left"
+                  >
+                     <div className="col-span-2 relative overflow-hidden rounded-lg w-16 h-16">
+                        <Image
+                           src={i.itemPost.avatar}
+                           alt="avatar item"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                     </div>
+                     <div className="col-span-3 font-semibold">
+                        {i.itemPost.name} {i.itemPost.description}
+                     </div>
+                     <div className="col-span-2 font-semibold">
+                        <input
+                           type="number"
+                           className="p-3 rounded-lg"
+                           defaultValue={i.quantity}
+                           min={0}
+                           max={i.itemPost.inventory}
+                           step={1}
+                           onKeyDown={(e) => {
+                              ["e", "E", "+", "-"].includes(e.key) &&
+                                 e.preventDefault();
+                           }}
+                           onChange={(e) => {
+                              if (e.target.value > i.itemPost.inventory) {
+                                 e.target.value = i.itemPost.inventory;
+                                 e.preventDefault();
+                              }
+                              if (Number(e.target.value) > 0) {
+                                 handleChangeQuantity(
+                                    i,
+                                    Number(e.target.value)
+                                 );
+                              } else {
+                                 handleDelete(i);
+                              }
+                           }}
+                        />
+                     </div>
+                     <div className="col-span-2  font-semibold">
+                        {i.itemPost.unitPrice.toLocaleString("it-IT", {
+                           style: "currency",
+                           currency: "VND",
+                        })}
+                     </div>
+                     <div className="col-span-2 text-blue-main font-semibold text-lg">
+                        {(i.quantity * i.itemPost.unitPrice).toLocaleString(
+                           "it-IT",
+                           {
+                              style: "currency",
+                              currency: "VND",
+                           }
+                        )}
+                     </div>
+                     <button
+                        className="col-span-1 flex items-center justify-center hover:opacity-80"
+                        onClick={() => handleDelete(i)}
+                     >
+                        <div className="w-10 h-10 bg-blue-main text-white p-2 flex justify-center items-center text-xl rounded-lg hover:shadow-md hover:shadow-blue-main transition-all">
+                           <BiTrashAlt />
+                        </div>
+                     </button>
+                  </div>
+               ))}
+            <div className="dark:bg-dark-primary bg-light-primary rounded-lg flex my-4 justify-between items-center mx-20 py-8 px-16">
+               <div className="text-left">
+                  <div className="text-2xl">
+                     Subtotal:{" "}
+                     <span className="text-blue-main font-bold text-3xl">
+                        {totalPrice.toLocaleString("it-IT", {
+                           style: "currency",
+                           currency: "VND",
+                        })}
+                     </span>
+                  </div>
+                  <div className="text-lg">
+                     Total item: {itemsInCart.length}
+                  </div>
                </div>
-               <div className="flex flex-col my-4 w-1/3">
+               {/* <div className="flex flex-col my-4 w-1/3">
                   <button
                      className="w-full bg-blue-main font-semibold text-white my-2 h-[60px] rounded-lg hover:opacity-80"
                      onClick={handlePaymentbyCash}
@@ -159,7 +232,13 @@ const Cart = () => {
                   <button className="w-full bg-[#da2d8c] font-semibold text-white my-2 h-[60px] rounded-lg hover:opacity-80">
                      Payment by MoMo Wallet
                   </button>
-               </div>
+               </div> */}
+               <button
+                  className="py-4 px-12 bg-blue-main font-semibold rounded-lg text-lg hover:shadow-md hover:shadow-blue-main transition-all text-white"
+                  onClick={handleRouteCheckout}
+               >
+                  Checkout
+               </button>
             </div>
             {loading ? <Loader /> : <></>}
             <Toaster />

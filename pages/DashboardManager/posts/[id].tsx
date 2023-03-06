@@ -162,7 +162,10 @@ const ItemsOfPost = () => {
                                        {i.description}
                                     </li>
                                     <li className="col-span-2">
-                                       {i.unitPrice}
+                                       {i.unitPrice.toLocaleString("it-IT", {
+                                          style: "currency",
+                                          currency: "VND",
+                                       })}
                                     </li>
                                     <li className="col-span-2">
                                        {i.inventory}

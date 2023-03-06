@@ -35,14 +35,15 @@ function reducer(state: any, action: { type: any; payload: any }) {
          const existItem = state.cart.cartItems.find(
             (item) => item.id === newItem.id
          );
+         // console.log(existItem);
          const cartItems = existItem
             ? state.cart.cartItems.map((item) =>
-                 item.id === existItem.id ? newItem : item
+                 item.id === existItem.id
+                    ? { ...item, quantity: item.quantity + newItem.quantity }
+                    : item
               )
             : [...state.cart.cartItems, newItem];
          Cookies.set("cartItems", JSON.stringify(cartItems));
-         console.log({ ...state, cart: { ...state.cart, cartItems } });
-
          return { ...state, cart: { ...state.cart, cartItems } };
       }
       case "CART_REMOVE_ITEM": {

@@ -32,10 +32,10 @@ export let endpoints = {
    check_like: (postID) => `/action/like/state/${postID}`,
    wishlist: (userID) => `/sale-post/wish-list/${userID}`,
    //cart API
-   add_to_cart: "cart/add-to-cart",
+   add_to_cart: "/cart/add-to-cart",
+   update_cart: "/cart/update-cart",
    get_cart_by_id: (userID) => `/cart/get-cart/${userID}`,
    get_total: (userID) => `/cart/get-total-price-in-cart/${userID}`,
-   payment_cart: (paymentTypeID) => `/cart/payment-cart/${paymentTypeID}`,
    clear_cart: `/cart/clear-cart`,
    delete_item_in_cart: (itemID) => `/cart/remove-item/${itemID}`,
    //order API
@@ -64,6 +64,9 @@ export let endpoints = {
    stat_post_category: `/sale-post/stats-by-category`,
    //item
    item: (itemID) => `/item/${itemID}`,
+   //payment
+   momo_payment_info: `/cart/get-momo-payment-info`,
+   payment_cart: (paymentTypeID) => `/cart/payment-cart/${paymentTypeID}`,
 };
 export const authAxios = () =>
    axios.create({

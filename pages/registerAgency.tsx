@@ -158,7 +158,6 @@ const RegisterAgency = () => {
                   className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                   onChange={(e) => {
                      setField(Number(e.target.value));
-                     console.log(e.target.value);
                   }}
                >
                   <option value={1}>Thời trang</option>

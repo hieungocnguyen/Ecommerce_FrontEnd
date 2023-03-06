@@ -15,18 +15,19 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import ItemsInPost from "../../components/ItemsInPost";
+import Loader from "../../components/Loader";
 
 const ProductPage = ({ salePost }) => {
    const { state, dispatch } = useContext(Store);
    const [quantityItems, setQuantityItems] = useState([]);
    const [comments, setComments] = useState([]);
-   const [rates, setRates] = useState();
    const [mainPic, setMainPic] = useState(salePost.avatar);
    const router = useRouter();
    const { id } = router.query;
    const [starAvg, setStarAvg] = useState(0);
    const [commentCount, setCommentCount] = useState(0);
-   const [isOpenItemsModal, setIsOpenItemsModal] = useState(true);
+   const [isOpenItemsModal, setIsOpenItemsModal] = useState(false);
+   const [loading, setLoading] = useState(false);
 
    useEffect(() => {
       const loadComment = async () => {
@@ -45,47 +46,10 @@ const ProductPage = ({ salePost }) => {
       loadStarAvg();
       loadCommentCount();
    }, []);
-
-   const handleChangeQuantity = (item, quantity) => {
-      var updatedList = [...quantityItems];
-      var objItem = { id: item.id, quantity: quantity };
-      if (quantity > 0) {
-         updatedList = [...quantityItems, objItem];
-      } else {
-         updatedList.splice(quantityItems.indexOf(quantity), 1);
-      }
-      setQuantityItems(updatedList);
-   };
-
-   const handleAddToCart = () => {
-      const addtoCart = async (i) => {
-         const res = await axios.post(
-            "http://localhost:8080/ou-ecommerce/api/cart/add-to-cart",
-            {
-               itemID: Number(i.id),
-               quantity: i.quantity,
-            },
-            {
-               headers: {
-                  Authorization: `Bearer ${Cookies.get("accessToken")}`,
-               },
-            }
-         );
-         dispatch({
-            type: "CART_ADD_ITEM",
-            payload: { id: i.id, quantity: i.quantity },
-         });
-         toast.success("Add to cart successfully !", {
-            position: "bottom-center",
-         });
-      };
-      if (Cookies.get("accessToken")) {
-         quantityItems.map((i) => {
-            addtoCart(i);
-         });
-      } else {
-         router.push("/signin");
-      }
+   const handleRouteAgency = () => {
+      setTimeout(() => setLoading(true));
+      router.push(`/agencyinfo/${salePost.agency.id}`);
+      setLoading(false);
    };
 
    return (
@@ -150,7 +114,9 @@ const ProductPage = ({ salePost }) => {
                            readOnly
                         />
                      </div>
-                     <div className="font-semibold">{commentCount} Comment</div>
+                     <div className="font-semibold hover:text-blue-main transition-all">
+                        <a href="#section_comment">{commentCount} Comment(s)</a>
+                     </div>
                   </div>
                   <div className="text-left mb-4 mt-8">
                      <div className=" text-4xl text-blue-main font-bold">
@@ -184,10 +150,16 @@ const ProductPage = ({ salePost }) => {
                   </div>
                </div>
                <div className="grid grid-cols-12 gap-8 mt-8 ">
-                  <div className="col-span-7 bg-blue-main text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all">
+                  <div
+                     className="col-span-7 bg-blue-main text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-md hover:shadow-blue-main transition-all"
+                     onClick={() => setIsOpenItemsModal(true)}
+                  >
                      Choose item to add to cart
                   </div>
-                  <div className="col-span-5 dark:bg-dark-primary bg-light-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-lg dark:hover:shadow-dark-primary hover:shadow-light-primary transition-all">
+                  <div
+                     className="col-span-5 dark:bg-dark-primary bg-light-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-md dark:hover:shadow-dark-primary hover:shadow-light-primary transition-all"
+                     onClick={handleRouteAgency}
+                  >
                      <div className="relative h-20 w-20 overflow-hidden rounded-xl ">
                         <Image
                            src={salePost.agency.avatar}
@@ -211,74 +183,18 @@ const ProductPage = ({ salePost }) => {
                isOpenItemsModal ? "flex" : "hidden"
             }`}
          >
-            <div className="w-3/4 h-[32rem] ">
+            <div className="w-3/4 h-[34rem] ">
                <ItemsInPost
                   items={salePost.itemPostSet}
                   setIsOpenItemsModal={setIsOpenItemsModal}
                />
             </div>
          </div>
-         {/* items */}
-         {/* <div className="col-span-3">
-            <div>
-               <ul>
-                  <li className="grid grid-cols-6 items-center text-center font-semibold w-full pb-4 rounded-t-lg border-b border-gray-200 dark:border-gray-600">
-                     <div className="text-left">Avatar</div>
-                     <div className="text-left col-span-2">Title</div>
-                     <div>Quantity</div>
-                     <div>Unit Price</div>
-                     <div>Inventory</div>
-                  </li>
-                  {salePost.salePost.itemPostSet.map((item) => (
-                     <li
-                        className="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600"
-                        key={item.id}
-                     >
-                        <div className="grid grid-cols-6 items-center">
-                           <div className="overflow-hidden aspect-square relative w-12 h-12 my-4">
-                              <Image
-                                 src={item.avatar}
-                                 alt="image item"
-                                 layout="fill"
-                                 className="rounded-lg"
-                              />
-                           </div>
 
-                           <label
-                              htmlFor={item.id}
-                              className="w-full text-sm text-left font-medium text-gray-900 dark:text-gray-300 col-span-2"
-                           >
-                              {item.name}
-                           </label>
-                           <input
-                              type="number"
-                              disabled={item.inventory > 0 ? false : true}
-                              className="w-[40px] mx-auto text-center disabled:cursor-not-allowed"
-                              defaultValue="0"
-                              onChange={(e) =>
-                                 handleChangeQuantity(item, e.target.value)
-                              }
-                           />
-                           <div>{item.unitPrice}</div>
-                           <div>{item.inventory}</div>
-                        </div>
-                     </li>
-                  ))}
-               </ul>
-               <div>
-                  <button
-                     className="bg-blue-main w-[70%] h-[60px] flex items-center justify-center rounded-lg mx-auto my-8 font-semibold hover:opacity-80 text-white"
-                     onClick={handleAddToCart}
-                  >
-                     Add to your cart
-                  </button>
-               </div>
-            </div>
-         </div> */}
          {/* comment */}
-         <div className="grid grid-cols-1 my-8">
+         <div className="grid grid-cols-1 my-8 mx-16  " id="section_comment">
             <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
-               <div className="font-semibold text-left ml-8 text-lg">
+               <div className="font-semibold text-left ml-12 text-xl">
                   Feedback
                </div>
                <CommentForm
@@ -288,39 +204,43 @@ const ProductPage = ({ salePost }) => {
                   setStarAvg={setStarAvg}
                   setCommentCount={setCommentCount}
                />
-               {comments.reverse().map((c) => (
-                  <div key={c.id} className="flex mb-8 ml-20">
-                     <div className="overflow-hidden relative h-16 w-16 ">
-                        <Image
-                           src={c.author.avatar}
-                           alt="avatar"
-                           layout="fill"
-                           className="rounded-full object-cover "
-                        />
-                     </div>
-                     <div className="flex flex-col items-start ml-6">
-                        <div className="font-semibold text-blue-main">
-                           {c.author.lastName} {c.author.firstName}
-                        </div>
+               {comments
+                  .sort((a, b) => (a.id < b.id ? 1 : -1))
 
-                        <div>{c.content}</div>
-                        <Rating
-                           sx={{
-                              "& .MuiRating-iconFilled": {
-                                 color: "#525EC1",
-                              },
-                              "& .MuiRating-iconEmpty": {
-                                 color: "#656b99",
-                              },
-                           }}
-                           value={c.starRate}
-                           readOnly
-                        />
+                  .map((c) => (
+                     <div key={c.id} className="flex mb-8 ml-20">
+                        <div className="overflow-hidden relative h-16 w-16 ">
+                           <Image
+                              src={c.author.avatar}
+                              alt="avatar"
+                              layout="fill"
+                              className="rounded-full object-cover "
+                           />
+                        </div>
+                        <div className="flex flex-col items-start ml-6">
+                           <div className="font-semibold text-blue-main">
+                              {c.author.lastName} {c.author.firstName}
+                           </div>
+
+                           <div>{c.content}</div>
+                           <Rating
+                              sx={{
+                                 "& .MuiRating-iconFilled": {
+                                    color: "#525EC1",
+                                 },
+                                 "& .MuiRating-iconEmpty": {
+                                    color: "#656b99",
+                                 },
+                              }}
+                              value={c.starRate}
+                              readOnly
+                           />
+                        </div>
                      </div>
-                  </div>
-               ))}
+                  ))}
             </div>
          </div>
+         {loading ? <Loader /> : <></>}
          <Toaster />
       </Layout>
    );
@@ -346,7 +266,7 @@ const CommentForm = ({
       if (userInfo) {
          if (content == "" || value == 0) {
             toast.error("Please comment anh rating before send feedback!", {
-               position: "bottom-center",
+               position: "top-center",
             });
          } else {
             const res = await authAxios().post(
@@ -366,6 +286,10 @@ const CommentForm = ({
 
             setComments([...comments, res.data.data]);
             setContent("");
+            setValue(0);
+            toast.success("Comment successful!", {
+               position: "top-center",
+            });
          }
       } else {
          router.push("/signin");
@@ -374,7 +298,7 @@ const CommentForm = ({
 
    return (
       <>
-         <form onSubmit={addComment} className="">
+         <form onSubmit={addComment} className=" my-6 rounded-lg">
             <div className="">
                <input
                   type="text"

@@ -4,7 +4,7 @@ import { StoreProvider } from "../utils/Store";
 
 function MyApp({ Component, pageProps }) {
    return (
-      <ThemeProvider enableSystem={true} attribute="class">
+      <ThemeProvider enableSystem={false} attribute="class">
          <StoreProvider>
             <Component {...pageProps} />
          </StoreProvider>

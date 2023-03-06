@@ -20,7 +20,10 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
 
    const handleAddToWishList = async () => {
       if (!Cookies.get("accessToken")) {
-         router.push("/signin");
+         // router.push("/signin");
+         toast.error("You must sign in to add to wishlist!", {
+            position: "top-center",
+         });
       } else {
          const resAdd = await authAxios().get(
             endpoints["like_post"](product.id)
@@ -99,7 +102,7 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
 
          <img
             src={product.avatar}
-            alt="tai nghe"
+            alt="avatar"
             className="w-[200px] h-[200px] object-cover rounded-lg mx-auto my-[24px]"
          />
          <div className="mx-7 text-center">
