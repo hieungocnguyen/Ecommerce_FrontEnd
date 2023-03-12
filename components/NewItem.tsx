@@ -24,8 +24,12 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
    const [values, setValues] = useState<any>({});
 
    const imageChange = (e) => {
-      setSelectedImage(e.target.files[0]);
-      setImportImage(true);
+      if (e.target.files[0] === undefined) {
+         setImportImage(false);
+      } else {
+         setSelectedImage(e.target.files[0]);
+         setImportImage(true);
+      }
    };
    const handleChange = (event) => {
       setValues({
@@ -36,7 +40,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
    const handleAddItem = async (e) => {
       e.preventDefault();
       let imageURL =
-         "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg";
+         "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg";
       try {
          setLoading(true);
          if (importImage) {
@@ -107,7 +111,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                         src={
                            importImage
                               ? URL.createObjectURL(selectedImage)
-                              : "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg"
+                              : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg"
                         }
                         alt="avatar"
                         layout="fill"

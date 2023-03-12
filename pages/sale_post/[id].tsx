@@ -206,7 +206,6 @@ const ProductPage = ({ salePost }) => {
                />
                {comments
                   .sort((a, b) => (a.id < b.id ? 1 : -1))
-
                   .map((c) => (
                      <div key={c.id} className="flex mb-8 ml-20">
                         <div className="overflow-hidden relative h-16 w-16 ">

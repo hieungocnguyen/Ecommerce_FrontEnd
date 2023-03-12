@@ -29,7 +29,7 @@ const Layout = ({ title, children }) => {
             {children}
          </main>
          <div
-            className="fixed bottom-10 right-10 w-12 h-12 z-20 rounded-full bg-blue-main flex justify-center items-center text-xl cursor-pointer text-white "
+            className="fixed bottom-10 right-10 w-14 h-14 z-20 rounded-full bg-blue-main flex justify-center items-center text-2xl cursor-pointer text-white "
             onClick={() => setOpenCompare(!openCompare)}
          >
             <BiGitCompare />

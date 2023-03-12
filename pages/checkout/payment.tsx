@@ -70,7 +70,8 @@ const Payment = () => {
          const resPayment = await authAxios().post(
             endpoints["payment_cart"](1)
          );
-         if (resPayment.data.code === 200) {
+
+         if (resPayment.data.code === "200") {
             Cookies.remove("cartItems");
             toast.success("Payment successful!", {
                position: "top-center",
@@ -80,6 +81,7 @@ const Payment = () => {
             toast.error(resPayment.data.message, {
                position: "top-center",
             });
+            console.log(resPayment);
          }
 
          setLoading(false);
@@ -118,15 +120,17 @@ const Payment = () => {
                         <div>
                            <input
                               required
-                              defaultValue={userInfo.firstName}
-                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main "
+                              value={userInfo.firstName}
+                              disabled
+                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main disabled:bg-light-bg"
                            />
                         </div>
                         <div>
                            <input
                               required
-                              defaultValue={userInfo.lastName}
-                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main"
+                              value={userInfo.lastName}
+                              disabled
+                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main disabled:bg-light-bg"
                            />
                         </div>
                      </div>
@@ -135,16 +139,18 @@ const Payment = () => {
                            <input
                               name="firstName"
                               required
-                              defaultValue={userInfo.phone}
-                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main"
+                              value={userInfo.phone}
+                              disabled
+                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main disabled:bg-light-bg"
                            />
                         </div>
                         <div>
                            <input
                               name="firstName"
                               required
-                              defaultValue={userInfo.email}
-                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main"
+                              value={userInfo.email}
+                              disabled
+                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main disabled:bg-light-bg"
                            />
                         </div>
                      </div>
@@ -281,11 +287,14 @@ const Payment = () => {
                   </label>
                </div>
                <button
-                  className="py-4 px-10 h-fit bg-blue-main rounded-lg font-semibold text-white hover:shadow-blue-main hover:shadow-md w-60"
+                  className="py-4 px-10 h-fit bg-blue-main rounded-lg font-semibold text-white hover:shadow-blue-main hover:shadow-md w-fit transition-all"
                   onClick={handlePayment}
                >
-                  Payment by{" "}
-                  {paymentType === 1 ? "Cash" : paymentType === 2 ? "Momo" : ""}
+                  {paymentType === 1
+                     ? " Payment by Cash"
+                     : paymentType === 2
+                     ? " Payment by Momo"
+                     : "Please choice your payment method"}
                </button>
             </div>
          </div>

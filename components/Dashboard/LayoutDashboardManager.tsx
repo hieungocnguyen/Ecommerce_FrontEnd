@@ -16,6 +16,7 @@ import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import Loader from "../Loader";
 
 const LayoutDashboard = ({ children }) => {
    const { state, dispatch } = useContext(Store);
@@ -24,6 +25,7 @@ const LayoutDashboard = ({ children }) => {
    const router = useRouter();
    const [openStatisticle, setOpenStatisticle] = useState(false);
    const [openPost, setOpenPost] = useState(false);
+   const [loading, setLoading] = useState(false);
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -35,7 +37,6 @@ const LayoutDashboard = ({ children }) => {
          position: "bottom-center",
       });
    };
-
    return (
       <>
          <div className="grid grid-cols-6">
@@ -60,7 +61,10 @@ const LayoutDashboard = ({ children }) => {
                         height={90}
                      />
                   </div>
-                  <div className="mx-4 p-4 bg-slate-500 bg-opacity-10 rounded-lg ">
+                  <div
+                     className="mx-4 p-4 bg-slate-500 bg-opacity-10 rounded-lg   hover:bg-opacity-30 transition-all"
+                     // onClick={() => handleRouteEditProfile()}
+                  >
                      <div className="font-semibold">
                         {agencyInfo ? agencyInfo.name : ""}
                      </div>
@@ -95,12 +99,12 @@ const LayoutDashboard = ({ children }) => {
                         }`}
                      >
                         <Link href="/DashboardManager/posts/createnewpost">
-                           <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                           <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300  rounded-lg cursor-pointer">
                               Create Post
                            </div>
                         </Link>
                         <Link href="/DashboardManager/posts">
-                           <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                           <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
                               List Post
                            </div>
                         </Link>
@@ -131,12 +135,12 @@ const LayoutDashboard = ({ children }) => {
                         }`}
                      >
                         <Link href="/DashboardManager/statisticle/category">
-                           <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                           <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
                               Category
                            </div>
                         </Link>
                         <Link href="/DashboardManager/statisticle/revenue">
-                           <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                           <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
                               Revenue
                            </div>
                         </Link>
@@ -160,6 +164,7 @@ const LayoutDashboard = ({ children }) => {
             {/* Main Content */}
             <main className="col-span-5 mx-10">{children}</main>
             <Toaster />
+            {loading ? <Loader /> : <></>}
          </div>
       </>
    );

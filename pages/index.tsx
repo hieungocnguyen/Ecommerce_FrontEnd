@@ -7,10 +7,7 @@ import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { Store } from "../utils/Store";
 import API, { endpoints } from "../API";
-import { log } from "console";
 import HotAgency from "../components/HotAgency";
-import CompareProduct from "../components/CompareProduct";
-import { BiGitCompare } from "react-icons/bi";
 import Loader from "../components/Loader";
 
 export default function Home({ categories }) {
@@ -48,7 +45,7 @@ export default function Home({ categories }) {
             <div>
                <Advertise />
                <div className="my-16">
-                  <HotAgency />
+                  <HotAgency setLoading={setLoading} />
                </div>
                <div className="my-8">
                   <h1 className="text-center font-bold text-2xl my-5">
@@ -64,6 +61,7 @@ export default function Home({ categories }) {
                         />
                      ))}
                   </div>
+
                   {/* paginate */}
                   <div
                      className="flex gap-4

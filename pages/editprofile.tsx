@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
@@ -13,7 +14,7 @@ const EditProfile = () => {
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
    const [user, setUser] = useState<any>({});
-   const [changeAvatar, setChangeAvatar] = useState(false);
+   const [importImage, setImportImage] = useState(false);
    // const [defaultValues, setDefaultValues] = useState<any>([]);
    const router = useRouter();
    const {
@@ -24,9 +25,10 @@ const EditProfile = () => {
       formState: { errors },
    } = useForm();
    const [selectedImage, setSelectedImage] = useState();
+
    const imageChange = (e) => {
       setSelectedImage(e.target.files[0]);
-      setChangeAvatar(true);
+      setImportImage(true);
    };
    // let defaultValues = {
    //    avatar: userInfo.avatar,
@@ -50,7 +52,7 @@ const EditProfile = () => {
    }, [userInfo]);
    const submitHandler = async ({ firstName, lastName, phone, address }) => {
       const formData = new FormData();
-      if (changeAvatar) {
+      if (importImage) {
          const resUploadCloudinary = await API.post(
             endpoints["upload_cloudinary"],
             { file: selectedImage },
@@ -119,7 +121,11 @@ const EditProfile = () => {
             <div className="flex justify-center">
                {selectedImage ? (
                   <img
-                     src={URL.createObjectURL(selectedImage)}
+                     src={
+                        importImage
+                           ? URL.createObjectURL(selectedImage)
+                           : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612077/avatar1Artboard_1-100_yp6bij.jpg"
+                     }
                      alt="Thumb"
                      className="w-[280px] h-[280px] rounded-full my-10"
                   />

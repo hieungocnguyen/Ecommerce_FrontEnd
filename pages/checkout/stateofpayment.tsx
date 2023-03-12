@@ -11,16 +11,29 @@ import Cookies from "js-cookie";
 const StateOfPayment = () => {
    const router = useRouter();
    const resultCode = router.query.resultCode;
+
    const fetchPaymentCart = async () => {
-      const res = await authAxios().post(endpoints["payment_cart"](2));
-      Cookies.remove("cartItems");
+      try {
+         const res = await authAxios().post(endpoints["payment_cart"](2));
+         if (res) {
+            Cookies.remove("cartItems");
+         }
+      } catch (error) {
+         console.log(error);
+      }
    };
+   let result = <PaymentSuccess />;
+   if (resultCode == "1006") {
+      result = <PaymentFailed detail="User denied the transaction" />;
+   } else if (resultCode == "1005") {
+      result = <PaymentFailed detail="Payment expired transaction" />;
+   }
    useEffect(() => {
-      if (resultCode == "0") {
+      if (resultCode === "0") {
          fetchPaymentCart();
       }
    }, [resultCode]);
-   return <>{resultCode == "0" ? <PaymentSuccess /> : <PaymentFailed />}</>;
+   return <>{result}</>;
 };
 
 // export default StateOfPayment;
@@ -51,7 +64,7 @@ const PaymentSuccess = () => {
       </Layout>
    );
 };
-const PaymentFailed = () => {
+const PaymentFailed = ({ detail }) => {
    return (
       <Layout title="Payment successful">
          <div className="flex flex-col items-center">
@@ -64,6 +77,7 @@ const PaymentFailed = () => {
                />
             </div>
             <div className="font-bold text-3xl uppercase">Payment Failed</div>
+            <div>{detail}</div>
          </div>
       </Layout>
    );

@@ -106,9 +106,15 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
             {items.map((i) => (
                <div
                   key={i.id}
-                  className="grid grid-cols-12 gap-4 items-center mb-4"
+                  className="grid grid-cols-12 gap-4 items-center mb-4 "
                >
-                  <div className=" col-span-5 p-3 dark:bg-dark-spot bg-light-primary text-left rounded-lg flex items-center gap-4">
+                  <div
+                     className={`col-span-5 p-3 text-left rounded-lg flex items-center gap-4 ${
+                        i.inventory > 0
+                           ? "dark:bg-dark-spot bg-light-primary"
+                           : "bg-red-200"
+                     }`}
+                  >
                      <div className="overflow-hidden rounded-lg relative w-12 h-12">
                         <Image
                            src={i.avatar}
@@ -127,7 +133,13 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
                         currency: "VND",
                      })}
                   </div>
-                  <div className="col-span-2 font-semibold">{i.inventory}</div>
+                  <div
+                     className={`col-span-2 font-semibold ${
+                        i.inventory > 0 ? "" : "text-xl text-red-600"
+                     }`}
+                  >
+                     {i.inventory}
+                  </div>
                   <div className="col-span-3">
                      <input
                         type="number"
@@ -137,7 +149,8 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
                         max={i.inventory}
                         step="1"
                         defaultValue={0}
-                        className="p-4 rounded-lg font-semibold resetvalue bg-light-primary dark:bg-dark-spot"
+                        disabled={i.inventory > 0 ? false : true}
+                        className="p-4 rounded-lg font-semibold resetvalue bg-light-primary dark:bg-dark-spot disabled:cursor-not-allowed"
                         onKeyDown={(e) => {
                            ["e", "E", "+", "-"].includes(e.key) &&
                               e.preventDefault();

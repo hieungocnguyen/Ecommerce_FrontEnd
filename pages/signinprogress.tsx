@@ -44,7 +44,7 @@ const SignGG = () => {
    }, [msg, jwt]);
    return (
       <div>
-         <div>Wait a second ...</div>
+         <div></div>
          <Toaster />
       </div>
    );

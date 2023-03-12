@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import API, { endpoints } from "../API";
@@ -36,31 +37,25 @@ const Profile = () => {
    }, [userInfo]);
    return (
       <Layout title="Profile User">
-         <div className="flex items-center flex-col justify-center my-10">
-            <div className="flex justify-center mb-8">
-               <img
-                  src={user.avatar}
-                  alt="avatar"
-                  className="w-[240px] h-[240px] rounded-full object-cover"
-               />
-            </div>
-            <div className="text-left">
-               <div className="">
-                  <div>Firstname: {user.firstName}</div>
-                  <div>Lastname: {user.lastName}</div>
-                  <div>Email: {user.email}</div>
-                  <div>Phone: {user.phone}</div>
-                  <div>Address: {user.address}</div>
-               </div>
-               <div className="flex flex-col">
+         <div className="mx-16 my-12">
+            <div className="grid grid-cols-12 gap-8">
+               <div className="col-span-4 bg-light-primary dark:bg-dark-primary rounded-lg p-4">
+                  <div className="relative overflow-hidden mx-20 mb-4 rounded-lg aspect-square ">
+                     <Image
+                        src={user.avatar}
+                        alt=""
+                        layout="fill"
+                        className="object-cover"
+                     />
+                  </div>
                   <Link href="/editprofile">
-                     <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
-                        Edit profile
+                     <button className="p-3 bg-blue-main text-white font-semibold rounded-lg mt-4 hover:opacity-80 w-3/4">
+                        Edit your profile
                      </button>
                   </Link>
                   {authProvider == 1 ? (
                      <Link href="/changepassword">
-                        <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
+                        <button className="p-3 bg-blue-main text-white font-semibold rounded-lg mt-4 hover:opacity-80 w-3/4">
                            Change Password
                         </button>
                      </Link>
@@ -76,7 +71,7 @@ const Profile = () => {
                            </div>
                         ) : (
                            <Link href="/registerAgency">
-                              <button className="p-4 bg-blue-main text-white font-semibold rounded-lg my-4 hover:opacity-80">
+                              <button className="p-3 bg-blue-main text-white font-semibold rounded-lg mt-4 hover:opacity-80 w-3/4">
                                  Register to become agency
                               </button>
                            </Link>
@@ -87,6 +82,59 @@ const Profile = () => {
                   ) : (
                      <></>
                   )}
+               </div>
+               <div className="col-span-8 h-fit grid grid-cols-12 gap-4 bg-light-primary rounded-lg text-left p-6  font-medium">
+                  <div className="col-span-6">
+                     <label htmlFor="firstName">First Name</label>
+                     <input
+                        type="text"
+                        name=""
+                        id="firstName"
+                        className="p-4 rounded-lg w-full mt-1"
+                        value={user.firstName}
+                     />
+                  </div>
+                  <div className="col-span-6">
+                     <label htmlFor="lastName">Last Name</label>
+                     <input
+                        type="text"
+                        name=""
+                        id="lastName"
+                        className="p-4 rounded-lg w-full mt-1"
+                        value={user.lastName}
+                     />
+                  </div>
+                  <div className="col-span-6">
+                     <label htmlFor="email">Email</label>
+                     <input
+                        type="text"
+                        name=""
+                        id="email"
+                        className="p-4 rounded-lg w-full mt-1"
+                        value={user.email}
+                     />
+                  </div>
+                  <div className="col-span-6">
+                     <label htmlFor="phone">Phone</label>
+                     <input
+                        type="text"
+                        name=""
+                        id="phone"
+                        className="p-4 rounded-lg w-full mt-1"
+                        value={user.phone}
+                     />
+                  </div>
+
+                  <div className="col-span-12">
+                     <label htmlFor="address">Address</label>
+                     <input
+                        type="text"
+                        name=""
+                        id="address"
+                        className="p-4 rounded-lg w-full mt-1"
+                        value={user.address}
+                     />
+                  </div>
                </div>
             </div>
          </div>

@@ -26,8 +26,12 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
    const [importImage, setImportImage] = useState(false);
 
    const imageChange = (e) => {
-      setSelectedImage(e.target.files[0]);
-      setImportImage(true);
+      if (e.target.files[0] === undefined) {
+         setImportImage(false);
+      } else {
+         setSelectedImage(e.target.files[0]);
+         setImportImage(true);
+      }
    };
 
    const fetchItem = async () => {

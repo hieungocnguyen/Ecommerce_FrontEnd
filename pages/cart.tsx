@@ -11,6 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "../components/Loader";
 import Image from "next/image";
 import { AiOutlineClear } from "react-icons/ai";
+import emptyBox from "../public/empty-box.png";
 
 const Cart = () => {
    const { state, dispatch } = useContext(Store);
@@ -21,17 +22,15 @@ const Cart = () => {
    const [loading, setLoading] = useState(false);
    const router = useRouter();
 
+   const loadTotalCart = async () => {
+      const resTotal = await API.get(endpoints["get_total"](userInfo.id));
+      setTotalPrice(resTotal.data.data);
+   };
+   const loadItemsFromCart = async () => {
+      const resItems = await API.get(endpoints["get_cart_by_id"](userInfo.id));
+      setItemsInCart(resItems.data.data.cartItemSet);
+   };
    useEffect(() => {
-      const loadTotalCart = async () => {
-         const resTotal = await API.get(endpoints["get_total"](userInfo.id));
-         setTotalPrice(resTotal.data.data);
-      };
-      const loadItemsFromCart = async () => {
-         const resItems = await API.get(
-            endpoints["get_cart_by_id"](userInfo.id)
-         );
-         setItemsInCart(resItems.data.data.cartItemSet);
-      };
       if (userInfo) {
          loadItemsFromCart();
          loadTotalCart();
@@ -44,24 +43,6 @@ const Cart = () => {
       setInitialRenderComplete(true);
    }, [router, userInfo]);
 
-   // const handlePaymentbyCash = async () => {
-   //    setLoading(true);
-   //    try {
-   //       const resPayment = await authAxios().post(
-   //          endpoints["payment_cart"](1)
-   //       );
-   //       Cookies.remove("cartItems");
-   //       setItemsInCart([]);
-   //       setTotalPrice(0);
-   //       toast.success("Payment successful!", {
-   //          position: "bottom-center",
-   //       });
-   //       setLoading(false);
-   //    } catch (error) {
-   //       console.log(error);
-   //    }
-   // };
-
    const handleClearCart = async () => {
       try {
          const resClearCart = await authAxios().put(endpoints["clear_cart"]);
@@ -73,6 +54,8 @@ const Cart = () => {
             type: "CART_REMOVE_ALL_ITEM",
             payload: {},
          });
+         loadItemsFromCart();
+         loadTotalCart();
       } catch (error) {
          console.log(error);
       }
@@ -118,24 +101,35 @@ const Cart = () => {
          <Layout title="Cart">
             <div className="flex justify-between pt-8 pb-4 px-12 mx-8">
                <div className="font-semibold text-3xl text-left">Your Cart</div>
-               <div>
-                  <button
-                     className="bg-blue-main px-8 py-3 rounded-lg font-semibold hover:shadow-md hover:shadow-blue-main transition-all flex items-center gap-1 text-white"
-                     onClick={handleClearCart}
-                  >
-                     <AiOutlineClear className="text-xl" />
-                     <div>Clear cart</div>
-                  </button>
-               </div>
+               {itemsInCart.length > 0 ? (
+                  <div>
+                     <button
+                        className="bg-blue-main px-8 py-3 rounded-lg font-semibold hover:shadow-md hover:shadow-blue-main transition-all flex items-center gap-1 text-white"
+                        onClick={handleClearCart}
+                     >
+                        <AiOutlineClear className="text-xl" />
+                        <div>Clear cart</div>
+                     </button>
+                  </div>
+               ) : (
+                  <></>
+               )}
             </div>
-            <div className="grid grid-cols-12 h-16 items-center rounded-t-lg font-bold text-left p-6">
-               <div className="col-span-2">Image</div>
-               <div className="col-span-3">Title</div>
-               <div className="col-span-2">Quantity</div>
-               <div className="col-span-2">Unit Price</div>
-               <div className="col-span-2">Price</div>
-               <div className="col-span-1"></div>
-            </div>
+            {itemsInCart.length > 0 ? (
+               <>
+                  <div className="grid grid-cols-12 h-16 items-center rounded-t-lg font-bold text-left p-6">
+                     <div className="col-span-2">Image</div>
+                     <div className="col-span-3">Title</div>
+                     <div className="col-span-2">Quantity</div>
+                     <div className="col-span-2">Unit Price</div>
+                     <div className="col-span-2">Price</div>
+                     <div className="col-span-1"></div>
+                  </div>
+               </>
+            ) : (
+               <></>
+            )}
+
             {itemsInCart
                .sort((a, b) => (a.id < b.id ? 1 : -1))
                .map((i) => (
@@ -207,22 +201,24 @@ const Cart = () => {
                      </button>
                   </div>
                ))}
-            <div className="dark:bg-dark-primary bg-light-primary rounded-lg flex my-4 justify-between items-center mx-20 py-8 px-16">
-               <div className="text-left">
-                  <div className="text-2xl">
-                     Subtotal:{" "}
-                     <span className="text-blue-main font-bold text-3xl">
-                        {totalPrice.toLocaleString("it-IT", {
-                           style: "currency",
-                           currency: "VND",
-                        })}
-                     </span>
-                  </div>
-                  <div className="text-lg">
-                     Total item: {itemsInCart.length}
-                  </div>
-               </div>
-               {/* <div className="flex flex-col my-4 w-1/3">
+            {itemsInCart.length > 0 ? (
+               <>
+                  <div className="dark:bg-dark-primary bg-light-primary rounded-lg flex my-4 justify-between items-center mx-20 py-8 px-16">
+                     <div className="text-left">
+                        <div className="text-2xl">
+                           Subtotal:{" "}
+                           <span className="text-blue-main font-bold text-3xl">
+                              {totalPrice.toLocaleString("it-IT", {
+                                 style: "currency",
+                                 currency: "VND",
+                              })}
+                           </span>
+                        </div>
+                        <div className="text-lg">
+                           Total item: {itemsInCart.length}
+                        </div>
+                     </div>
+                     {/* <div className="flex flex-col my-4 w-1/3">
                   <button
                      className="w-full bg-blue-main font-semibold text-white my-2 h-[60px] rounded-lg hover:opacity-80"
                      onClick={handlePaymentbyCash}
@@ -233,13 +229,30 @@ const Cart = () => {
                      Payment by MoMo Wallet
                   </button>
                </div> */}
-               <button
-                  className="py-4 px-12 bg-blue-main font-semibold rounded-lg text-lg hover:shadow-md hover:shadow-blue-main transition-all text-white"
-                  onClick={handleRouteCheckout}
-               >
-                  Checkout
-               </button>
-            </div>
+                     <button
+                        className="py-4 px-12 bg-blue-main font-semibold rounded-lg text-lg hover:shadow-md hover:shadow-blue-main transition-all text-white"
+                        onClick={handleRouteCheckout}
+                     >
+                        Checkout
+                     </button>
+                  </div>
+               </>
+            ) : (
+               <>
+                  <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
+                     <Image
+                        src={emptyBox}
+                        alt="empty"
+                        layout="fill"
+                        className="object-cover"
+                     />
+                  </div>
+                  <div className="uppercase text-2xl font-semibold">
+                     your cart is empty
+                  </div>
+               </>
+            )}
+
             {loading ? <Loader /> : <></>}
             <Toaster />
          </Layout>

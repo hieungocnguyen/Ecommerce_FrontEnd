@@ -47,6 +47,7 @@ const Signin = () => {
          if (dataCurrentUser.data) {
             setLoading(false);
             router.push("/");
+            // router.back();
             toast.success(`Sign in successful!`, {
                position: "top-center",
             });

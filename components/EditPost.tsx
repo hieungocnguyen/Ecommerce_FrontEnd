@@ -87,8 +87,12 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
    };
 
    const imageChange = (e) => {
-      setSelectedImage(e.target.files[0]);
-      setImportImage(true);
+      if (e.target.files[0] === undefined) {
+         setImportImage(false);
+      } else {
+         setSelectedImage(e.target.files[0]);
+         setImportImage(true);
+      }
    };
 
    const handlePostChange = (event) => {

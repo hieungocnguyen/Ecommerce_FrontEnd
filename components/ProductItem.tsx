@@ -9,14 +9,16 @@ import { authAxios, endpoints } from "../API";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { BiGitCompare, BiUndo } from "react-icons/bi";
+import { BiGitCompare, BiShowAlt, BiUndo } from "react-icons/bi";
 import { Store } from "../utils/Store";
 import toast, { Toaster } from "react-hot-toast";
+import QuickView from "./QuickView";
 
 const ProductItem = ({ product, inCompare, setLoading }) => {
    const [stateLike, setStateLike] = useState(false);
    const router = useRouter();
    const { state, dispatch } = useContext(Store);
+   const [isOpenQuickViewModal, setIsOpenQuickViewModal] = useState(false);
 
    const handleAddToWishList = async () => {
       if (!Cookies.get("accessToken")) {
@@ -90,80 +92,110 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
    }, []);
 
    return (
-      <div className=" bg-light-primary dark:bg-dark-primary rounded-lg">
-         <div className="flex justify-between m-2 items-center">
-            <div className="bg-red-500 font-semibold p-1 w-fit rounded-lg whitespace-nowrap text-sm text-white">
-               {product.sellStatus.name}
+      <div className="relative">
+         <div
+            className="dark:bg-dark-primary bg-light-primary rounded-lg p-4 cursor-pointer hover:shadow-blue-main dark:hover:shadow-dark-shadow hover:shadow-lg"
+            onClick={() => handleDetailRoute()}
+         >
+            <div className="relative">
+               <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all">
+                  <Image
+                     src={product.avatar}
+                     alt=""
+                     layout="fill"
+                     className="object-cover"
+                  />
+               </div>
+               <div className="absolute -left-4 -bottom-4 rounded-tr-xl pt-2 pb-4 pr-4 pl-6 font-bold uppercase bg-light-primary dark:bg-dark-primary text-blue-main text-lg z-10">
+                  {product.sellStatus.name}
+               </div>
             </div>
-            <div className="mr-2">
-               {moment(product.createdDate).startOf("hour").fromNow()}
-            </div>
-         </div>
-
-         <img
-            src={product.avatar}
-            alt="avatar"
-            className="w-[200px] h-[200px] object-cover rounded-lg mx-auto my-[24px]"
-         />
-         <div className="mx-7 text-center">
-            <div className="font-semibold line-clamp-2 text-lg  uppercase h-16 ">
+            <div className="text-left font-bold text-xl uppercase mt-4 mb-2 line-clamp-2">
                {product.title}
             </div>
-            <div className="line-through text-sm opacity-60">
-               {product.initialPrice.toLocaleString("it-IT", {
-                  style: "currency",
-                  currency: "VND",
-               })}
+            <div className="text-left">
+               <div className="text-2xl font-bold text-blue-main">
+                  {product.finalPrice.toLocaleString("it-IT", {
+                     style: "currency",
+                     currency: "VND",
+                  })}
+               </div>
+               <div className="line-through">
+                  {product.initialPrice.toLocaleString("it-IT", {
+                     style: "currency",
+                     currency: "VND",
+                  })}
+               </div>
             </div>
-
-            <div className="text-blue-main font-bold text-xl">
-               {product.finalPrice.toLocaleString("it-IT", {
-                  style: "currency",
-                  currency: "VND",
-               })}
+            <div className=" flex items-end justify-end mt-6">
+               <div className="text-right">
+                  <div className="text-blue-main font-bold text-sm text-right mb-1">
+                     {product.category.name}
+                  </div>
+                  <div className="italic text-sm">
+                     {moment(product.createdDate).startOf("hour").fromNow()}
+                  </div>
+               </div>
             </div>
-            <div>{product.category.name}</div>
-            <div className="grid grid-cols-4 my-4 gap-3">
-               <div className="col-span-2">
+            <div className="absolute top-0 right-0">
+               {!stateLike ? (
                   <button
-                     className=" h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-sm w-full"
-                     onClick={handleDetailRoute}
+                     className="text-blue-main w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
+                     onClick={(event) => {
+                        event.stopPropagation();
+                        handleAddToWishList();
+                     }}
                   >
-                     Detail
+                     <AiOutlineHeart />
                   </button>
-               </div>
-               <div>
-                  {!stateLike ? (
-                     <button
-                        className=" h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-xl w-full flex justify-center items-center"
-                        onClick={handleAddToWishList}
-                     >
-                        <AiOutlineHeart />
-                     </button>
-                  ) : (
-                     <button
-                        className=" h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-xl w-full flex justify-center items-center"
-                        onClick={handleRemoveToWishList}
-                     >
-                        <AiFillHeart />
-                     </button>
-                  )}
-               </div>
-               {inCompare ? (
-                  <div
-                     className="h-9 text-white bg-red-800 rounded-lg hover:opacity-80 font-semibold text-xl w-full flex justify-center items-center cursor-pointer"
-                     onClick={handleRemoveCompare}
-                  >
-                     <BiUndo />
-                  </div>
                ) : (
-                  <div
-                     className="h-9 text-white bg-blue-main rounded-lg hover:opacity-80 font-semibold text-xl w-full flex justify-center items-center cursor-pointer"
-                     onClick={handleAddCompare}
+                  <button
+                     className=" text-blue-main w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
+                     onClick={(event) => {
+                        event.stopPropagation();
+                        handleRemoveToWishList();
+                     }}
                   >
-                     <BiGitCompare />
-                  </div>
+                     <AiFillHeart />
+                  </button>
                )}
+            </div>
+         </div>
+         <div className="flex gap-4 absolute bottom-4 left-4">
+            <button
+               className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-md text-3xl"
+               onClick={() => {
+                  setIsOpenQuickViewModal(true);
+               }}
+            >
+               <BiShowAlt />
+            </button>
+            {inCompare ? (
+               <button
+                  className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-md text-3xl"
+                  onClick={handleRemoveCompare}
+               >
+                  <BiUndo />
+               </button>
+            ) : (
+               <button
+                  className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-md text-3xl"
+                  onClick={handleAddCompare}
+               >
+                  <BiGitCompare />
+               </button>
+            )}
+         </div>
+         <div
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+               isOpenQuickViewModal ? "flex" : "hidden"
+            }`}
+         >
+            <div className="w-1/2 h-fit ">
+               <QuickView
+                  postID={product.id}
+                  setIsOpenQuickViewModal={setIsOpenQuickViewModal}
+               />
             </div>
          </div>
       </div>

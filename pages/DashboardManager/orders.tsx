@@ -47,7 +47,10 @@ const Orders = () => {
                         </div>
                         <div>
                            <div className="py-2 font-semibold">
-                              {o.orders.totalPrice}
+                              {o.orders.totalPrice.toLocaleString("it-IT", {
+                                 style: "currency",
+                                 currency: "VND",
+                              })}
                            </div>
                            <div>{o.orders.paymentType.name}</div>
                            <div>

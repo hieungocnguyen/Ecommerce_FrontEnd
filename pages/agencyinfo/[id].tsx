@@ -37,8 +37,7 @@ const AgencyPage = ({ agencyInfo }) => {
    }, [router.query.input, numberPage, id, agency.name]);
    return (
       <Layout title="Agency">
-         <div className="grid grid-cols-8 gap-8 my-8">
-            <div className="col-span-2 dark:bg-dark-primary bg-light-primary rounded-lg h-fit p-8">
+         {/* <div className="col-span-2 dark:bg-dark-primary bg-light-primary rounded-lg h-fit p-8">
                <div className="flex justify-center items-center">
                   <img
                      src={agency.avatar}
@@ -53,62 +52,62 @@ const AgencyPage = ({ agencyInfo }) => {
 
                <div>{agency.address}</div>
                <div>{agency.hotline}</div>
+            </div> */}
+         {/* posts side */}
+         <div className="col-span-4 my-8">
+            <div className="col-span-1 grid grid-cols-4 gap-8">
+               {salePosts.map((post) => (
+                  <ProductItem
+                     key={post.id}
+                     product={post}
+                     inCompare={false}
+                     setLoading={undefined}
+                  />
+               ))}
             </div>
-            {/* posts side */}
-            <div className="col-span-6 8">
-               <div className="col-span-2 grid grid-cols-4 gap-8">
-                  {salePosts.map((post) => (
-                     <ProductItem
-                        key={post.id}
-                        product={post}
-                        inCompare={false}
-                     />
-                  ))}
+            <div
+               className="flex gap-4
+                justify-center my-8"
+            >
+               <div
+                  className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                  onClick={(e) => {
+                     setnumberPage(1);
+                  }}
+               >
+                  1
                </div>
                <div
-                  className="flex gap-4
-                justify-center my-8"
+                  className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                  onClick={(e) => {
+                     setnumberPage(2);
+                  }}
                >
-                  <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
-                     onClick={(e) => {
-                        setnumberPage(1);
-                     }}
-                  >
-                     1
-                  </div>
-                  <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
-                     onClick={(e) => {
-                        setnumberPage(2);
-                     }}
-                  >
-                     2
-                  </div>
-                  <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
-                     onClick={(e) => {
-                        setnumberPage(3);
-                     }}
-                  >
-                     3
-                  </div>
-                  <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
-                     onClick={(e) => {
-                        setnumberPage(4);
-                     }}
-                  >
-                     4
-                  </div>
-                  <div
-                     className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
-                     onClick={(e) => {
-                        setnumberPage(5);
-                     }}
-                  >
-                     5
-                  </div>
+                  2
+               </div>
+               <div
+                  className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                  onClick={(e) => {
+                     setnumberPage(3);
+                  }}
+               >
+                  3
+               </div>
+               <div
+                  className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                  onClick={(e) => {
+                     setnumberPage(4);
+                  }}
+               >
+                  4
+               </div>
+               <div
+                  className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
+                  onClick={(e) => {
+                     setnumberPage(5);
+                  }}
+               >
+                  5
                </div>
             </div>
          </div>

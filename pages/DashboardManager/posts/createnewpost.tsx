@@ -65,7 +65,7 @@ const CreateNewPost = () => {
    const handleCreatePost = async (e) => {
       e.preventDefault();
       let imageURL =
-         "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg";
+         "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg";
       if (values.title.length <= 20) {
          setTitleVali(true);
       } else {
@@ -114,7 +114,7 @@ const CreateNewPost = () => {
                            src={
                               selectedImage
                                  ? URL.createObjectURL(selectedImage)
-                                 : "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg"
+                                 : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg"
                            }
                            alt="avatar"
                            layout="fill"
