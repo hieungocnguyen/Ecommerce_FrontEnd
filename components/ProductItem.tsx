@@ -12,7 +12,7 @@ import moment from "moment";
 import { BiGitCompare, BiShowAlt, BiUndo } from "react-icons/bi";
 import { Store } from "../utils/Store";
 import toast, { Toaster } from "react-hot-toast";
-import QuickView from "./QuickView";
+import QuickView from "./Model/QuickView";
 
 const ProductItem = ({ product, inCompare, setLoading }) => {
    const [stateLike, setStateLike] = useState(false);

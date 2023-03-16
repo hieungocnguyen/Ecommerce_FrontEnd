@@ -16,7 +16,7 @@ import LayoutDashboard from "../../../components/Dashboard/LayoutDashboardManage
 import Loader from "../../../components/Loader";
 import { Store } from "../../../utils/Store";
 import Image from "next/image";
-import EditPost from "../../../components/EditPost";
+import EditPost from "../../../components/Model/EditPost";
 
 const Posts = () => {
    const { state, dispatch } = useContext(Store);

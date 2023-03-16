@@ -4,7 +4,7 @@ import router from "next/router";
 import { useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
-import { Store } from "../utils/Store";
+import { Store } from "../../utils/Store";
 
 const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
    const wrapperRef = useRef(null);
@@ -152,7 +152,7 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
                         disabled={i.inventory > 0 ? false : true}
                         className="p-4 rounded-lg font-semibold resetvalue bg-light-primary dark:bg-dark-spot disabled:cursor-not-allowed"
                         onKeyDown={(e) => {
-                           ["e", "E", "+", "-"].includes(e.key) &&
+                           ["e", "E", "+", "-", ".", ","].includes(e.key) &&
                               e.preventDefault();
                         }}
                         onChange={(e) => {

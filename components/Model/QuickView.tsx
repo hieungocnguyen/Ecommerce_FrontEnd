@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import API, { endpoints } from "../API";
+import API, { endpoints } from "../../API";
 import Image from "next/image";
 import { Rating } from "@mui/material";
 import Moment from "react-moment";

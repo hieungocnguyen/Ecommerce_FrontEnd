@@ -27,6 +27,9 @@ const initialState = {
    agencyInfo: Cookies.get("agencyInfo")
       ? JSON.parse(Cookies.get("agencyInfo"))
       : null,
+   addressPayment: Cookies.get("addressPayment")
+      ? JSON.parse(Cookies.get("addressPayment"))
+      : null,
 };
 function reducer(state: any, action: { type: any; payload: any }) {
    switch (action.type) {
@@ -55,7 +58,7 @@ function reducer(state: any, action: { type: any; payload: any }) {
       }
       case "CART_REMOVE_ALL_ITEM": {
          Cookies.remove("cartItems");
-         return { ...state, cart: { ...state.cart } };
+         return { ...state, cart: null };
       }
       case "AGENCY_INFO_SET":
          return { ...state, agencyInfo: action.payload };
@@ -99,6 +102,14 @@ function reducer(state: any, action: { type: any; payload: any }) {
       //    Cookies.remove("cartItems");
       //    return { ...state, compare: { ...state.compare } };
       // }
+      case "ADD_ADDRESS_PAYMENT": {
+         Cookies.set("addressPayment", JSON.stringify(action.payload));
+         return { ...state, addressPayment: action.payload };
+      }
+      case "REMOVE_ADDRESS_PAYMENT": {
+         Cookies.remove("addressPayment");
+         return { ...state, addressPayment: null };
+      }
       default:
          return state;
    }

@@ -66,7 +66,13 @@ export let endpoints = {
    item: (itemID) => `/item/${itemID}`,
    //payment
    momo_payment_info: `/cart/get-momo-payment-info`,
-   payment_cart: (paymentTypeID) => `/cart/payment-cart/${paymentTypeID}`,
+   payment_cart: (paymentTypeID, addressID) =>
+      `/cart/payment-cart/${paymentTypeID}/${addressID}`,
+   //loation
+   create_address: `/location/address-book/create`,
+   get_address_book: (userID) =>
+      `/location/address-book/get-address-book-by-user-id/${userID}`,
+   get_full_address: (wardID) => `/location/get-full-address/${wardID}`,
 };
 export const authAxios = () =>
    axios.create({

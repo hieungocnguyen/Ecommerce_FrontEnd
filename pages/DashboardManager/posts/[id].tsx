@@ -16,9 +16,9 @@ import {
 import Loader from "../../../components/Loader";
 import toast, { Toaster } from "react-hot-toast";
 import { BiEditAlt, BiSave, BiTrashAlt, BiUpload } from "react-icons/bi";
-import EditItem from "../../../components/EditItem";
+import EditItem from "../../../components/Model/EditItem";
 import axios from "axios";
-import NewItem from "../../../components/NewItem";
+import NewItem from "../../../components/Model/NewItem";
 import dynamic from "next/dynamic";
 
 const CssTextField = styled(TextField)({

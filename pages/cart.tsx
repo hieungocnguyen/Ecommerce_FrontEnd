@@ -118,8 +118,8 @@ const Cart = () => {
             {itemsInCart.length > 0 ? (
                <>
                   <div className="grid grid-cols-12 h-16 items-center rounded-t-lg font-bold text-left p-6">
-                     <div className="col-span-2">Image</div>
-                     <div className="col-span-3">Title</div>
+                     <div className="col-span-1">Image</div>
+                     <div className="col-span-4">Title</div>
                      <div className="col-span-2">Quantity</div>
                      <div className="col-span-2">Unit Price</div>
                      <div className="col-span-2">Price</div>
@@ -137,7 +137,7 @@ const Cart = () => {
                      key={i.id}
                      className="grid grid-cols-12 items-center dark:bg-dark-primary bg-light-primary rounded-lg overflow-hidden mb-4 p-4 text-left"
                   >
-                     <div className="col-span-2 relative overflow-hidden rounded-lg w-16 h-16">
+                     <div className="col-span-1 relative overflow-hidden rounded-lg w-16 h-16">
                         <Image
                            src={i.itemPost.avatar}
                            alt="avatar item"
@@ -145,8 +145,8 @@ const Cart = () => {
                            className="object-cover"
                         />
                      </div>
-                     <div className="col-span-3 font-semibold">
-                        {i.itemPost.name} {i.itemPost.description}
+                     <div className="col-span-4 font-semibold">
+                        {i.itemPost.name} - {i.itemPost.description}
                      </div>
                      <div className="col-span-2 font-semibold">
                         <input

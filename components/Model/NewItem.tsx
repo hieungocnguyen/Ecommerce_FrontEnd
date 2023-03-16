@@ -2,7 +2,7 @@ import { styled, TextField } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { BiCloudUpload } from "react-icons/bi";
-import API, { authAxios, endpoints } from "../API";
+import API, { authAxios, endpoints } from "../../API";
 
 const CssTextField = styled(TextField)({
    "& .MuiOutlinedInput-root": {

@@ -8,10 +8,10 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import API, { endpoints } from "../API";
+import API, { endpoints } from "../../API";
 import { BiCloudUpload, BiExit } from "react-icons/bi";
 import dynamic from "next/dynamic";
-import Loader from "./Loader";
+import Loader from "../Loader";
 import { toast } from "react-hot-toast";
 
 const CssTextField = styled(TextField)({

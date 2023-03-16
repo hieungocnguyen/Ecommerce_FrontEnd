@@ -14,7 +14,7 @@ import { BiStore } from "react-icons/bi";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import ItemsInPost from "../../components/ItemsInPost";
+import ItemsInPost from "../../components/Model/ItemsInPost";
 import Loader from "../../components/Loader";
 
 const ProductPage = ({ salePost }) => {

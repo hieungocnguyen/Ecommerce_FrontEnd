@@ -75,7 +75,7 @@ const Header = () => {
       if (userInfo) {
          loadNumberofItems();
       }
-   }, [numberItem, cart]);
+   }, [numberItem]);
 
    useEffect(() => {
       if (userInfo != null) {

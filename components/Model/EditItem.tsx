@@ -1,6 +1,6 @@
 import { styled, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import API, { endpoints } from "../API";
+import API, { endpoints } from "../../API";
 import Image from "next/image";
 import { BiCloudUpload } from "react-icons/bi";
 import toast from "react-hot-toast";

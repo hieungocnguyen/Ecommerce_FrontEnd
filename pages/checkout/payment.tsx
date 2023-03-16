@@ -10,47 +10,18 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../components/Loader";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import AddressBook from "../../components/Model/AddressBook";
+import AddToAddressBook from "../../components/Model/AddToAddressBook";
 
 const Payment = () => {
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
    const router = useRouter();
-   const [province, setProvince] = useState([]);
-   const [district, setDistrict] = useState([]);
-   const [ward, setWard] = useState([]);
-   const [street, setStreet] = useState("empty");
-   const [address, setAddress] = useState({});
    const [paymentType, setPaymentType] = useState(0);
    const [loading, setLoading] = useState(false);
-
-   const fetchProvinceAll = async () => {
-      const res = await API.get(
-         "http://localhost:8080/ou-ecommerce/api/location/provinces/all"
-      );
-      setProvince(res.data.data);
-   };
-
-   const handleSelectProvince = (provinceID: string) => {
-      const fetchDistrictByProvinceID = async (provinceID) => {
-         const res = await API.get(
-            `http://localhost:8080/ou-ecommerce/api/location/districts/get-districts-by-province-id/${provinceID}`
-         );
-         setDistrict(res.data.data);
-         setWard([]);
-         setStreet("empty");
-      };
-      fetchDistrictByProvinceID(provinceID);
-   };
-   const handleSelectDistrict = (districtID: string) => {
-      const fetchWardByDistrictID = async (districtID) => {
-         const res = await API.get(
-            `http://localhost:8080/ou-ecommerce/api/location/wards/get-wards-by-district-id/${districtID}`
-         );
-         setWard(res.data.data);
-         setStreet("empty");
-      };
-      fetchWardByDistrictID(districtID);
-   };
+   const [isOpenAddressBook, setIsOpenAddressBook] = useState(false);
+   const [isOpenAddAddress, setIsOpenAddAddress] = useState(false);
+   const [address, setAddress] = useState<any>({});
 
    const handlePayment = () => {
       if (paymentType === 0) {
@@ -68,7 +39,7 @@ const Payment = () => {
       setLoading(true);
       try {
          const resPayment = await authAxios().post(
-            endpoints["payment_cart"](1)
+            endpoints["payment_cart"](1, address.id)
          );
 
          if (resPayment.data.code === "200") {
@@ -81,7 +52,6 @@ const Payment = () => {
             toast.error(resPayment.data.message, {
                position: "top-center",
             });
-            console.log(resPayment);
          }
 
          setLoading(false);
@@ -97,6 +67,7 @@ const Payment = () => {
          if (res) {
             router.push(res.data.data.payUrl);
             setLoading(false);
+            dispatch({ type: "ADD_ADDRESS_PAYMENT", payload: address.id });
          }
       } catch (error) {
          console.log(error);
@@ -104,137 +75,145 @@ const Payment = () => {
       }
    };
    useEffect(() => {
-      fetchProvinceAll();
-   }, [userInfo]);
+      const fetchAddressList = async () => {
+         const res = await API.get(endpoints["get_address_book"](userInfo.id));
+         setAddress(res.data.data.sort((a, b) => (a.id > b.id ? -1 : 1))[0]);
+      };
+      fetchAddressList();
+   }, []);
 
    return (
       <Layout title="Payment">
          <div className="grid grid-cols-12 gap-8 m-8">
             <div className="col-span-7 dark:bg-dark-primary bg-light-primary rounded-lg p-4">
-               <div className="text-lg font-semibold mb-6">
+               <div className="text-lg font-semibold mb-4">
                   Information Delivery
                </div>
                {userInfo ? (
-                  <div>
-                     <div className=" grid grid-cols-2 gap-4 mb-6">
-                        <div>
-                           <input
-                              required
-                              value={userInfo.firstName}
-                              disabled
-                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main disabled:bg-light-bg"
-                           />
-                        </div>
-                        <div>
-                           <input
-                              required
-                              value={userInfo.lastName}
-                              disabled
-                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main disabled:bg-light-bg"
-                           />
-                        </div>
+                  <div className="text-left px-4">
+                     <div className="mb-2">
+                        <label
+                           htmlFor="name"
+                           className="font-medium text-sm pl-2"
+                        >
+                           Name
+                        </label>
+                        <input
+                           id="name"
+                           type="text"
+                           required
+                           value={`${userInfo.firstName} ${userInfo.lastName} `}
+                           disabled
+                           className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                        />
                      </div>
-                     <div className="grid grid-cols-2 gap-4 mb-6">
-                        <div>
-                           <input
-                              name="firstName"
-                              required
-                              value={userInfo.phone}
-                              disabled
-                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main disabled:bg-light-bg"
-                           />
-                        </div>
-                        <div>
-                           <input
-                              name="firstName"
-                              required
-                              value={userInfo.email}
-                              disabled
-                              className="w-full p-4 rounded-lg font-medium focus:outline-blue-main disabled:bg-light-bg"
-                           />
-                        </div>
+                     <div className="">
+                        <label
+                           htmlFor="email"
+                           className="font-medium text-sm pl-2"
+                        >
+                           Email
+                        </label>
+                        <input
+                           type="text"
+                           name="email"
+                           required
+                           value={userInfo.email}
+                           disabled
+                           className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                        />
                      </div>
-                     <div className="grid grid-cols-3 gap-4 mb-6">
-                        <div>
-                           <select
-                              id="province"
-                              className="p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
-                              onChange={(e) => {
-                                 handleSelectProvince(e.target.value);
-                              }}
-                           >
-                              <option value={0} className="hidden">
-                                 Select Province
-                              </option>
-                              {province.map((p) => (
-                                 <option
-                                    key={p.provinceID}
-                                    value={p.provinceID}
-                                    className=""
-                                 >
-                                    {p.provinceName}
-                                 </option>
-                              ))}
-                           </select>
-                        </div>
-                        <div>
-                           <select
-                              id="district"
-                              className="p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
-                              onChange={(e) =>
-                                 handleSelectDistrict(e.target.value)
-                              }
-                              disabled={district.length > 0 ? false : true}
-                           >
-                              <option value={0} className="hidden">
-                                 Select District
-                              </option>
-                              {district.map((p) => (
-                                 <option
-                                    key={p.districtID}
-                                    value={p.districtID}
-                                 >
-                                    {p.districtName}
-                                 </option>
-                              ))}
-                           </select>
-                        </div>
-                        <div>
-                           <select
-                              id="ward"
-                              className="p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
-                              disabled={ward.length > 0 ? false : true}
-                              onChange={() => {
-                                 setStreet("");
-                              }}
-                           >
-                              <option value={0} className="hidden">
-                                 Select Ward
-                              </option>
-                              {ward.map((p) => (
-                                 <option key={p.wardID} value={p.wardID}>
-                                    {p.wardName}
-                                 </option>
-                              ))}
-                           </select>
-                        </div>
-                     </div>
-                     <div>
-                        <div>
-                           <input
-                              name="street"
-                              required
-                              type="text"
-                              placeholder="Street"
-                              className="p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:bg-light-bg disabled:cursor-not-allowed"
-                              disabled={street == "" ? false : true}
-                           />
-                        </div>
+                     {address.fullAddress ? (
+                        <>
+                           <div>
+                              <label
+                                 htmlFor="address"
+                                 className="font-medium text-sm pl-2"
+                              >
+                                 Full Address
+                              </label>
+                              <input
+                                 type="text"
+                                 name="address"
+                                 required
+                                 value={address.fullAddress}
+                                 disabled
+                                 className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                              />
+                           </div>
+                           <div>
+                              <label
+                                 htmlFor="phone"
+                                 className="font-medium text-sm pl-2"
+                              >
+                                 Address
+                              </label>
+                              <input
+                                 type="number"
+                                 name="phone"
+                                 required
+                                 value={address.deliveryPhone}
+                                 disabled
+                                 className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                              />
+                           </div>
+                           <div>
+                              <label
+                                 htmlFor="description"
+                                 className="font-medium text-sm pl-2"
+                              >
+                                 Description
+                              </label>
+                              <input
+                                 type="text"
+                                 name="description"
+                                 required
+                                 value={address.description}
+                                 disabled
+                                 className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                              />
+                           </div>
+                        </>
+                     ) : (
+                        <></>
+                     )}
+
+                     <div className="flex justify-center my-4">
+                        <button
+                           className="py-3 px-4 rounded-lg bg-blue-main text-white font-semibold hover:shadow-lg hover:shadow-blue-main"
+                           onClick={() => setIsOpenAddressBook(true)}
+                        >
+                           Address Book
+                        </button>
                      </div>
                   </div>
                ) : (
                   <></>
                )}
+               <div
+                  className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                     isOpenAddressBook ? "flex" : "hidden"
+                  }`}
+               >
+                  <div className="w-1/2 h-[40rem]">
+                     <AddressBook
+                        setIsOpenAddressBook={setIsOpenAddressBook}
+                        setAddress={setAddress}
+                        setIsOpenAddAddress={setIsOpenAddAddress}
+                     />
+                  </div>
+               </div>
+               <div
+                  className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                     isOpenAddAddress ? "flex" : "hidden"
+                  }`}
+               >
+                  <div className="w-1/2 h-fit ">
+                     <AddToAddressBook
+                        setIsOpenAddAddress={setIsOpenAddAddress}
+                     />
+                  </div>
+               </div>
             </div>
             <div className="col-span-5 dark:bg-dark-primary bg-light-primary rounded-lg p-4">
                <div className="text-lg font-semibold">Cart</div>
@@ -287,7 +266,7 @@ const Payment = () => {
                   </label>
                </div>
                <button
-                  className="py-4 px-10 h-fit bg-blue-main rounded-lg font-semibold text-white hover:shadow-blue-main hover:shadow-md w-fit transition-all"
+                  className="py-4 px-10 h-fit bg-blue-main rounded-lg font-semibold text-white hover:shadow-blue-main hover:shadow-md w-fit "
                   onClick={handlePayment}
                >
                   {paymentType === 1

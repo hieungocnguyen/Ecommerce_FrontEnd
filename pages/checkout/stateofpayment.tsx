@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import paymentSuccess from "../../public/payment_success.png";
 import paymentFailed from "../../public/payment_failed.png";
@@ -7,16 +7,21 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { authAxios, endpoints } from "../../API";
 import Cookies from "js-cookie";
+import { Store } from "../../utils/Store";
 
 const StateOfPayment = () => {
    const router = useRouter();
    const resultCode = router.query.resultCode;
-
+   const { state, dispatch } = useContext(Store);
+   const { addressPayment } = state;
    const fetchPaymentCart = async () => {
       try {
-         const res = await authAxios().post(endpoints["payment_cart"](2));
+         const res = await authAxios().post(
+            endpoints["payment_cart"](2, addressPayment)
+         );
          if (res) {
-            Cookies.remove("cartItems");
+            dispatch({ type: "CART_REMOVE_ALL_ITEM" });
+            dispatch({ type: "REMOVE_ADDRESS_PAYMENT" });
          }
       } catch (error) {
          console.log(error);
