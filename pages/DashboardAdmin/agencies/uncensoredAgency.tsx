@@ -29,8 +29,8 @@ const AgenciesAdminDashboard = () => {
                <div className="font-semibold text-2xl">Uncensored Agencies</div>
             </div>
             {uncensored.length > 0 ? (
-               <div className="rounded-lg bg-dark-primary overflow-hidden shadow-2xl shadow-dark-shadow">
-                  <ul className="grid grid-cols-12 p-5 bg-dark-spot items-center font-semibold">
+               <div className="rounded-lg dark:bg-dark-primary bg-light-primary overflow-hidden shadow-2xl shadow-dark-shadow">
+                  <ul className="grid grid-cols-12 p-5 dark:bg-dark-spot bg-light-spot items-center font-semibold">
                      <li className="col-span-1">Avatar</li>
                      <li className="col-span-3">Name</li>
                      <li className="col-span-2">Field</li>

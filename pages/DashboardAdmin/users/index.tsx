@@ -18,8 +18,8 @@ const UsersAdminDashboard = () => {
             <div className="flex justify-between my-10">
                <div className="font-semibold text-2xl">User List</div>
             </div>
-            <div className="rounded-lg bg-dark-primary overflow-hidden shadow-2xl shadow-dark-shadow">
-               <ul className="grid grid-cols-12 p-5 bg-dark-spot items-center font-semibold">
+            <div className="rounded-lg dark:bg-dark-primary bg-light-spot overflow-hidden shadow-lg dark:shadow-dark-shadow shadow-light-spot">
+               <ul className="grid grid-cols-12 p-5 dark:bg-dark-spot bg-light-primary items-center font-semibold">
                   <li className="col-span-1">Avatar</li>
                   <li className="col-span-2">Name</li>
                   <li className="col-span-2">Phone number</li>
@@ -28,7 +28,7 @@ const UsersAdminDashboard = () => {
                </ul>
                {users.map((user) => (
                   <ul
-                     className="grid grid-cols-12 p-5  items-center hover:bg-dark-spot cursor-pointer"
+                     className="grid grid-cols-12 p-5  items-center dark:hover:bg-dark-spot hover:bg-light-primary cursor-pointer"
                      key={user.id}
                   >
                      <li className="col-span-1">

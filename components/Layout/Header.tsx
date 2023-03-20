@@ -75,7 +75,7 @@ const Header = () => {
       if (userInfo) {
          loadNumberofItems();
       }
-   }, [numberItem]);
+   }, [numberItem, cart]);
 
    useEffect(() => {
       if (userInfo != null) {
@@ -172,6 +172,7 @@ const Header = () => {
          <div className="mr-10 flex items-center">
             <button
                className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mr-6 relative"
+               title="cart"
                onClick={handleCartRoute}
             >
                <HiOutlineShoppingCart className="w-6 h-6" />

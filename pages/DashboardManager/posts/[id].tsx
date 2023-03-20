@@ -125,7 +125,7 @@ const ItemsOfPost = () => {
                <div className="flex justify-between mb-4">
                   <div className="font-semibold text-2xl">Items</div>
                   <div
-                     className="p-3 bg-blue-main rounded-lg font-semibold  cursor-pointer shadow-sm shadow-blue-main hover:shadow-lg hover:shadow-blue-main"
+                     className="p-3 bg-blue-main rounded-lg font-semibold  cursor-pointer shadow-sm shadow-blue-main hover:shadow-lg hover:shadow-blue-main text-white"
                      onClick={() => setIsOpenNewItem(true)}
                   >
                      Create new items
@@ -134,8 +134,8 @@ const ItemsOfPost = () => {
 
                {items.length > 0 ? (
                   <div>
-                     <div className="rounded-lg bg-dark-primary overflow-hidden shadow-2xl shadow-dark-shadow">
-                        <ul className="grid grid-cols-12 p-5 bg-dark-spot items-center font-semibold">
+                     <div className="rounded-lg dark:bg-dark-primary bg-light-bg overflow-hidden shadow-2xl dark:shadow-dark-shadow shadow-light-primary">
+                        <ul className="grid grid-cols-12 p-5 dark:bg-dark-spot bg-light-primary items-center font-semibold">
                            <li className="col-span-1 ">Image</li>
                            <li className="col-span-3 ">Name</li>
                            <li className="col-span-3 ">Description</li>
@@ -147,7 +147,7 @@ const ItemsOfPost = () => {
                            .sort((a, b) => (a.id < b.id ? 1 : -1))
                            .map((i) => (
                               <div key={i.id}>
-                                 <ul className="grid grid-cols-12 p-5 items-center hover:bg-dark-bg">
+                                 <ul className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-bg hover:bg-light-spot">
                                     <li className="col-span-1">
                                        <Image
                                           src={i.avatar}
@@ -172,7 +172,7 @@ const ItemsOfPost = () => {
                                     </li>
                                     <li className="col-span-1 flex gap-3">
                                        <div
-                                          className=" p-3 bg-green-800  rounded-lg cursor-pointer flex justify-center items-center text-xl"
+                                          className=" p-3 bg-green-600  rounded-lg cursor-pointer flex justify-center items-center text-xl text-white hover:shadow-bg-green-600 hover:shadow-lg"
                                           onClick={() => {
                                              setItemID(i.id);
                                           }}
@@ -180,7 +180,7 @@ const ItemsOfPost = () => {
                                           <BiEditAlt />
                                        </div>
                                        <div
-                                          className=" p-3 bg-red-800  rounded-lg cursor-pointer text-xl"
+                                          className=" p-3 bg-red-600  rounded-lg cursor-pointer text-xl text-white hover:shadow-bg-red-600 hover:shadow-lg"
                                           onClick={() => handleDeleteItem(i)}
                                        >
                                           <AiOutlineDelete />
@@ -206,7 +206,7 @@ const ItemsOfPost = () => {
                   <div className="font-semibold text-xl">Set Picture </div>
                </div>
                <div className="grid grid-cols-6 gap-8 mb-10">
-                  <div className="rounded-lg bg-dark-primary text-4xl hover:opacity-80 aspect-square">
+                  <div className="rounded-lg dark:bg-dark-primary bg-light-primary  text-4xl hover:opacity-80 aspect-square">
                      <label
                         htmlFor="upload-set_picure_post"
                         className=" w-full h-full flex justify-center items-center cursor-pointer"

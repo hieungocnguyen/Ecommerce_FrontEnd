@@ -6,6 +6,7 @@ const AddressBook = ({
    setIsOpenAddressBook,
    setAddress,
    setIsOpenAddAddress,
+   isOpenAddAddress,
 }) => {
    const wrapperRef = useRef(null);
    const [addressList, setAddressList] = useState([]);
@@ -28,7 +29,7 @@ const AddressBook = ({
       return () => {
          document.removeEventListener("mousedown", handleClickOutside);
       };
-   }, [wrapperRef]);
+   }, [wrapperRef, isOpenAddAddress]);
 
    return (
       <div
@@ -37,7 +38,10 @@ const AddressBook = ({
       >
          <div className="flex justify-between items-center mb-2 mx-8">
             <div className="text-lg font-semibold">Address Book</div>
-            <button className="px-3 py-2 text-white bg-blue-main rounded-lg hover:shadow-blue-main hover:shadow-lg font-semibold">
+            <button
+               className="px-3 py-2 text-white bg-blue-main rounded-lg hover:shadow-blue-main hover:shadow-lg font-semibold"
+               onClick={() => setIsOpenAddAddress(true)}
+            >
                Add new address
             </button>
          </div>
@@ -53,9 +57,26 @@ const AddressBook = ({
                            onChange={() => setAddress(address)}
                         />
                         <div className="rounded-lg ring-2 bg-light-spot ring-slate-200 mb-4 p-3  transition-all hover:shadow peer-checked:ring-blue-main text-left  font-medium">
-                           <div>Phone: {address.deliveryPhone}</div>
-                           <div>Address: {address.fullAddress}</div>
-                           <div>Description: {address.description}</div>
+                           <div>
+                              <span className="font-semibold">
+                                 Delivery Phone:
+                              </span>{" "}
+                              {address.deliveryPhone}
+                           </div>
+                           <div>
+                              <span className="font-semibold">Type:</span>{" "}
+                              {address.addressType}
+                           </div>
+                           <div>
+                              <span className="font-semibold">Address:</span>{" "}
+                              {address.fullAddress}
+                           </div>
+                           <div>
+                              <span className="font-semibold">
+                                 Description:
+                              </span>{" "}
+                              {address.description}
+                           </div>
                         </div>
                      </label>
                   </div>

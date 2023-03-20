@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import { authAxios, endpoints } from "../../API";
 import Cookies from "js-cookie";
 import { Store } from "../../utils/Store";
+import Link from "next/link";
 
 const StateOfPayment = () => {
    const router = useRouter();
@@ -62,9 +63,11 @@ const PaymentSuccess = () => {
             <div className="mt-2 mb-4">
                Your order is being prepared by the agent
             </div>
-            <button className="px-12 py-4 bg-blue-main rounded-lg text-white font-semibold hover:shadow-lg hover:shadow-blue-main mb-12">
-               My order
-            </button>
+            <Link href={`/orders`}>
+               <button className="px-12 py-4 bg-blue-main rounded-lg text-white font-semibold hover:shadow-lg hover:shadow-blue-main mb-12">
+                  My order
+               </button>
+            </Link>
          </div>
       </Layout>
    );

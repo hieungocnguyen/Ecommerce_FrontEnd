@@ -71,8 +71,8 @@ const Posts = () => {
                <div className="flex justify-between items-center my-8">
                   <div className="font-semibold text-2xl">Post List</div>
                </div>
-               <div className="rounded-lg bg-dark-primary overflow-hidden shadow-2xl shadow-dark-shadow">
-                  <ul className="grid grid-cols-12 p-5 bg-dark-spot items-center font-semibold">
+               <div className="rounded-lg dark:bg-dark-primary bg-light-bg  overflow-hidden shadow-2xl dark:shadow-dark-shadow shadow-light-primary">
+                  <ul className="grid grid-cols-12 p-5 dark:bg-dark-spot bg-light-primary items-center font-semibold">
                      <li className="col-span-1">Avatar</li>
                      <li className="col-span-3">Title</li>
                      <li className="col-span-2">Price</li>
@@ -83,7 +83,7 @@ const Posts = () => {
                   </ul>
                   {posts.map((post) => (
                      <div key={post.id}>
-                        <ul className="grid grid-cols-12 p-5 items-center hover:bg-dark-bg cursor-pointer relative">
+                        <ul className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-bg hover:bg-light-spot cursor-pointer relative">
                            {/* <Link href={`/DashboardManager/posts/${post.id}`}> */}
                            <div
                               className="col-span-10 grid grid-cols-10 items-center"
@@ -135,15 +135,15 @@ const Posts = () => {
                                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-main"></div>
                               </label>
                            </li>
-                           <li className="col-span-1 flex justify-end items-center gap-4 text-xl text-white absolute z-20 right-4">
+                           <li className="col-span-1 flex justify-end items-center gap-4 text-xl dark:text-white text-light-text absolute z-20 right-4">
                               <div
-                                 className="p-3 rounded-lg dark:bg-dark-spot hover:dark:bg-green-800"
+                                 className="p-3 rounded-lg dark:bg-dark-spot bg-light-primary hover:bg-green-600 hover:text-white"
                                  onClick={() => setPostID(post.id)}
                               >
                                  <BiEdit className="" />
                               </div>
                               <div
-                                 className="p-3 rounded-lg dark:bg-dark-spot hover:dark:bg-red-800"
+                                 className="p-3 rounded-lg dark:bg-dark-spot bg-light-primary hover:bg-red-600 hover:text-white"
                                  onClick={() => {
                                     handleDeletePost(post.id);
                                  }}

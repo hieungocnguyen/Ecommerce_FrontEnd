@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import AddressBook from "../../components/Model/AddressBook";
 import AddToAddressBook from "../../components/Model/AddToAddressBook";
+import Link from "next/link";
 
 const Payment = () => {
    const { state, dispatch } = useContext(Store);
@@ -77,10 +78,12 @@ const Payment = () => {
    useEffect(() => {
       const fetchAddressList = async () => {
          const res = await API.get(endpoints["get_address_book"](userInfo.id));
-         setAddress(res.data.data.sort((a, b) => (a.id > b.id ? -1 : 1))[0]);
+         if (res.data.data.length !== 0) {
+            setAddress(res.data.data.sort((a, b) => (a.id > b.id ? -1 : 1))[0]);
+         }
       };
       fetchAddressList();
-   }, []);
+   }, [isOpenAddAddress]);
 
    return (
       <Layout title="Payment">
@@ -90,103 +93,126 @@ const Payment = () => {
                   Information Delivery
                </div>
                {userInfo ? (
-                  <div className="text-left px-4">
-                     <div className="mb-2">
-                        <label
-                           htmlFor="name"
-                           className="font-medium text-sm pl-2"
-                        >
-                           Name
-                        </label>
-                        <input
-                           id="name"
-                           type="text"
-                           required
-                           value={`${userInfo.firstName} ${userInfo.lastName} `}
-                           disabled
-                           className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
-                        />
-                     </div>
-                     <div className="">
-                        <label
-                           htmlFor="email"
-                           className="font-medium text-sm pl-2"
-                        >
-                           Email
-                        </label>
-                        <input
-                           type="text"
-                           name="email"
-                           required
-                           value={userInfo.email}
-                           disabled
-                           className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
-                        />
-                     </div>
-                     {address.fullAddress ? (
+                  <>
+                     {userInfo.firstName && userInfo.lastName ? (
                         <>
-                           <div>
-                              <label
-                                 htmlFor="address"
-                                 className="font-medium text-sm pl-2"
-                              >
-                                 Full Address
-                              </label>
-                              <input
-                                 type="text"
-                                 name="address"
-                                 required
-                                 value={address.fullAddress}
-                                 disabled
-                                 className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
-                              />
-                           </div>
-                           <div>
-                              <label
-                                 htmlFor="phone"
-                                 className="font-medium text-sm pl-2"
-                              >
-                                 Address
-                              </label>
-                              <input
-                                 type="number"
-                                 name="phone"
-                                 required
-                                 value={address.deliveryPhone}
-                                 disabled
-                                 className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
-                              />
-                           </div>
-                           <div>
-                              <label
-                                 htmlFor="description"
-                                 className="font-medium text-sm pl-2"
-                              >
-                                 Description
-                              </label>
-                              <input
-                                 type="text"
-                                 name="description"
-                                 required
-                                 value={address.description}
-                                 disabled
-                                 className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
-                              />
+                           <div className="text-left px-4">
+                              <div className="mb-2">
+                                 <label
+                                    htmlFor="name"
+                                    className="font-medium text-sm pl-2"
+                                 >
+                                    Name
+                                 </label>
+                                 <input
+                                    id="name"
+                                    type="text"
+                                    required
+                                    value={`${userInfo.firstName} ${userInfo.lastName} `}
+                                    disabled
+                                    className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                                 />
+                              </div>
+                              <div className="">
+                                 <label
+                                    htmlFor="email"
+                                    className="font-medium text-sm pl-2"
+                                 >
+                                    Email
+                                 </label>
+                                 <input
+                                    type="text"
+                                    name="email"
+                                    required
+                                    value={userInfo.email}
+                                    disabled
+                                    className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                                 />
+                              </div>
+                              {address.id ? (
+                                 <>
+                                    <div>
+                                       <label
+                                          htmlFor="address"
+                                          className="font-medium text-sm pl-2"
+                                       >
+                                          Full Address
+                                       </label>
+                                       <input
+                                          type="text"
+                                          name="address"
+                                          required
+                                          value={address.fullAddress}
+                                          disabled
+                                          className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                                       />
+                                    </div>
+                                    <div>
+                                       <label
+                                          htmlFor="phone"
+                                          className="font-medium text-sm pl-2"
+                                       >
+                                          Number Phone
+                                       </label>
+                                       <input
+                                          type="number"
+                                          name="phone"
+                                          required
+                                          value={address.deliveryPhone}
+                                          disabled
+                                          className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                                       />
+                                    </div>
+                                    <div>
+                                       <label
+                                          htmlFor="description"
+                                          className="font-medium text-sm pl-2"
+                                       >
+                                          Description
+                                       </label>
+                                       <input
+                                          type="text"
+                                          name="description"
+                                          required
+                                          value={address.description}
+                                          disabled
+                                          className="w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                                       />
+                                    </div>
+                                 </>
+                              ) : (
+                                 <>
+                                    <div className="text-center my-4">
+                                       Please add an address to address book
+                                    </div>
+                                 </>
+                              )}
+
+                              <div className="flex justify-center my-4">
+                                 <button
+                                    className="py-3 px-4 rounded-lg bg-blue-main text-white font-semibold hover:shadow-lg hover:shadow-blue-main"
+                                    onClick={() => setIsOpenAddressBook(true)}
+                                 >
+                                    Choose other address in address book
+                                 </button>
+                              </div>
                            </div>
                         </>
                      ) : (
-                        <></>
+                        <>
+                           <div>
+                              <div>
+                                 Please update your profile before payment
+                              </div>
+                              <Link href={`/editprofile`}>
+                                 <button className="px-4 py-3 bg-blue-main rounded-lg text-white ">
+                                    Go to edit profile
+                                 </button>
+                              </Link>
+                           </div>
+                        </>
                      )}
-
-                     <div className="flex justify-center my-4">
-                        <button
-                           className="py-3 px-4 rounded-lg bg-blue-main text-white font-semibold hover:shadow-lg hover:shadow-blue-main"
-                           onClick={() => setIsOpenAddressBook(true)}
-                        >
-                           Address Book
-                        </button>
-                     </div>
-                  </div>
+                  </>
                ) : (
                   <></>
                )}
@@ -200,6 +226,7 @@ const Payment = () => {
                         setIsOpenAddressBook={setIsOpenAddressBook}
                         setAddress={setAddress}
                         setIsOpenAddAddress={setIsOpenAddAddress}
+                        isOpenAddAddress={isOpenAddAddress}
                      />
                   </div>
                </div>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import API, { endpoints } from "../../../API";
 import LayoutDashboardManager from "../../../components/Dashboard/LayoutDashboardManager";
+import { Chart, ArcElement } from "chart.js";
+Chart.register(ArcElement);
 
 const CategoryStatisticle = () => {
    const [category, setCategory] = useState([]);

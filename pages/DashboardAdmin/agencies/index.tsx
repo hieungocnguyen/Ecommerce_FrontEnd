@@ -21,8 +21,8 @@ const AgenciesAdminDashboard = () => {
                <div className="font-semibold text-2xl">Agency List</div>
             </div>
 
-            <div className="rounded-lg bg-dark-primary overflow-hidden shadow-2xl shadow-dark-shadow">
-               <ul className="grid grid-cols-12 p-5 bg-dark-spot items-center font-semibold">
+            <div className="rounded-lg dark:bg-dark-primary bg-light-primary overflow-hidden shadow-lg dark:shadow-dark-shadow shadow-light-primary mb-10">
+               <ul className="grid grid-cols-12 p-5 dark:hover:bg-dark-spot hover:bg-light-spot items-center font-semibold">
                   <li className="col-span-1">Avatar</li>
                   <li className="col-span-3">Name</li>
                   <li className="col-span-2">Field</li>
@@ -36,7 +36,7 @@ const AgenciesAdminDashboard = () => {
                         href={`/DashboardAdmin/agencies/${agency.id}`}
                         key={agency.id}
                      >
-                        <ul className="grid grid-cols-12 p-5  items-center hover:bg-dark-spot cursor-pointer">
+                        <ul className="grid grid-cols-12 p-5  items-center dark:hover:bg-dark-spot bg-light-spot cursor-pointer">
                            <li className="col-span-1">
                               <Image
                                  src={agency.avatar}

@@ -20,7 +20,7 @@ import { BiCloudUpload } from "react-icons/bi";
 const CssTextField = styled(TextField)({
    "& .MuiOutlinedInput-root": {
       "& fieldset": {
-         borderColor: "white",
+         borderColor: "#525EC1",
       },
       "&:hover fieldset": {
          borderColor: "#525EC1",
@@ -106,7 +106,7 @@ const CreateNewPost = () => {
                className="grid grid-cols-4 gap-8"
                onSubmit={handleCreatePost}
             >
-               <div className="col-span-1 bg-neutral-800 rounded-lg flex flex-col items-center h-fit py-8">
+               <div className="col-span-1 dark:bg-neutral-800 bg-light-spot rounded-lg flex flex-col items-center h-fit py-8">
                   <div className="font-semibold text-lg mb-2">Avatar</div>
                   <div className="">
                      <div className="relative overflow-hidden w-32 h-32 rounded-xl">
@@ -138,7 +138,7 @@ const CreateNewPost = () => {
                      </div>
                   </div>
                </div>
-               <div className="col-span-3 bg-neutral-800 rounded-lg p-8">
+               <div className="col-span-3 dark:bg-neutral-800 bg-light-spot rounded-lg p-8">
                   <div className="mb-4">
                      <CssTextField
                         fullWidth
@@ -155,11 +155,11 @@ const CreateNewPost = () => {
                         value={values.title}
                         variant="outlined"
                         InputProps={{
-                           style: { color: "white", outline: "white" },
+                           style: { color: "#525EC1", outline: "#525EC1" },
                         }}
                         InputLabelProps={{
                            style: {
-                              color: "white",
+                              color: "#525EC1",
                            },
                         }}
                      />
@@ -169,7 +169,7 @@ const CreateNewPost = () => {
                         <InputLabel
                            id="category-input"
                            sx={{
-                              color: "white",
+                              color: "#525EC1",
                               "&.Mui-focused ": {
                                  color: "#525EC1",
                               },
@@ -185,19 +185,19 @@ const CreateNewPost = () => {
                            label="Category"
                            onChange={handleChange}
                            sx={{
-                              color: "white",
+                              color: "#525EC1",
                               ".MuiOutlinedInput-notchedOutline": {
-                                 borderColor: "white",
+                                 borderColor: "#525EC1",
                               },
                               "&.Mui-focused .MuiOutlinedInput-notchedOutline":
                                  {
-                                    borderColor: "white",
+                                    borderColor: "#525EC1",
                                  },
                               "&:hover .MuiOutlinedInput-notchedOutline": {
                                  borderColor: "#525EC1",
                               },
                               ".MuiSvgIcon-root ": {
-                                 fill: "white !important",
+                                 fill: "#525EC1 !important",
                               },
                            }}
                         >
@@ -221,7 +221,7 @@ const CreateNewPost = () => {
                         <InputLabel
                            id="sellstatus-input"
                            sx={{
-                              color: "white",
+                              color: "#525EC1",
                               "&.Mui-focused ": {
                                  color: "#525EC1",
                               },
@@ -237,19 +237,19 @@ const CreateNewPost = () => {
                            label="Status"
                            onChange={handleChange}
                            sx={{
-                              color: "white",
+                              color: "#525EC1",
                               ".MuiOutlinedInput-notchedOutline": {
-                                 borderColor: "white",
+                                 borderColor: "#525EC1",
                               },
                               "&.Mui-focused .MuiOutlinedInput-notchedOutline":
                                  {
-                                    borderColor: "white",
+                                    borderColor: "#525EC1",
                                  },
                               "&:hover .MuiOutlinedInput-notchedOutline": {
                                  borderColor: "#525EC1",
                               },
                               ".MuiSvgIcon-root ": {
-                                 fill: "white !important",
+                                 fill: "#525EC1 !important",
                               },
                            }}
                         >
@@ -272,11 +272,11 @@ const CreateNewPost = () => {
                         value={values.brand}
                         variant="outlined"
                         InputProps={{
-                           style: { color: "white", outline: "white" },
+                           style: { color: "#525EC1", outline: "#525EC1" },
                         }}
                         InputLabelProps={{
                            style: {
-                              color: "white",
+                              color: "#525EC1",
                            },
                         }}
                      />
@@ -292,11 +292,11 @@ const CreateNewPost = () => {
                            value={values.manufacturer}
                            variant="outlined"
                            InputProps={{
-                              style: { color: "white", outline: "white" },
+                              style: { color: "#525EC1", outline: "#525EC1" },
                            }}
                            InputLabelProps={{
                               style: {
-                                 color: "white",
+                                 color: "#525EC1",
                               },
                            }}
                         />
@@ -311,11 +311,11 @@ const CreateNewPost = () => {
                            value={values.origin}
                            variant="outlined"
                            InputProps={{
-                              style: { color: "white", outline: "white" },
+                              style: { color: "#525EC1", outline: "#525EC1" },
                            }}
                            InputLabelProps={{
                               style: {
-                                 color: "white",
+                                 color: "#525EC1",
                               },
                            }}
                         />
@@ -332,11 +332,11 @@ const CreateNewPost = () => {
                         variant="outlined"
                         type="number"
                         InputProps={{
-                           style: { color: "white", outline: "white" },
+                           style: { color: "#525EC1", outline: "#525EC1" },
                         }}
                         InputLabelProps={{
                            style: {
-                              color: "white",
+                              color: "#525EC1",
                            },
                         }}
                      />
@@ -349,11 +349,11 @@ const CreateNewPost = () => {
                         value={values.initialPrice}
                         variant="outlined"
                         InputProps={{
-                           style: { color: "white", outline: "white" },
+                           style: { color: "#525EC1", outline: "#525EC1" },
                         }}
                         InputLabelProps={{
                            style: {
-                              color: "white",
+                              color: "#525EC1",
                            },
                         }}
                      />
@@ -368,11 +368,11 @@ const CreateNewPost = () => {
                         value={values.description}
                         variant="outlined"
                         InputProps={{
-                           style: { color: "white", outline: "white" },
+                           style: { color: "#525EC1", outline: "#525EC1" },
                         }}
                         InputLabelProps={{
                            style: {
-                              color: "white",
+                              color: "#525EC1",
                            },
                         }}
                      />

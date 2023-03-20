@@ -115,10 +115,10 @@ const AdminHome = () => {
                   Statistical by category
                </div>
                <div className="grid grid-cols-2 gap-4">
-                  <div className="col-span-1 bg-dark-primary rounded-lg p-8">
+                  <div className="col-span-1 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                      <Doughnut data={dataCate} />
                   </div>
-                  <div className="col-span-1 bg-dark-primary rounded-lg p-8">
+                  <div className="col-span-1 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                      <div className="grid grid-cols-3 font-semibold text-lg border-b-2 pb-2">
                         <div className="col-span-2">Category</div>
                         <div className="">Posts</div>

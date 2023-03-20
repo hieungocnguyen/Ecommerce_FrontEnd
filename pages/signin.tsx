@@ -8,6 +8,7 @@ import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../components/Loader";
+import { BiArrowBack } from "react-icons/bi";
 
 const Signin = () => {
    const {
@@ -63,8 +64,16 @@ const Signin = () => {
    };
    return (
       <Layout title="Sign in">
-         <div className="pt-6">
-            <div className="font-semibold text-2xl pt-10 pb-2">Sign In</div>
+         <div>
+            <div className="flex gap-4 items-center m-6">
+               <div
+                  className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+                  onClick={() => router.back()}
+               >
+                  <BiArrowBack />
+               </div>
+               <div className="font-semibold text-2xl">/ Sign in</div>
+            </div>
             <form onSubmit={handleSubmit(submitHandler)}>
                <div className="flex flex-col max-w-md mx-auto">
                   <label
@@ -77,7 +86,7 @@ const Signin = () => {
                      type="text"
                      id="username"
                      {...register("username")}
-                     className="p-4 rounded-lg"
+                     className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                      required
                   />
                   <label
@@ -90,7 +99,7 @@ const Signin = () => {
                      type="password"
                      id="password"
                      {...register("password")}
-                     className="p-4 rounded-lg"
+                     className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
                      required
                   />
                </div>

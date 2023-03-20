@@ -17,7 +17,7 @@ import { toast } from "react-hot-toast";
 const CssTextField = styled(TextField)({
    "& .MuiOutlinedInput-root": {
       "& fieldset": {
-         borderColor: "white",
+         borderColor: "#525EC1",
       },
       "&:hover fieldset": {
          borderColor: "#525EC1",
@@ -108,13 +108,13 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
             postID > 0 ? "flex" : "hidden"
          }`}
       >
-         <div className=" bg-dark-spot rounded-lg p-6 ">
+         <div className=" dark:bg-neutral-800 bg-light-primary rounded-lg p-6 ">
             {post ? (
                <div>
                   <div className="font-semibold text-xl mb-4 flex justify-between items-center">
                      <div>Edit Post </div>
                      <div
-                        className="p-3 bg-red-800 cursor-pointer rounded-lg"
+                        className="p-3 bg-red-700 cursor-pointer rounded-lg text-white"
                         onClick={() => {
                            setPostID(0);
                            setPost(undefined);
@@ -127,7 +127,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                      className="grid grid-cols-4 gap-8"
                      onSubmit={handleUpdatePost}
                   >
-                     <div className="col-span-1 bg-neutral-800 rounded-lg flex flex-col items-center h-fit p-8">
+                     <div className="col-span-1 dark:bg-neutral-800 bg-light-primary rounded-lg flex flex-col items-center h-fit p-8">
                         <div className="font-semibold text-lg mb-4">Avatar</div>
                         <div className="">
                            <div className="relative overflow-hidden w-32 h-32 rounded-xl">
@@ -142,7 +142,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                                  className="object-cover"
                               />
                               <label
-                                 className={`absolute w-full h-full top-0 hover:bg-dark-primary hover:opacity-90 opacity-0  z-20 cursor-pointer `}
+                                 className={`absolute w-full h-full top-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0 z-20 cursor-pointer `}
                                  htmlFor="upload-photo"
                               >
                                  <div className="w-full h-full text-5xl flex justify-center items-center">
@@ -159,7 +159,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                            </div>
                         </div>
                      </div>
-                     <div className="col-span-3 bg-neutral-800 rounded-lg p-8">
+                     <div className="col-span-3 dark:bg-neutral-800 bg-light-spot rounded-lg p-8">
                         <div className="mb-4">
                            <CssTextField
                               fullWidth
@@ -176,11 +176,14 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               }
                               variant="outlined"
                               InputProps={{
-                                 style: { color: "white", outline: "white" },
+                                 style: {
+                                    color: "#525EC1",
+                                    outline: "#525EC1",
+                                 },
                               }}
                               InputLabelProps={{
                                  style: {
-                                    color: "white",
+                                    color: "#525EC1",
                                  },
                               }}
                            />
@@ -190,7 +193,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               <InputLabel
                                  id="category-input"
                                  sx={{
-                                    color: "white",
+                                    color: "#525EC1",
                                     "&.Mui-focused ": {
                                        color: "#525EC1",
                                     },
@@ -206,20 +209,20 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                                  label="Category"
                                  onChange={handlePostChange}
                                  sx={{
-                                    color: "white",
+                                    color: "#525EC1",
                                     ".MuiOutlinedInput-notchedOutline": {
-                                       borderColor: "white",
+                                       borderColor: "#525EC1",
                                     },
                                     "&.Mui-focused .MuiOutlinedInput-notchedOutline":
                                        {
-                                          borderColor: "white",
+                                          borderColor: "#525EC1",
                                        },
                                     "&:hover .MuiOutlinedInput-notchedOutline":
                                        {
                                           borderColor: "#525EC1",
                                        },
                                     ".MuiSvgIcon-root ": {
-                                       fill: "white !important",
+                                       fill: "#525EC1 !important",
                                     },
                                  }}
                               >
@@ -252,7 +255,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               <InputLabel
                                  id="sellstatus-input"
                                  sx={{
-                                    color: "white",
+                                    color: "#525EC1",
                                     "&.Mui-focused ": {
                                        color: "#525EC1",
                                     },
@@ -268,20 +271,20 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                                  label="Status"
                                  onChange={handlePostChange}
                                  sx={{
-                                    color: "white",
+                                    color: "#525EC1",
                                     ".MuiOutlinedInput-notchedOutline": {
-                                       borderColor: "white",
+                                       borderColor: "#525EC1",
                                     },
                                     "&.Mui-focused .MuiOutlinedInput-notchedOutline":
                                        {
-                                          borderColor: "white",
+                                          borderColor: "#525EC1",
                                        },
                                     "&:hover .MuiOutlinedInput-notchedOutline":
                                        {
                                           borderColor: "#525EC1",
                                        },
                                     ".MuiSvgIcon-root ": {
-                                       fill: "white !important",
+                                       fill: "#525EC1 !important",
                                     },
                                  }}
                               >
@@ -305,11 +308,14 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               defaultValue={post.brand}
                               variant="outlined"
                               InputProps={{
-                                 style: { color: "white", outline: "white" },
+                                 style: {
+                                    color: "#525EC1",
+                                    outline: "#525EC1",
+                                 },
                               }}
                               InputLabelProps={{
                                  style: {
-                                    color: "white",
+                                    color: "#525EC1",
                                  },
                               }}
                            />
@@ -325,11 +331,14 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                                  defaultValue={post.manufacturer}
                                  variant="outlined"
                                  InputProps={{
-                                    style: { color: "white", outline: "white" },
+                                    style: {
+                                       color: "#525EC1",
+                                       outline: "#525EC1",
+                                    },
                                  }}
                                  InputLabelProps={{
                                     style: {
-                                       color: "white",
+                                       color: "#525EC1",
                                     },
                                  }}
                               />
@@ -344,11 +353,14 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                                  defaultValue={post.origin}
                                  variant="outlined"
                                  InputProps={{
-                                    style: { color: "white", outline: "white" },
+                                    style: {
+                                       color: "#525EC1",
+                                       outline: "#525EC1",
+                                    },
                                  }}
                                  InputLabelProps={{
                                     style: {
-                                       color: "white",
+                                       color: "#525EC1",
                                     },
                                  }}
                               />
@@ -365,11 +377,14 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               variant="outlined"
                               type="number"
                               InputProps={{
-                                 style: { color: "white", outline: "white" },
+                                 style: {
+                                    color: "#525EC1",
+                                    outline: "#525EC1",
+                                 },
                               }}
                               InputLabelProps={{
                                  style: {
-                                    color: "white",
+                                    color: "#525EC1",
                                  },
                               }}
                            />
@@ -382,11 +397,14 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               defaultValue={post.initialPrice}
                               variant="outlined"
                               InputProps={{
-                                 style: { color: "white", outline: "white" },
+                                 style: {
+                                    color: "#525EC1",
+                                    outline: "#525EC1",
+                                 },
                               }}
                               InputLabelProps={{
                                  style: {
-                                    color: "white",
+                                    color: "#525EC1",
                                  },
                               }}
                            />
@@ -401,11 +419,14 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               defaultValue={post.description}
                               variant="outlined"
                               InputProps={{
-                                 style: { color: "white", outline: "white" },
+                                 style: {
+                                    color: "#525EC1",
+                                    outline: "#525EC1",
+                                 },
                               }}
                               InputLabelProps={{
                                  style: {
-                                    color: "white",
+                                    color: "#525EC1",
                                  },
                               }}
                            />

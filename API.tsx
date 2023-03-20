@@ -43,6 +43,8 @@ export let endpoints = {
    order_agency: (agencyID) => `/order/orders-agency/agency/${agencyID}`,
    change_state: (orderAgencyID, stateID) =>
       `/order/orders-agency/${orderAgencyID}/${stateID}`,
+   get_order_detail: (orderAgencyID) =>
+      `/order/order-detail/get-orders-detail-by-order-agency/${orderAgencyID}`,
    //comment
    comment_post: (postID) => `/action/comment/create/${postID}`,
    comment_all: `action/comment/all`,

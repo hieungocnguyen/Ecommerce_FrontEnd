@@ -141,6 +141,7 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
                {!stateLike ? (
                   <button
                      className="text-blue-main w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
+                     title="like"
                      onClick={(event) => {
                         event.stopPropagation();
                         handleAddToWishList();
@@ -151,6 +152,7 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
                ) : (
                   <button
                      className=" text-blue-main w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
+                     title="unlike"
                      onClick={(event) => {
                         event.stopPropagation();
                         handleRemoveToWishList();

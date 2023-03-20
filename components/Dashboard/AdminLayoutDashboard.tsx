@@ -49,7 +49,7 @@ const AdminLayoutDashboard = ({ children }) => {
       <>
          <div className="grid grid-cols-6">
             {/* Side Bar */}
-            <div className="col-span-1 bg-dark-primary h-screen sticky top-0">
+            <div className="col-span-1 dark:bg-dark-primary bg-light-primary h-screen sticky top-0">
                <div className="flex justify-center my-4">
                   <Link href="/">
                      <Logo width="125" />
@@ -107,13 +107,13 @@ const AdminLayoutDashboard = ({ children }) => {
                         }`}
                      >
                         <Link href="/DashboardAdmin/agencies">
-                           <div className="p-2 hover:bg-dark-spot rounded-lg cursor-pointer">
+                           <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
                               Agency List
                            </div>
                         </Link>
                         <Link href="/DashboardAdmin/agencies/uncensoredAgency">
                            <div
-                              className={`p-2 hover:bg-dark-spot rounded-lg cursor-pointer items-center flex `}
+                              className={`p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer items-center flex `}
                            >
                               Uncensored Agency
                               <span
@@ -134,12 +134,12 @@ const AdminLayoutDashboard = ({ children }) => {
                </div>
                <div className="absolute bottom-4 flex justify-center items-center gap-2 w-full">
                   <Link href="/">
-                     <button className="rounded-lg  bg-blue-main hover:bg-opacity-80 h-10 w-fit px-3 font-semibold text-sm">
+                     <button className="rounded-lg  bg-blue-main hover:bg-opacity-80 h-10 w-fit px-3 font-semibold text-sm text-white">
                         Back to Homepage
                      </button>
                   </Link>
                   <button
-                     className=" bg-blue-main hover:bg-opacity-80 rounded-lg text-xl h-10 w-fit px-3"
+                     className=" bg-blue-main hover:bg-opacity-80 rounded-lg text-xl h-10 w-fit px-3 text-white"
                      onClick={logoutClickHandler}
                   >
                      <BiLogIn />
