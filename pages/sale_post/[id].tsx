@@ -183,7 +183,7 @@ const ProductPage = ({ salePost }) => {
                isOpenItemsModal ? "flex" : "hidden"
             }`}
          >
-            <div className="w-3/4 h-[34rem] ">
+            <div className="w-3/4 h-[34rem]">
                <ItemsInPost
                   items={salePost.itemPostSet}
                   setIsOpenItemsModal={setIsOpenItemsModal}

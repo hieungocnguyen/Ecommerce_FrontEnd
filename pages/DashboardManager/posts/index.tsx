@@ -41,21 +41,21 @@ const Posts = () => {
       const resPublish = await API.patch(endpoints["publish_salePost"](id));
       loadPosts();
       toast.success("Change state successful!", {
-         position: "bottom-center",
+         position: "top-center",
       });
    };
    const handleUnpublishPost = async (id) => {
       const resPublish = await API.patch(endpoints["unpublish_salePost"](id));
       loadPosts();
       toast.success("Change state successful!", {
-         position: "bottom-center",
+         position: "top-center",
       });
    };
    const handleDeletePost = async (id) => {
       const resPublish = await API.delete(endpoints["salePost"](id));
       loadPosts();
       toast.success("Delete post successful!", {
-         position: "bottom-center",
+         position: "top-center",
       });
    };
    const handleRouting = async (id) => {
@@ -71,7 +71,7 @@ const Posts = () => {
                <div className="flex justify-between items-center my-8">
                   <div className="font-semibold text-2xl">Post List</div>
                </div>
-               <div className="rounded-lg dark:bg-dark-primary bg-light-bg  overflow-hidden shadow-2xl dark:shadow-dark-shadow shadow-light-primary">
+               <div className="rounded-lg dark:bg-dark-primary bg-light-spot  overflow-hidden shadow-2xl dark:shadow-dark-shadow shadow-light-primary">
                   <ul className="grid grid-cols-12 p-5 dark:bg-dark-spot bg-light-primary items-center font-semibold">
                      <li className="col-span-1">Avatar</li>
                      <li className="col-span-3">Title</li>
@@ -127,9 +127,22 @@ const Posts = () => {
                                     className="sr-only peer"
                                     checked={post.isActive ? true : false}
                                     onClick={() => {
-                                       post.isActive
-                                          ? handleUnpublishPost(post.id)
-                                          : handlePublishPost(post.id);
+                                       if (post.itemPostSet.length > 0) {
+                                       }
+                                       if (post.isActive) {
+                                          handleUnpublishPost(post.id);
+                                       } else {
+                                          if (post.itemPostSet.length > 0) {
+                                             handlePublishPost(post.id);
+                                          } else {
+                                             toast.error(
+                                                "Can't publish when don't have any item in post!",
+                                                {
+                                                   position: "top-center",
+                                                }
+                                             );
+                                          }
+                                       }
                                     }}
                                  />
                                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-main"></div>
@@ -137,13 +150,13 @@ const Posts = () => {
                            </li>
                            <li className="col-span-1 flex justify-end items-center gap-4 text-xl dark:text-white text-light-text absolute z-20 right-4">
                               <div
-                                 className="p-3 rounded-lg dark:bg-dark-spot bg-light-primary hover:bg-green-600 hover:text-white"
+                                 className="p-3 rounded-lg dark:bg-dark-spot border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
                                  onClick={() => setPostID(post.id)}
                               >
                                  <BiEdit className="" />
                               </div>
                               <div
-                                 className="p-3 rounded-lg dark:bg-dark-spot bg-light-primary hover:bg-red-600 hover:text-white"
+                                 className="p-3 rounded-lg dark:bg-dark-spot border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
                                  onClick={() => {
                                     handleDeletePost(post.id);
                                  }}

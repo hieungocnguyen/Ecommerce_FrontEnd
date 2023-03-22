@@ -75,6 +75,10 @@ export let endpoints = {
    get_address_book: (userID) =>
       `/location/address-book/get-address-book-by-user-id/${userID}`,
    get_full_address: (wardID) => `/location/get-full-address/${wardID}`,
+   //order-tracking
+   get_providers: `/order-tracking/ghn/location/get-provinces`,
+   get_districts: `/order-tracking/ghn/location/get-districts`,
+   get_wards: `/order-tracking/ghn/location/get-wards`,
 };
 export const authAxios = () =>
    axios.create({

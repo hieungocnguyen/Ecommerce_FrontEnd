@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { BiArrowBack } from "react-icons/bi";
 import { authAxios, endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import { Store } from "../utils/Store";
@@ -33,42 +34,53 @@ const Changepassword = () => {
    };
    return (
       <Layout title="Change Password">
-         <div className="font-semibold text-2xl pt-4 pb-10">
-            Change your password
+         <div className="flex gap-4 items-center m-6">
+            <div
+               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               onClick={() => router.push("/profile")}
+            >
+               <BiArrowBack />
+            </div>
+            <div className="font-semibold text-2xl">/ Change password</div>
          </div>
-         <form className="w-[600px] mx-auto" onSubmit={handleSumbit}>
-            <div className="grid grid-cols-2 mt-8 items-center font-semibold">
-               <label htmlFor="newPassword" className="text-left">
+         <form
+            className="grid grid-cols-12 gap-4 mx-[24rem] text-left font-medium"
+            onSubmit={handleSumbit}
+         >
+            <div className="col-span-12">
+               <label htmlFor="newPassword" className="">
                   New Password
                </label>
                <input
                   type="password"
                   id="newPassword"
-                  className="p-4 rounded-lg w-full"
+                  className="p-4 rounded-lg w-full bg-light-primary dark:bg-dark-primary"
                   onChange={(e) => {
                      setPassword([e.target.value, password[1]]);
                   }}
                />
             </div>
-            <div className="grid grid-cols-2 mt-8 items-center font-semibold">
-               <label htmlFor="ConfirmNewPassword" className="text-left">
+            <div className="col-span-12">
+               <label htmlFor="ConfirmNewPassword" className="">
                   Confirm New Password
                </label>
                <input
                   type="password"
                   id="ConfirmNewPassword"
-                  className="p-4 rounded-lg w-full"
+                  className="p-4 rounded-lg w-full bg-light-primary dark:bg-dark-primary"
                   onChange={(e) => {
                      setPassword([password[0], e.target.value]);
                   }}
                />
             </div>
-            <button
-               className="p-4 bg-blue-main text-white font-semibold mt-6 rounded-lg"
-               type="submit"
-            >
-               Change
-            </button>
+            <div className="col-span-12">
+               <button
+                  className="px-4 py-3 bg-blue-main text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-main transition-all"
+                  type="submit"
+               >
+                  Change password
+               </button>
+            </div>
          </form>
          <Toaster />
       </Layout>

@@ -83,11 +83,11 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
 
    useEffect(() => {}, []);
    return (
-      <div className="bg-neutral-800 rounded-lg p-8">
+      <div className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8">
          <div className="flex justify-between mb-4">
             <div className="font-semibold text-xl">Create a new item</div>
             <div
-               className="p-3 bg-blue-main rounded-lg font-semibold cursor-pointer shadow-sm shadow-blue-main hover:shadow-lg hover:shadow-blue-main"
+               className="p-3 bg-blue-main rounded-lg font-semibold cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all text-white"
                onClick={() => {
                   setIsOpenNewItem(false);
                   setValues({
@@ -104,7 +104,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
             </div>
          </div>
          <form className="grid grid-cols-4 gap-8" onSubmit={handleAddItem}>
-            <div className="col-span-1 bg-neutral-800 rounded-lg flex flex-col items-center h-fit p-4">
+            <div className="col-span-1 rounded-lg flex flex-col items-center h-fit p-4">
                <div className="">
                   <div className="relative overflow-hidden w-44 h-44 rounded-xl">
                      <Image
@@ -118,7 +118,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                         className="object-cover"
                      />
                      <label
-                        className={`absolute w-full h-full top-0 hover:bg-dark-primary hover:opacity-90 opacity-0  z-20 cursor-pointer `}
+                        className={`absolute w-full h-full top-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-80 opacity-0  z-20 cursor-pointer `}
                         htmlFor="upload-photo-new-item"
                      >
                         <div className="w-full h-full text-5xl flex justify-center items-center">
@@ -137,88 +137,53 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
             </div>
             <div className="col-span-3">
                <div className="mb-4">
-                  <CssTextField
-                     fullWidth
-                     label="Name"
+                  <input
                      name="name"
                      onChange={handleChange}
                      required
                      value={values.name}
-                     variant="outlined"
-                     InputProps={{
-                        style: { color: "white", outline: "white" },
-                     }}
-                     InputLabelProps={{
-                        style: {
-                           color: "white",
-                        },
-                     }}
+                     className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
+                     placeholder="Name of item"
                   />
                </div>
                <div className="mb-4">
-                  <CssTextField
-                     fullWidth
-                     label="Description"
+                  <input
                      name="description"
+                     type="text"
                      onChange={handleChange}
                      required
                      value={values.description}
-                     variant="outlined"
-                     InputProps={{
-                        style: { color: "white", outline: "white" },
-                     }}
-                     InputLabelProps={{
-                        style: {
-                           color: "white",
-                        },
-                     }}
+                     className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
+                     placeholder="Description"
                   />
                </div>
                <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="col-span-1">
-                     <CssTextField
-                        fullWidth
-                        label="Unit Price"
+                     <input
                         name="unitPrice"
                         type="number"
                         onChange={handleChange}
                         required
-                        variant="outlined"
                         value={values.unitPrice}
-                        InputProps={{
-                           style: { color: "white", outline: "white" },
-                        }}
-                        InputLabelProps={{
-                           style: {
-                              color: "white",
-                           },
-                        }}
+                        className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
+                        placeholder="UnitPrice"
                      />
                   </div>
                   <div className="col-span-1">
-                     <CssTextField
-                        fullWidth
-                        label="Inventory"
+                     <input
                         name="inventory"
                         type="number"
                         onChange={handleChange}
                         required
                         value={values.inventory}
-                        variant="outlined"
-                        InputProps={{
-                           style: { color: "white", outline: "white" },
-                        }}
-                        InputLabelProps={{
-                           style: {
-                              color: "white",
-                           },
-                        }}
+                        className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
+                        placeholder="Inventory"
                      />
                   </div>
                </div>
                <div className="flex justify-end mt-4">
                   <button
-                     className="py-3 px-6 bg-blue-main hover:bg-opacity-80 rounded-lg font-semibold text-white"
+                     className="py-3 px-6 bg-blue-main hover:shadow-lg hover:shadow-blue-main transition-all rounded-lg font-semibold text-white"
                      type="submit"
                   >
                      Add new item

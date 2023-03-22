@@ -17,9 +17,9 @@ import Loader from "../../../components/Loader";
 import toast, { Toaster } from "react-hot-toast";
 import { BiEditAlt, BiSave, BiTrashAlt, BiUpload } from "react-icons/bi";
 import EditItem from "../../../components/Model/EditItem";
-import axios from "axios";
 import NewItem from "../../../components/Model/NewItem";
 import dynamic from "next/dynamic";
+import emptyvector from "../../../public/empty-box.png";
 
 const CssTextField = styled(TextField)({
    "& .MuiOutlinedInput-root": {
@@ -134,7 +134,7 @@ const ItemsOfPost = () => {
 
                {items.length > 0 ? (
                   <div>
-                     <div className="rounded-lg dark:bg-dark-primary bg-light-bg overflow-hidden shadow-2xl dark:shadow-dark-shadow shadow-light-primary">
+                     <div className="rounded-lg dark:bg-dark-primary bg-light-spot overflow-hidden shadow-2xl dark:shadow-dark-shadow shadow-light-primary">
                         <ul className="grid grid-cols-12 p-5 dark:bg-dark-spot bg-light-primary items-center font-semibold">
                            <li className="col-span-1 ">Image</li>
                            <li className="col-span-3 ">Name</li>
@@ -192,12 +192,18 @@ const ItemsOfPost = () => {
                      </div>
                   </div>
                ) : (
-                  <div className="flex justify-center">
-                     <img
-                        src="https://cdni.iconscout.com/illustration/free/thumb/cart-is-empty-2100980-1763838.png"
-                        alt=""
-                        className="w-40"
-                     />
+                  <div>
+                     <div className="relative w-60 h-60 rounded-md overflow-hidden mx-auto">
+                        <Image
+                           src={emptyvector}
+                           alt="Empty"
+                           layout="fill"
+                           objectFit="cover"
+                        ></Image>
+                     </div>
+                     <div className="uppercase text-xl font-semibold text-center">
+                        empty here
+                     </div>
                   </div>
                )}
             </div>

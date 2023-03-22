@@ -9,13 +9,16 @@ import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image";
+import { BiArrowBack, BiCloudUpload, BiPencil } from "react-icons/bi";
+import Loader from "../components/Loader";
+import AddressSelect from "../components/Model/AddressSelect";
 
 const EditProfile = () => {
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
    const [user, setUser] = useState<any>({});
    const [importImage, setImportImage] = useState(false);
-   // const [defaultValues, setDefaultValues] = useState<any>([]);
    const router = useRouter();
    const {
       register,
@@ -25,18 +28,17 @@ const EditProfile = () => {
       formState: { errors },
    } = useForm();
    const [selectedImage, setSelectedImage] = useState();
-
+   const [loading, setLoading] = useState(false);
+   const [address, setAddress] = useState();
+   const [isOpenAddressSelect, setIsOpenAddressSelect] = useState(false);
    const imageChange = (e) => {
-      setSelectedImage(e.target.files[0]);
-      setImportImage(true);
+      if (e.target.files[0] === undefined) {
+         setImportImage(false);
+      } else {
+         setSelectedImage(e.target.files[0]);
+         setImportImage(true);
+      }
    };
-   // let defaultValues = {
-   //    avatar: userInfo.avatar,
-   //    firstName: userInfo.firstName,
-   //    lastName: userInfo.lastName,
-   //    email: userInfo.email,
-   //    address: userInfo.address,
-   // };
    useEffect(() => {
       const loadUser = async () => {
          const resUser = await API.get(endpoints["user"](userInfo.id));
@@ -47,10 +49,12 @@ const EditProfile = () => {
       }
       setValue("firstName", userInfo.firstName);
       setValue("lastName", userInfo.lastName);
-      setValue("address", userInfo.address);
+      setValue("address", address ? address : userInfo.address);
       setValue("phone", userInfo.phone);
-   }, [userInfo]);
+   }, [userInfo, address]);
+
    const submitHandler = async ({ firstName, lastName, phone, address }) => {
+      setLoading(true);
       const formData = new FormData();
       if (importImage) {
          const resUploadCloudinary = await API.post(
@@ -91,120 +95,145 @@ const EditProfile = () => {
             payload: dataCurrentUser.data.data,
          });
          toast.success("Change your infomation successful!", {
-            position: "bottom-center",
+            position: "top-center",
          });
+         setLoading(false);
          router.push("/profile");
       } catch (error) {
          toast.error("Something wrong, check again!", {
-            position: "bottom-center",
+            position: "top-center",
          });
+         setLoading(false);
       }
    };
    return (
       <Layout title="Edit Profile">
-         {/* <div>
-            <div className="flex justify-center">
-               <img
-                  src={user.avatar}
+         <div className="flex gap-4 items-center m-6">
+            <div
+               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all"
+               onClick={() => router.push("/profile")}
+            >
+               <BiArrowBack />
+            </div>
+            <div className="font-semibold text-2xl">/ Edit profile</div>
+         </div>
+         <form
+            onSubmit={handleSubmit(submitHandler)}
+            className="grid grid-cols-12 gap-12 mx-24 items-center"
+         >
+            <div className="col-span-3 relative overflow-hidden w-full aspect-square rounded-full">
+               <Image
+                  src={
+                     selectedImage
+                        ? URL.createObjectURL(selectedImage)
+                        : user.avatar
+                  }
                   alt="avatar"
-                  className="w-[240px] h-[240px] rounded-full"
+                  layout="fill"
+                  className="object-cover"
                />
-            </div>
-            <div className="">
-               <div>Firstname: {user.firstName}</div>
-               <div>Lastname: {user.lastName}</div>
-               <div>Email: {user.email}</div>
-               <div>Phone: {user.phone}</div>
-            </div>
-         </div> */}
-         <form onSubmit={handleSubmit(submitHandler)}>
-            <div className="flex justify-center">
-               {selectedImage ? (
-                  <img
-                     src={
-                        importImage
-                           ? URL.createObjectURL(selectedImage)
-                           : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612077/avatar1Artboard_1-100_yp6bij.jpg"
-                     }
-                     alt="Thumb"
-                     className="w-[280px] h-[280px] rounded-full my-10"
+               <label
+                  className={`absolute w-full h-full top-0 left-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0  z-20 cursor-pointer`}
+                  htmlFor="upload-photo"
+               >
+                  <div className="w-full h-full text-6xl flex justify-center items-center">
+                     <BiCloudUpload />
+                  </div>
+                  <input
+                     type="file"
+                     name="photo"
+                     id="upload-photo"
+                     className="hidden"
+                     onChange={imageChange}
                   />
-               ) : (
-                  <img
-                     src={user.avatar}
-                     alt="Thumb"
-                     className="w-[280px] h-[280px] rounded-full my-10"
-                  />
-               )}
+               </label>
             </div>
-            <div className="flex flex-col max-w-md mx-auto">
-               <input
-                  type="file"
-                  name="avatar"
-                  className="p-4 rounded-lg"
-                  onChange={imageChange}
-               />
-               <label
-                  htmlFor="username"
-                  className="font-semibold text-left pt-5 pb-2"
-               >
-                  FirstName
-               </label>
-               <input
-                  name="firstName"
-                  placeholder="FirstName"
-                  className="p-4 rounded-lg"
-                  {...register("firstName")}
-               />
-               <label
-                  htmlFor="username"
-                  className="font-semibold text-left pt-5 pb-2"
-               >
-                  Lastname
-               </label>
-               <input
-                  name="lastName"
-                  placeholder="Lastname"
-                  className="p-4 rounded-lg"
-                  {...register("lastName")}
-               />
-               <label
-                  htmlFor="username"
-                  className="font-semibold text-left pt-5 pb-2"
-               >
-                  Address
-               </label>
-               <input
-                  name="address"
-                  id="address"
-                  placeholder="Address"
-                  className="p-4 rounded-lg"
-                  {...register("address")}
-               />
-               <label
-                  htmlFor="username"
-                  className="font-semibold text-left pt-5 pb-2"
-               >
-                  Phone
-               </label>
-               <input
-                  name="phone"
-                  id="phone"
-                  placeholder="Phone"
-                  className="p-4 rounded-lg"
-                  {...register("phone")}
-               />
+            <div className="col-span-9">
+               <div className="grid grid-cols-12 gap-4 text-left font-medium">
+                  <div className="col-span-6">
+                     <label htmlFor="username" className="">
+                        FirstName
+                     </label>
+                     <input
+                        name="firstName"
+                        placeholder="FirstName"
+                        className="p-4 rounded-lg w-full"
+                        {...register("firstName")}
+                     />
+                  </div>
+                  <div className="col-span-6">
+                     <label htmlFor="username" className="">
+                        Lastname
+                     </label>
+                     <input
+                        name="lastName"
+                        placeholder="Lastname"
+                        className="p-4 rounded-lg w-full"
+                        {...register("lastName")}
+                     />
+                  </div>
+                  <div className="col-span-12">
+                     <label htmlFor="phone" className="">
+                        Phone
+                     </label>
+                     <input
+                        name="phone"
+                        id="phone"
+                        placeholder="Phone"
+                        className="p-4 rounded-lg w-full"
+                        {...register("phone")}
+                     />
+                  </div>
+                  <div className="col-span-12">
+                     <div className="">
+                        <label htmlFor="address" className="">
+                           Address
+                        </label>
+                        <div className="grid grid-cols-12 gap-4">
+                           <input
+                              name="address"
+                              id="address"
+                              placeholder="Address"
+                              className="col-span-11 p-4 rounded-lg w-full"
+                              {...register("address")}
+                           />
+                           <button
+                              className="col-span-1 border-2 border-blue-main rounded-lg text-2xl text-blue-main flex justify-center items-center hover:bg-blue-main hover:text-white"
+                              type="button"
+                              onClick={() => setIsOpenAddressSelect(true)}
+                           >
+                              <BiPencil />
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-            <button className="px-6 py-3 bg-blue-main rounded-lg font-semibold text-white hover:opacity-80 my-8">
-               Change
-            </button>
+            <div className="col-span-12">
+               <button
+                  className="px-6 py-3 bg-blue-main rounded-lg font-semibold text-white hover:shadow-lg transition-all hover:shadow-blue-main my-8"
+                  type="submit"
+               >
+                  Save the changes
+               </button>
+            </div>
          </form>
+         <div
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+               isOpenAddressSelect ? "flex" : "hidden"
+            }`}
+         >
+            <div className="w-3/5 h-fit">
+               <AddressSelect
+                  setAddress={setAddress}
+                  setIsOpenAddressSelect={setIsOpenAddressSelect}
+               />
+            </div>
+         </div>
+         {loading ? <Loader /> : <></>}
          <Toaster />
       </Layout>
    );
 };
 
 export default EditProfile;
-function saveSettings(settings: any): Promise<unknown> {
-   throw new Error("Function not implemented.");
-}

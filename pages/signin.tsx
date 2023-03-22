@@ -68,7 +68,7 @@ const Signin = () => {
             <div className="flex gap-4 items-center m-6">
                <div
                   className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
-                  onClick={() => router.back()}
+                  onClick={() => router.push("/")}
                >
                   <BiArrowBack />
                </div>

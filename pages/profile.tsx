@@ -49,7 +49,7 @@ const Profile = () => {
          <div className="flex gap-4 items-center m-6">
             <div
                className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
-               onClick={() => router.back()}
+               onClick={() => router.push("/")}
             >
                <BiArrowBack />
             </div>
@@ -68,10 +68,10 @@ const Profile = () => {
                <div className="absolute -bottom-20 left-[19rem]  text-left">
                   <div
                      className={`font-semibold text-3xl ${
-                        user.firstName && user.lastName ? "" : "text-yellow-500"
+                        user.firstName || user.lastName ? "" : "text-yellow-500"
                      }`}
                   >
-                     {user.firstName && user.lastName
+                     {user.firstName || user.lastName
                         ? `${user.firstName} ${user.lastName}`
                         : "Unnamed"}
                   </div>
@@ -107,7 +107,7 @@ const Profile = () => {
                </div>
             </div>
             <div className="grid grid-cols-12 gap-4 mt-32 mx-8">
-               <div className="col-span-6 rounded-lg border-blue-main border-2 text-left p-4">
+               <div className="col-span-6 rounded-lg border-blue-main border-2 text-left p-4 items-center">
                   <div className="flex items-center gap-4 mb-1">
                      <BiPhone className="text-2xl" />
                      <div
@@ -125,7 +125,7 @@ const Profile = () => {
                      </div>
                   </div>
                </div>
-               <div className="col-span-6 border-blue-main border-2 rounded-lg p-4">
+               <div className="col-span-6 border-blue-main border-2 rounded-lg p-4 items-center ">
                   {userInfo ? (
                      userInfo.role.name === "ROLE_GENERAL" ? (
                         waitAccept ? (
@@ -142,7 +142,7 @@ const Profile = () => {
                                  <button
                                     title="Register Agency"
                                     type="button"
-                                    className="rounded-xl px-4 py-3 bg-blue-main text-white font-semibold"
+                                    className="rounded-xl px-4 py-3 bg-blue-main text-white font-semibold hover:shadow-lg hover:shadow-blue-main"
                                  >
                                     Register here
                                  </button>
@@ -150,112 +150,13 @@ const Profile = () => {
                            </>
                         )
                      ) : (
-                        <></>
+                        <>Update later...</>
                      )
                   ) : (
                      <></>
                   )}
                </div>
             </div>
-            {/* <div className="grid grid-cols-12 gap-8">
-               <div className="col-span-4 bg-light-primary dark:bg-dark-primary rounded-lg p-4">
-                  <div className="relative overflow-hidden mx-20 mb-4 rounded-lg aspect-square ">
-                     <Image
-                        src={user.avatar}
-                        alt=""
-                        layout="fill"
-                        className="object-cover"
-                     />
-                  </div>
-                  <Link href="/editprofile">
-                     <button className="p-3 bg-blue-main text-white font-semibold rounded-lg mt-4 hover:opacity-80 w-3/4">
-                        Edit your profile
-                     </button>
-                  </Link>
-                  {authProvider == 1 ? (
-                     <Link href="/changepassword">
-                        <button className="p-3 bg-blue-main text-white font-semibold rounded-lg mt-4 hover:opacity-80 w-3/4">
-                           Change Password
-                        </button>
-                     </Link>
-                  ) : (
-                     <></>
-                  )}
-                  {userInfo ? (
-                     userInfo.role.name === "ROLE_GENERAL" ? (
-                        waitAccept ? (
-                           <div>
-                              Waiting administrator accept your register
-                              application
-                           </div>
-                        ) : (
-                           <Link href="/registerAgency">
-                              <button className="p-3 bg-blue-main text-white font-semibold rounded-lg mt-4 hover:opacity-80 w-3/4">
-                                 Register to become agency
-                              </button>
-                           </Link>
-                        )
-                     ) : (
-                        <></>
-                     )
-                  ) : (
-                     <></>
-                  )}
-               </div>
-               <div className="col-span-8 h-fit grid grid-cols-12 gap-4 bg-light-primary rounded-lg text-left p-6  font-medium">
-                  <div className="col-span-6">
-                     <label htmlFor="firstName">First Name</label>
-                     <input
-                        type="text"
-                        name=""
-                        id="firstName"
-                        className="p-4 rounded-lg w-full mt-1"
-                        value={user.firstName}
-                     />
-                  </div>
-                  <div className="col-span-6">
-                     <label htmlFor="lastName">Last Name</label>
-                     <input
-                        type="text"
-                        name=""
-                        id="lastName"
-                        className="p-4 rounded-lg w-full mt-1"
-                        value={user.lastName}
-                     />
-                  </div>
-                  <div className="col-span-6">
-                     <label htmlFor="email">Email</label>
-                     <input
-                        type="text"
-                        name=""
-                        id="email"
-                        className="p-4 rounded-lg w-full mt-1"
-                        value={user.email}
-                     />
-                  </div>
-                  <div className="col-span-6">
-                     <label htmlFor="phone">Phone</label>
-                     <input
-                        type="text"
-                        name=""
-                        id="phone"
-                        className="p-4 rounded-lg w-full mt-1"
-                        value={user.phone}
-                     />
-                  </div>
-
-                  <div className="col-span-12">
-                     <label htmlFor="address">Address</label>
-                     <input
-                        type="text"
-                        name=""
-                        id="address"
-                        className="p-4 rounded-lg w-full mt-1"
-                        value={user.address}
-                     />
-                  </div>
-               </div>
-            </div> */}
          </div>
       </Layout>
    );

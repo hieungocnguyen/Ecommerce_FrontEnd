@@ -26,7 +26,7 @@ const Register = () => {
    const [wardID, setWardID] = useState(0);
    const [selectedImage, setSelectedImage] = useState();
    const router = useRouter();
-   let [loading, setLoading] = useState(false);
+   const [loading, setLoading] = useState(false);
 
    const fetchProvinceAll = async () => {
       const res = await API.get(
@@ -371,7 +371,7 @@ const Register = () => {
             </div>
             <div className="col-span-12">
                <button
-                  className="bg-blue-main p-3 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-main"
+                  className="bg-blue-main p-3 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-main transition-all"
                   type="submit"
                >
                   Register a new account
