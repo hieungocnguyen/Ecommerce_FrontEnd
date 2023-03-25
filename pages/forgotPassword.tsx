@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { BiArrowBack } from "react-icons/bi";
 import API, { endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import Loader from "../components/Loader";
@@ -75,8 +76,15 @@ const ForgotPassword = () => {
    };
    return (
       <Layout title="Forgot Password">
-         <div className="font-semibold text-xl my-4">ForgotPassword</div>
-
+         <div className="flex gap-4 items-center m-6">
+            <div
+               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               onClick={() => router.back()}
+            >
+               <BiArrowBack />
+            </div>
+            <div className="font-semibold text-2xl">/ Reset Password</div>
+         </div>
          <div>
             {hasSent ? (
                <div>
@@ -86,7 +94,7 @@ const ForgotPassword = () => {
                      </label>
                      <input
                         type="text"
-                        className="p-3 rounded-lg ml-6 "
+                        className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg ml-6 "
                         id="code"
                         onChange={handleChangeCode}
                         value={code}
@@ -115,7 +123,7 @@ const ForgotPassword = () => {
                      </label>
                      <input
                         type="email"
-                        className="p-3 rounded-lg ml-6"
+                        className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg ml-6"
                         id="email"
                         defaultValue={email}
                         onChange={handleChangeEmail}

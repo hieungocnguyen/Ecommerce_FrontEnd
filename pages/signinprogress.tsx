@@ -27,7 +27,7 @@ const SignGG = () => {
          dispatch({ type: "USER_LOGIN", payload: resUser.data.data });
          if (resUser) {
             router.push("/");
-            toast.success("Sign in successful!", {
+            toast.success("Sign in successful!, in progress", {
                position: "bottom-center",
             });
          }
@@ -41,7 +41,7 @@ const SignGG = () => {
             position: "bottom-center",
          });
       }
-   }, [msg, jwt]);
+   }, [dispatch, jwt, msg, router]);
    return (
       <div>
          <div></div>

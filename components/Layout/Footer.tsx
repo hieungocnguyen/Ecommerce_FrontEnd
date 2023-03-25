@@ -7,10 +7,10 @@ const Footer = () => {
    return (
       <div className="bg-light-primary dark:bg-dark-primary w-[90%] mx-auto rounded-t-lg py-[20px]">
          <div className="flex flex-col items-center mb-5">
-            <Link href="/">
-               <a>
+            <Link href="/" title="Home">
+               <div className="cursor-pointer">
                   <Logo width="125" />
-               </a>
+               </div>
             </Link>
             <div className="text-sm font-medium">Leading in quality</div>
          </div>
@@ -24,14 +24,14 @@ const Footer = () => {
                <div className="font-semibold text-sm">Social</div>
                <div className="flex text-[28px] justify-center mt-[10px] gap-2">
                   <Link href="/">
-                     <a>
+                     <div className="cursor-pointer">
                         <AiFillFacebook />
-                     </a>
+                     </div>
                   </Link>
                   <Link href="/">
-                     <a>
+                     <div className="cursor-pointer">
                         <AiFillInstagram />
-                     </a>
+                     </div>
                   </Link>
                </div>
             </div>

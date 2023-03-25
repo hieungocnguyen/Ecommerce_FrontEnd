@@ -107,7 +107,12 @@ const CategoryAll = ({ categories }) => {
             {/* posts side */}
             <div className="col-span-6 grid grid-cols-4 gap-8 mb-8">
                {salePosts.map((post) => (
-                  <ProductItem key={post.id} product={post} inCompare={false} />
+                  <ProductItem
+                     key={post.id}
+                     product={post}
+                     inCompare={false}
+                     setLoading={undefined}
+                  />
                ))}
             </div>
          </div>

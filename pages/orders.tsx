@@ -19,7 +19,7 @@ const Orders = () => {
          setOrders(resOrder.data.data);
       };
       loadOrder();
-   }, []);
+   }, [userInfo]);
 
    return (
       <Layout title="Your Order">

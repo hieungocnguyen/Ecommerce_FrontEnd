@@ -6,53 +6,48 @@ import API, { endpoints } from "../../API";
 import { Store } from "../../utils/Store";
 
 const AddToAddressBook = ({ setIsOpenAddAddress }) => {
-   const {
-      register,
-      handleSubmit,
-      watch,
-      formState: { errors },
-   } = useForm();
-   const [province, setProvince] = useState([]);
-   const [district, setDistrict] = useState([]);
-   const [ward, setWard] = useState([]);
+   const [provinces, setProvinces] = useState([]);
+   const [districts, setDistricts] = useState([]);
+   const [wards, setWards] = useState([]);
    const [street, setStreet] = useState("empty");
    const [address, setAddress] = useState("");
    const [wardID, setWardID] = useState(0);
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
-   const router = useRouter();
    const wrapperRef = useRef(null);
+   const [addressFull, setAddressFull] = useState<any>({});
+   const [isDisableStreet, setIsDisableStreet] = useState<boolean>(true);
+   const [resetForm, setResetForm] = useState(false);
 
    const fetchProvinceAll = async () => {
-      const res = await API.get(
-         "http://localhost:8080/ou-ecommerce/api/location/provinces/all"
-      );
-      setProvince(res.data.data);
+      const res = await API.get(endpoints["get_providers"]);
+      setProvinces(res.data.data.provinces);
    };
+
    const handleSelectProvince = (provinceID: string) => {
       const fetchDistrictByProvinceID = async (provinceID) => {
          const res = await API.get(
-            `http://localhost:8080/ou-ecommerce/api/location/districts/get-districts-by-province-id/${provinceID}`
+            `${endpoints["get_districts"]}?provinceID=${provinceID}`
          );
-         setDistrict(res.data.data);
-         setWard([]);
-         setStreet("empty");
+         setDistricts(res.data.data.districts);
+         setWards([]);
       };
       fetchDistrictByProvinceID(provinceID);
    };
+
    const handleSelectDistrict = (districtID: string) => {
       const fetchWardByDistrictID = async (districtID) => {
          const res = await API.get(
-            `http://localhost:8080/ou-ecommerce/api/location/wards/get-wards-by-district-id/${districtID}`
+            `${endpoints["get_wards"]}?districtID=${districtID}`
          );
-         setWard(res.data.data);
-         setStreet("empty");
+         setWards(res.data.data.wards);
       };
       fetchWardByDistrictID(districtID);
    };
 
    useEffect(() => {
       fetchProvinceAll();
+
       function handleClickOutside(event) {
          if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
             setIsOpenAddAddress(false);
@@ -64,28 +59,32 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
       };
    }, [wrapperRef]);
 
-   const handleSubmitAddToAddressBook = async ({
-      deliveryPhone,
-      addressType,
-      description,
-      street,
-   }) => {
+   const handleSubmitAddToAddressBook = async (e) => {
+      e.preventDefault();
+      e.target.reset();
       try {
-         let location = "";
-         const resGetLocation = await API.get(
-            endpoints["get_full_address"](wardID)
-         );
-         location = resGetLocation.data.data;
          const resCreate = await API.post(endpoints["create_address"], {
-            addressType: addressType,
+            addressType: addressFull.addressType,
             customerID: userInfo.id,
-            deliveryPhone: deliveryPhone,
-            description: description,
-            fullAddress: `${street} ${location}`,
+            deliveryPhone: addressFull.deliveryPhone,
+            description: addressFull.description,
+            fullAddress: `${addressFull.street}, ${addressFull.WardName}, ${addressFull.DistrictName}, ${addressFull.ProvinceName}`,
+            toAddress: addressFull.street,
+            provinceID: Number(addressFull.ProvinceID),
+            toProvinceName: addressFull.ProvinceName,
+            districtID: Number(addressFull.DistrictID),
+            toDistrictName: addressFull.DistrictName,
+            wardID: Number(addressFull.WardID),
+            toWardName: addressFull.WardName,
+            customerName: addressFull.customerName,
          });
          if (resCreate.data.code == "201") {
             setIsOpenAddAddress(false);
+            setResetForm(!resetForm);
             toast.success("Add sucessful", { position: "top-center" });
+         }
+         if (resCreate.data.code == "400") {
+            toast.error(resCreate.data.message, { position: "top-center" });
          }
       } catch (error) {
          console.log(error);
@@ -94,23 +93,48 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
 
    return (
       <div
-         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 w-full h-full relative shadow-lg shadow-blue-main"
+         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 w-full h-full relative shadow-lg border-2 border-blue-main"
          ref={wrapperRef}
       >
          <div>
             <form
                className="grid grid-cols-12 gap-4 text-left font-medium"
-               onSubmit={handleSubmit(handleSubmitAddToAddressBook)}
+               onSubmit={handleSubmitAddToAddressBook}
             >
+               <div className="col-span-12">
+                  <label htmlFor="customerName" className="pl-2 text-sm">
+                     Name
+                  </label>
+                  <input
+                     type="text"
+                     id="customerName"
+                     required
+                     placeholder="Name"
+                     className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
+                     onChange={(e) => {
+                        setAddressFull({
+                           ...addressFull,
+                           customerName: e.target.value,
+                        });
+                     }}
+                  />
+               </div>
                <div className="col-span-6">
                   <label htmlFor="deliveryPhone" className="pl-2 text-sm">
                      Delivery Phone
                   </label>
                   <input
-                     {...register("deliveryPhone")}
                      type="number"
                      id="deliveryPhone"
-                     className="w-full p-3 rounded-lg"
+                     required
+                     placeholder="Delivery Phone"
+                     className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
+                     onChange={(e) => {
+                        setAddressFull({
+                           ...addressFull,
+                           deliveryPhone: e.target.value,
+                        });
+                     }}
                   />
                </div>
                <div className="col-span-6">
@@ -119,9 +143,16 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                   </label>
                   <select
                      id="addressType"
-                     className="w-full p-3 rounded-lg"
-                     {...register("addressType")}
+                     className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
+                     required
+                     onChange={(e) => {
+                        setAddressFull({
+                           ...addressFull,
+                           addressType: e.target.value,
+                        });
+                     }}
                   >
+                     <option value="">--Choose address type--</option>
                      <option value="HOME" className="">
                         HOME
                      </option>
@@ -133,94 +164,142 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                      Description
                   </label>
                   <input
-                     {...register("description")}
                      type="text"
                      id="description"
-                     className="w-full p-3 rounded-lg"
+                     required
+                     placeholder="Description"
+                     className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
+                     onChange={(e) => {
+                        setAddressFull({
+                           ...addressFull,
+                           description: e.target.value,
+                        });
+                     }}
                   />
                </div>
                <div className="col-span-4">
-                  <label htmlFor="province" className="pl-2 text-sm">
+                  <label htmlFor="province" className="font-semibold text-sm">
                      Province
                   </label>
                   <select
                      id="province"
-                     className="p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                     required
+                     className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
                      onChange={(e) => {
                         handleSelectProvince(e.target.value);
+                        setAddressFull({
+                           ...addressFull,
+                           ProvinceID: e.target.value,
+                           ProvinceName: provinces.find(
+                              (d) => d.ProvinceID == e.target.value
+                           ).ProvinceName,
+                        });
                      }}
                   >
-                     <option value={0} className="hidden">
-                        Select Province
+                     <option value="" className="hidden">
+                        --Select Province--
                      </option>
-                     {province.map((p) => (
-                        <option
-                           key={p.provinceID}
-                           value={p.provinceID}
-                           className=""
-                        >
-                           {p.provinceName}
-                        </option>
-                     ))}
+                     {provinces
+                        .sort((a, b) => (a.ProvinceID < b.ProvinceID ? -1 : 1))
+                        .map((province) => (
+                           <option
+                              key={province.ProvinceID}
+                              value={province.ProvinceID}
+                              className=""
+                           >
+                              {province.ProvinceName}
+                           </option>
+                        ))}
                   </select>
                </div>
-               <div className="col-span-4">
-                  <label htmlFor="district" className="pl-2 text-sm">
+               <div className="col-span-4 text-left">
+                  <label htmlFor="district" className="font-semibold text-sm">
                      District
                   </label>
                   <select
                      id="district"
-                     className="p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
-                     onChange={(e) => handleSelectDistrict(e.target.value)}
-                     disabled={district.length > 0 ? false : true}
+                     required
+                     className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                     onChange={(e) => {
+                        handleSelectDistrict(e.target.value);
+                        setAddressFull({
+                           ...addressFull,
+                           DistrictID: e.target.value,
+                           DistrictName: districts.find(
+                              (d) => d.DistrictID == e.target.value
+                           ).DistrictName,
+                        });
+                     }}
+                     disabled={districts.length > 0 ? false : true}
                   >
-                     <option value={0} className="hidden">
-                        Select District
+                     <option value="" className="hidden">
+                        --Select District--
                      </option>
-                     {district.map((p) => (
-                        <option key={p.districtID} value={p.districtID}>
-                           {p.districtName}
-                        </option>
-                     ))}
+                     {districts
+                        .sort((a, b) => (a.DistrictID < b.DistrictID ? -1 : 1))
+                        .map((district) => (
+                           <option
+                              key={district.DistrictID}
+                              value={district.DistrictID}
+                           >
+                              {district.DistrictName}
+                           </option>
+                        ))}
                   </select>
                </div>
-               <div className="col-span-4">
-                  <label htmlFor="ward" className="pl-2 text-sm">
+               <div className="col-span-4 text-left">
+                  <label htmlFor="ward" className="font-semibold text-sm">
                      Ward
                   </label>
                   <select
                      id="ward"
-                     className="p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
-                     disabled={ward.length > 0 ? false : true}
+                     required
+                     className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                     disabled={wards.length > 0 ? false : true}
                      onChange={(e) => {
-                        setStreet("");
-                        setWardID(Number(e.target.value));
+                        setIsDisableStreet(false);
+                        setAddressFull({
+                           ...addressFull,
+                           WardID: e.target.value,
+                           WardName: wards.find(
+                              (ward) => ward.WardCode == e.target.value
+                           ).WardName,
+                        });
                      }}
                   >
-                     <option value={0} className="hidden">
-                        Select Ward
+                     <option value="" className="hidden">
+                        --Select Ward--
                      </option>
-                     {ward.map((p) => (
-                        <option key={p.wardID} value={p.wardID}>
-                           {p.wardName}
-                        </option>
-                     ))}
+                     {wards
+                        .sort((a, b) => (a.WardID < b.WardID ? -1 : 1))
+                        .map((ward) => (
+                           <option key={ward.WardID} value={ward.WardCode}>
+                              {ward.WardName}
+                           </option>
+                        ))}
                   </select>
                </div>
-               <div className="col-span-12">
-                  <label htmlFor="street" className="pl-2 text-sm">
-                     Street
-                  </label>
-                  <input
-                     {...register("street")}
-                     id="street"
-                     name="street"
-                     required
-                     type="text"
-                     placeholder="Street"
-                     className="p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:bg-light-bg disabled:cursor-not-allowed"
-                     disabled={street == "" ? false : true}
-                  />
+               <div className="col-span-12 text-left">
+                  <div>
+                     <label htmlFor="street" className="font-semibold text-sm">
+                        Street
+                     </label>
+                     <input
+                        id="street"
+                        name="street"
+                        required
+                        type="text"
+                        placeholder="Street"
+                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                        disabled={isDisableStreet}
+                        onChange={(e) => {
+                           setAddressFull({
+                              ...addressFull,
+                              street: e.target.value,
+                           });
+                        }}
+                     />
+                  </div>
                </div>
                <div className="col-span-12 flex justify-center">
                   <button

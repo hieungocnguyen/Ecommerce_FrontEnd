@@ -94,7 +94,7 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
    return (
       <div className="relative">
          <div
-            className="dark:bg-dark-primary bg-light-primary rounded-lg p-4 cursor-pointer hover:shadow-blue-main dark:hover:shadow-dark-shadow hover:shadow-lg"
+            className="dark:bg-dark-primary bg-light-primary rounded-lg p-6 cursor-pointer"
             onClick={() => handleDetailRoute()}
          >
             <div className="relative">
@@ -127,10 +127,10 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
                   })}
                </div>
             </div>
-            <div className=" flex items-end justify-end mt-6">
+            <div className=" flex items-end justify-end mt-10">
                <div className="text-right">
                   <div className="text-blue-main font-bold text-sm text-right mb-1">
-                     {product.category.name}
+                     {/* {product.category.name} */}
                   </div>
                   <div className="italic text-sm">
                      {moment(product.createdDate).startOf("hour").fromNow()}
@@ -163,9 +163,10 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
                )}
             </div>
          </div>
-         <div className="flex gap-4 absolute bottom-4 left-4">
+         <div className="flex gap-4 absolute bottom-6 left-6">
             <button
                className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-md text-3xl"
+               title="Quick view"
                onClick={() => {
                   setIsOpenQuickViewModal(true);
                }}
@@ -175,6 +176,7 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
             {inCompare ? (
                <button
                   className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-md text-3xl"
+                  title="Remove compare"
                   onClick={handleRemoveCompare}
                >
                   <BiUndo />
@@ -182,6 +184,7 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
             ) : (
                <button
                   className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-md text-3xl"
+                  title="Add compare"
                   onClick={handleAddCompare}
                >
                   <BiGitCompare />

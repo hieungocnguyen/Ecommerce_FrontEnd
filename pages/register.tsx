@@ -122,12 +122,7 @@ const Register = () => {
 
          if (resRegister) {
             setLoading(false);
-            router.push({
-               pathname: "/",
-               query: {
-                  route: "fromregister",
-               },
-            });
+            router.push("/signin");
             toast.success("Done!", {
                position: "bottom-center",
             });
@@ -362,7 +357,7 @@ const Register = () => {
                            required
                            type="text"
                            placeholder="Street"
-                           className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:bg-light-bg disabled:cursor-not-allowed"
+                           className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
                            disabled={street == "" ? false : true}
                         />
                      </div>

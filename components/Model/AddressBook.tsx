@@ -1,6 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import API, { endpoints } from "../../API";
 import { Store } from "../../utils/Store";
+import emptyBox from "../../public/empty-box.png";
+import Image from "next/image";
+import { toast } from "react-hot-toast";
 
 const AddressBook = ({
    setIsOpenAddressBook,
@@ -12,6 +15,7 @@ const AddressBook = ({
    const [addressList, setAddressList] = useState([]);
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
+   const [addressSelected, setAddressSelected] = useState<any>({});
 
    const fetchAddressList = async () => {
       const res = await API.get(endpoints["get_address_book"](userInfo.id));
@@ -21,7 +25,11 @@ const AddressBook = ({
    useEffect(() => {
       fetchAddressList();
       function handleClickOutside(event) {
-         if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+         if (
+            wrapperRef.current &&
+            !wrapperRef.current.contains(event.target) &&
+            !isOpenAddAddress
+         ) {
             setIsOpenAddressBook(false);
          }
       }
@@ -31,9 +39,33 @@ const AddressBook = ({
       };
    }, [wrapperRef, isOpenAddAddress]);
 
+   const handleDeleteAddress = async () => {
+      try {
+         const res = await API.delete(
+            endpoints["delete_address"](addressSelected.id)
+         );
+         toast.success("Delete address sucessful", {
+            position: "top-center",
+         });
+         fetchAddressList();
+
+         //set new current address when delete
+         if (addressList.length > 0) {
+            setAddress(addressList.sort((a, b) => (a.id > b.id ? -1 : 1))[0]);
+         } else {
+            setAddress();
+         }
+      } catch (error) {
+         console.log(error);
+         toast.error("Delete address failed", {
+            position: "top-center",
+         });
+      }
+   };
+
    return (
       <div
-         className="dark:bg-neutral-800 bg-light-primary rounded-lg w-full h-full relative p-8 shadow-lg shadow-blue-main"
+         className="dark:bg-neutral-800 bg-light-primary rounded-lg w-full h-full relative p-8 shadow-lg shadow-light-primary dark:shadow-dark-primary border-2 border-blue-main"
          ref={wrapperRef}
       >
          <div className="flex justify-between items-center mb-2 mx-8">
@@ -46,49 +78,81 @@ const AddressBook = ({
             </button>
          </div>
          <div className=" absolute bottom-8 left-1/2 -translate-x-1/2 w-[90%] h-[32rem]">
-            <div className="h-[90%] w-full px-4 overflow-auto">
-               {addressList.map((address) => (
-                  <div key={address.id}>
-                     <label className="cursor-pointer">
-                        <input
-                           type="radio"
-                           className="peer sr-only"
-                           name="pricing"
-                           onChange={() => setAddress(address)}
-                        />
-                        <div className="rounded-lg ring-2 bg-light-spot ring-slate-200 mb-4 p-3  transition-all hover:shadow peer-checked:ring-blue-main text-left  font-medium">
-                           <div>
-                              <span className="font-semibold">
-                                 Delivery Phone:
-                              </span>{" "}
-                              {address.deliveryPhone}
-                           </div>
-                           <div>
-                              <span className="font-semibold">Type:</span>{" "}
-                              {address.addressType}
-                           </div>
-                           <div>
-                              <span className="font-semibold">Address:</span>{" "}
-                              {address.fullAddress}
-                           </div>
-                           <div>
-                              <span className="font-semibold">
-                                 Description:
-                              </span>{" "}
-                              {address.description}
-                           </div>
+            <div className="h-[90%] w-full p-4 overflow-auto">
+               {addressList.length > 0 ? (
+                  <div>
+                     {addressList.map((address) => (
+                        <div key={address.id}>
+                           <label className="cursor-pointer">
+                              <input
+                                 type="radio"
+                                 className="peer sr-only"
+                                 name="pricing"
+                                 onChange={() => setAddressSelected(address)}
+                              />
+                              <div className="rounded-lg ring-2 bg-light-spot ring-slate-200 mb-4 p-3  transition-all hover:shadow peer-checked:ring-primary-color text-left  font-medium">
+                                 <div>
+                                    <span className="font-semibold">
+                                       Delivery Phone:
+                                    </span>{" "}
+                                    {address.deliveryPhone}
+                                 </div>
+                                 <div>
+                                    <span className="font-semibold">Type:</span>{" "}
+                                    {address.addressType}
+                                 </div>
+                                 <div>
+                                    <span className="font-semibold">
+                                       Address:
+                                    </span>{" "}
+                                    {address.fullAddress}
+                                 </div>
+                                 <div>
+                                    <span className="font-semibold">
+                                       Description:
+                                    </span>{" "}
+                                    {address.description}
+                                 </div>
+                              </div>
+                           </label>
                         </div>
-                     </label>
+                     ))}
                   </div>
-               ))}
+               ) : (
+                  <div className="relative overflow-hidden w-1/2 aspect-square mx-auto">
+                     <Image
+                        src={emptyBox}
+                        alt="empty"
+                        layout="fill"
+                        className="object-cover"
+                     />
+                  </div>
+               )}
             </div>
             <div>
-               <button
-                  className="bg-blue-main rounded-lg px-4 py-3 text-white font-semibold mt-4 hover:shadow-lg hover:shadow-blue-main"
-                  onClick={() => setIsOpenAddressBook(false)}
-               >
-                  Choose this address
-               </button>
+               {addressList.length > 0 ? (
+                  <div className=" flex gap-8 justify-center">
+                     <button
+                        className="bg-red-500 rounded-lg px-4 py-3 transition-all text-white font-semibold mt-4 hover:shadow-lg hover:shadow-red-500 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:shadow-gray-400"
+                        disabled={addressSelected.id ? false : true}
+                        onClick={handleDeleteAddress}
+                     >
+                        Delete this address
+                     </button>
+                     <button
+                        className="bg-primary-color rounded-lg px-7 py-3 transition-all text-white font-semibold mt-4 hover:shadow-lg hover:shadow-primary-color disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:shadow-gray-400"
+                        disabled={addressSelected.id ? false : true}
+                        onClick={() => {
+                           setAddress(addressSelected);
+                           setIsOpenAddressBook(false);
+                        }}
+                     >
+                        Choose this address
+                     </button>
+                  </div>
+               ) : (
+                  <div></div>
+               )}
             </div>
          </div>
       </div>

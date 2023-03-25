@@ -115,7 +115,12 @@ const ProductPage = ({ salePost }) => {
                         />
                      </div>
                      <div className="font-semibold hover:text-blue-main transition-all">
-                        <a href="#section_comment">{commentCount} Comment(s)</a>
+                        <a
+                           href="#section_comment"
+                           title="Go to comment section"
+                        >
+                           {commentCount} Comment(s)
+                        </a>
                      </div>
                   </div>
                   <div className="text-left mb-4 mt-8">

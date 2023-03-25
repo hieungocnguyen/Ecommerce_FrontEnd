@@ -18,6 +18,7 @@ module.exports = {
             "blue-main": "#525EC1",
             "dark-spot": "#3B3B3B",
             "dark-shadow": "#18181b",
+            "primary-color": "#FF8500",
          },
       },
    },

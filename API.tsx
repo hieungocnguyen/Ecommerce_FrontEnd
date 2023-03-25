@@ -38,6 +38,9 @@ export let endpoints = {
    get_total: (userID) => `/cart/get-total-price-in-cart/${userID}`,
    clear_cart: `/cart/clear-cart`,
    delete_item_in_cart: (itemID) => `/cart/remove-item/${itemID}`,
+   get_cart_checkout: (userID) =>
+      `/cart/get-check-out-info-before-payment/${userID}`,
+
    //order API
    order_user: (userID) => `/order/orders-agency/user/${userID}`,
    order_agency: (agencyID) => `/order/orders-agency/agency/${agencyID}`,
@@ -75,10 +78,13 @@ export let endpoints = {
    get_address_book: (userID) =>
       `/location/address-book/get-address-book-by-user-id/${userID}`,
    get_full_address: (wardID) => `/location/get-full-address/${wardID}`,
+   delete_address: (addressID) =>
+      `/location/address-book/delete-by-id/${addressID}`,
    //order-tracking
    get_providers: `/order-tracking/ghn/location/get-provinces`,
    get_districts: `/order-tracking/ghn/location/get-districts`,
    get_wards: `/order-tracking/ghn/location/get-wards`,
+   get_service_package: `/order-tracking/ghn/order/get-service-package-of-ghn-express`,
 };
 export const authAxios = () =>
    axios.create({

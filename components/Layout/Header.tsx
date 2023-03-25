@@ -163,10 +163,10 @@ const Header = () => {
             <ThemeToggler />
          </div>
          <div>
-            <Link href="/">
-               <a>
+            <Link href="/" title="Home">
+               <div className="cursor-pointer">
                   <Logo width="125" />
-               </a>
+               </div>
             </Link>
          </div>
          <div className="mr-10 flex items-center">

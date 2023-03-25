@@ -7,7 +7,6 @@ import API, { authAxios, endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
-import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import { BiArrowBack, BiCloudUpload, BiPencil } from "react-icons/bi";
@@ -31,6 +30,7 @@ const EditProfile = () => {
    const [loading, setLoading] = useState(false);
    const [address, setAddress] = useState();
    const [isOpenAddressSelect, setIsOpenAddressSelect] = useState(false);
+
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
          setImportImage(false);
@@ -49,9 +49,12 @@ const EditProfile = () => {
       }
       setValue("firstName", userInfo.firstName);
       setValue("lastName", userInfo.lastName);
-      setValue("address", address ? address : userInfo.address);
       setValue("phone", userInfo.phone);
-   }, [userInfo, address]);
+   }, [userInfo]);
+
+   useEffect(() => {
+      setValue("address", address ? address : userInfo.address);
+   }, [address]);
 
    const submitHandler = async ({ firstName, lastName, phone, address }) => {
       setLoading(true);

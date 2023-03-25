@@ -14,6 +14,7 @@ import {
 import API, { endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import { Store } from "../utils/Store";
+import Cookies from "js-cookie";
 
 const Profile = () => {
    const { state, dispatch } = useContext(Store);
@@ -68,7 +69,7 @@ const Profile = () => {
                <div className="absolute -bottom-20 left-[19rem]  text-left">
                   <div
                      className={`font-semibold text-3xl ${
-                        user.firstName || user.lastName ? "" : "text-yellow-500"
+                        user.firstName || user.lastName ? "" : "text-orange-500"
                      }`}
                   >
                      {user.firstName || user.lastName
@@ -112,7 +113,7 @@ const Profile = () => {
                      <BiPhone className="text-2xl" />
                      <div
                         className={`text-lg font-medium ${
-                           user.phone ? "" : "text-yellow-500"
+                           user.phone ? "" : "text-orange-500"
                         }`}
                      >
                         {user.phone ? user.phone : "Undeclare number phone"}

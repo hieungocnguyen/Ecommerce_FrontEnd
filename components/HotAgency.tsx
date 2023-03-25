@@ -39,7 +39,7 @@ const HotAgency = ({ setLoading }) => {
                            <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all">
                               <Image
                                  src={agency[0].avatar}
-                                 alt=""
+                                 alt="avatar"
                                  layout="fill"
                                  className="object-cover"
                               />

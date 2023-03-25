@@ -9,9 +9,11 @@ import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
 import { BiArrowBack, BiCloudUpload } from "react-icons/bi";
 import { log } from "console";
+import { toast } from "react-hot-toast";
 
 const RegisterAgency = () => {
    const [selectedImage, setSelectedImage] = useState();
+   const [importImage, setImportImage] = useState(false);
    const [name, setName] = useState("");
    const [avatar, setAvatar] = useState("");
    const [address, setAddress] = useState("");
@@ -59,13 +61,22 @@ const RegisterAgency = () => {
    }, []);
 
    const imageChange = (e) => {
-      setSelectedImage(e.target.files[0]);
+      if (e.target.files[0] === undefined) {
+         setImportImage(false);
+      } else {
+         setSelectedImage(e.target.files[0]);
+         setImportImage(true);
+      }
    };
 
    const handleRegister = async (e) => {
       e.preventDefault();
-      setLoading(true);
+      if (!importImage) {
+         toast.error("Please select avatar for your agency!");
+         return;
+      }
       try {
+         setLoading(true);
          const resUploadCloudinary = await API.post(
             endpoints["upload_cloudinary"],
             { file: selectedImage },
@@ -81,16 +92,16 @@ const RegisterAgency = () => {
             {
                address: addressFull.ProvinceName,
                fromAddress: `${street}, ${addressFull.WardName}, ${addressFull.DistrictName}, ${addressFull.ProvinceName}`,
-               provinceID: addressFull.ProvinceID,
+               provinceID: Number(addressFull.ProvinceID),
                fromProvinceName: addressFull.ProvinceName,
-               districtID: addressFull.DistrictID,
+               districtID: Number(addressFull.DistrictID),
                fromDistrictName: addressFull.DistrictName,
-               wardID: addressFull.WardID,
+               wardID: Number(addressFull.WardID),
                fromWardName: addressFull.WardName,
                avatar: resUploadCloudinary.data.data,
-               fieldID: field,
+               fieldID: Number(field),
                hotline: hotline,
-               managerID: userInfo.id,
+               managerID: Number(userInfo.id),
                name: name,
             }
          );
@@ -110,6 +121,7 @@ const RegisterAgency = () => {
             router.push("/profile");
          }
       } catch (error) {
+         setLoading(false);
          console.log(error);
       }
    };
@@ -123,7 +135,7 @@ const RegisterAgency = () => {
                <BiArrowBack />
             </div>
             <div className="font-semibold text-2xl">
-               / Register a new account
+               / Register to become an agency
             </div>
          </div>
          <form
@@ -152,7 +164,6 @@ const RegisterAgency = () => {
                      <input
                         type="file"
                         name="photo"
-                        required
                         id="upload-photo"
                         className="hidden"
                         onChange={imageChange}
@@ -170,6 +181,7 @@ const RegisterAgency = () => {
                      <input
                         type="text"
                         id="name"
+                        required
                         className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full"
                         onChange={(e) => {
                            setName(e.target.value);
@@ -183,6 +195,7 @@ const RegisterAgency = () => {
                      <input
                         type="text"
                         id="hotline"
+                        required
                         className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full"
                         onChange={(e) => {
                            setHotline(e.target.value);
@@ -196,6 +209,7 @@ const RegisterAgency = () => {
                      <select
                         name="fields"
                         id="fields"
+                        required
                         className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full"
                         onChange={(e) => {
                            setField(Number(e.target.value));
@@ -244,7 +258,7 @@ const RegisterAgency = () => {
                                  });
                               }}
                            >
-                              <option value={0} className="hidden">
+                              <option value="" className="hidden">
                                  --Select Province--
                               </option>
                               {provinces
@@ -285,7 +299,7 @@ const RegisterAgency = () => {
                               }}
                               disabled={districts.length > 0 ? false : true}
                            >
-                              <option value={0} className="hidden">
+                              <option value="" className="hidden">
                                  --Select District--
                               </option>
                               {districts
@@ -325,7 +339,7 @@ const RegisterAgency = () => {
                                  });
                               }}
                            >
-                              <option value={0} className="hidden">
+                              <option value="" className="hidden">
                                  --Select Ward--
                               </option>
                               {wards

@@ -8,7 +8,7 @@ import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../components/Loader";
-import { BiArrowBack } from "react-icons/bi";
+import { BiHomeAlt } from "react-icons/bi";
 
 const Signin = () => {
    const {
@@ -70,12 +70,12 @@ const Signin = () => {
                   className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
                   onClick={() => router.push("/")}
                >
-                  <BiArrowBack />
+                  <BiHomeAlt />
                </div>
                <div className="font-semibold text-2xl">/ Sign in</div>
             </div>
             <form onSubmit={handleSubmit(submitHandler)}>
-               <div className="flex flex-col max-w-md mx-auto">
+               <div className="flex flex-col max-w-md mx-auto font-medium">
                   <label
                      htmlFor="username"
                      className="mr-3 font-semibold text-left pt-5 pb-2"
