@@ -14,15 +14,29 @@ const StateOfPayment = () => {
    const router = useRouter();
    const resultCode = router.query.resultCode;
    const { state, dispatch } = useContext(Store);
-   const { addressPayment } = state;
+   const { addressPayment, allInCartToPayment } = state;
+
    const fetchPaymentCart = async () => {
+      let mapServiceInfo = {};
+
       try {
+         if (allInCartToPayment) {
+            allInCartToPayment.map((item) => {
+               mapServiceInfo[item.agencyID] = {
+                  serviceID: item.service_id,
+                  serviceTypeID: item.service_type_id,
+               };
+            });
+         }
+
          const res = await authAxios().post(
-            endpoints["payment_cart"](2, addressPayment)
+            endpoints["payment_cart"](2, addressPayment),
+            mapServiceInfo
          );
          if (res) {
             dispatch({ type: "CART_REMOVE_ALL_ITEM" });
             dispatch({ type: "REMOVE_ADDRESS_PAYMENT" });
+            dispatch({ type: "REMOVE_INFO_PAYMENT" });
          }
       } catch (error) {
          console.log(error);
@@ -33,8 +47,11 @@ const StateOfPayment = () => {
       result = <PaymentFailed detail="User denied the transaction" />;
    } else if (resultCode == "1005") {
       result = <PaymentFailed detail="Payment expired transaction" />;
+   } else if (resultCode == "1004") {
+      result = <PaymentFailed detail="Exceeded payment limit of MOMO" />;
    }
    useEffect(() => {
+      //fetch when payment successful
       if (resultCode === "0") {
          fetchPaymentCart();
       }

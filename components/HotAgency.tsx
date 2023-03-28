@@ -31,7 +31,7 @@ const HotAgency = ({ setLoading }) => {
             {hotAgency.map((agency) => (
                <div className="relative" key={agency.id}>
                   <div
-                     className="dark:bg-dark-primary bg-light-primary rounded-lg p-6 cursor-pointer hover:shadow-blue-main dark:hover:shadow-dark-shadow hover:shadow-lg"
+                     className="dark:bg-dark-primary bg-light-primary rounded-lg p-6 cursor-pointer  hover:shadow-lg"
                      onClick={() => handleRouteAgency(agency[0].id)}
                   >
                      <div>

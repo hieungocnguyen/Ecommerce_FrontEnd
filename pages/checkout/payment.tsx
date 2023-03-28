@@ -7,6 +7,8 @@ import { Store } from "../../utils/Store";
 import Image from "next/image";
 import cashpaymentimage from "../../public/cash_payment.png";
 import momopaymentimage from "../../public/momo_payment.png";
+import cashDisabled from "../../public/cash_disabled.png";
+import momoDisabled from "../../public/momo_disabled.png";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../components/Loader";
 import Cookies from "js-cookie";
@@ -14,8 +16,7 @@ import { useRouter } from "next/router";
 import AddressBook from "../../components/Model/AddressBook";
 import AddToAddressBook from "../../components/Model/AddToAddressBook";
 import Link from "next/link";
-import { log } from "console";
-import { BiArrowBack, BiStore } from "react-icons/bi";
+import { BiArrowBack, BiChevronDown, BiStore } from "react-icons/bi";
 import { ClipLoader } from "react-spinners";
 import DeliveryService from "../../components/Model/DeliveryService";
 
@@ -33,6 +34,10 @@ const Payment = () => {
    const [idOpenDeliveryServices, setIdOpenDeliveryServices] = useState(0);
    const [amountShipFee, setAmountShipFee] = useState(0);
    const [totalOrder, setTotalOrder] = useState(0);
+   //0: no disable, 1:cash, 2:momo,3:both
+   const [isDisablePaymentMethod, setIsDisblePaymentMethod] = useState(0);
+   const [isErrorGHNThirdParty, setIsErrorGHNThirdParty] =
+      useState<boolean>(true);
 
    const fetchCartData = async () => {
       const temp = [];
@@ -68,9 +73,10 @@ const Payment = () => {
 
             //get service package by addressBookID and agencyID
             if (currentAddress) {
-               const resDeliveryService = await API.get(
+               const resDeliveryService = await authAxios().get(
                   `${endpoints["get_service_package"]}?addressBookID=${currentAddress.id}&agencyID=${i.agencyID}`
                );
+
                temp.push({
                   ...i,
                   ...resAgencyInfo.data.data,
@@ -78,12 +84,15 @@ const Payment = () => {
                   ...{
                      selectedService:
                         resDeliveryService.data.data.services.sort((a, b) =>
-                           a.shipFeeService.shipFee < b.shipFeeService.shipFee
+                           a.serviceInfoWithPrePayment.shipFee <
+                           b.serviceInfoWithPrePayment.shipFee
                               ? -1
                               : 1
                         )[0],
                   },
                });
+
+               //cases no selected address
             } else {
                temp.push({
                   ...i,
@@ -93,11 +102,19 @@ const Payment = () => {
             //make sure to render the items correctly
             if (temp.length === resCart.data.data.length) {
                setIsLoadComplete(true);
+               console.log(temp);
+               CheckDisablePaymentType(temp);
+
                CalcTotalOrder(temp);
                setItemsInCart(temp);
             }
          });
-      } catch (error) {}
+      } catch (error) {
+         console.log(error);
+         toast.error("something wrong, try it later!", {
+            position: "top-center",
+         });
+      }
    };
 
    useEffect(() => {
@@ -106,31 +123,70 @@ const Payment = () => {
 
    useEffect(() => {
       CalcTotalOrder(itemsInCart);
-   }, [idOpenDeliveryServices]);
+   }, [idOpenDeliveryServices, paymentType]);
+
+   const CheckDisablePaymentType = (items) => {
+      let tempDisablePaymentType = 0;
+      items.map((item) => {
+         if (item.selectedService.serviceInfoWithCOD.isSuccess === 0) {
+            //if 3=>3 if 1=>1
+            if (tempDisablePaymentType === 2) {
+               tempDisablePaymentType = 3;
+            } else if (tempDisablePaymentType === 0) {
+               tempDisablePaymentType = 1;
+            }
+         } else {
+            setIsErrorGHNThirdParty(false);
+         }
+
+         if (item.selectedService.serviceInfoWithPrePayment.isSuccess === 0) {
+            //if 3=>3 if 2=>2
+            if (tempDisablePaymentType === 1) {
+               tempDisablePaymentType = 3;
+            } else if (tempDisablePaymentType === 0) {
+               tempDisablePaymentType = 2;
+            }
+         } else {
+            setIsErrorGHNThirdParty(false);
+         }
+      });
+      setIsDisblePaymentMethod(tempDisablePaymentType);
+   };
 
    const CalcTotalOrder = (items) => {
       let tempTotalOrder = 0;
 
       if (items.length > 0 && items[0].selectedService) {
-         items.map(
-            (item) =>
-               (tempTotalOrder +=
+         if (paymentType == 1) {
+            items.map((item) => {
+               tempTotalOrder +=
                   item.calculatorPrice +
-                  item.selectedService.shipFeeService.shipFee)
-         );
+                  item.selectedService.serviceInfoWithCOD.shipFee;
+            });
+         } else {
+            items.map(
+               (item) =>
+                  (tempTotalOrder +=
+                     item.calculatorPrice +
+                     item.selectedService.serviceInfoWithPrePayment.shipFee)
+            );
+         }
          setTotalOrder(tempTotalOrder);
       } else {
          setTotalOrder(-1);
       }
-
-      console.log(tempTotalOrder);
    };
    const CalcAmountShipFee = () => {
       let amount = 0;
-      itemsInCart.map(
-         (item) => (amount += item.selectedService.shipFeeService.shipFee)
-      );
+      itemsInCart.map((item) => {
+         if (paymentType === 1) {
+            amount += item.selectedService.serviceInfoWithCOD.shipFee;
+         } else {
+            amount += item.selectedService.serviceInfoWithPrePayment.shipFee;
+         }
+      });
       setAmountShipFee(amount);
+      console.log(amount);
    };
 
    const handlePayment = () => {
@@ -148,12 +204,23 @@ const Payment = () => {
    };
 
    const handlePaymentbyCash = async () => {
+      let mapServiceInfo = {};
       setLoading(true);
       try {
-         const resPayment = await authAxios().post(
-            endpoints["payment_cart"](1, address.id)
-         );
+         await itemsInCart.map((item) => {
+            mapServiceInfo[item.id] = {
+               serviceID: item.selectedService.service_id,
+               serviceTypeID: item.selectedService.service_type_id,
+            };
+         });
+         // console.log(obj.get("mapServiceInfo"));
 
+         console.log(mapServiceInfo);
+
+         const resPayment = await authAxios().post(
+            endpoints["payment_cart"](1, address.id),
+            mapServiceInfo
+         );
          if (resPayment.data.code === "200") {
             Cookies.remove("cartItems");
             toast.success("Payment successful!", {
@@ -174,16 +241,33 @@ const Payment = () => {
    };
 
    const handlePaymentMomo = async () => {
+      const arrayInforPayment = [];
+      itemsInCart.map((item) =>
+         arrayInforPayment.push({
+            agencyID: item.agencyID,
+            serviceID: item.selectedService.service_id,
+            serviceTypeID: item.selectedService.service_type_id,
+         })
+      );
+
       setLoading(true);
       try {
          const res = await authAxios().post(
             `${endpoints["momo_payment_info"]}?amountShipFee=${amountShipFee}`
          );
-         if (res) {
-            router.push(res.data.data.payUrl);
+
+         if (res.data.data.payUrl) {
+            // router.push(res.data.data.payUrl);
             setLoading(false);
             dispatch({ type: "ADD_ADDRESS_PAYMENT", payload: address.id });
+            dispatch({
+               type: "ADD_INFO_PAYMENT",
+               payload: arrayInforPayment,
+            });
+         } else {
+            toast.error(res.data.data.message);
          }
+         setLoading(false);
       } catch (error) {
          console.log(error);
          setLoading(false);
@@ -208,13 +292,13 @@ const Payment = () => {
                      {itemsInCart
                         .sort((a, b) => (a.id > b.id ? -1 : 1))
                         .map((i) => (
-                           <div key={i.id} className="mb-4">
+                           <div key={i.id} className="mb-8">
                               {/* agency name */}
-                              <div className="bg-dark-text dark:bg-dark-bg px-5 py-3 rounded-t-xl w-fit text-left font-medium flex gap-2 items-center hover:text-primary-color transition-all cursor-pointer">
+                              <div className="bg-dark-text dark:bg-dark-bg px-5 py-3 rounded-t-xl w-fit text-left font-medium flex gap-2 items-center hover:text-primary-color transition-all cursor-pointer border-t-2 border-l-2 border-r-2 z-25  border-primary-color">
                                  <BiStore className="text-2xl" />
                                  {i.name}
                               </div>
-                              <div className="bg-dark-text dark:bg-dark-bg p-2  rounded-b-xl rounded-tr-xl ">
+                              <div className="bg-dark-text dark:bg-dark-bg p-2  rounded-b-xl rounded-tr-xl border-b-2 border-t-2 border-l-2 border-r-2 border-primary-color shadow-lg">
                                  {/* items each agency */}
                                  <div>
                                     {i.cartItems
@@ -254,122 +338,245 @@ const Payment = () => {
                                        ))}
                                  </div>
                                  {/* service delivery */}
-                                 <div className="grid grid-cols-12 gap-4 my-6 justify-center">
-                                    <div className="col-span-6 bg-light-primary dark:bg-dark-primary rounded-xl p-4 relative">
-                                       {/* selected delivery */}
-                                       {i.services ? (
-                                          <>
+                                 {isErrorGHNThirdParty ? (
+                                    <>
+                                       <div className="py-8 m-6 bg-red-600 bg-opacity-20 border-2 rounded-xl border-red-600 font-semibold">
+                                          Something wrong from delivery service,
+                                          please try it later!
+                                       </div>
+                                    </>
+                                 ) : (
+                                    <>
+                                       <div className="grid grid-cols-12 gap-4 my-4 justify-center">
+                                          {/* selected delivery */}
+                                          {i.services ? (
                                              <div
-                                                className="cursor-pointer"
+                                                className="col-span-12 bg-light-primary dark:bg-dark-primary rounded-xl p-4 mx-4 relative flex justify-between items-center cursor-pointer hover:shadow-lg hover:shadow-light-primary dark:hover:shadow-dark-primary"
                                                 onClick={() => {
                                                    setIdOpenDeliveryServices(
                                                       i.agencyID
                                                    );
                                                 }}
                                              >
-                                                <div
-                                                   key={i.selectedService}
-                                                   className="text-left"
-                                                >
-                                                   <div className="font-medium text-sm">
-                                                      {
-                                                         i.selectedService
-                                                            .short_name
-                                                      }
-                                                   </div>
-                                                   <div className="font-bold text-sm">
-                                                      {i.selectedService.shipFeeService.shipFee.toLocaleString(
-                                                         "it-IT",
+                                                <div>
+                                                   <div
+                                                      key={i.selectedService}
+                                                      className="text-left"
+                                                   >
+                                                      <div className="font-medium text-sm mb-1">
+                                                         <span className="font-semibold">
+                                                            Devilery service:
+                                                         </span>{" "}
                                                          {
-                                                            style: "currency",
-                                                            currency: "VND",
-                                                         }
-                                                      )}
-                                                   </div>
-                                                   <div className="text-sm font-medium">
-                                                      Expected Delivery Time:{" "}
-                                                      {/* Unix timestamp return is second, Date() using milisecond */}
-                                                      <span className="font-bold">
-                                                         {new Date(
                                                             i.selectedService
-                                                               .expectedDeliveryTime
-                                                               .leadTime * 1000
-                                                         ).toLocaleDateString(
-                                                            "en-GB"
-                                                         )}
-                                                      </span>
+                                                               .short_name
+                                                         }
+                                                      </div>
+                                                      <div className="font-bold text-sm mb-1 ">
+                                                         <span className="font-semibold">
+                                                            Ship fee:{" "}
+                                                         </span>
+                                                         <span className="">
+                                                            {i.selectedService
+                                                               .serviceInfoWithCOD
+                                                               .isSuccess === 1
+                                                               ? `
+                                                         ${i.selectedService.serviceInfoWithCOD.shipFee.toLocaleString(
+                                                            "it-IT",
+                                                            {
+                                                               style: "currency",
+                                                               currency: "VND",
+                                                            }
+                                                         )} (COD)`
+                                                               : ""}
+                                                            {i.selectedService
+                                                               .serviceInfoWithCOD
+                                                               .isSuccess ===
+                                                               1 &&
+                                                            i.selectedService
+                                                               .serviceInfoWithPrePayment
+                                                               .isSuccess === 1
+                                                               ? " | "
+                                                               : ""}
+                                                            {i.selectedService
+                                                               .serviceInfoWithPrePayment
+                                                               .isSuccess === 1
+                                                               ? `${i.selectedService.serviceInfoWithPrePayment.shipFee.toLocaleString(
+                                                                    "it-IT",
+                                                                    {
+                                                                       style: "currency",
+                                                                       currency:
+                                                                          "VND",
+                                                                    }
+                                                                 )} (MOMO)`
+                                                               : ""}
+                                                         </span>
+                                                      </div>
+                                                      <div className="text-sm font-medium">
+                                                         Expected Delivery Time:{" "}
+                                                         <span className="font-bold">
+                                                            {i.selectedService
+                                                               .serviceInfoWithPrePayment
+                                                               .isSuccess === 1
+                                                               ? new Date(
+                                                                    i.selectedService.serviceInfoWithPrePayment.expectedTimeDelivery
+                                                                 ).toLocaleDateString(
+                                                                    "en-GB"
+                                                                 )
+                                                               : ""}
+                                                         </span>
+                                                      </div>
                                                    </div>
                                                 </div>
+                                                <div className="text-4xl">
+                                                   <BiChevronDown />
+                                                </div>
                                              </div>
-                                          </>
-                                       ) : (
-                                          <div className="font-semibold ">
-                                             No address selected
+                                          ) : (
+                                             <div className="font-semibold ">
+                                                No address selected
+                                             </div>
+                                          )}
+                                          <div
+                                             className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                                                idOpenDeliveryServices ===
+                                                i.agencyID
+                                                   ? "flex"
+                                                   : "hidden"
+                                             }`}
+                                          >
+                                             <div className="w-fit h-fit">
+                                                <DeliveryService
+                                                   agencyServices={i}
+                                                   setIdOpenDeliveryServices={
+                                                      setIdOpenDeliveryServices
+                                                   }
+                                                   address={address}
+                                                   setItemsInCart={
+                                                      setItemsInCart
+                                                   }
+                                                   itemsInCart={itemsInCart}
+                                                />
+                                             </div>
                                           </div>
-                                       )}
-                                       <div
-                                          className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
-                                             idOpenDeliveryServices ===
-                                             i.agencyID
-                                                ? "flex"
-                                                : "hidden"
-                                          }`}
-                                       >
-                                          <div className="w-fit h-fit">
-                                             <DeliveryService
-                                                agencyServices={i}
-                                                setIdOpenDeliveryServices={
-                                                   setIdOpenDeliveryServices
+                                       </div>
+                                    </>
+                                 )}
+                                 {/* subtotal */}
+                                 {i.services ? (
+                                    <div className="mx-8 mb-4">
+                                       <div className="flex justify-between items-center">
+                                          <div className="font-medium">
+                                             Ship fee:{" "}
+                                          </div>
+                                          <div className="text-right text-primary-color font-semibold text-lg">
+                                             {paymentType === 1 &&
+                                             i.selectedService
+                                                .serviceInfoWithCOD
+                                                .isSuccess === 1
+                                                ? i.selectedService.serviceInfoWithCOD.shipFee.toLocaleString(
+                                                     "it-IT",
+                                                     {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                     }
+                                                  )
+                                                : paymentType === 2 &&
+                                                  i.selectedService
+                                                     .serviceInfoWithPrePayment
+                                                     .isSuccess === 1
+                                                ? i.selectedService.serviceInfoWithPrePayment.shipFee.toLocaleString(
+                                                     "it-IT",
+                                                     {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                     }
+                                                  )
+                                                : `
+                                                ${
+                                                   i.selectedService
+                                                      .serviceInfoWithCOD
+                                                      .isSuccess === 1
+                                                      ? i.selectedService.serviceInfoWithCOD.shipFee.toLocaleString(
+                                                           "it-IT",
+                                                           {
+                                                              style: "currency",
+                                                              currency: "VND",
+                                                           }
+                                                        )
+                                                      : ""
                                                 }
-                                                address={address}
-                                                setItemsInCart={setItemsInCart}
-                                                itemsInCart={itemsInCart}
-                                             />
+                                                ${
+                                                   i.selectedService
+                                                      .serviceInfoWithCOD
+                                                      .isSuccess === 1 &&
+                                                   i.selectedService
+                                                      .serviceInfoWithPrePayment
+                                                      .isSuccess === 1
+                                                      ? " | "
+                                                      : ""
+                                                }
+                                                ${
+                                                   i.selectedService
+                                                      .serviceInfoWithPrePayment
+                                                      .isSuccess === 1
+                                                      ? i.selectedService.serviceInfoWithPrePayment.shipFee.toLocaleString(
+                                                           "it-IT",
+                                                           {
+                                                              style: "currency",
+                                                              currency: "VND",
+                                                           }
+                                                        )
+                                                      : ""
+                                                }`}
+                                          </div>
+                                       </div>
+                                       <div className="flex justify-between items-center">
+                                          <div className="font-medium">
+                                             Subtotal without ship fee:
+                                          </div>
+                                          <div className="font-bold text-2xl text-blue-main">
+                                             {i.calculatorPrice.toLocaleString(
+                                                "it-IT",
+                                                {
+                                                   style: "currency",
+                                                   currency: "VND",
+                                                }
+                                             )}
                                           </div>
                                        </div>
                                     </div>
-                                    {i.services ? (
-                                       <>
-                                          <div className="col-span-6 text-right mr-8 flex flex-col justify-center gap-1">
-                                             <div className="text-primary-color font-semibold text-lg">
-                                                +{" "}
-                                                {i.selectedService.shipFeeService.shipFee.toLocaleString(
-                                                   "it-IT",
-                                                   {
-                                                      style: "currency",
-                                                      currency: "VND",
-                                                   }
-                                                )}
-                                             </div>
-                                             <div className="font-bold text-2xl text-blue-main">
-                                                {(
-                                                   i.calculatorPrice +
-                                                   i.selectedService
-                                                      .shipFeeService.shipFee
-                                                ).toLocaleString("it-IT", {
-                                                   style: "currency",
-                                                   currency: "VND",
-                                                })}
-                                             </div>
-                                          </div>
-                                       </>
-                                    ) : (
-                                       <></>
-                                    )}
-                                 </div>
+                                 ) : (
+                                    <></>
+                                 )}
                               </div>
                            </div>
                         ))}
                      {totalOrder === -1 ? (
-                        <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-xl font-semibold">
-                           No Selected address
+                        <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-xl font-semibold border-2 border-primary-color shadow-lg">
+                           No Selected address, please create a new address!
                         </div>
+                     ) : paymentType === 1 ? (
+                        <>
+                           <div className="text-3xl font-bold text-blue-main bg-dark-text dark:bg-dark-bg p-6 rounded-xl border-2 border-primary-color shadow-lg">
+                              {totalOrder.toLocaleString("it-IT", {
+                                 style: "currency",
+                                 currency: "VND",
+                              })}
+                           </div>
+                        </>
+                     ) : paymentType === 2 ? (
+                        <>
+                           <div className="text-3xl font-bold text-blue-main bg-dark-text dark:bg-dark-bg p-6 rounded-xl border-2 border-primary-color shadow-lg">
+                              {totalOrder.toLocaleString("it-IT", {
+                                 style: "currency",
+                                 currency: "VND",
+                              })}
+                           </div>
+                        </>
                      ) : (
-                        <div className="text-3xl font-bold text-blue-main bg-dark-text dark:bg-dark-bg p-6 rounded-xl">
-                           {totalOrder.toLocaleString("it-IT", {
-                              style: "currency",
-                              currency: "VND",
-                           })}
+                        <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-lg font-semibold border-2 border-primary-color shadow-lg">
+                           Total will display when selected payment method
                         </div>
                      )}
                   </>
@@ -394,7 +601,7 @@ const Payment = () => {
                                     htmlFor="name"
                                     className="font-medium text-sm pl-2"
                                  >
-                                    Name
+                                    Name of Consignee
                                  </label>
                                  <input
                                     id="name"
@@ -426,7 +633,7 @@ const Payment = () => {
                                     htmlFor="phone"
                                     className="font-medium text-sm pl-2"
                                  >
-                                    Number Phone
+                                    Phone Number
                                  </label>
                                  <input
                                     type="number"
@@ -442,7 +649,7 @@ const Payment = () => {
                                     htmlFor="description"
                                     className="font-medium text-sm pl-2"
                                  >
-                                    Description
+                                    Note
                                  </label>
                                  <input
                                     type="text"
@@ -507,17 +714,39 @@ const Payment = () => {
                <div className=" dark:bg-dark-primary bg-light-primary rounded-lg py-8 ">
                   <div className="text-lg font-semibold">Payment Type</div>
                   <div className="flex justify-center gap-4 my-6">
-                     <label className="cursor-pointer">
+                     <label
+                        className={`${
+                           isDisablePaymentMethod === 1 ||
+                           isDisablePaymentMethod === 3
+                              ? "cursor-not-allowed"
+                              : "cursor-pointer"
+                        }`}
+                     >
                         <input
                            type="radio"
                            className="peer sr-only"
                            name="pricing"
-                           onChange={() => setPaymentType(1)}
+                           onChange={() => {
+                              setPaymentType(1);
+                           }}
+                           disabled={
+                              isDisablePaymentMethod === 1 ||
+                              isDisablePaymentMethod === 3
+                                 ? true
+                                 : false
+                           }
                         />
-                        <div className="rounded-lg p-2 ring-4 ring-transparent transition-all hover:shadow peer-checked:ring-blue-main">
+                        <div
+                           className={`rounded-lg p-2 ring-4 transition-all hover:shadow ring-transparent peer-checked:ring-blue-main `}
+                        >
                            <div className="relative overflow-hidden rounded-lg w-20 h-20">
                               <Image
-                                 src={cashpaymentimage}
+                                 src={
+                                    isDisablePaymentMethod === 1 ||
+                                    isDisablePaymentMethod === 3
+                                       ? cashDisabled
+                                       : cashpaymentimage
+                                 }
                                  alt=""
                                  layout="fill"
                                  className="object-cover"
@@ -525,17 +754,37 @@ const Payment = () => {
                            </div>
                         </div>
                      </label>
-                     <label className="cursor-pointer">
+                     <label
+                        className={`${
+                           isDisablePaymentMethod === 2 ||
+                           isDisablePaymentMethod === 3
+                              ? "cursor-not-allowed"
+                              : "cursor-pointer"
+                        }`}
+                     >
                         <input
                            type="radio"
                            className="peer sr-only"
                            name="pricing"
-                           onChange={() => setPaymentType(2)}
+                           disabled={
+                              isDisablePaymentMethod === 2 ||
+                              isDisablePaymentMethod === 3
+                                 ? true
+                                 : false
+                           }
+                           onChange={() => {
+                              setPaymentType(2);
+                           }}
                         />
                         <div className=" rounded-lg p-2 ring-4 ring-transparent transition-all hover:shadow peer-checked:ring-blue-main">
                            <div className="relative overflow-hidden w-20 h-20 rounded-lg">
                               <Image
-                                 src={momopaymentimage}
+                                 src={
+                                    isDisablePaymentMethod === 2 ||
+                                    isDisablePaymentMethod === 3
+                                       ? momoDisabled
+                                       : momopaymentimage
+                                 }
                                  alt=""
                                  layout="fill"
                                  className="object-cover"
@@ -545,7 +794,7 @@ const Payment = () => {
                      </label>
                   </div>
                   <button
-                     className="py-4 px-10 h-fit bg-blue-main rounded-lg font-semibold text-white hover:shadow-blue-main hover:shadow-lg w-fit disabled:bg-gray-400 disabled:hover:shadow-gray-400 disabled:cursor-not-allowed"
+                     className="py-4 px-10 mx-8 h-fit bg-blue-main rounded-lg font-semibold text-white hover:shadow-blue-main hover:shadow-lg w-fit disabled:bg-gray-400 disabled:hover:shadow-gray-400 disabled:cursor-not-allowed"
                      disabled={address.id ? false : true}
                      onClick={handlePayment}
                   >
@@ -554,6 +803,8 @@ const Payment = () => {
                            ? " Payment by cash on delivery (COD)"
                            : paymentType === 2
                            ? " Payment by Momo"
+                           : isDisablePaymentMethod === 3
+                           ? "Something is wrong with the cart or the GHN shipping service, please try again later!"
                            : "Please choice your payment method"
                         : "Please choose address before payment!"}
                   </button>

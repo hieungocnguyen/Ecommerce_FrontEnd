@@ -33,12 +33,14 @@ const DeliveryService = ({
          {address ? (
             <div className="my-7">
                <span className="text-sm font-medium bg-primary-color rounded-full p-2 text-white">
+                  {agencyServices.fromWardName},{" "}
                   {agencyServices.fromDistrictName},{" "}
                   {agencyServices.fromProvinceName}
                </span>
-               <span className="font-bold">-{">"}</span>
+               <span className="font-bold mx-2">-{">"}</span>
                <span className="text-sm font-medium bg-blue-main rounded-full p-2 text-white">
-                  {address.toDistrictName}, {address.toProvinceName}
+                  {address.toWardName}, {address.toDistrictName},{" "}
+                  {address.toProvinceName}
                </span>
             </div>
          ) : (
@@ -57,25 +59,45 @@ const DeliveryService = ({
                               onChange={() => handleSelectService(service)}
                            />
                            <div className="rounded-lg ring-2 bg-light-spot dark:bg-dark-bg ring-light-spot dark:ring-dark-bg mb-4 p-3  transition-all hover:shadow peer-checked:ring-primary-color text-left font-medium">
-                              <div className="font-medium text-sm">
+                              <div className="text-sm mb-1">
+                                 <span className="font-semibold">
+                                    Devilery service:
+                                 </span>{" "}
                                  {service.short_name}
                               </div>
-                              <div className="font-bold text-sm">
-                                 {service.shipFeeService.shipFee.toLocaleString(
-                                    "it-IT",
-                                    {
-                                       style: "currency",
-                                       currency: "VND",
-                                    }
-                                 )}
+                              <div className="text-sm mb-1">
+                                 <span className="font-semibold">
+                                    Ship fee (COD | MOMO):{" "}
+                                 </span>
+                                 {service.serviceInfoWithCOD.isSuccess === 1
+                                    ? service.serviceInfoWithCOD.shipFee.toLocaleString(
+                                         "it-IT",
+                                         {
+                                            style: "currency",
+                                            currency: "VND",
+                                         }
+                                      )
+                                    : ""}
+                                 {" | "}
+                                 {service.serviceInfoWithPrePayment
+                                    .isSuccess === 1
+                                    ? service.serviceInfoWithPrePayment.shipFee.toLocaleString(
+                                         "it-IT",
+                                         {
+                                            style: "currency",
+                                            currency: "VND",
+                                         }
+                                      )
+                                    : ""}
                               </div>
-                              <div className="text-sm font-medium">
-                                 Expected Delivery Time:{" "}
-                                 {/* Unix timestamp return is second, Date() using milisecond */}
+                              <div className="text-sm font-medium ">
                                  <span className="font-bold">
+                                    Expected Delivery Time:
+                                 </span>
+                                 <span>
+                                    {" "}
                                     {new Date(
-                                       service.expectedDeliveryTime.leadTime *
-                                          1000
+                                       service.serviceInfoWithCOD.expectedTimeDelivery
                                     ).toLocaleDateString("en-GB")}
                                  </span>
                               </div>

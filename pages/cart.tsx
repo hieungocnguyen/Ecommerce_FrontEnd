@@ -76,14 +76,24 @@ const Cart = () => {
 
    const handleChangeQuantity = (item: any, quantity: number) => {
       const fetchUpdateCart = async () => {
-         const res = await authAxios().patch(endpoints["update_cart"], {
-            itemID: item.itemPost.id,
-            quantity: quantity,
-         });
-         toast.success("Update quantity successful!", {
-            position: "top-center",
-            duration: 700,
-         });
+         try {
+            const res = await authAxios().patch(endpoints["update_cart"], {
+               itemID: item.itemPost.id,
+               quantity: quantity,
+            });
+            setItemsInCart(res.data.data);
+            loadTotalCart();
+
+            toast.success("Update quantity successful!", {
+               position: "top-center",
+               duration: 700,
+            });
+         } catch (error) {
+            console.log(error);
+            toast.error("Something wrong, try it later!", {
+               position: "top-center",
+            });
+         }
       };
       fetchUpdateCart();
    };
@@ -151,7 +161,7 @@ const Cart = () => {
                      <div className="col-span-2 font-semibold">
                         <input
                            type="number"
-                           className="p-3 rounded-lg"
+                           className="p-3 rounded-lg w-1/3"
                            defaultValue={i.quantity}
                            min={0}
                            max={i.itemPost.inventory}
@@ -206,7 +216,7 @@ const Cart = () => {
                   <div className="dark:bg-dark-primary bg-light-primary rounded-lg flex my-4 justify-between items-center mx-20 py-8 px-16">
                      <div className="text-left">
                         <div className="text-2xl">
-                           Subtotal:{" "}
+                           Total:{" "}
                            <span className="text-blue-main font-bold text-3xl">
                               {totalPrice.toLocaleString("it-IT", {
                                  style: "currency",

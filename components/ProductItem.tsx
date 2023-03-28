@@ -27,13 +27,20 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
             position: "top-center",
          });
       } else {
-         const resAdd = await authAxios().get(
-            endpoints["like_post"](product.id)
-         );
-         loadLikeStatus();
-         toast.success("Add to wishlist successful!", {
-            position: "top-center",
-         });
+         try {
+            const resAdd = await authAxios().get(
+               endpoints["like_post"](product.id)
+            );
+            loadLikeStatus();
+            toast.success("Add to wishlist successful!", {
+               position: "top-center",
+            });
+         } catch (error) {
+            console.log(error);
+            toast.error("Something wrong, try it later!", {
+               position: "top-center",
+            });
+         }
       }
    };
    const handleRemoveToWishList = async () => {
@@ -74,10 +81,17 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
       });
    };
    const loadLikeStatus = async () => {
-      const resStatus = await authAxios().get(
-         endpoints["check_like"](product.id)
-      );
-      setStateLike(resStatus.data.data);
+      try {
+         const resStatus = await authAxios().get(
+            endpoints["check_like"](product.id)
+         );
+         setStateLike(resStatus.data.data);
+      } catch (error) {
+         console.log(error);
+         toast.error("Something wrong, try it later!", {
+            position: "top-center",
+         });
+      }
    };
    const handleDetailRoute = () => {
       setTimeout(() => setLoading(true));

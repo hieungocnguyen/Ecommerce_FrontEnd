@@ -30,6 +30,9 @@ const initialState = {
    addressPayment: Cookies.get("addressPayment")
       ? JSON.parse(Cookies.get("addressPayment"))
       : null,
+   allInCartToPayment: Cookies.get("allInCartToPayment")
+      ? JSON.parse(Cookies.get("allInCartToPayment"))
+      : null,
 };
 function reducer(state: any, action: { type: any; payload: any }) {
    switch (action.type) {
@@ -58,7 +61,9 @@ function reducer(state: any, action: { type: any; payload: any }) {
       }
       case "CART_REMOVE_ALL_ITEM": {
          Cookies.remove("cartItems");
-         return { ...state, cart: null };
+         console.log({ ...state, cart: [] });
+
+         return { ...state, cart: { cartItems: [] } };
       }
       case "AGENCY_INFO_SET":
          return { ...state, agencyInfo: action.payload };
@@ -110,6 +115,16 @@ function reducer(state: any, action: { type: any; payload: any }) {
          Cookies.remove("addressPayment");
          return { ...state, addressPayment: null };
       }
+      case "ADD_INFO_PAYMENT": {
+         Cookies.set("allInCartToPayment", JSON.stringify(action.payload));
+
+         return { ...state, allInCartToPayment: action.payload };
+      }
+      case "REMOVE_INFO_PAYMENT": {
+         Cookies.remove("allInCartToPayment");
+         return { ...state, allInCartToPayment: null };
+      }
+
       default:
          return state;
    }

@@ -35,21 +35,25 @@ const Header = () => {
       menu.classList.toggle("hidden");
    };
    const forwardManagerDashboard = async () => {
-      const resAllAgency = await API.get(endpoints["all_agency"]);
-      resAllAgency.data.data.map(async (a) => {
-         if (a.manager.id === userInfo.id) {
-            const resInfoAngency = await API.get(
-               endpoints["agency_info"](a.id)
-            );
-            setAgency(a);
-            Cookies.set("agencyInfo", JSON.stringify(a));
-            dispatch({ type: "AGENCY_INFO_SET", payload: a });
+      try {
+         const resAllAgency = await API.get(endpoints["all_agency"]);
+         resAllAgency.data.data.map(async (agency) => {
+            if (agency.manager.id === userInfo.id) {
+               const resInfoAngency = await API.get(
+                  endpoints["agency_info"](agency.id)
+               );
+               setAgency(agency);
+               Cookies.set("agencyInfo", JSON.stringify(agency));
+               dispatch({ type: "AGENCY_INFO_SET", payload: agency });
+            }
+         });
+         if (userInfo.role.name === "ROLE_ADMIN") {
+            router.push("/DashboardAdmin");
+         } else {
+            router.push("/DashboardManager");
          }
-      });
-      if (userInfo.role.name === "ROLE_ADMIN") {
-         router.push("/DashboardAdmin");
-      } else {
-         router.push("/DashboardManager");
+      } catch (error) {
+         console.log(error);
       }
    };
 

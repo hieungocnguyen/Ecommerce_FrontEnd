@@ -22,12 +22,16 @@ const Search = ({ categories }) => {
    const [loading, setLoading] = useState(false);
    useEffect(() => {
       const loadPosts = async () => {
-         const resPosts = await API.post(endpoints["search_salePost"], {
-            kw: router.query.input,
-            page: numberPage,
-         });
-         setSalePosts(resPosts.data.data.listResult);
-         setTotalPage(resPosts.data.data.totalPage);
+         try {
+            const resPosts = await API.post(endpoints["search_salePost"], {
+               kw: router.query.input,
+               page: numberPage,
+            });
+            setSalePosts(resPosts.data.data.listResult);
+            setTotalPage(resPosts.data.data.totalPage);
+         } catch (error) {
+            console.log(error);
+         }
       };
       loadPosts();
    }, [router.query.input, numberPage]);

@@ -19,31 +19,43 @@ const AddressSelect = ({ setAddress, setIsOpenAddressSelect }) => {
    } = useForm();
 
    const fetchProvinceAll = async () => {
-      const res = await API.get(
-         "http://localhost:8080/ou-ecommerce/api/location/provinces/all"
-      );
-      setProvince(res.data.data);
+      try {
+         const res = await API.get(
+            "http://localhost:8080/ou-ecommerce/api/location/provinces/all"
+         );
+         setProvince(res.data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
    const handleSelectProvince = (provinceID: string) => {
-      const fetchDistrictByProvinceID = async (provinceID) => {
-         const res = await API.get(
-            `http://localhost:8080/ou-ecommerce/api/location/districts/get-districts-by-province-id/${provinceID}`
-         );
-         setDistrict(res.data.data);
-         setWard([]);
-         setStreet("empty");
-      };
-      fetchDistrictByProvinceID(provinceID);
+      try {
+         const fetchDistrictByProvinceID = async (provinceID) => {
+            const res = await API.get(
+               `http://localhost:8080/ou-ecommerce/api/location/districts/get-districts-by-province-id/${provinceID}`
+            );
+            setDistrict(res.data.data);
+            setWard([]);
+            setStreet("empty");
+         };
+         fetchDistrictByProvinceID(provinceID);
+      } catch (error) {
+         console.log(error);
+      }
    };
    const handleSelectDistrict = (districtID: string) => {
-      const fetchWardByDistrictID = async (districtID) => {
-         const res = await API.get(
-            `http://localhost:8080/ou-ecommerce/api/location/wards/get-wards-by-district-id/${districtID}`
-         );
-         setWard(res.data.data);
-         setStreet("empty");
-      };
-      fetchWardByDistrictID(districtID);
+      try {
+         const fetchWardByDistrictID = async (districtID) => {
+            const res = await API.get(
+               `http://localhost:8080/ou-ecommerce/api/location/wards/get-wards-by-district-id/${districtID}`
+            );
+            setWard(res.data.data);
+            setStreet("empty");
+         };
+         fetchWardByDistrictID(districtID);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {

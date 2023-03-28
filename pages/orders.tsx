@@ -38,6 +38,10 @@ const Orders = () => {
                   className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-spot hover:bg-light-spot font-medium"
                >
                   <div className="col-span-2">
+                     {new Date(i.orders.createdDate).getHours()}
+                     {":"}
+                     {new Date(i.orders.createdDate).getMinutes()}
+                     {"  |  "}
                      {new Date(i.orders.createdDate).toLocaleDateString(
                         "en-US"
                      )}

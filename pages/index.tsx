@@ -9,6 +9,7 @@ import { Store } from "../utils/Store";
 import API, { endpoints } from "../API";
 import HotAgency from "../components/HotAgency";
 import Loader from "../components/Loader";
+import { log } from "console";
 
 export default function Home({ categories }) {
    const { state, dispatch } = useContext(Store);
@@ -20,11 +21,15 @@ export default function Home({ categories }) {
    const [loading, setLoading] = useState(false);
    useEffect(() => {
       const loadPosts = async () => {
-         const resPosts = await API.post(endpoints["search_salePost"], {
-            page: numberPage,
-         });
-         setSalePost(resPosts.data.data.listResult);
-         setTotalPage(resPosts.data.data.totalPage);
+         try {
+            const resPosts = await API.post(endpoints["search_salePost"], {
+               page: numberPage,
+            });
+            setSalePost(resPosts.data.data.listResult);
+            setTotalPage(resPosts.data.data.totalPage);
+         } catch (error) {
+            console.log(error);
+         }
       };
       loadPosts();
 

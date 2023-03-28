@@ -18,8 +18,12 @@ const AddressBook = ({
    const [addressSelected, setAddressSelected] = useState<any>({});
 
    const fetchAddressList = async () => {
-      const res = await API.get(endpoints["get_address_book"](userInfo.id));
-      setAddressList(res.data.data);
+      try {
+         const res = await API.get(endpoints["get_address_book"](userInfo.id));
+         setAddressList(res.data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {
@@ -91,6 +95,12 @@ const AddressBook = ({
                                  onChange={() => setAddressSelected(address)}
                               />
                               <div className="rounded-lg ring-2 bg-light-spot ring-slate-200 mb-4 p-3  transition-all hover:shadow peer-checked:ring-primary-color text-left  font-medium">
+                                 <div>
+                                    <span className="font-semibold">
+                                       Name:{" "}
+                                    </span>
+                                    {address.customerName}
+                                 </div>
                                  <div>
                                     <span className="font-semibold">
                                        Delivery Phone:

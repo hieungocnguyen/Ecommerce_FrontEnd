@@ -28,10 +28,14 @@ const Posts = () => {
    // const [enabled, setEnabled] = useState(false);
 
    const loadPosts = async () => {
-      const resPosts = await API.post(endpoints["search_salePost"], {
-         nameOfAgency: agencyInfo.name,
-      });
-      setPosts(resPosts.data.data.listResult);
+      try {
+         const resPosts = await API.post(
+            endpoints["get_post_published_by_agencyID"](agencyInfo.id)
+         );
+         setPosts(resPosts.data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
    useEffect(() => {
       loadPosts();

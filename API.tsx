@@ -31,6 +31,10 @@ export let endpoints = {
    like_post: (postID) => `/action/like/${postID}`,
    check_like: (postID) => `/action/like/state/${postID}`,
    wishlist: (userID) => `/sale-post/wish-list/${userID}`,
+   get_post_published_by_agencyID: (agencyID) =>
+      `/sale-post/published/${agencyID}/all`,
+   get_post_unpublished_by_agencyID: (agencyID) =>
+      `/sale-post/un-published/${agencyID}/all`,
    //cart API
    add_to_cart: "/cart/add-to-cart",
    update_cart: "/cart/update-cart",

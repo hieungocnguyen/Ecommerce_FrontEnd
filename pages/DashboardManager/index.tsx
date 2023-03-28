@@ -37,14 +37,18 @@ const AgencyHome = () => {
 
    useEffect(() => {
       const loadCount = async () => {
-         const resPosts = await API.post(endpoints["search_salePost"], {
-            nameOfAgency: agencyInfo.name,
-         });
-         setCountPosts(resPosts.data.data.listResult.length);
-         const resOrders = await API.get(
-            endpoints["order_agency"](agencyInfo.id)
-         );
-         setCountOrders(resOrders.data.data.length);
+         try {
+            const resPosts = await API.post(endpoints["get_all_salePost"], {
+               nameOfAgency: agencyInfo.name,
+            });
+            setCountPosts(resPosts.data.data.listResult.length);
+            const resOrders = await API.get(
+               endpoints["order_agency"](agencyInfo.id)
+            );
+            setCountOrders(resOrders.data.data.length);
+         } catch (error) {
+            console.log(error);
+         }
       };
       loadCount();
    }, []);

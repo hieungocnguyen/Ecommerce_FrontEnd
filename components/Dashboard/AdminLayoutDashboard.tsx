@@ -38,8 +38,12 @@ const AdminLayoutDashboard = ({ children }) => {
    };
 
    const loadUncensoredNumber = async () => {
-      const resUncensored = await API.get(endpoints["uncensored_agency"]);
-      setNumberUncensored(resUncensored.data.data.length);
+      try {
+         const resUncensored = await API.get(endpoints["uncensored_agency"]);
+         setNumberUncensored(resUncensored.data.data.length);
+      } catch (error) {
+         console.log(error);
+      }
    };
    useEffect(() => {
       loadUncensoredNumber();
