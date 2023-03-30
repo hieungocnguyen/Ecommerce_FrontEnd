@@ -119,7 +119,7 @@ const ItemsOfPost = () => {
    };
 
    return (
-      <LayoutDashboard>
+      <LayoutDashboard title="Post">
          <div className="relative p-8">
             <div>
                <div className="flex justify-between mb-4">

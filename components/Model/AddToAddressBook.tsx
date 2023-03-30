@@ -20,27 +20,39 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
    const [resetForm, setResetForm] = useState(false);
 
    const fetchProvinceAll = async () => {
-      const res = await API.get(endpoints["get_providers"]);
-      setProvinces(res.data.data.provinces);
+      try {
+         const res = await API.get(endpoints["get_providers"]);
+         setProvinces(res.data.data.provinces);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    const handleSelectProvince = (provinceID: string) => {
       const fetchDistrictByProvinceID = async (provinceID) => {
-         const res = await API.get(
-            `${endpoints["get_districts"]}?provinceID=${provinceID}`
-         );
-         setDistricts(res.data.data.districts);
-         setWards([]);
+         try {
+            const res = await API.get(
+               `${endpoints["get_districts"]}?provinceID=${provinceID}`
+            );
+            setDistricts(res.data.data.districts);
+            setWards([]);
+         } catch (error) {
+            console.log(error);
+         }
       };
       fetchDistrictByProvinceID(provinceID);
    };
 
    const handleSelectDistrict = (districtID: string) => {
       const fetchWardByDistrictID = async (districtID) => {
-         const res = await API.get(
-            `${endpoints["get_wards"]}?districtID=${districtID}`
-         );
-         setWards(res.data.data.wards);
+         try {
+            const res = await API.get(
+               `${endpoints["get_wards"]}?districtID=${districtID}`
+            );
+            setWards(res.data.data.wards);
+         } catch (error) {
+            console.log(error);
+         }
       };
       fetchWardByDistrictID(districtID);
    };

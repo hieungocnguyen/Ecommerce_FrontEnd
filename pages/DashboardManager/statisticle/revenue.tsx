@@ -149,7 +149,7 @@ const Revenue = () => {
       ],
    };
    return (
-      <LayoutDashboardManager>
+      <LayoutDashboardManager title="Revenue Stat">
          <div className="w-[90%] mx-auto mt-10">
             <div className="font-semibold text-xl my-4">
                Statistical revenue

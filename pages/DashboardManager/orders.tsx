@@ -25,7 +25,7 @@ const Orders = () => {
    const changeStateOrder = () => {};
    return (
       <>
-         <LayoutDashboard>
+         <LayoutDashboard title="Orders">
             <div className="w-[90%] mx-auto my-8">
                <div className="font-semibold text-2xl">Orders</div>
                <div className="mt-8">

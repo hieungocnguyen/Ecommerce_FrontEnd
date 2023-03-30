@@ -8,7 +8,7 @@ const EditProfile = () => {
    const { state, dispatch } = useContext(Store);
    const { agencyInfo } = state;
    return (
-      <LayoutDashboardManager>
+      <LayoutDashboardManager title="Edit profile">
          <div className="">
             <div className="font-semibold text-xl mt-8">
                Edit profile agency

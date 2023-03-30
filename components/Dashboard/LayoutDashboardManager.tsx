@@ -17,8 +17,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Loader from "../Loader";
+import Head from "next/head";
 
-const LayoutDashboard = ({ children }) => {
+const LayoutDashboard = ({ title, children }) => {
    const { state, dispatch } = useContext(Store);
    const { userInfo, agencyInfo } = state;
    const [agency, setAgency] = useState<any>({});
@@ -38,7 +39,11 @@ const LayoutDashboard = ({ children }) => {
       });
    };
    return (
-      <>
+      <div>
+         <Head>
+            <title>{title ? title + " - Manager Page" : "Manager Page"}</title>
+            <meta name="description" content="Ecommerce Website" />
+         </Head>
          <div className="grid grid-cols-6">
             {/* Side Bar */}
             <div className="col-span-1 dark:bg-dark-primary bg-light-primary h-screen sticky top-0">
@@ -149,12 +154,16 @@ const LayoutDashboard = ({ children }) => {
                </div>
                <div className="absolute bottom-4 flex justify-center items-center gap-2 w-full">
                   <Link href="/">
-                     <button className="rounded-lg bg-blue-main hover:bg-opacity-80 h-10 w-fit px-3 font-semibold text-sm text-dark-text">
+                     <button
+                        className="rounded-lg bg-blue-main hover:bg-opacity-80 h-10 w-fit px-3 font-semibold text-sm text-dark-text"
+                        title="Back to Homepage"
+                     >
                         Back to Homepage
                      </button>
                   </Link>
                   <button
                      className=" bg-blue-main hover:bg-opacity-80 rounded-lg text-xl h-10 w-fit px-3 text-dark-text"
+                     title="logout"
                      onClick={logoutClickHandler}
                   >
                      <BiLogIn />
@@ -166,7 +175,7 @@ const LayoutDashboard = ({ children }) => {
             <Toaster />
             {loading ? <Loader /> : <></>}
          </div>
-      </>
+      </div>
    );
 };
 

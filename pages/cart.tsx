@@ -30,6 +30,7 @@ const Cart = () => {
       const resItems = await API.get(endpoints["get_cart_by_id"](userInfo.id));
       setItemsInCart(resItems.data.data.cartItemSet);
    };
+
    useEffect(() => {
       if (userInfo) {
          loadItemsFromCart();
@@ -163,7 +164,7 @@ const Cart = () => {
                            type="number"
                            className="p-3 rounded-lg w-1/3"
                            defaultValue={i.quantity}
-                           min={0}
+                           min={1}
                            max={i.itemPost.inventory}
                            step={1}
                            onKeyDown={(e) => {

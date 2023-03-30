@@ -69,7 +69,7 @@ const CategoryStatisticle = () => {
    };
 
    return (
-      <LayoutDashboardManager>
+      <LayoutDashboardManager title="Category Stat">
          <div className="w-[90%] mx-auto my-10">
             <div className="font-semibold text-2xl my-10">
                Category statistical

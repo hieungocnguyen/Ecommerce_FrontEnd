@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const DeliveryService = ({
    agencyServices,
@@ -7,20 +7,26 @@ const DeliveryService = ({
    setItemsInCart,
    itemsInCart,
 }) => {
+   const [service, setService] = useState<any>({});
    useEffect(() => {}, []);
 
-   const handleCloseModel = () => {
+   const handleCloseModel = (e) => {
       setIdOpenDeliveryServices(0);
    };
+
    const handleSelectService = (service) => {
+      setService(service);
+   };
+   const handleChooseServiceButton = () => {
       itemsInCart.find(
          (service) => service.id === agencyServices.id
       ).selectedService = service;
       setItemsInCart(itemsInCart);
+      setIdOpenDeliveryServices(0);
    };
 
    return (
-      <div className="dark:bg-neutral-800 bg-light-primary rounded-lg w-full h-full relative p-8 shadow-lg shadow-light-primary dark:shadow-dark-primary border-2 border-blue-main">
+      <div className="dark:bg-neutral-800 bg-light-primary rounded-lg w-full h-full relative p-8 shadow-lg border-2 border-blue-main">
          <div className="flex justify-between items-center mb-4">
             <div className="font-semibold text-xl">Select service delivery</div>
             <div
@@ -46,7 +52,7 @@ const DeliveryService = ({
          ) : (
             <></>
          )}
-         <div>
+         <div className="overflow-auto max-h-96 h-fit p-3">
             {agencyServices.services ? (
                <>
                   {agencyServices.services.map((service) => (
@@ -58,37 +64,44 @@ const DeliveryService = ({
                               name="pricing"
                               onChange={() => handleSelectService(service)}
                            />
-                           <div className="rounded-lg ring-2 bg-light-spot dark:bg-dark-bg ring-light-spot dark:ring-dark-bg mb-4 p-3  transition-all hover:shadow peer-checked:ring-primary-color text-left font-medium">
-                              <div className="text-sm mb-1">
+                           <div className="rounded-lg ring-2 bg-light-spot dark:bg-dark-bg ring-light-spot dark:ring-dark-bg mb-4 p-3 transition-all hover:shadow peer-checked:ring-primary-color text-left font-medium">
+                              <div className="text-sm mb-2">
                                  <span className="font-semibold">
                                     Devilery service:
                                  </span>{" "}
                                  {service.short_name}
                               </div>
-                              <div className="text-sm mb-1">
+                              <div className="text-sm mb-2">
                                  <span className="font-semibold">
-                                    Ship fee (COD | MOMO):{" "}
+                                    Ship fee :
                                  </span>
-                                 {service.serviceInfoWithCOD.isSuccess === 1
-                                    ? service.serviceInfoWithCOD.shipFee.toLocaleString(
-                                         "it-IT",
-                                         {
-                                            style: "currency",
-                                            currency: "VND",
-                                         }
-                                      )
-                                    : ""}
-                                 {" | "}
-                                 {service.serviceInfoWithPrePayment
-                                    .isSuccess === 1
-                                    ? service.serviceInfoWithPrePayment.shipFee.toLocaleString(
-                                         "it-IT",
-                                         {
-                                            style: "currency",
-                                            currency: "VND",
-                                         }
-                                      )
-                                    : ""}
+                                 <span className="">
+                                    {service.serviceInfoWithCOD.isSuccess === 1
+                                       ? `${service.serviceInfoWithCOD.shipFee.toLocaleString(
+                                            "it-IT",
+                                            {
+                                               style: "currency",
+                                               currency: "VND",
+                                            }
+                                         )} [COD]`
+                                       : ""}
+                                    {service.serviceInfoWithCOD.isSuccess ===
+                                       1 &&
+                                    service.serviceInfoWithPrePayment
+                                       .isSuccess === 1
+                                       ? " | "
+                                       : ""}
+                                    {service.serviceInfoWithPrePayment
+                                       .isSuccess === 1
+                                       ? `${service.serviceInfoWithPrePayment.shipFee.toLocaleString(
+                                            "it-IT",
+                                            {
+                                               style: "currency",
+                                               currency: "VND",
+                                            }
+                                         )} [MOMO]`
+                                       : ""}
+                                 </span>
                               </div>
                               <div className="text-sm font-medium ">
                                  <span className="font-bold">
@@ -109,6 +122,15 @@ const DeliveryService = ({
             ) : (
                <>123</>
             )}
+         </div>
+         <div className="flex justify-center mt-2">
+            <button
+               className="px-5 py-3 bg-blue-main rounded-lg hover:shadow-lg hover:shadow-blue-main font-semibold text-white"
+               title="choose service"
+               onClick={handleChooseServiceButton}
+            >
+               Choose this service delivery
+            </button>
          </div>
       </div>
    );

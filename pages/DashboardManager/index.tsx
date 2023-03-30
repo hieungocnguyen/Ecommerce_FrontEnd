@@ -15,6 +15,7 @@ import {
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { Bar, Line } from "react-chartjs-2";
+import dynamic from "next/dynamic";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
@@ -38,10 +39,11 @@ const AgencyHome = () => {
    useEffect(() => {
       const loadCount = async () => {
          try {
-            const resPosts = await API.post(endpoints["get_all_salePost"], {
-               nameOfAgency: agencyInfo.name,
-            });
+            const resPosts = await API.post(
+               endpoints["get_post_published_by_agencyID"](agencyInfo.id)
+            );
             setCountPosts(resPosts.data.data.listResult.length);
+
             const resOrders = await API.get(
                endpoints["order_agency"](agencyInfo.id)
             );
@@ -54,7 +56,7 @@ const AgencyHome = () => {
    }, []);
    return (
       <>
-         <LayoutDashboard>
+         <LayoutDashboard title="Homepage">
             <div className="w-[90%] mx-auto">
                <div>
                   <div className="font-semibold text-2xl my-10">
@@ -81,4 +83,5 @@ const AgencyHome = () => {
    );
 };
 
-export default AgencyHome;
+// export default AgencyHome;
+export default dynamic(() => Promise.resolve(AgencyHome), { ssr: false });

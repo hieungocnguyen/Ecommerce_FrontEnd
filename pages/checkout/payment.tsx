@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import dynamic from "next/dynamic";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import API, { authAxios, endpoints } from "../../API";
 import Layout from "../../components/Layout/Layout";
 import { Store } from "../../utils/Store";
@@ -16,7 +16,13 @@ import { useRouter } from "next/router";
 import AddressBook from "../../components/Model/AddressBook";
 import AddToAddressBook from "../../components/Model/AddToAddressBook";
 import Link from "next/link";
-import { BiArrowBack, BiChevronDown, BiStore } from "react-icons/bi";
+import {
+   BiArrowBack,
+   BiChevronDown,
+   BiError,
+   BiErrorAlt,
+   BiStore,
+} from "react-icons/bi";
 import { ClipLoader } from "react-spinners";
 import DeliveryService from "../../components/Model/DeliveryService";
 
@@ -38,6 +44,9 @@ const Payment = () => {
    const [isDisablePaymentMethod, setIsDisblePaymentMethod] = useState(0);
    const [isErrorGHNThirdParty, setIsErrorGHNThirdParty] =
       useState<boolean>(true);
+   const [isDisableMoMoPayment, setIsDisableMoMoPayment] = useState(false);
+   const [isDisableCODPayment, setIsDisableCODPayment] = useState(false);
+   const refTotalBill = useRef(null);
 
    const fetchCartData = async () => {
       const temp = [];
@@ -155,6 +164,14 @@ const Payment = () => {
 
    const CalcTotalOrder = (items) => {
       let tempTotalOrder = 0;
+      let shipfeeMoMoPayment = 0;
+      items.map((item) => {
+         shipfeeMoMoPayment +=
+            item.selectedService.serviceInfoWithPrePayment.shipFee;
+         if (item.calculatorPrice > 50000000) {
+            setIsDisableCODPayment(true);
+         }
+      });
 
       if (items.length > 0 && items[0].selectedService) {
          if (paymentType == 1) {
@@ -175,6 +192,9 @@ const Payment = () => {
       } else {
          setTotalOrder(-1);
       }
+      setIsDisableMoMoPayment(
+         tempTotalOrder + shipfeeMoMoPayment > 50000000 ? true : false
+      );
    };
    const CalcAmountShipFee = () => {
       let amount = 0;
@@ -186,7 +206,6 @@ const Payment = () => {
          }
       });
       setAmountShipFee(amount);
-      console.log(amount);
    };
 
    const handlePayment = () => {
@@ -213,7 +232,6 @@ const Payment = () => {
                serviceTypeID: item.selectedService.service_type_id,
             };
          });
-         // console.log(obj.get("mapServiceInfo"));
 
          console.log(mapServiceInfo);
 
@@ -292,13 +310,13 @@ const Payment = () => {
                      {itemsInCart
                         .sort((a, b) => (a.id > b.id ? -1 : 1))
                         .map((i) => (
-                           <div key={i.id} className="mb-8">
+                           <div key={i.id} className="mb-10">
                               {/* agency name */}
-                              <div className="bg-dark-text dark:bg-dark-bg px-5 py-3 rounded-t-xl w-fit text-left font-medium flex gap-2 items-center hover:text-primary-color transition-all cursor-pointer border-t-2 border-l-2 border-r-2 z-25  border-primary-color">
+                              <div className="bg-dark-text dark:bg-dark-bg px-5 py-3 rounded-t-xl w-fit text-left font-medium flex gap-2 items-center hover:text-primary-color transition-all cursor-pointer">
                                  <BiStore className="text-2xl" />
                                  {i.name}
                               </div>
-                              <div className="bg-dark-text dark:bg-dark-bg p-2  rounded-b-xl rounded-tr-xl border-b-2 border-t-2 border-l-2 border-r-2 border-primary-color shadow-lg">
+                              <div className="bg-dark-text dark:bg-dark-bg p-2  rounded-b-xl rounded-tr-xl  shadow-lg">
                                  {/* items each agency */}
                                  <div>
                                     {i.cartItems
@@ -314,6 +332,7 @@ const Payment = () => {
                                                          }
                                                          alt="avatar"
                                                          layout="fill"
+                                                         className="object-cover"
                                                       />
                                                    </div>
                                                 </div>
@@ -351,7 +370,7 @@ const Payment = () => {
                                           {/* selected delivery */}
                                           {i.services ? (
                                              <div
-                                                className="col-span-12 bg-light-primary dark:bg-dark-primary rounded-xl p-4 mx-4 relative flex justify-between items-center cursor-pointer hover:shadow-lg hover:shadow-light-primary dark:hover:shadow-dark-primary"
+                                                className="col-span-12 bg-light-primary dark:bg-dark-primary rounded-xl p-4 mx-4 relative flex justify-between items-center cursor-pointer hover:shadow-lg"
                                                 onClick={() => {
                                                    setIdOpenDeliveryServices(
                                                       i.agencyID
@@ -387,7 +406,7 @@ const Payment = () => {
                                                                style: "currency",
                                                                currency: "VND",
                                                             }
-                                                         )} (COD)`
+                                                         )} [COD]`
                                                                : ""}
                                                             {i.selectedService
                                                                .serviceInfoWithCOD
@@ -408,7 +427,7 @@ const Payment = () => {
                                                                        currency:
                                                                           "VND",
                                                                     }
-                                                                 )} (MOMO)`
+                                                                 )} [MOMO]`
                                                                : ""}
                                                          </span>
                                                       </div>
@@ -473,62 +492,95 @@ const Payment = () => {
                                              {paymentType === 1 &&
                                              i.selectedService
                                                 .serviceInfoWithCOD
-                                                .isSuccess === 1
-                                                ? i.selectedService.serviceInfoWithCOD.shipFee.toLocaleString(
-                                                     "it-IT",
-                                                     {
-                                                        style: "currency",
-                                                        currency: "VND",
-                                                     }
-                                                  )
-                                                : paymentType === 2 &&
-                                                  i.selectedService
-                                                     .serviceInfoWithPrePayment
-                                                     .isSuccess === 1
-                                                ? i.selectedService.serviceInfoWithPrePayment.shipFee.toLocaleString(
-                                                     "it-IT",
-                                                     {
-                                                        style: "currency",
-                                                        currency: "VND",
-                                                     }
-                                                  )
-                                                : `
-                                                ${
-                                                   i.selectedService
-                                                      .serviceInfoWithCOD
-                                                      .isSuccess === 1
-                                                      ? i.selectedService.serviceInfoWithCOD.shipFee.toLocaleString(
-                                                           "it-IT",
-                                                           {
-                                                              style: "currency",
-                                                              currency: "VND",
-                                                           }
-                                                        )
-                                                      : ""
-                                                }
-                                                ${
-                                                   i.selectedService
-                                                      .serviceInfoWithCOD
-                                                      .isSuccess === 1 &&
-                                                   i.selectedService
-                                                      .serviceInfoWithPrePayment
-                                                      .isSuccess === 1
-                                                      ? " | "
-                                                      : ""
-                                                }
-                                                ${
-                                                   i.selectedService
-                                                      .serviceInfoWithPrePayment
-                                                      .isSuccess === 1
-                                                      ? i.selectedService.serviceInfoWithPrePayment.shipFee.toLocaleString(
-                                                           "it-IT",
-                                                           {
-                                                              style: "currency",
-                                                              currency: "VND",
-                                                           }
-                                                        )
-                                                      : ""
-                                                }`}
+                                                .isSuccess === 1 ? (
+                                                <span>
+                                                   {i.selectedService.serviceInfoWithCOD.shipFee.toLocaleString(
+                                                      "it-IT",
+                                                      {
+                                                         style: "currency",
+                                                         currency: "VND",
+                                                      }
+                                                   )}
+                                                   <span className="text-sm">
+                                                      {" [COD]"}
+                                                   </span>
+                                                </span>
+                                             ) : paymentType === 2 &&
+                                               i.selectedService
+                                                  .serviceInfoWithPrePayment
+                                                  .isSuccess === 1 ? (
+                                                <span>
+                                                   {i.selectedService.serviceInfoWithPrePayment.shipFee.toLocaleString(
+                                                      "it-IT",
+                                                      {
+                                                         style: "currency",
+                                                         currency: "VND",
+                                                      }
+                                                   )}
+                                                   <span className="text-sm">
+                                                      {" [MOMO]"}
+                                                   </span>
+                                                </span>
+                                             ) : (
+                                                <>
+                                                   <span>
+                                                      {i.selectedService
+                                                         .serviceInfoWithCOD
+                                                         .isSuccess === 1 ? (
+                                                         <span>
+                                                            {i.selectedService.serviceInfoWithCOD.shipFee.toLocaleString(
+                                                               "it-IT",
+                                                               {
+                                                                  style: "currency",
+                                                                  currency:
+                                                                     "VND",
+                                                               }
+                                                            )}{" "}
+                                                            <span className="text-sm">
+                                                               {" "}
+                                                               [COD]
+                                                            </span>
+                                                         </span>
+                                                      ) : (
+                                                         <span> </span>
+                                                      )}
+                                                   </span>
+                                                   <span>
+                                                      {i.selectedService
+                                                         .serviceInfoWithCOD
+                                                         .isSuccess === 1 &&
+                                                      i.selectedService
+                                                         .serviceInfoWithPrePayment
+                                                         .isSuccess === 1 ? (
+                                                         <span>{"  |  "}</span>
+                                                      ) : (
+                                                         <span></span>
+                                                      )}
+                                                   </span>
+                                                   <span>
+                                                      {i.selectedService
+                                                         .serviceInfoWithPrePayment
+                                                         .isSuccess === 1 ? (
+                                                         <span>
+                                                            {i.selectedService.serviceInfoWithPrePayment.shipFee.toLocaleString(
+                                                               "it-IT",
+                                                               {
+                                                                  style: "currency",
+                                                                  currency:
+                                                                     "VND",
+                                                               }
+                                                            )}{" "}
+                                                            <span className="text-sm">
+                                                               {" "}
+                                                               [MOMO]
+                                                            </span>
+                                                         </span>
+                                                      ) : (
+                                                         <span> </span>
+                                                      )}
+                                                   </span>
+                                                </>
+                                             )}
                                           </div>
                                        </div>
                                        <div className="flex justify-between items-center">
@@ -552,33 +604,43 @@ const Payment = () => {
                               </div>
                            </div>
                         ))}
-                     {totalOrder === -1 ? (
-                        <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-xl font-semibold border-2 border-primary-color shadow-lg">
-                           No Selected address, please create a new address!
-                        </div>
-                     ) : paymentType === 1 ? (
-                        <>
-                           <div className="text-3xl font-bold text-blue-main bg-dark-text dark:bg-dark-bg p-6 rounded-xl border-2 border-primary-color shadow-lg">
-                              {totalOrder.toLocaleString("it-IT", {
-                                 style: "currency",
-                                 currency: "VND",
-                              })}
+                     <div ref={refTotalBill}>
+                        {totalOrder === -1 ? (
+                           <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-xl font-semibold border-2 border-primary-color shadow-lg">
+                              No Selected address, please create a new address!
                            </div>
-                        </>
-                     ) : paymentType === 2 ? (
-                        <>
-                           <div className="text-3xl font-bold text-blue-main bg-dark-text dark:bg-dark-bg p-6 rounded-xl border-2 border-primary-color shadow-lg">
-                              {totalOrder.toLocaleString("it-IT", {
-                                 style: "currency",
-                                 currency: "VND",
-                              })}
+                        ) : paymentType === 1 ? (
+                           <div className="p-6 bg-dark-text dark:bg-dark-bg rounded-xl border-2 border-primary-color shadow-lg">
+                              <div className="font-semibold mb-2">
+                                 Total bill when payment by cash on delivery
+                                 (COD)
+                              </div>
+                              <div className="text-4xl font-bold text-blue-main">
+                                 {totalOrder.toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                 })}
+                              </div>
                            </div>
-                        </>
-                     ) : (
-                        <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-lg font-semibold border-2 border-primary-color shadow-lg">
-                           Total will display when selected payment method
-                        </div>
-                     )}
+                        ) : paymentType === 2 ? (
+                           <div className="p-6 bg-dark-text dark:bg-dark-bg rounded-xl border-2 border-primary-color shadow-lg">
+                              <div className="font-semibold mb-2">
+                                 Total bill when payment by MOMO Wallet
+                              </div>
+                              <div className="text-4xl font-bold text-blue-main">
+                                 {totalOrder.toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                 })}
+                              </div>
+                           </div>
+                        ) : (
+                           <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-lg font-semibold border-2 border-primary-color shadow-lg">
+                              Total bill will display when selected payment
+                              method
+                           </div>
+                        )}
+                     </div>
                   </>
                ) : (
                   <div className="flex justify-center my-8">
@@ -601,7 +663,7 @@ const Payment = () => {
                                     htmlFor="name"
                                     className="font-medium text-sm pl-2"
                                  >
-                                    Name of Consignee
+                                    Name of Recipient
                                  </label>
                                  <input
                                     id="name"
@@ -711,8 +773,48 @@ const Payment = () => {
                      </div>
                   </div>
                </div>
-               <div className=" dark:bg-dark-primary bg-light-primary rounded-lg py-8 ">
-                  <div className="text-lg font-semibold">Payment Type</div>
+               <div className=" dark:bg-dark-primary bg-light-primary rounded-lg py-6 px-8">
+                  <div className="text-lg font-semibold mb-4">Payment Type</div>
+                  {isDisableCODPayment ? (
+                     <div className="bg-yellow-400 bg-opacity-30 border-2 border-yellow-500 rounded-lg px-3 py-4 font-semibold text-yellow-700 dark:text-yellow-200 flex justify-start gap-4 items-center mb-2">
+                        <div>
+                           <BiError className="text-2xl" />
+                        </div>
+                        <div className="text-sm">
+                           The agency&apos;s order value is more than 50 million
+                           VND cannot be paid COD
+                        </div>
+                     </div>
+                  ) : (
+                     <></>
+                  )}
+                  {isDisableMoMoPayment ? (
+                     <div className="bg-yellow-400 bg-opacity-30 border-2 border-yellow-500 rounded-lg px-3 py-4 font-semibold text-yellow-700 dark:text-yellow-200 flex justify-start gap-4 items-center mb-2">
+                        <div>
+                           <BiError className="text-2xl" />
+                        </div>
+                        <div className="text-sm">
+                           Total bill over 50 million cannot be paid via MoMo
+                           Wallet
+                        </div>
+                     </div>
+                  ) : (
+                     <></>
+                  )}
+
+                  {isDisableCODPayment && isDisableMoMoPayment ? (
+                     <div className="bg-red-400 bg-opacity-30 border-2 border-red-500 rounded-lg px-3 py-4 font-semibold text-red-700 dark:text-red-200 flex justify-start gap-4 items-center ">
+                        <div>
+                           <BiErrorAlt className="text-2xl" />
+                        </div>
+                        <div className="text-sm">
+                           Can not checkout this cart, please adjust the
+                           quantity and try again later
+                        </div>
+                     </div>
+                  ) : (
+                     <></>
+                  )}
                   <div className="flex justify-center gap-4 my-6">
                      <label
                         className={`${
@@ -728,6 +830,9 @@ const Payment = () => {
                            name="pricing"
                            onChange={() => {
                               setPaymentType(1);
+                              refTotalBill.current?.scrollIntoView({
+                                 behavior: "smooth",
+                              });
                            }}
                            disabled={
                               isDisablePaymentMethod === 1 ||
@@ -757,7 +862,8 @@ const Payment = () => {
                      <label
                         className={`${
                            isDisablePaymentMethod === 2 ||
-                           isDisablePaymentMethod === 3
+                           isDisablePaymentMethod === 3 ||
+                           isDisableMoMoPayment === true
                               ? "cursor-not-allowed"
                               : "cursor-pointer"
                         }`}
@@ -768,12 +874,16 @@ const Payment = () => {
                            name="pricing"
                            disabled={
                               isDisablePaymentMethod === 2 ||
-                              isDisablePaymentMethod === 3
+                              isDisablePaymentMethod === 3 ||
+                              isDisableMoMoPayment === true
                                  ? true
                                  : false
                            }
                            onChange={() => {
                               setPaymentType(2);
+                              refTotalBill.current?.scrollIntoView({
+                                 behavior: "smooth",
+                              });
                            }}
                         />
                         <div className=" rounded-lg p-2 ring-4 ring-transparent transition-all hover:shadow peer-checked:ring-blue-main">
@@ -781,7 +891,8 @@ const Payment = () => {
                               <Image
                                  src={
                                     isDisablePaymentMethod === 2 ||
-                                    isDisablePaymentMethod === 3
+                                    isDisablePaymentMethod === 3 ||
+                                    isDisableMoMoPayment === true
                                        ? momoDisabled
                                        : momopaymentimage
                                  }
@@ -793,21 +904,29 @@ const Payment = () => {
                         </div>
                      </label>
                   </div>
-                  <button
-                     className="py-4 px-10 mx-8 h-fit bg-blue-main rounded-lg font-semibold text-white hover:shadow-blue-main hover:shadow-lg w-fit disabled:bg-gray-400 disabled:hover:shadow-gray-400 disabled:cursor-not-allowed"
-                     disabled={address.id ? false : true}
-                     onClick={handlePayment}
-                  >
-                     {address.id
-                        ? paymentType === 1
-                           ? " Payment by cash on delivery (COD)"
-                           : paymentType === 2
-                           ? " Payment by Momo"
-                           : isDisablePaymentMethod === 3
-                           ? "Something is wrong with the cart or the GHN shipping service, please try again later!"
-                           : "Please choice your payment method"
-                        : "Please choose address before payment!"}
-                  </button>
+                  {isDisableCODPayment && isDisableMoMoPayment ? (
+                     <></>
+                  ) : (
+                     <button
+                        className={`py-4 px-10 mx-8 h-fit bg-blue-main rounded-lg font-semibold text-white hover:shadow-blue-main hover:shadow-lg w-fit disabled:bg-gray-400 disabled:hover:shadow-none disabled:cursor-not-allowed `}
+                        disabled={
+                           address.id && isDisablePaymentMethod !== 3
+                              ? false
+                              : true
+                        }
+                        onClick={handlePayment}
+                     >
+                        {address.id
+                           ? paymentType === 1
+                              ? " Payment by cash on delivery (COD)"
+                              : paymentType === 2
+                              ? " Payment by Momo"
+                              : isDisablePaymentMethod === 3
+                              ? "Have some problems with delivery service, please try it again later!"
+                              : "Please choice your payment method"
+                           : "Please choose address before payment!"}
+                     </button>
+                  )}
                </div>
             </div>
          </div>

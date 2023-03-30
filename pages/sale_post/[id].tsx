@@ -29,23 +29,37 @@ const ProductPage = ({ salePost }) => {
    const [isOpenItemsModal, setIsOpenItemsModal] = useState(false);
    const [loading, setLoading] = useState(false);
 
-   useEffect(() => {
-      const loadComment = async () => {
+   const loadComment = async () => {
+      try {
          const resComments = await API.get(endpoints["comment_all_post"](id));
          setComments(resComments.data.data);
-      };
-      const loadStarAvg = async () => {
+      } catch (error) {
+         console.log(error);
+      }
+   };
+   const loadStarAvg = async () => {
+      try {
          const resStar = await API.get(endpoints["star_avg_post"](id));
          setStarAvg(resStar.data.data);
-      };
-      const loadCommentCount = async () => {
+      } catch (error) {
+         console.log(error);
+      }
+   };
+   const loadCommentCount = async () => {
+      try {
          const resCount = await API.get(endpoints["count_comment_post"](id));
          setCommentCount(resCount.data.data);
-      };
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
       loadComment();
       loadStarAvg();
       loadCommentCount();
    }, []);
+
    const handleRouteAgency = () => {
       setTimeout(() => setLoading(true));
       router.push(`/agencyinfo/${salePost.agency.id}`);
@@ -54,10 +68,10 @@ const ProductPage = ({ salePost }) => {
 
    return (
       <Layout title="Detail">
-         <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-8 gap-8 my-8 mx-16 ">
+         <div className="grid lg:grid-cols-12 grid-cols-1 gap-8 my-8 mx-16 ">
             {/* left part */}
-            <div className="col-span-5 ">
-               <div className="overflow-hidden aspect-square relative">
+            <div className="lg:col-span-5 col-span-1">
+               <div className="overflow-hidden aspect-square relative ">
                   <Image
                      src={mainPic}
                      alt="tai nghe"
@@ -90,7 +104,7 @@ const ProductPage = ({ salePost }) => {
                </Swiper>
             </div>
             {/* right part */}
-            <div className="col-span-7">
+            <div className="lg:col-span-7 col-span-1">
                <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8 text-left">
                   <div className="font-semibold text-4xl text-left h-20 leading-10">
                      {salePost.title}
@@ -156,13 +170,13 @@ const ProductPage = ({ salePost }) => {
                </div>
                <div className="grid grid-cols-12 gap-8 mt-8 ">
                   <div
-                     className="col-span-7 bg-blue-main text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-md hover:shadow-blue-main transition-all"
+                     className="col-span-6 bg-blue-main text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-md hover:shadow-blue-main transition-all"
                      onClick={() => setIsOpenItemsModal(true)}
                   >
                      Choose item to add to cart
                   </div>
                   <div
-                     className="col-span-5 dark:bg-dark-primary bg-light-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-md dark:hover:shadow-dark-primary hover:shadow-light-primary transition-all"
+                     className="col-span-6 dark:bg-dark-primary bg-light-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-md dark:hover:shadow-dark-primary hover:shadow-light-primary transition-all"
                      onClick={handleRouteAgency}
                   >
                      <div className="relative h-20 w-20 overflow-hidden rounded-xl ">
@@ -273,27 +287,32 @@ const CommentForm = ({
                position: "top-center",
             });
          } else {
-            const res = await authAxios().post(
-               endpoints["comment_post"](postID),
-               {
-                  content: content,
-                  starRate: value,
-               }
-            );
-            const resCount = await API.get(
-               endpoints["count_comment_post"](postID)
-            );
-            setCommentCount(resCount.data.data);
-            const resStar = await API.get(endpoints["star_avg_post"](postID));
-            setStarAvg(resStar.data.data);
-            setCommentCount(resCount.data.data);
-
-            setComments([...comments, res.data.data]);
-            setContent("");
-            setValue(0);
-            toast.success("Comment successful!", {
-               position: "top-center",
-            });
+            try {
+               const res = await authAxios().post(
+                  endpoints["comment_post"](postID),
+                  {
+                     content: content,
+                     starRate: value,
+                  }
+               );
+               const resCount = await API.get(
+                  endpoints["count_comment_post"](postID)
+               );
+               setCommentCount(resCount.data.data);
+               const resStar = await API.get(
+                  endpoints["star_avg_post"](postID)
+               );
+               setStarAvg(resStar.data.data);
+               setCommentCount(resCount.data.data);
+               setComments([...comments, res.data.data]);
+               setContent("");
+               setValue(0);
+               toast.success("Comment successful!", {
+                  position: "top-center",
+               });
+            } catch (error) {
+               console.log(error);
+            }
          }
       } else {
          router.push("/signin");

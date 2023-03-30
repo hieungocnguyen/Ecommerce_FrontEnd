@@ -17,6 +17,7 @@ import Loader from "../../../components/Loader";
 import { Store } from "../../../utils/Store";
 import Image from "next/image";
 import EditPost from "../../../components/Model/EditPost";
+import dynamic from "next/dynamic";
 
 const Posts = () => {
    const { state, dispatch } = useContext(Store);
@@ -29,10 +30,10 @@ const Posts = () => {
 
    const loadPosts = async () => {
       try {
-         const resPosts = await API.post(
-            endpoints["get_post_published_by_agencyID"](agencyInfo.id)
+         const resPostsPublish = await API.get(
+            endpoints["get_all_post_by_agencyID"](agencyInfo.id)
          );
-         setPosts(resPosts.data.data);
+         setPosts(resPostsPublish.data.data);
       } catch (error) {
          console.log(error);
       }
@@ -70,7 +71,7 @@ const Posts = () => {
 
    return (
       <>
-         <LayoutDashboard>
+         <LayoutDashboard title="List Post">
             <div className="relative">
                <div className="flex justify-between items-center my-8">
                   <div className="font-semibold text-2xl">Post List</div>
@@ -185,4 +186,5 @@ const Posts = () => {
    );
 };
 
-export default Posts;
+// export default Posts;
+export default dynamic(() => Promise.resolve(Posts), { ssr: false });
