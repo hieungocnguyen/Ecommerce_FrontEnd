@@ -39,10 +39,10 @@ const AgencyHome = () => {
    useEffect(() => {
       const loadCount = async () => {
          try {
-            const resPosts = await API.post(
-               endpoints["get_post_published_by_agencyID"](agencyInfo.id)
+            const resPosts = await API.get(
+               endpoints["get_all_post_by_agencyID"](agencyInfo.id)
             );
-            setCountPosts(resPosts.data.data.listResult.length);
+            setCountPosts(resPosts.data.data.length);
 
             const resOrders = await API.get(
                endpoints["order_agency"](agencyInfo.id)

@@ -36,7 +36,7 @@ export let endpoints = {
    get_post_unpublished_by_agencyID: (agencyID) =>
       `/sale-post/un-published/${agencyID}/all`,
    get_all_post_by_agencyID: (agencyID) =>
-      `/sale-post/published/${agencyID}/all`,
+      `/sale-post/get-all-sale-post-by-agency-id/${agencyID}`,
    //cart API
    add_to_cart: "/cart/add-to-cart",
    update_cart: "/cart/update-cart",
@@ -52,6 +52,8 @@ export let endpoints = {
    order_agency: (agencyID) => `/order/orders-agency/agency/${agencyID}`,
    change_state: (orderAgencyID, stateID) =>
       `/order/orders-agency/${orderAgencyID}/${stateID}`,
+   cancel_order: (orderAgencyID) =>
+      `/order/orders-agency/cancel-order/${orderAgencyID}`,
    get_order_detail: (orderAgencyID) =>
       `/order/order-detail/get-orders-detail-by-order-agency/${orderAgencyID}`,
    //comment
@@ -91,6 +93,16 @@ export let endpoints = {
    get_districts: `/order-tracking/ghn/location/get-districts`,
    get_wards: `/order-tracking/ghn/location/get-wards`,
    get_service_package: `/order-tracking/ghn/order/get-service-package-of-ghn-express`,
+   get_print_order: (orderAgentID) =>
+      `/order-tracking/ghn/order/print-order/${orderAgentID}`,
+   get_review_info_order: (orderAgentID) =>
+      `/order-tracking/ghn/order/review-order-info/${orderAgentID}`,
+   get_pick_shift_order: `/order-tracking/ghn/order/get-pick-shift`,
+   set_pick_shift_order: (
+      orderAgencyID,
+      pickShiftID
+   ) => `/order-tracking/ghn/order/set-pick-shift/${orderAgencyID}/${pickShiftID}
+   `,
 };
 export const authAxios = () =>
    axios.create({

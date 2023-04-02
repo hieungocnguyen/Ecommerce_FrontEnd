@@ -23,9 +23,9 @@ const Orders = () => {
             setOrders(resOrder.data.data);
          } catch (error) {
             console.log(error);
-            toast.error("Fetch orders unsuccessful", {
-               position: "top-center",
-            });
+            // toast.error("Fetch orders unsuccessful", {
+            //    position: "top-center",
+            // });
          }
       };
       loadOrder();

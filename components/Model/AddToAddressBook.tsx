@@ -86,7 +86,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
             toProvinceName: addressFull.ProvinceName,
             districtID: Number(addressFull.DistrictID),
             toDistrictName: addressFull.DistrictName,
-            wardID: Number(addressFull.WardID),
+            wardID: addressFull.WardID,
             toWardName: addressFull.WardName,
             customerName: addressFull.customerName,
          });
@@ -115,7 +115,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
             >
                <div className="col-span-12">
                   <label htmlFor="customerName" className="pl-2 text-sm">
-                     Name
+                     Name of Recipient
                   </label>
                   <input
                      type="text"
@@ -173,13 +173,14 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                </div>
                <div className="col-span-12">
                   <label htmlFor="description" className="pl-2 text-sm">
-                     Description
+                     Note
                   </label>
                   <input
                      type="text"
                      id="description"
+                     maxLength={50}
                      required
-                     placeholder="Description"
+                     placeholder="Note"
                      className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                      onChange={(e) => {
                         setAddressFull({

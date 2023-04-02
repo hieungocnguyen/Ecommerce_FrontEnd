@@ -168,7 +168,7 @@ const Revenue = () => {
                                     "font-semibold p-3 shadow-lg rounded block leading-normal " +
                                     (openTab === 1
                                        ? "text-white bg-blue-main"
-                                       : "text-white bg-dark-spot")
+                                       : "dark:bg-dark-primary bg-light-primary")
                                  }
                                  onClick={(e) => {
                                     e.preventDefault();
@@ -187,7 +187,7 @@ const Revenue = () => {
                                     "font-semibold p-3 shadow-lg rounded block leading-normal " +
                                     (openTab === 2
                                        ? "text-white bg-blue-main"
-                                       : "text-white bg-dark-spot")
+                                       : "dark:bg-dark-primary bg-light-primary")
                                  }
                                  onClick={(e) => {
                                     e.preventDefault();
@@ -206,7 +206,7 @@ const Revenue = () => {
                                     "font-semibold p-3 shadow-lg rounded block leading-normal " +
                                     (openTab === 3
                                        ? "text-white bg-blue-main"
-                                       : "text-white bg-dark-spot")
+                                       : "dark:bg-dark-primary bg-light-primary")
                                  }
                                  onClick={(e) => {
                                     e.preventDefault();
@@ -220,7 +220,7 @@ const Revenue = () => {
                               </a>
                            </li>
                         </ul>
-                        <div className="relative flex flex-col min-w-0 break-words bg-dark-primary w-full mb-6 shadow-lg rounded">
+                        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
                            <div className="px-4 py-5 flex-auto">
                               <div className="tab-content tab-space">
                                  <div

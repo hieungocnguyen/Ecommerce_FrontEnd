@@ -119,13 +119,25 @@ const CreateNewPost = () => {
 
          const resCreate = await authAxios().post(
             endpoints["create_salePost"](agencyInfo.id),
-            formData
+            formData,
+            {
+               headers: {
+                  "Content-Type": "application/json",
+               },
+            }
          );
-         if (resCreate) {
+
+         if (resCreate.data.code == "201") {
             setLoading(false);
             router.push("/DashboardManager/posts");
          }
-      } catch (error) {}
+      } catch (error) {
+         setLoading(false);
+         toast.error("Something wrong, try it later", {
+            position: "top-center",
+         });
+         console.log(error);
+      }
    };
    return (
       <LayoutDashboard title="Create new post">

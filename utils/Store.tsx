@@ -61,7 +61,6 @@ function reducer(state: any, action: { type: any; payload: any }) {
       }
       case "CART_REMOVE_ALL_ITEM": {
          Cookies.remove("cartItems");
-         console.log({ ...state, cart: [] });
 
          return { ...state, cart: { cartItems: [] } };
       }

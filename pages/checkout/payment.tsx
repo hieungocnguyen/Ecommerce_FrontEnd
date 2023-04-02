@@ -43,7 +43,7 @@ const Payment = () => {
    //0: no disable, 1:cash, 2:momo,3:both
    const [isDisablePaymentMethod, setIsDisblePaymentMethod] = useState(0);
    const [isErrorGHNThirdParty, setIsErrorGHNThirdParty] =
-      useState<boolean>(true);
+      useState<boolean>(false);
    const [isDisableMoMoPayment, setIsDisableMoMoPayment] = useState(false);
    const [isDisableCODPayment, setIsDisableCODPayment] = useState(false);
    const refTotalBill = useRef(null);
@@ -53,19 +53,26 @@ const Payment = () => {
       let currentAddress: any; //to get value address
 
       try {
+         console.log("address", address);
+
          //get addressbook by userid
          const resAddressBook = await API.get(
             endpoints["get_address_book"](userInfo.id)
          );
+
          if (resAddressBook.data.data.length > 0) {
-            setAddress(
-               resAddressBook.data.data.sort((a, b) =>
+            if (address.id) {
+               currentAddress = address;
+            } else {
+               setAddress(
+                  resAddressBook.data.data.sort((a, b) =>
+                     a.id > b.id ? -1 : 1
+                  )[0]
+               );
+               currentAddress = resAddressBook.data.data.sort((a, b) =>
                   a.id > b.id ? -1 : 1
-               )[0]
-            );
-            currentAddress = resAddressBook.data.data.sort((a, b) =>
-               a.id > b.id ? -1 : 1
-            )[0];
+               )[0];
+            }
          } else {
             setAddress({});
          }
@@ -81,6 +88,7 @@ const Payment = () => {
             );
 
             //get service package by addressBookID and agencyID
+
             if (currentAddress) {
                const resDeliveryService = await authAxios().get(
                   `${endpoints["get_service_package"]}?addressBookID=${currentAddress.id}&agencyID=${i.agencyID}`
@@ -112,10 +120,12 @@ const Payment = () => {
             if (temp.length === resCart.data.data.length) {
                setIsLoadComplete(true);
                console.log(temp);
-               CheckDisablePaymentType(temp);
-
-               CalcTotalOrder(temp);
                setItemsInCart(temp);
+               if (currentAddress) {
+                  CheckDisablePaymentType(temp);
+                  CalcTotalOrder(temp);
+                  CalcAmountShipFee(temp);
+               }
             }
          });
       } catch (error) {
@@ -132,10 +142,13 @@ const Payment = () => {
 
    useEffect(() => {
       CalcTotalOrder(itemsInCart);
+      CalcAmountShipFee(itemsInCart);
    }, [idOpenDeliveryServices, paymentType]);
 
    const CheckDisablePaymentType = (items) => {
       let tempDisablePaymentType = 0;
+      let errorGHN = true;
+
       items.map((item) => {
          if (item.selectedService.serviceInfoWithCOD.isSuccess === 0) {
             //if 3=>3 if 1=>1
@@ -145,7 +158,7 @@ const Payment = () => {
                tempDisablePaymentType = 1;
             }
          } else {
-            setIsErrorGHNThirdParty(false);
+            errorGHN = false;
          }
 
          if (item.selectedService.serviceInfoWithPrePayment.isSuccess === 0) {
@@ -156,10 +169,13 @@ const Payment = () => {
                tempDisablePaymentType = 2;
             }
          } else {
-            setIsErrorGHNThirdParty(false);
+            errorGHN = false;
          }
       });
       setIsDisblePaymentMethod(tempDisablePaymentType);
+      if (errorGHN === true) {
+         setIsErrorGHNThirdParty(true);
+      }
    };
 
    const CalcTotalOrder = (items) => {
@@ -196,21 +212,21 @@ const Payment = () => {
          tempTotalOrder + shipfeeMoMoPayment > 50000000 ? true : false
       );
    };
-   const CalcAmountShipFee = () => {
+   const CalcAmountShipFee = (items) => {
       let amount = 0;
-      itemsInCart.map((item) => {
+      items.map((item) => {
          if (paymentType === 1) {
             amount += item.selectedService.serviceInfoWithCOD.shipFee;
          } else {
             amount += item.selectedService.serviceInfoWithPrePayment.shipFee;
          }
       });
+      console.log("amount", amount);
+
       setAmountShipFee(amount);
    };
 
    const handlePayment = () => {
-      CalcAmountShipFee();
-
       if (paymentType === 0) {
          toast.error("Please choise a payment mothod!", {
             position: "top-center",
@@ -275,13 +291,13 @@ const Payment = () => {
          );
 
          if (res.data.data.payUrl) {
-            // router.push(res.data.data.payUrl);
             setLoading(false);
             dispatch({ type: "ADD_ADDRESS_PAYMENT", payload: address.id });
             dispatch({
                type: "ADD_INFO_PAYMENT",
                payload: arrayInforPayment,
             });
+            router.push(res.data.data.payUrl);
          } else {
             toast.error(res.data.data.message);
          }
@@ -452,7 +468,7 @@ const Payment = () => {
                                                 </div>
                                              </div>
                                           ) : (
-                                             <div className="font-semibold ">
+                                             <div className="col-span-12 bg-light-primary py-4 rounded-lg dark:bg-dark-primary font-semibold ">
                                                 No address selected
                                              </div>
                                           )}
@@ -605,7 +621,7 @@ const Payment = () => {
                            </div>
                         ))}
                      <div ref={refTotalBill}>
-                        {totalOrder === -1 ? (
+                        {!address.id ? (
                            <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-xl font-semibold border-2 border-primary-color shadow-lg">
                               No Selected address, please create a new address!
                            </div>
@@ -773,6 +789,7 @@ const Payment = () => {
                      </div>
                   </div>
                </div>
+               {/* Payment type? */}
                <div className=" dark:bg-dark-primary bg-light-primary rounded-lg py-6 px-8">
                   <div className="text-lg font-semibold mb-4">Payment Type</div>
                   {isDisableCODPayment ? (
@@ -801,7 +818,6 @@ const Payment = () => {
                   ) : (
                      <></>
                   )}
-
                   {isDisableCODPayment && isDisableMoMoPayment ? (
                      <div className="bg-red-400 bg-opacity-30 border-2 border-red-500 rounded-lg px-3 py-4 font-semibold text-red-700 dark:text-red-200 flex justify-start gap-4 items-center ">
                         <div>
@@ -819,7 +835,8 @@ const Payment = () => {
                      <label
                         className={`${
                            isDisablePaymentMethod === 1 ||
-                           isDisablePaymentMethod === 3
+                           isDisablePaymentMethod === 3 ||
+                           !address.id
                               ? "cursor-not-allowed"
                               : "cursor-pointer"
                         }`}
@@ -830,13 +847,14 @@ const Payment = () => {
                            name="pricing"
                            onChange={() => {
                               setPaymentType(1);
-                              refTotalBill.current?.scrollIntoView({
-                                 behavior: "smooth",
-                              });
+                              // refTotalBill.current?.scrollIntoView({
+                              //    behavior: "smooth",
+                              // });
                            }}
                            disabled={
                               isDisablePaymentMethod === 1 ||
-                              isDisablePaymentMethod === 3
+                              isDisablePaymentMethod === 3 ||
+                              !address.id
                                  ? true
                                  : false
                            }
@@ -848,7 +866,8 @@ const Payment = () => {
                               <Image
                                  src={
                                     isDisablePaymentMethod === 1 ||
-                                    isDisablePaymentMethod === 3
+                                    isDisablePaymentMethod === 3 ||
+                                    !address.id
                                        ? cashDisabled
                                        : cashpaymentimage
                                  }
@@ -863,7 +882,8 @@ const Payment = () => {
                         className={`${
                            isDisablePaymentMethod === 2 ||
                            isDisablePaymentMethod === 3 ||
-                           isDisableMoMoPayment === true
+                           isDisableMoMoPayment === true ||
+                           !address.id
                               ? "cursor-not-allowed"
                               : "cursor-pointer"
                         }`}
@@ -875,15 +895,16 @@ const Payment = () => {
                            disabled={
                               isDisablePaymentMethod === 2 ||
                               isDisablePaymentMethod === 3 ||
-                              isDisableMoMoPayment === true
+                              isDisableMoMoPayment === true ||
+                              !address.id
                                  ? true
                                  : false
                            }
                            onChange={() => {
                               setPaymentType(2);
-                              refTotalBill.current?.scrollIntoView({
-                                 behavior: "smooth",
-                              });
+                              // refTotalBill.current?.scrollIntoView({
+                              //    behavior: "smooth",
+                              // });
                            }}
                         />
                         <div className=" rounded-lg p-2 ring-4 ring-transparent transition-all hover:shadow peer-checked:ring-blue-main">
@@ -892,7 +913,8 @@ const Payment = () => {
                                  src={
                                     isDisablePaymentMethod === 2 ||
                                     isDisablePaymentMethod === 3 ||
-                                    isDisableMoMoPayment === true
+                                    isDisableMoMoPayment === true ||
+                                    !address.id
                                        ? momoDisabled
                                        : momopaymentimage
                                  }

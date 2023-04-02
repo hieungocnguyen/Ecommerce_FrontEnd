@@ -23,8 +23,8 @@ const StateOfPayment = () => {
          if (allInCartToPayment) {
             allInCartToPayment.map((item) => {
                mapServiceInfo[item.agencyID] = {
-                  serviceID: item.service_id,
-                  serviceTypeID: item.service_type_id,
+                  serviceID: item.serviceID,
+                  serviceTypeID: item.serviceTypeID,
                };
             });
          }
@@ -33,11 +33,10 @@ const StateOfPayment = () => {
             endpoints["payment_cart"](2, addressPayment),
             mapServiceInfo
          );
-         if (res) {
-            dispatch({ type: "CART_REMOVE_ALL_ITEM" });
-            dispatch({ type: "REMOVE_ADDRESS_PAYMENT" });
-            dispatch({ type: "REMOVE_INFO_PAYMENT" });
-         }
+
+         await dispatch({ type: "CART_REMOVE_ALL_ITEM" });
+         await dispatch({ type: "REMOVE_ADDRESS_PAYMENT" });
+         await dispatch({ type: "REMOVE_INFO_PAYMENT" });
       } catch (error) {
          console.log(error);
       }
@@ -77,9 +76,10 @@ const PaymentSuccess = () => {
             <div className="font-bold text-3xl uppercase">
                Payment sucessful
             </div>
-            <div className="mt-2 mb-4">
+            <div className="mt-2">
                Your order is being prepared by the agent
             </div>
+            <div className="mb-4">Check detail about order in your mail</div>
             <Link href={`/orders`}>
                <button className="px-12 py-4 bg-blue-main rounded-lg text-white font-semibold hover:shadow-lg hover:shadow-blue-main mb-12">
                   My order

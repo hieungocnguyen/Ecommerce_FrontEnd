@@ -165,10 +165,11 @@ const EditProfile = () => {
                      />
                   </div>
                   <div className="col-span-6">
-                     <label htmlFor="username" className="">
+                     <label htmlFor="lastname" className="">
                         Lastname
                      </label>
                      <input
+                        id="lastname"
                         name="lastName"
                         placeholder="Lastname"
                         className="p-4 rounded-lg w-full"

@@ -109,7 +109,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                   <div className="relative overflow-hidden w-44 h-44 rounded-xl">
                      <Image
                         src={
-                           importImage
+                           selectedImage
                               ? URL.createObjectURL(selectedImage)
                               : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg"
                         }

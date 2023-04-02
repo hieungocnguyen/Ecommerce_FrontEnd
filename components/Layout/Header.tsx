@@ -183,6 +183,7 @@ const Header = () => {
                {numberItem > 0 ? (
                   <div className="absolute bg-blue-main rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
                      {numberItem}
+                     {/* {cart.cartItems.length} */}
                   </div>
                ) : (
                   <></>

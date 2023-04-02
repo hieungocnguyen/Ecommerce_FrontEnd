@@ -28,3 +28,17 @@ input[type="number"]::-webkit-outer-spin-button {
 .custom-number-input button:focus {
    outline: none !important;
 }
+
+input[type="radio"].orderstate:checked + label {
+   border-color: #525ec1;
+   color: #525ec1;
+}
+input[type="radio"].orderstate:disabled + label {
+   cursor: not-allowed;
+   border-color: red;
+}
+
+input[type="radio"].pick-shift-radio:checked + label {
+   border-color: #525ec1;
+   color: #525ec1;
+}

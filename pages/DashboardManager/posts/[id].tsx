@@ -154,7 +154,7 @@ const ItemsOfPost = () => {
                                           alt=""
                                           width={42}
                                           height={42}
-                                          className="object-cover rounded-full"
+                                          className="object-cover rounded-xl"
                                        />
                                     </li>
                                     <li className="col-span-3">{i.name}</li>

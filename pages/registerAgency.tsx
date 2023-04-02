@@ -96,7 +96,7 @@ const RegisterAgency = () => {
                fromProvinceName: addressFull.ProvinceName,
                districtID: Number(addressFull.DistrictID),
                fromDistrictName: addressFull.DistrictName,
-               wardID: Number(addressFull.WardID),
+               wardID: addressFull.WardID,
                fromWardName: addressFull.WardName,
                avatar: resUploadCloudinary.data.data,
                fieldID: Number(field),
