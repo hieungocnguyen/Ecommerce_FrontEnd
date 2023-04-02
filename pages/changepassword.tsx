@@ -14,22 +14,26 @@ const Changepassword = () => {
 
    const handleSumbit = async (e) => {
       e.preventDefault();
-      if (password[0] !== password[1]) {
-         toast.error("Password dont match, check again!", {
-            position: "bottom-center",
-         });
-      } else {
-         const resPw = await authAxios().patch(
-            endpoints["change_password"](userInfo.id),
-            {
-               password: password[0],
-               rePassword: password[1],
-            }
-         );
-         toast.success("Change passwork successful", {
-            position: "bottom-center",
-         });
-         router.push("/");
+      try {
+         if (password[0] !== password[1]) {
+            toast.error("Password dont match, check again!", {
+               position: "bottom-center",
+            });
+         } else {
+            const resPw = await authAxios().patch(
+               endpoints["change_password"](userInfo.id),
+               {
+                  password: password[0],
+                  rePassword: password[1],
+               }
+            );
+            toast.success("Change passwork successful", {
+               position: "bottom-center",
+            });
+            router.push("/");
+         }
+      } catch (error) {
+         console.log(error);
       }
    };
    return (

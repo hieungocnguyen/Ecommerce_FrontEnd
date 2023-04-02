@@ -17,10 +17,14 @@ const HotAgency = ({ setLoading }) => {
 
    useEffect(() => {
       const loadHotAagencies = async () => {
-         const resHot = await API.get(
-            "http://localhost:8080/ou-ecommerce/api/agency/top-agency/4"
-         );
-         setHotAgency(resHot.data.data);
+         try {
+            const resHot = await API.get(
+               "http://localhost:8080/ou-ecommerce/api/agency/top-agency/4"
+            );
+            setHotAgency(resHot.data.data);
+         } catch (error) {
+            console.log(error);
+         }
       };
       loadHotAagencies();
    }, []);
@@ -28,6 +32,7 @@ const HotAgency = ({ setLoading }) => {
       <div>
          <h1 className="text-center font-bold text-2xl my-5">Hot Agency</h1>
          <div className="grid grid-cols-4 gap-8">
+            {}
             {hotAgency.map((agency) => (
                <div className="relative" key={agency.id}>
                   <div

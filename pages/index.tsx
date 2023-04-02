@@ -19,18 +19,20 @@ export default function Home({ categories }) {
    const [totalPage, setTotalPage] = useState(1);
    const [openCompare, setOpenCompare] = useState(false);
    const [loading, setLoading] = useState(false);
+
+   const loadPosts = async () => {
+      try {
+         const resPosts = await API.post(endpoints["search_salePost"], {
+            page: numberPage,
+         });
+         setSalePost(resPosts.data.data.listResult);
+         setTotalPage(resPosts.data.data.totalPage);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    useEffect(() => {
-      const loadPosts = async () => {
-         try {
-            const resPosts = await API.post(endpoints["search_salePost"], {
-               page: numberPage,
-            });
-            setSalePost(resPosts.data.data.listResult);
-            setTotalPage(resPosts.data.data.totalPage);
-         } catch (error) {
-            console.log(error);
-         }
-      };
       loadPosts();
 
       const pages = document.querySelectorAll(".paginator");

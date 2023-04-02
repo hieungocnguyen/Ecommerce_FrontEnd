@@ -14,20 +14,16 @@ const Orders = () => {
    const [orderAgencyID, setOrderAgencyID] = useState(0);
    const [orderInfo, setOrderInfo] = useState({});
 
+   const loadOrder = async () => {
+      try {
+         const resOrder = await API.get(endpoints["order_user"](userInfo.id));
+         setOrders(resOrder.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    useEffect(() => {
-      const loadOrder = async () => {
-         try {
-            const resOrder = await API.get(
-               endpoints["order_user"](userInfo.id)
-            );
-            setOrders(resOrder.data.data);
-         } catch (error) {
-            console.log(error);
-            // toast.error("Fetch orders unsuccessful", {
-            //    position: "top-center",
-            // });
-         }
-      };
       loadOrder();
    }, [userInfo]);
 

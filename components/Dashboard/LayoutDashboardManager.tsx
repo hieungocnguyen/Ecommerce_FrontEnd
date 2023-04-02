@@ -38,6 +38,7 @@ const LayoutDashboard = ({ title, children }) => {
          position: "bottom-center",
       });
    };
+
    return (
       <div>
          <Head>

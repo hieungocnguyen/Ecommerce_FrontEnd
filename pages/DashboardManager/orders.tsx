@@ -265,7 +265,7 @@ const Orders = () => {
                         IDOpenOrderPrintModel > -1 ? "flex" : "hidden"
                      }`}
                   >
-                     <div className="w-1/3  h-fit">
+                     <div className="w-1/2  h-fit">
                         <OrderPrint
                            setIDOpenOrderPrintModel={setIDOpenOrderPrintModel}
                            IDOpenOrderPrintModel={IDOpenOrderPrintModel}

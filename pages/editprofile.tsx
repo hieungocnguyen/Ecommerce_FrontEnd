@@ -58,25 +58,26 @@ const EditProfile = () => {
 
    const submitHandler = async ({ firstName, lastName, phone, address }) => {
       setLoading(true);
-      const formData = new FormData();
-      if (importImage) {
-         const resUploadCloudinary = await API.post(
-            endpoints["upload_cloudinary"],
-            { file: selectedImage },
-            {
-               headers: {
-                  "Content-Type": "multipart/form-data",
-               },
-            }
-         );
-         formData.append("avatar", resUploadCloudinary.data.data);
-      }
-
-      formData.append("firstName", firstName);
-      formData.append("lastName", lastName);
-      formData.append("address", address);
-      formData.append("phone", phone);
       try {
+         const formData = new FormData();
+         if (importImage) {
+            const resUploadCloudinary = await API.post(
+               endpoints["upload_cloudinary"],
+               { file: selectedImage },
+               {
+                  headers: {
+                     "Content-Type": "multipart/form-data",
+                  },
+               }
+            );
+            formData.append("avatar", resUploadCloudinary.data.data);
+         }
+
+         formData.append("firstName", firstName);
+         formData.append("lastName", lastName);
+         formData.append("address", address);
+         formData.append("phone", phone);
+
          //update info user
          const resRegister = await authAxios().put(
             endpoints["user"](userInfo.id),
