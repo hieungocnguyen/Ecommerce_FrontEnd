@@ -1,6 +1,6 @@
 # OpenMarket - E-Commerce Project
 
-This is a granduate project at Ho Chi Minh City Open University
+A granduate project at Ho Chi Minh City Open University
 
 ## Features
 
