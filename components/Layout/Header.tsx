@@ -139,7 +139,7 @@ const Header = () => {
          setReplacePart(
             <div>
                <Link href="/signin">
-                  <button className="py-2 px-3 bg-[#525EC1] text-light-bg rounded-lg mr-4 text-sm font-semibold hover:opacity-75">
+                  <button className="py-2 px-3 bg-[#525EC1] text-light-bg rounded-lg mr-4 text-sm font-semibold hover:shadow-md hover:shadow-blue-main">
                      Sign in
                   </button>
                </Link>

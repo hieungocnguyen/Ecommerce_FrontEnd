@@ -143,7 +143,7 @@ const AgencyPage = ({ agencyInfo }) => {
       if (id) {
          fetchAgency();
       }
-   }, [id, agency]);
+   }, [id]);
 
    const databyYear = {
       labels: lablesRespondRevenueByYear,

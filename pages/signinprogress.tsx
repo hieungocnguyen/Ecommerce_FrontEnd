@@ -12,8 +12,8 @@ const SignGG = () => {
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
 
-   useEffect(() => {
-      const loadCurrentUser = async () => {
+   const loadCurrentUser = async () => {
+      try {
          const resUser = await axios.get(
             "http://localhost:8080/ou-ecommerce/api/user/current-user",
             {
@@ -28,17 +28,22 @@ const SignGG = () => {
          if (resUser) {
             router.push("/");
             toast.success("Sign in successful!, in progress", {
-               position: "bottom-center",
+               position: "top-center",
             });
          }
-      };
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
       if (jwt) {
          loadCurrentUser();
       }
       if (msg) {
          router.push("/signin");
          toast.error(`${msg}`, {
-            position: "bottom-center",
+            position: "top-center",
          });
       }
    }, [dispatch, jwt, msg, router]);

@@ -16,8 +16,8 @@ const Changepassword = () => {
       e.preventDefault();
       try {
          if (password[0] !== password[1]) {
-            toast.error("Password dont match, check again!", {
-               position: "bottom-center",
+            toast.error("Password dont match! Please check again", {
+               position: "top-center",
             });
          } else {
             const resPw = await authAxios().patch(
@@ -27,10 +27,10 @@ const Changepassword = () => {
                   rePassword: password[1],
                }
             );
-            toast.success("Change passwork successful", {
-               position: "bottom-center",
+            toast.success("Change password successful", {
+               position: "top-center",
             });
-            router.push("/");
+            router.push("/profile");
          }
       } catch (error) {
          console.log(error);

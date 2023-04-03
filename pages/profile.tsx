@@ -24,13 +24,17 @@ const Profile = () => {
    const [authProvider, setAuthProvider] = useState(0);
    const router = useRouter();
 
-   useEffect(() => {
-      const loadUser = async () => {
+   const loadUser = async () => {
+      try {
          const resUser = await API.get(endpoints["user"](userInfo.id));
          setUser(resUser.data.data);
          setAuthProvider(resUser.data.data.authProvider.id);
-      };
-      const loadInfoAgency = async () => {
+      } catch (error) {
+         console.log(error);
+      }
+   };
+   const loadInfoAgency = async () => {
+      try {
          const resAllAgency = await API.get(endpoints["all_agency"]);
          resAllAgency.data.data.map((i) => {
             if (userInfo.username === i.manager.username) {
@@ -39,7 +43,12 @@ const Profile = () => {
                }
             }
          });
-      };
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
       if (userInfo) {
          loadUser();
          loadInfoAgency();

@@ -12,6 +12,7 @@ import Image from "next/image";
 import { BiArrowBack, BiCloudUpload, BiPencil } from "react-icons/bi";
 import Loader from "../components/Loader";
 import AddressSelect from "../components/Model/AddressSelect";
+import ConfirmModel from "../components/Model/ConfirmModel";
 
 const EditProfile = () => {
    const { state, dispatch } = useContext(Store);
@@ -30,6 +31,8 @@ const EditProfile = () => {
    const [loading, setLoading] = useState(false);
    const [address, setAddress] = useState();
    const [isOpenAddressSelect, setIsOpenAddressSelect] = useState(false);
+   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+   const [isChange, setIsChange] = useState(false);
 
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
@@ -47,9 +50,9 @@ const EditProfile = () => {
       if (userInfo) {
          loadUser();
       }
-      setValue("firstName", userInfo.firstName);
-      setValue("lastName", userInfo.lastName);
-      setValue("phone", userInfo.phone);
+      setValue("firstName", userInfo.firstName ? userInfo.firstName : "");
+      setValue("lastName", userInfo.lastName ? userInfo.lastName : "");
+      setValue("phone", userInfo.phone ? userInfo.phone : "");
    }, [userInfo]);
 
    useEffect(() => {
@@ -73,10 +76,10 @@ const EditProfile = () => {
             formData.append("avatar", resUploadCloudinary.data.data);
          }
 
-         formData.append("firstName", firstName);
-         formData.append("lastName", lastName);
+         formData.append("firstName", firstName ? firstName : "");
+         formData.append("lastName", lastName ? lastName : "");
          formData.append("address", address);
-         formData.append("phone", phone);
+         formData.append("phone", phone ? phone : "");
 
          //update info user
          const resRegister = await authAxios().put(
@@ -115,10 +118,17 @@ const EditProfile = () => {
          <div className="flex gap-4 items-center m-6">
             <div
                className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all"
-               onClick={() => router.push("/profile")}
+               onClick={() => {
+                  if (isChange) {
+                     setIsOpenConfirm(true);
+                  } else {
+                     router.push("/profile");
+                  }
+               }}
             >
                <BiArrowBack />
             </div>
+
             <div className="font-semibold text-2xl">/ Edit profile</div>
          </div>
          <form
@@ -148,7 +158,10 @@ const EditProfile = () => {
                      name="photo"
                      id="upload-photo"
                      className="hidden"
-                     onChange={imageChange}
+                     onChange={(e) => {
+                        setIsChange(true);
+                        imageChange(e);
+                     }}
                   />
                </label>
             </div>
@@ -163,6 +176,9 @@ const EditProfile = () => {
                         placeholder="FirstName"
                         className="p-4 rounded-lg w-full"
                         {...register("firstName")}
+                        onChange={() => {
+                           setIsChange(true);
+                        }}
                      />
                   </div>
                   <div className="col-span-6">
@@ -175,6 +191,9 @@ const EditProfile = () => {
                         placeholder="Lastname"
                         className="p-4 rounded-lg w-full"
                         {...register("lastName")}
+                        onChange={() => {
+                           setIsChange(true);
+                        }}
                      />
                   </div>
                   <div className="col-span-12">
@@ -187,6 +206,9 @@ const EditProfile = () => {
                         placeholder="Phone"
                         className="p-4 rounded-lg w-full"
                         {...register("phone")}
+                        onChange={() => {
+                           setIsChange(true);
+                        }}
                      />
                   </div>
                   <div className="col-span-12">
@@ -201,6 +223,9 @@ const EditProfile = () => {
                               placeholder="Address"
                               className="col-span-11 p-4 rounded-lg w-full"
                               {...register("address")}
+                              onChange={() => {
+                                 setIsChange(true);
+                              }}
                            />
                            <button
                               className="col-span-1 border-2 border-blue-main rounded-lg text-2xl text-blue-main flex justify-center items-center hover:bg-blue-main hover:text-white"
@@ -236,6 +261,20 @@ const EditProfile = () => {
             </div>
          </div>
          {loading ? <Loader /> : <></>}
+         <div
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+               isOpenConfirm ? "flex" : "hidden"
+            }`}
+         >
+            <div className="w-1/3  h-fit">
+               <ConfirmModel
+                  functionConfirm={() => router.push("/profile")}
+                  content={"Your changes will not be save!"}
+                  isOpenConfirm={isOpenConfirm}
+                  setIsOpenConfirm={setIsOpenConfirm}
+               />
+            </div>
+         </div>
          <Toaster />
       </Layout>
    );

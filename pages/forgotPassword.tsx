@@ -12,13 +12,10 @@ const ForgotPassword = () => {
    const [hasSent, setHasSent] = useState(false);
    const [loading, setLoading] = useState(false);
    const router = useRouter();
-   const handleChangeEmail = (e) => {
-      setEmail(e.target.value);
-   };
-   const handleChangeCode = (e) => {
-      setCode(e.target.value);
-   };
-   const handleSendMail = async () => {
+
+   const handleSendMail = async (e) => {
+      e.preventDefault();
+
       setLoading(true);
       if (email) {
          try {
@@ -35,12 +32,12 @@ const ForgotPassword = () => {
             } else {
                setLoading(false);
                toast.error(resReset.data.message, {
-                  position: "bottom-center",
+                  position: "top-center",
                });
             }
          } catch (error) {
             toast.error(error.response.data.data, {
-               position: "bottom-center",
+               position: "top-center",
             });
          }
       } else {
@@ -96,46 +93,46 @@ const ForgotPassword = () => {
                         type="text"
                         className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg ml-6 "
                         id="code"
-                        onChange={handleChangeCode}
+                        onChange={(e) => setCode(e.target.value)}
                         value={code}
                      />
                   </div>
-                  <div className="">
-                     <button
-                        onClick={() => setHasSent(!hasSent)}
-                        className="p-3 bg-blue-main hover:bg-opacity-80 text-white rounded-lg font-semibold mr-4"
-                     >
-                        Send other mail
-                     </button>
+                  <div className="flex flex-col items-center justify-center">
                      <button
                         onClick={handleConfirm}
-                        className="p-3 bg-blue-main hover:bg-opacity-80 text-white rounded-lg font-semibold"
+                        className="p-3 bg-blue-main hover:bg-opacity-80 text-white rounded-lg font-semibold w-fit mb-4"
                      >
-                        Confirm
+                        Confirm this code
+                     </button>
+                     <button
+                        onClick={() => setHasSent(!hasSent)}
+                        className="hover:bg-opacity-80 text-blue-main rounded-lg font-semibold"
+                     >
+                        Send code to other mail
                      </button>
                   </div>
                </div>
             ) : (
-               <div>
+               <form onSubmit={handleSendMail}>
                   <div className="my-10">
                      <label htmlFor="email" className="font-semibold">
                         Email
                      </label>
                      <input
                         type="email"
-                        className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg ml-6"
+                        className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg ml-6 font-medium"
                         id="email"
                         defaultValue={email}
-                        onChange={handleChangeEmail}
+                        onChange={(e) => setEmail(e.target.value)}
                      />
                   </div>
                   <button
-                     onClick={handleSendMail}
+                     type="submit"
                      className="p-3 bg-blue-main hover:bg-opacity-80 text-white rounded-lg font-semibold"
                   >
                      Send to this mail
                   </button>
-               </div>
+               </form>
             )}
          </div>
          {loading ? <Loader /> : <></>}

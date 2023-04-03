@@ -27,6 +27,7 @@ const Register = () => {
    const [selectedImage, setSelectedImage] = useState();
    const router = useRouter();
    const [loading, setLoading] = useState(false);
+   const [importImage, setImportImage] = useState(false);
 
    const fetchProvinceAll = async () => {
       const res = await API.get(
@@ -60,8 +61,14 @@ const Register = () => {
    }, []);
 
    const imageChange = (e) => {
-      setSelectedImage(e.target.files[0]);
+      if (e.target.files[0] === undefined) {
+         setImportImage(false);
+      } else {
+         setSelectedImage(e.target.files[0]);
+         setImportImage(true);
+      }
    };
+
    const submitHandler = async ({
       username,
       email,
@@ -86,12 +93,14 @@ const Register = () => {
 
       try {
          setLoading(true);
-         let address = "";
+
          const resGetLocation = await API.get(
             endpoints["get_full_address"](wardID)
          );
-         address = resGetLocation.data.data;
-         if (selectedImage) {
+
+         let address = resGetLocation.data.data;
+
+         if (importImage) {
             const resUploadCloudinary = await API.post(
                endpoints["upload_cloudinary"],
                { file: selectedImage },
@@ -203,7 +212,7 @@ const Register = () => {
                   </label>
                </div>
             </div>
-            <div className="col-span-9">
+            <div className="col-span-9 font-semibold">
                <div className="text-left">
                   <div className="grid grid-cols-12 gap-4">
                      <div className="col-span-12">

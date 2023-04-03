@@ -107,8 +107,8 @@ const Signin = () => {
                   Sign in with Mallity
                </button>
                <Link href="/forgotPassword">
-                  <div className="text-blue-main cursor-pointer mb-10">
-                     Forgt password?
+                  <div className="text-blue-main cursor-pointer mb-10 font-semibold">
+                     Forgot password?
                   </div>
                </Link>
             </form>
@@ -127,7 +127,7 @@ const Signin = () => {
             <div className="my-4">
                Don&apos;t have an account?{" "}
                <Link href={`/register`}>
-                  <span className="text-blue-main cursor-pointer">
+                  <span className="text-blue-main cursor-pointer font-semibold">
                      Register
                   </span>
                </Link>
