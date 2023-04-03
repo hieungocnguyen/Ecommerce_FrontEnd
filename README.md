@@ -14,7 +14,8 @@ A granduate project at Ho Chi Minh City Open University
 
 ### User Infor
 
--  ...
+-  View detail of user
+-  Change informaton
 
 ## Run Locally
 
