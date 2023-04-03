@@ -7,24 +7,24 @@ import Layout from "../components/Layout/Layout";
 import Loader from "../components/Loader";
 
 const ForgotPassword = () => {
-   const [email, setEmail] = useState("");
-   const [code, setCode] = useState("");
-   const [hasSent, setHasSent] = useState(false);
-   const [loading, setLoading] = useState(false);
+   const [email, setEmail] = useState<string>("");
+   const [code, setCode] = useState<string>("");
+   const [hasSent, setHasSent] = useState<boolean>(false);
+   const [loading, setLoading] = useState<boolean>(false);
    const router = useRouter();
 
    const handleSendMail = async (e) => {
       e.preventDefault();
-
       setLoading(true);
       if (email) {
          try {
             const resReset = await API.post(endpoints["reset_password"], {
                email: email,
             });
-            if (resReset.data.code == 200) {
+
+            if (resReset.data.code === "200") {
                toast.success("Check confirm code in your email", {
-                  position: "bottom-center",
+                  position: "top-center",
                });
                setLoading(false);
                setHasSent(true);
@@ -34,15 +34,18 @@ const ForgotPassword = () => {
                toast.error(resReset.data.message, {
                   position: "top-center",
                });
+               console.log("catch fail");
             }
          } catch (error) {
-            toast.error(error.response.data.data, {
+            console.log(error);
+            setLoading(false);
+            toast.error(error.response.data.data.email, {
                position: "top-center",
             });
          }
       } else {
          toast.error("Email empty!", {
-            position: "bottom-center",
+            position: "top-center",
          });
          setLoading(false);
       }
@@ -56,18 +59,18 @@ const ForgotPassword = () => {
             });
             if (resReset) {
                toast.success("Reset password successfully", {
-                  position: "bottom-center",
+                  position: "top-center",
                });
                router.push("/signin");
             }
          } catch (error) {
             toast.error(error.response.data.data, {
-               position: "bottom-center",
+               position: "top-center",
             });
          }
       } else {
          toast.error("Code empty!", {
-            position: "bottom-center",
+            position: "top-center",
          });
       }
    };

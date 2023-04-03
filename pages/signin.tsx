@@ -45,6 +45,7 @@ const Signin = () => {
 
          Cookies.set("userInfo", JSON.stringify(dataCurrentUser.data.data));
          dispatch({ type: "USER_LOGIN", payload: dataCurrentUser.data.data });
+
          if (dataCurrentUser.data) {
             setLoading(false);
             router.push("/");
@@ -54,9 +55,17 @@ const Signin = () => {
             });
          }
       } catch (error) {
+         console.log(error);
          setLoading(false);
-         if (error.response.data.status === 401) {
-            toast.error("Username or password incorrect, try again !", {
+         if (
+            error.response.data.code === "401" ||
+            error.response.data.code === "400"
+         ) {
+            toast.error("Username or password incorrect!", {
+               position: "top-center",
+            });
+         } else {
+            toast.error(error.response.data.message, {
                position: "top-center",
             });
          }
