@@ -20,6 +20,8 @@ A granduate project at Ho Chi Minh City Open University
 
 ## Run Locally
 
+Must run [back-end](https://github.com/thuvan2512/ecommerce-springboot) first
+
 Clone the project
 
 ```bash
