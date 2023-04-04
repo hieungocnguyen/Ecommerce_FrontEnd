@@ -12,7 +12,7 @@ A granduate project at Ho Chi Minh City Open University
 -  Sign in with Facebook account
 -  Reset Password
 
-### User Infor
+### User infor and features
 
 -  View detail of user
 -  Change informaton

@@ -46,11 +46,16 @@ const Signin = () => {
          Cookies.set("userInfo", JSON.stringify(dataCurrentUser.data.data));
          dispatch({ type: "USER_LOGIN", payload: dataCurrentUser.data.data });
 
-         if (dataCurrentUser.data) {
+         if (dataCurrentUser.data.code === "200") {
             setLoading(false);
             router.push("/");
             // router.back();
             toast.success(`Sign in successful!`, {
+               position: "top-center",
+            });
+         } else {
+            setLoading(false);
+            toast.error(`Something wrong, please check again.`, {
                position: "top-center",
             });
          }
@@ -109,26 +114,39 @@ const Signin = () => {
                      id="password"
                      {...register("password")}
                      className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary"
+                     autoComplete="on"
                      required
                   />
                </div>
-               <button className="bg-blue-main py-3 px-5 my-4 cursor-pointer hover:opacity-80 rounded-lg font-semibold text-white ">
+               <button
+                  className="bg-blue-main py-3 px-5 my-4 cursor-pointer hover:opacity-80 rounded-lg font-semibold text-white "
+                  title="Sign in"
+               >
                   Sign in with Mallity
                </button>
                <Link href="/forgotPassword">
-                  <div className="text-blue-main cursor-pointer mb-10 font-semibold">
+                  <div
+                     className="text-blue-main cursor-pointer mb-10 font-semibold"
+                     title="Reset password"
+                  >
                      Forgot password?
                   </div>
                </Link>
             </form>
             <div className="flex flex-col max-w-sm mx-auto">
                <Link href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/ou-ecommerce/login-google&response_type=code&client_id=405256729803-ldem34qntvtuhmtenig599itet2489ga.apps.googleusercontent.com&approval_prompt=force">
-                  <button className="p-2 bg-[#EA4335] rounded-lg hover:opacity-80 mb-4 font-semibold text-white">
+                  <button
+                     className="p-2 bg-[#EA4335] rounded-lg hover:opacity-80 mb-4 font-semibold text-white"
+                     title="Google account"
+                  >
                      Sign in with Google
                   </button>
                </Link>
                <Link href="https://www.facebook.com/dialog/oauth?scope=email&client_id=555265043013184&redirect_uri=http://localhost:8080/ou-ecommerce/login-facebook">
-                  <button className="p-2 bg-[#1877f2] rounded-lg hover:opacity-80 mb-4 font-semibold text-white">
+                  <button
+                     className="p-2 bg-[#1877f2] rounded-lg hover:opacity-80 mb-4 font-semibold text-white"
+                     title="Facebook account"
+                  >
                      Sign in with Facebook
                   </button>
                </Link>

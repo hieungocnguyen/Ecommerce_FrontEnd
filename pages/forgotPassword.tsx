@@ -57,11 +57,15 @@ const ForgotPassword = () => {
                code: code,
                email: email,
             });
-            if (resReset) {
+            if (resReset.data.code === "200") {
                toast.success("Reset password successfully", {
                   position: "top-center",
                });
                router.push("/signin");
+            } else {
+               toast.error(resReset.data.message, {
+                  position: "top-center",
+               });
             }
          } catch (error) {
             toast.error(error.response.data.data, {
