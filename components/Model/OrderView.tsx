@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import API, { endpoints } from "../../API";
+import { ClipLoader } from "react-spinners";
 
 const OrderView = ({
    orderInfo,
@@ -13,8 +14,14 @@ const OrderView = ({
    const [detailOrders, setDetailOrders] = useState<any>();
 
    const fetchDetailOrder = async () => {
-      const res = await API.get(endpoints["get_order_detail"](orderAgencyID));
-      setDetailOrders(res.data.data);
+      try {
+         const res = await API.get(
+            endpoints["get_order_detail"](orderAgencyID)
+         );
+         setDetailOrders(res.data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {
@@ -77,7 +84,11 @@ const OrderView = ({
                </div>
             </>
          ) : (
-            <>0</>
+            <div>
+               <div className="flex justify-center my-8">
+                  <ClipLoader size={35} color="#FF8500" />
+               </div>
+            </div>
          )}
          {/* <div className="grid grid-cols-12 gap-6">
             <div className="col-span-6 text-left h-fit">

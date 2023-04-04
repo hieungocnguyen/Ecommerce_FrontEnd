@@ -130,7 +130,11 @@ const Profile = () => {
                   </div>
                   <div className="flex items-center gap-4">
                      <BiMap className="text-2xl" />
-                     <div className="text-lg font-medium">
+                     <div
+                        className={`text-lg font-medium ${
+                           user.address ? "" : "text-orange-500"
+                        }`}
+                     >
                         {user.address ? user.address : "Undeclare address"}
                      </div>
                   </div>
@@ -144,20 +148,17 @@ const Profile = () => {
                               application
                            </div>
                         ) : (
-                           <>
-                              <div className="text-blue-main font-semibold text-lg mb-2">
-                                 Do you want become an agency?
-                              </div>
+                           <div>
                               <Link href="/registerAgency">
                                  <button
                                     title="Register Agency"
                                     type="button"
                                     className="rounded-xl px-4 py-3 bg-blue-main text-white font-semibold hover:shadow-lg hover:shadow-blue-main"
                                  >
-                                    Register here
+                                    Register to become an agency
                                  </button>
                               </Link>
-                           </>
+                           </div>
                         )
                      ) : (
                         <div className="flex items-center justify-center">

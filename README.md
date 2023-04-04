@@ -16,7 +16,7 @@ A granduate project at Ho Chi Minh City Open University
 
 -  View detail of user
 -  Change informaton
--  ...
+-  Wishlist
 
 ## Run Locally
 

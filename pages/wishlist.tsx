@@ -17,8 +17,12 @@ const Wishlist = () => {
    const [wishList, setWishList] = useState([]);
 
    const loadWishList = async () => {
-      const resList = await API.get(endpoints["wishlist"](userInfo.id));
-      setWishList(resList.data.data);
+      try {
+         const resList = await API.get(endpoints["wishlist"](userInfo.id));
+         setWishList(resList.data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {
@@ -30,13 +34,17 @@ const Wishlist = () => {
    }, [router, userInfo]);
 
    const handleDeletePost = async (id) => {
-      const resDeldete = await authAxios().get(endpoints["like_post"](id));
-      if (resDeldete) {
-         toast.success("Unlike successful", {
-            position: "bottom-center",
-         });
+      try {
+         const resDeldete = await authAxios().get(endpoints["like_post"](id));
+         if (resDeldete) {
+            toast.success("Unlike successful", {
+               position: "bottom-center",
+            });
+         }
+         loadWishList();
+      } catch (error) {
+         console.log(error);
       }
-      loadWishList();
    };
    return (
       <Layout title="Wishlist">

@@ -59,6 +59,9 @@ const EditProfile = () => {
       if (userInfo) {
          setValue("address", address ? address : userInfo.address);
       }
+      if (address) {
+         setIsChange(true);
+      }
    }, [address]);
 
    const submitHandler = async ({ firstName, lastName, phone, address }) => {
@@ -223,7 +226,8 @@ const EditProfile = () => {
                               name="address"
                               id="address"
                               placeholder="Address"
-                              className="col-span-11 p-4 rounded-lg w-full"
+                              disabled
+                              className="col-span-11 p-4 rounded-lg w-full "
                               {...register("address")}
                               onChange={() => {
                                  setIsChange(true);
@@ -259,6 +263,7 @@ const EditProfile = () => {
                <AddressSelect
                   setAddress={setAddress}
                   setIsOpenAddressSelect={setIsOpenAddressSelect}
+                  isOpenAddressSelect={isOpenAddressSelect}
                />
             </div>
          </div>

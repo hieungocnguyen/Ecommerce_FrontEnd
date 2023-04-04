@@ -58,6 +58,8 @@ const Changepassword = () => {
                <input
                   type="password"
                   id="newPassword"
+                  autoComplete="on"
+                  required
                   className="p-4 rounded-lg w-full bg-light-primary dark:bg-dark-primary"
                   onChange={(e) => {
                      setPassword([e.target.value, password[1]]);
@@ -70,7 +72,9 @@ const Changepassword = () => {
                </label>
                <input
                   type="password"
+                  required
                   id="ConfirmNewPassword"
+                  autoComplete="on"
                   className="p-4 rounded-lg w-full bg-light-primary dark:bg-dark-primary"
                   onChange={(e) => {
                      setPassword([password[0], e.target.value]);

@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import API, { authAxios, endpoints } from "../../API";
 import Layout from "../../components/Layout/Layout";
 import Cookies from "js-cookie";
@@ -14,8 +14,11 @@ import { BiStore } from "react-icons/bi";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import ItemsInPost from "../../components/Model/ItemsInPost";
+// import ItemsInPost from "../../components/Model/ItemsInPost";
 import Loader from "../../components/Loader";
+import dynamic from "next/dynamic";
+
+const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
 
 const ProductPage = ({ salePost }) => {
    const { state, dispatch } = useContext(Store);
@@ -70,39 +73,41 @@ const ProductPage = ({ salePost }) => {
       <Layout title="Detail">
          <div className="grid lg:grid-cols-12 grid-cols-1 gap-8 my-8 mx-16 ">
             {/* left part */}
-            <div className="lg:col-span-5 col-span-1">
-               <div className="overflow-hidden aspect-square relative ">
-                  <Image
-                     src={mainPic}
-                     alt="tai nghe"
-                     className="object-cover rounded-lg"
-                     layout="fill"
-                  />
+            <Suspense fallback={<p>Loading image...</p>}>
+               <div className="lg:col-span-5 col-span-1">
+                  <div className="overflow-hidden aspect-square relative ">
+                     <Image
+                        src={mainPic}
+                        alt="tai nghe"
+                        className="object-cover rounded-lg"
+                        layout="fill"
+                     />
+                  </div>
+                  <Swiper
+                     slidesPerView={4}
+                     spaceBetween={20}
+                     className="mySwiper rounded-lg overflow-hidden mt-4 w-3/4"
+                  >
+                     {salePost.picturePostSet.map((pic) => (
+                        <SwiperSlide key={pic.id}>
+                           <div
+                              className="overflow-hidden aspect-square relative cursor-pointer"
+                              onClick={(e) => {
+                                 setMainPic(pic.image);
+                              }}
+                           >
+                              <Image
+                                 src={pic.image}
+                                 alt="img"
+                                 className="object-cover rounded-lg"
+                                 layout="fill"
+                              />
+                           </div>
+                        </SwiperSlide>
+                     ))}
+                  </Swiper>
                </div>
-               <Swiper
-                  slidesPerView={4}
-                  spaceBetween={20}
-                  className="mySwiper rounded-lg overflow-hidden mt-4 w-3/4"
-               >
-                  {salePost.picturePostSet.map((pic) => (
-                     <SwiperSlide key={pic.id}>
-                        <div
-                           className="overflow-hidden aspect-square relative cursor-pointer"
-                           onClick={(e) => {
-                              setMainPic(pic.image);
-                           }}
-                        >
-                           <Image
-                              src={pic.image}
-                              alt="img"
-                              className="object-cover rounded-lg"
-                              layout="fill"
-                           />
-                        </div>
-                     </SwiperSlide>
-                  ))}
-               </Swiper>
-            </div>
+            </Suspense>
             {/* right part */}
             <div className="lg:col-span-7 col-span-1">
                <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8 text-left">
@@ -223,39 +228,41 @@ const ProductPage = ({ salePost }) => {
                   setStarAvg={setStarAvg}
                   setCommentCount={setCommentCount}
                />
-               {comments
-                  .sort((a, b) => (a.id < b.id ? 1 : -1))
-                  .map((c) => (
-                     <div key={c.id} className="flex mb-8 ml-20">
-                        <div className="overflow-hidden relative h-16 w-16 ">
-                           <Image
-                              src={c.author.avatar}
-                              alt="avatar"
-                              layout="fill"
-                              className="rounded-full object-cover "
-                           />
-                        </div>
-                        <div className="flex flex-col items-start ml-6">
-                           <div className="font-semibold text-blue-main">
-                              {c.author.lastName} {c.author.firstName}
+               <Suspense fallback={<p>Loading...</p>}>
+                  {comments
+                     .sort((a, b) => (a.id < b.id ? 1 : -1))
+                     .map((c) => (
+                        <div key={c.id} className="flex mb-8 ml-20">
+                           <div className="overflow-hidden relative h-16 w-16 ">
+                              <Image
+                                 src={c.author.avatar}
+                                 alt="avatar"
+                                 layout="fill"
+                                 className="rounded-full object-cover "
+                              />
                            </div>
+                           <div className="flex flex-col items-start ml-6">
+                              <div className="font-semibold text-blue-main">
+                                 {c.author.lastName} {c.author.firstName}
+                              </div>
 
-                           <div>{c.content}</div>
-                           <Rating
-                              sx={{
-                                 "& .MuiRating-iconFilled": {
-                                    color: "#525EC1",
-                                 },
-                                 "& .MuiRating-iconEmpty": {
-                                    color: "#656b99",
-                                 },
-                              }}
-                              value={c.starRate}
-                              readOnly
-                           />
+                              <div>{c.content}</div>
+                              <Rating
+                                 sx={{
+                                    "& .MuiRating-iconFilled": {
+                                       color: "#525EC1",
+                                    },
+                                    "& .MuiRating-iconEmpty": {
+                                       color: "#656b99",
+                                    },
+                                 }}
+                                 value={c.starRate}
+                                 readOnly
+                              />
+                           </div>
                         </div>
-                     </div>
-                  ))}
+                     ))}
+               </Suspense>
             </div>
          </div>
          {loading ? <Loader /> : <></>}
@@ -360,7 +367,7 @@ const CommentForm = ({
 };
 
 export default ProductPage;
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
    // request salepost detail
    const id = context.params.id;
    const resSalePost = await axios.get(
@@ -371,22 +378,22 @@ export const getStaticProps = async (context) => {
    return { props: { salePost } };
 };
 
-export async function getStaticPaths() {
-   if (process.env.SKIP_BUILD_STATIC_GENERATION) {
-      return {
-         paths: [],
-         fallback: "blocking",
-      };
-   }
-   const res = await axios.get(
-      "http://localhost:8080/ou-ecommerce/api/sale-post/all"
-   );
-   const salePosts = await res.data.data;
-   const paths = salePosts.map((salePost) => ({
-      params: { id: salePost.id.toString() },
-   }));
-   return {
-      paths,
-      fallback: false, // can also be true or 'blocking'
-   };
-}
+// export async function getStaticPaths() {
+//    if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+//       return {
+//          paths: [],
+//          fallback: "blocking",
+//       };
+//    }
+//    const res = await axios.get(
+//       "http://localhost:8080/ou-ecommerce/api/sale-post/all"
+//    );
+//    const salePosts = await res.data.data;
+//    const paths = salePosts.map((salePost) => ({
+//       params: { id: salePost.id.toString() },
+//    }));
+//    return {
+//       paths,
+//       fallback: false, // can also be true or 'blocking'
+//    };
+// }

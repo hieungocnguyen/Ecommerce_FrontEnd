@@ -1,11 +1,19 @@
 import dynamic from "next/dynamic";
-import { useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BiShowAlt } from "react-icons/bi";
 import API, { endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import OrderView from "../components/Model/OrderView";
 import { Store } from "../utils/Store";
+import { ClipLoader } from "react-spinners";
+import stateorder1 from "../public/stateorder1.png";
+import stateorder2 from "../public/stateorder2.png";
+import stateorder3 from "../public/stateorder3.png";
+import stateorder4 from "../public/stateorder4.png";
+import stateorder5 from "../public/stateorder5.png";
+import stateorder6 from "../public/stateorder6.png";
+import Image from "next/image";
 
 const Orders = () => {
    const { state, dispatch } = useContext(Store);
@@ -39,43 +47,77 @@ const Orders = () => {
                <div className="col-span-1">View Detail</div>
             </div>
             <div className="mb-8">
-               {orders.map((i) => (
-                  <div
-                     key={i.id}
-                     className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-spot hover:bg-light-spot font-medium"
-                  >
-                     <div className="col-span-2">
-                        {new Date(i.orders.createdDate).getHours()}
-                        {":"}
-                        {new Date(i.orders.createdDate).getMinutes()}
-                        {"  |  "}
-                        {new Date(i.orders.createdDate).toLocaleDateString(
-                           "en-US"
-                        )}
+               <Suspense
+                  fallback={
+                     <div className="flex justify-center my-8">
+                        <ClipLoader size={35} color="#FF8500" />
                      </div>
-                     <div className="col-span-2 text-right">
-                        {i.totalPrice.toLocaleString("it-IT", {
-                           style: "currency",
-                           currency: "VND",
-                        })}
+                  }
+               >
+                  {orders.map((order) => (
+                     <div
+                        key={order.id}
+                        className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-spot hover:bg-light-spot font-medium"
+                     >
+                        <div className="col-span-2">
+                           {new Date(order.orders.createdDate).getHours()}
+                           {":"}
+                           {new Date(order.orders.createdDate).getMinutes()}
+                           {"  |  "}
+                           {new Date(
+                              order.orders.createdDate
+                           ).toLocaleDateString("en-US")}
+                        </div>
+                        <div className="col-span-2 text-right text-blue-main font-medium">
+                           {order.totalPrice.toLocaleString("it-IT", {
+                              style: "currency",
+                              currency: "VND",
+                           })}
+                        </div>
+                        <div className="col-span-3">{order.agency.name}</div>
+                        <div className="col-span-4">
+                           <div
+                              className={`relative overflow-hidden h-12 ${
+                                 order.orderState.id === 6 ? "opacity-50" : ""
+                              }`}
+                           >
+                              <Image
+                                 src={
+                                    order.orderState.id === 1
+                                       ? stateorder1
+                                       : order.orderState.id === 2
+                                       ? stateorder2
+                                       : order.orderState.id === 3
+                                       ? stateorder3
+                                       : order.orderState.id === 4
+                                       ? stateorder4
+                                       : order.orderState.id === 5
+                                       ? stateorder5
+                                       : order.orderState.id === 6
+                                       ? stateorder6
+                                       : stateorder1
+                                 }
+                                 alt="state"
+                                 layout="fill"
+                                 objectFit="contain"
+                                 className=""
+                              />
+                           </div>
+                        </div>
+                        <div className="col-span-1">
+                           <button
+                              className="p-3 text-2xl bg-blue-main hover:shadow-lg hover:shadow-blue-main text-white rounded-lg"
+                              onClick={() => {
+                                 setOrderAgencyID(order.id);
+                                 setOrderInfo(order);
+                              }}
+                           >
+                              <BiShowAlt />
+                           </button>
+                        </div>
                      </div>
-                     <div className="col-span-3">
-                        {i.orders.paymentType.name}
-                     </div>
-                     <div className="col-span-4">{i.orderState.name}</div>
-                     <div className="col-span-1">
-                        <button
-                           className="p-3 text-2xl bg-blue-main hover:shadow-lg hover:shadow-blue-main text-white rounded-lg"
-                           onClick={() => {
-                              setOrderAgencyID(i.id);
-                              setOrderInfo(i);
-                           }}
-                        >
-                           <BiShowAlt />
-                        </button>
-                     </div>
-                  </div>
-               ))}
+                  ))}
+               </Suspense>
             </div>
             <div
                className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
