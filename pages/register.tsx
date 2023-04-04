@@ -100,12 +100,14 @@ const Register = () => {
 
       try {
          setLoading(true);
+         if (wardID !== 0) {
+            const resGetLocation = await API.get(
+               endpoints["get_full_address"](wardID)
+            );
 
-         const resGetLocation = await API.get(
-            endpoints["get_full_address"](wardID)
-         );
-
-         let address = resGetLocation.data.data;
+            let address = resGetLocation.data.data;
+            formData.append("address", address);
+         }
 
          if (importImage) {
             const resUploadCloudinary = await API.post(
@@ -124,7 +126,6 @@ const Register = () => {
          formData.append("rePassword", confirmPassword);
          formData.append("genderID", genderID);
          formData.append("email", email);
-         formData.append("address", address);
 
          const resRegister = await axios.post(
             "http://localhost:8080/ou-ecommerce/api/user/register",
@@ -144,6 +145,8 @@ const Register = () => {
             });
          }
       } catch (error) {
+         console.log(error);
+
          if (error.response.data.data.username) {
             toast.error(`Username:${error.response.data.data.username}`, {
                position: "top-center",
@@ -229,11 +232,12 @@ const Register = () => {
                                  htmlFor="username"
                                  className="font-semibold"
                               >
-                                 Username
+                                 Username*
                               </label>
                               <input
                                  type="text"
                                  id="username"
+                                 placeholder="Username*"
                                  required
                                  {...register("username")}
                                  className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full font-semibold"
@@ -244,11 +248,12 @@ const Register = () => {
                                  htmlFor="password"
                                  className="font-semibold"
                               >
-                                 Password
+                                 Password*
                               </label>
                               <input
                                  type="password"
                                  id="password"
+                                 placeholder="Password*"
                                  required
                                  {...register("password")}
                                  className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full"
@@ -259,11 +264,12 @@ const Register = () => {
                                  htmlFor="confirmPassword"
                                  className="font-semibold"
                               >
-                                 Confirm Password
+                                 Confirm Password*
                               </label>
                               <input
                                  type="password"
                                  id=" confirmPassword"
+                                 placeholder="Confirm Password*"
                                  required
                                  {...register("confirmPassword")}
                                  className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full "
@@ -271,26 +277,28 @@ const Register = () => {
                            </div>
                            <div className="col-span-6">
                               <label htmlFor="email" className="font-semibold">
-                                 Email
+                                 Email*
                               </label>
                               <input
                                  type="email"
                                  id=" email"
+                                 placeholder="Email*"
                                  required
                                  {...register("email")}
                                  className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full"
                               />
                            </div>
-                           <div className="col-span-6">
+                           <div className="col-span-6 mb-4">
                               <label
                                  htmlFor="genderID"
                                  className="font-semibold"
                               >
-                                 Gender
+                                 Gender*
                               </label>
                               <select
                                  name="cars"
                                  id="cars"
+                                 placeholder="Gender*"
                                  required
                                  {...register("genderID")}
                                  className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full font-semibold"

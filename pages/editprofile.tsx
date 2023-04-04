@@ -49,14 +49,16 @@ const EditProfile = () => {
       };
       if (userInfo) {
          loadUser();
+         setValue("firstName", userInfo.firstName ? userInfo.firstName : "");
+         setValue("lastName", userInfo.lastName ? userInfo.lastName : "");
+         setValue("phone", userInfo.phone ? userInfo.phone : "");
       }
-      setValue("firstName", userInfo.firstName ? userInfo.firstName : "");
-      setValue("lastName", userInfo.lastName ? userInfo.lastName : "");
-      setValue("phone", userInfo.phone ? userInfo.phone : "");
    }, [userInfo]);
 
    useEffect(() => {
-      setValue("address", address ? address : userInfo.address);
+      if (userInfo) {
+         setValue("address", address ? address : userInfo.address);
+      }
    }, [address]);
 
    const submitHandler = async ({ firstName, lastName, phone, address }) => {

@@ -160,10 +160,7 @@ const Header = () => {
 
    return (
       <div className="bg-light-primary dark:bg-dark-primary flex justify-between items-center w-[90%] mx-auto rounded-b-lg py-[10px]">
-         <div className="ml-7 flex items-center justify-center">
-            <div className="flex items-center justify-center cursor-pointer border-[3px] border-[#30373D] dark:border-light-bg w-[40px] h-[30px] rounded-lg font-bold mr-3 text-xs">
-               VI
-            </div>
+         <div className="ml-7 mr-20 flex items-center justify-center">
             <ThemeToggler />
          </div>
          <div>

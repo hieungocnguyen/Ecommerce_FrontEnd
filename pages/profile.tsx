@@ -20,8 +20,8 @@ const Profile = () => {
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
    const [user, setUser] = useState<any>({});
-   const [waitAccept, setWaitAccept] = useState(false);
-   const [authProvider, setAuthProvider] = useState(0);
+   const [waitAccept, setWaitAccept] = useState<boolean>(false);
+   const [authProvider, setAuthProvider] = useState<number>(0);
    const router = useRouter();
 
    const loadUser = async () => {
@@ -36,9 +36,9 @@ const Profile = () => {
    const loadInfoAgency = async () => {
       try {
          const resAllAgency = await API.get(endpoints["all_agency"]);
-         resAllAgency.data.data.map((i) => {
-            if (userInfo.username === i.manager.username) {
-               if (i.isCensored === 0) {
+         resAllAgency.data.data.map((agency) => {
+            if (userInfo.id === agency.manager.id) {
+               if (agency.isCensored === 0) {
                   setWaitAccept(true);
                }
             }
@@ -135,7 +135,7 @@ const Profile = () => {
                      </div>
                   </div>
                </div>
-               <div className="col-span-6 border-blue-main border-2 rounded-lg p-4 items-center ">
+               <div className="col-span-6 border-blue-main border-2 rounded-lg p-4 items-center flex justify-center ">
                   {userInfo ? (
                      userInfo.role.name === "ROLE_GENERAL" ? (
                         waitAccept ? (
@@ -160,7 +160,15 @@ const Profile = () => {
                            </>
                         )
                      ) : (
-                        <>Update later...</>
+                        <div className="flex items-center justify-center">
+                           <button
+                              title="Register Agency"
+                              type="button"
+                              className="rounded-xl px-4 py-3 bg-blue-main text-white font-semibold hover:shadow-lg hover:shadow-blue-main"
+                           >
+                              Go to Manager Page
+                           </button>
+                        </div>
                      )
                   ) : (
                      <></>
