@@ -5,7 +5,7 @@ import API, { authAxios, endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
-import { BiX } from "react-icons/bi";
+import { BiArrowBack, BiX } from "react-icons/bi";
 import toast, { Toaster } from "react-hot-toast";
 import emptyBox from "../public/empty-box.png";
 import Image from "next/image";
@@ -48,45 +48,56 @@ const Wishlist = () => {
    };
    return (
       <Layout title="Wishlist">
-         <div className="font-semibold text-2xl py-6">Your Wishlist</div>
-         <div className="grid grid-cols-7 items-center my-4 dark:bg-dark-primary bg-light-primary rounded-lg p-4 font-semibold">
-            <div className="col-span-2">Name</div>
-            <div>Price</div>
-            <div>SellStatus</div>
-            <div>Category</div>
-            <div>Brand</div>
+         <div className="flex gap-4 items-center m-6">
+            <div
+               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               onClick={() => router.back()}
+            >
+               <BiArrowBack />
+            </div>
+            <div className="font-semibold text-2xl">/ Wishlist</div>
+         </div>
+         <div className="grid grid-cols-12 dark:bg-dark-primary bg-light-primary rounded-lg font-semibold p-4 mb-2 text-left">
+            <div className="col-span-1">Avatar</div>
+            <div className="col-span-3">Name</div>
+            <div className="col-span-2">Category</div>
+            <div className="col-span-2">Price</div>
+            <div className="col-span-2">Brand</div>
+            <div className="col-span-1">SellStatus</div>
             <div></div>
          </div>
          {wishList.length > 0 ? (
             <>
                {wishList.map((w) => (
                   <div key={w.id}>
-                     <div className="grid grid-cols-7 items-center my-4 dark:bg-dark-primary bg-light-primary rounded-lg p-4">
-                        <div className="col-span-2 flex gap-4 items-center">
-                           <img
+                     <div className="grid grid-cols-12 gap-2 items-center dark:bg-dark-primary bg-light-primary rounded-lg p-4 text-left font-medium">
+                        <div className="col-span-1 flex gap-4 items-center overflow-hidden relative w-16 aspect-square">
+                           <Image
                               src={w.avatar}
                               alt=""
-                              className="w-20 h-20 rounded-full"
+                              layout="fill"
+                              className="object-cover rounded-lg"
                            />
-                           <div className="text-left">{w.title}</div>
                         </div>
-                        <div>
+                        <div className="col-span-3">{w.title}</div>
+                        <div className="col-span-2">{w.category.name}</div>
+
+                        <div className="col-span-2">
                            <div className="text-blue-main text-lg font-semibold">
                               {w.finalPrice.toLocaleString("it-IT", {
                                  style: "currency",
                                  currency: "VND",
                               })}
                            </div>
-                           <div className="line-through">
+                           <div className="line-through text-sm">
                               {w.initialPrice.toLocaleString("it-IT", {
                                  style: "currency",
                                  currency: "VND",
                               })}
                            </div>
                         </div>
-                        <div>{w.sellStatus.name}</div>
-                        <div>{w.category.name}</div>
-                        <div className="">{w.brand}</div>
+                        <div className="col-span-2">{w.brand}</div>
+                        <div className="col-span-1">{w.sellStatus.name}</div>
                         <div className="flex justify-end items-center mr-8">
                            <div
                               className="w-10 h-10 bg-red-600 text-white p-2 text-2xl rounded-lg items-center flex justify-center hover:bg-opacity-80 cursor-pointer"

@@ -16,19 +16,7 @@ const SearchBar = ({ categories }) => {
       const query = searchInput.current.value;
       router.push(`/search?input=${query}`);
    };
-
-   const handleOpenCategory = () => {
-      const container = document.getElementById("container-category");
-      if (isOpen) {
-         container.classList.remove("grid");
-         container.classList.add("hidden");
-      } else {
-         container.classList.remove("hidden");
-         container.classList.add("grid");
-      }
-
-      setIsOpen(!isOpen);
-   };
+   useEffect(() => {}, []);
    return (
       <div>
          <form
@@ -36,8 +24,8 @@ const SearchBar = ({ categories }) => {
             className="flex justify-center gap-4 my-6"
          >
             <button
-               className="px-4 py-3 bg-blue-main rounded-lg text-white flex items-center gap-2 h-fit"
-               // onClick={handleOpenCategory}
+               className="px-4 py-3 bg-blue-main rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-blue-main"
+               onClick={() => setIsOpen(!isOpen)}
                type="button"
             >
                <BiListUl className="text-2xl" />
@@ -65,34 +53,31 @@ const SearchBar = ({ categories }) => {
             </div>
             <button
                type="submit"
-               className="px-4 py-3 bg-blue-main rounded-lg text-white flex items-center gap-2 h-fit"
+               className="px-4 py-3 bg-blue-main rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-blue-main"
             >
                <BiSearch className="text-2xl" />
                <div className="font-semibold">Search</div>
             </button>
          </form>
-         {/* <div
-               className="hidden grid-cols-5 gap-8 absolute z-10 top-[128px] dark:bg-dark-primary bg-light-primary rounded-lg p-8 w-[90%] transition-all "
-               id="container-category"
-            >
-               <Link href={`/category/all`}>
-                  <div className="bg-blue-main rounded-lg h-10 hover:opacity-80 cursor-pointer flex items-center justify-center">
-                     <a className="font-semibold text-sm text-white">All</a>
+         <div
+            className={`grid grid-cols-5 gap-8 absolute z-10 top-[160px] dark:bg-dark-primary bg-light-primary rounded-lg p-8 w-[90%] transition-all ease-out duration-200 ${
+               isOpen ? "scale-100" : "scale-0 -translate-y-40 -translate-x-80"
+            }`}
+            id="container-category"
+         >
+            <Link href={`/category/all`}>
+               <div className="bg-primary-color rounded-lg h-10 hover:opacity-80 cursor-pointer flex items-center justify-center">
+                  <a className="font-semibold text-sm text-white">All</a>
+               </div>
+            </Link>
+            {categories.map((i) => (
+               <Link href={`/category/${i.id}`} key={i.id}>
+                  <div className="bg-blue-main text-white font-semibold text-sm rounded-lg h-10 flex items-center justify-center hover:opacity-80 cursor-pointer">
+                     {i.name}
                   </div>
                </Link>
-               {categories.map((i) => (
-                  <Link href={`/category/${i.id}`} key={i.id}>
-                     <div
-                        className="bg-blue-main rounded-lg h-10 flex items-center  justify-center hover:opacity-80 cursor-pointer"
-                        onClick={handleOpenCategory}
-                     >
-                        <a className="font-semibold text-sm text-white">
-                           {i.name}
-                        </a>
-                     </div>
-                  </Link>
-               ))}
-            </div> */}
+            ))}
+         </div>
       </div>
    );
 };

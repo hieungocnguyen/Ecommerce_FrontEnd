@@ -42,7 +42,7 @@ const OrderView = ({
    }, [wrapperRef, orderAgencyID]);
    return (
       <div
-         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 w-full h-full relative shadow-lg shadow-blue-main"
+         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 w-full h-full relative shadow-lg"
          ref={wrapperRef}
       >
          {detailOrders ? (

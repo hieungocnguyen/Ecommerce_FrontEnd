@@ -15,6 +15,7 @@ module.exports = {
          "res.cloudinary.com",
          "t4.ftcdn.net",
          "lh3.googleusercontent.com",
+         "img.freepik.com",
       ],
    },
 };

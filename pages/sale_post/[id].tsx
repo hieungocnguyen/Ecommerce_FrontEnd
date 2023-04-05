@@ -115,7 +115,7 @@ const ProductPage = ({ salePost }) => {
                      {salePost.title}
                   </div>
                   <div className="flex items-center gap-2 my-4 text-lg">
-                     <div className="rounded-lg border-2 border-blue-main p-2 text-blue-main font-semibold">
+                     <div className="rounded-lg border-2 border-primary-color p-2 text-primary-color font-semibold">
                         {salePost.sellStatus.name}
                      </div>
                      <div>

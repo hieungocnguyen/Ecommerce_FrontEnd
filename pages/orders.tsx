@@ -33,7 +33,7 @@ const Orders = () => {
 
    useEffect(() => {
       loadOrder();
-   }, [userInfo]);
+   }, []);
 
    return (
       <Layout title="Your Order">

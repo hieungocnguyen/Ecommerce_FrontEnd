@@ -257,7 +257,7 @@ const ItemsOfPost = () => {
                   itemID > 0 ? "flex" : "hidden"
                }`}
             >
-               <div className="w-2/3">
+               <div className="w-2/3 ">
                   <EditItem
                      itemID={itemID}
                      setItemID={setItemID}

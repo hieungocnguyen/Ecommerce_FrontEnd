@@ -31,10 +31,10 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
             const resAdd = await authAxios().get(
                endpoints["like_post"](product.id)
             );
-            loadLikeStatus();
             toast.success("Add to wishlist successful!", {
                position: "top-center",
             });
+            loadLikeStatus();
          } catch (error) {
             console.log(error);
             toast.error("Something wrong, try it later!", {
@@ -44,13 +44,17 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
       }
    };
    const handleRemoveToWishList = async () => {
-      const resRemove = await authAxios().get(
-         endpoints["like_post"](product.id)
-      );
-      toast.success("Remove from wishlist successful!", {
-         position: "top-center",
-      });
-      loadLikeStatus();
+      try {
+         const resRemove = await authAxios().get(
+            endpoints["like_post"](product.id)
+         );
+         toast.success("Remove from wishlist successful!", {
+            position: "top-center",
+         });
+         loadLikeStatus();
+      } catch (error) {
+         console.log(error);
+      }
    };
    const handleAddCompare = () => {
       dispatch({
@@ -189,7 +193,7 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
             </button>
             {inCompare ? (
                <button
-                  className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-md text-3xl"
+                  className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-primary-color hover:shadow-primary-color hover:shadow-md text-3xl"
                   title="Remove compare"
                   onClick={handleRemoveCompare}
                >

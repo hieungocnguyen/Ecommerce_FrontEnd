@@ -1,7 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+   Suspense,
+   useContext,
+   useEffect,
+   useRef,
+   useState,
+} from "react";
 import Logo from "../Logo";
 import ThemeToggler from "../ThemeToggler";
 import { HiOutlineShoppingCart } from "react-icons/hi";
@@ -10,15 +16,14 @@ import Cookies from "js-cookie";
 import router, { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 import API, { endpoints } from "../../API";
+import Image from "next/image";
 
 const Header = () => {
    const { state, dispatch } = useContext(Store);
    const router = useRouter();
-   const [replacePart, setReplacePart] = useState(<></>);
    const { cart, userInfo } = state;
    const [numberItem, setNumberItem] = useState(0);
-   const [rolePart, setRolePart] = useState(<></>);
-   const [agency, setAgency] = useState<any>({});
+   const [isOpen, setIsOpen] = useState(false);
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -30,10 +35,6 @@ const Header = () => {
          position: "bottom-center",
       });
    };
-   const handleToggleMenu = () => {
-      const menu = document.querySelector("#menuUser");
-      menu.classList.toggle("hidden");
-   };
    const forwardManagerDashboard = async () => {
       try {
          const resAllAgency = await API.get(endpoints["all_agency"]);
@@ -42,7 +43,6 @@ const Header = () => {
                const resInfoAngency = await API.get(
                   endpoints["agency_info"](agency.id)
                );
-               setAgency(agency);
                Cookies.set("agencyInfo", JSON.stringify(agency));
                dispatch({ type: "AGENCY_INFO_SET", payload: agency });
             }
@@ -67,96 +67,24 @@ const Header = () => {
       }
    };
 
-   useEffect(() => {
-      const loadNumberofItems = async () => {
+   const loadNumberofItems = async () => {
+      try {
          const resNumber = await API.get(
             endpoints["get_cart_by_id"](userInfo.id)
          );
          if (resNumber.data.data.cartItemSet) {
             setNumberItem(resNumber.data.data.cartItemSet.length);
          }
-      };
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
       if (userInfo) {
          loadNumberofItems();
       }
    }, [numberItem, cart]);
-
-   useEffect(() => {
-      if (userInfo != null) {
-         setReplacePart(
-            <div className="relative">
-               <img
-                  src={userInfo.avatar}
-                  className="w-[40px] h-[40px] rounded-full cursor-pointer border-[3px] border-blue-main object-cover"
-                  alt="avatar"
-                  onClick={handleToggleMenu}
-               />
-               <div
-                  id="menuUser"
-                  className="absolute top-14 right-0 dark:bg-dark-primary 
-                  bg-light-primary rounded-lg z-10 hidden font-semibold"
-               >
-                  <Link href="/profile">
-                     <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
-                        Profile
-                     </div>
-                  </Link>
-                  {userInfo ? (
-                     userInfo.role.name === "ROLE_GENERAL" ? (
-                        <></>
-                     ) : (
-                        <div
-                           className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all whitespace-nowrap"
-                           onClick={forwardManagerDashboard}
-                        >
-                           {rolePart}
-                        </div>
-                     )
-                  ) : (
-                     <></>
-                  )}
-
-                  <Link href="/orders">
-                     <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
-                        Orders
-                     </div>
-                  </Link>
-                  <Link href={"/wishlist"}>
-                     <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
-                        Wishlist
-                     </div>
-                  </Link>
-                  <div
-                     className="p-3 px-4 cursor-pointer hover:text-blue-main transition-all whitespace-nowrap"
-                     onClick={logoutClickHandler}
-                  >
-                     Sign out
-                  </div>
-               </div>
-            </div>
-         );
-      } else {
-         setReplacePart(
-            <div>
-               <Link href="/signin">
-                  <button className="py-2 px-3 bg-[#525EC1] text-light-bg rounded-lg mr-4 text-sm font-semibold hover:shadow-md hover:shadow-blue-main">
-                     Sign in
-                  </button>
-               </Link>
-            </div>
-         );
-      }
-   }, [userInfo, rolePart]);
-   useEffect(() => {
-      if (userInfo != null) {
-         if (userInfo.role.name === "ROLE_ADMIN") {
-            setRolePart(<div>Admin Page</div>);
-         }
-         if (userInfo.role.name === "ROLE_MANAGER") {
-            setRolePart(<div>Manage Page</div>);
-         }
-      }
-   }, []);
 
    return (
       <div className="bg-light-primary dark:bg-dark-primary flex justify-between items-center w-[90%] mx-auto rounded-b-lg py-[10px]">
@@ -170,24 +98,109 @@ const Header = () => {
                </div>
             </Link>
          </div>
-         <div className="mr-10 flex items-center">
-            <button
-               className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mr-6 relative"
-               title="cart"
-               onClick={handleCartRoute}
-            >
-               <HiOutlineShoppingCart className="w-6 h-6" />
-               {numberItem > 0 ? (
-                  <div className="absolute bg-blue-main rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
-                     {numberItem}
-                     {/* {cart.cartItems.length} */}
-                  </div>
+         <Suspense fallback={<p></p>}>
+            <div className="mr-10 flex items-center">
+               <button
+                  className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mr-6 relative"
+                  title="cart"
+                  onClick={handleCartRoute}
+               >
+                  <HiOutlineShoppingCart className="w-6 h-6" />
+                  {numberItem > 0 ? (
+                     <div className="absolute bg-blue-main rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
+                        {numberItem}
+                        {/* {cart.cartItems.length} */}
+                     </div>
+                  ) : (
+                     <></>
+                  )}
+               </button>
+               {userInfo ? (
+                  <>
+                     <div className="relative">
+                        <div className="w-10 h-10 relative overflow-hidden border-[3px] border-blue-main rounded-full">
+                           <Image
+                              src={userInfo.avatar}
+                              className="cursor-pointer object-cover"
+                              alt="avatar"
+                              layout="fill"
+                              onClick={() => setIsOpen(!isOpen)}
+                           />
+                        </div>
+                        <div
+                           className={`absolute top-14 right-0 dark:bg-dark-primary bg-light-primary rounded-lg z-20 font-semibold transition-all ease-out duration-200 ${
+                              isOpen
+                                 ? "scale-100"
+                                 : "scale-0 translate-x-16 -translate-y-36"
+                           }`}
+                        >
+                           <Link href="/profile">
+                              <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
+                                 Profile
+                              </div>
+                           </Link>
+                           {userInfo ? (
+                              userInfo.role.name === "ROLE_GENERAL" ? (
+                                 <></>
+                              ) : (
+                                 <div
+                                    className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all whitespace-nowrap"
+                                    onClick={forwardManagerDashboard}
+                                 >
+                                    {userInfo.role.name === "ROLE_ADMIN" ? (
+                                       <>
+                                          <div>Admin Page</div>
+                                       </>
+                                    ) : (
+                                       <>
+                                          {userInfo.role.name ===
+                                          "ROLE_MANAGER" ? (
+                                             <>
+                                                <div>Manage Page</div>
+                                             </>
+                                          ) : (
+                                             <></>
+                                          )}
+                                       </>
+                                    )}
+                                 </div>
+                              )
+                           ) : (
+                              <></>
+                           )}
+
+                           <Link href="/orders">
+                              <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
+                                 Orders
+                              </div>
+                           </Link>
+                           <Link href={"/wishlist"}>
+                              <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
+                                 Wishlist
+                              </div>
+                           </Link>
+                           <div
+                              className="p-3 px-4 cursor-pointer hover:text-blue-main transition-all whitespace-nowrap"
+                              onClick={logoutClickHandler}
+                           >
+                              Sign out
+                           </div>
+                        </div>
+                     </div>
+                  </>
                ) : (
-                  <></>
+                  <>
+                     <div>
+                        <Link href="/signin">
+                           <button className="py-2 px-3 bg-[#525EC1] text-light-bg rounded-lg mr-4 text-sm font-semibold hover:shadow-md hover:shadow-blue-main">
+                              Sign in
+                           </button>
+                        </Link>
+                     </div>
+                  </>
                )}
-            </button>
-            {replacePart}
-         </div>
+            </div>
+         </Suspense>
          <Toaster />
       </div>
    );
