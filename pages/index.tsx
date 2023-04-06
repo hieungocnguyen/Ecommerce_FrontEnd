@@ -34,7 +34,6 @@ export default function Home({ categories }) {
 
    useEffect(() => {
       loadPosts();
-
       const pages = document.querySelectorAll(".paginator");
       for (let i = 0; i < pages.length; i++) {
          if (i === numberPage - 1) {

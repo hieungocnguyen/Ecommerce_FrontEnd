@@ -68,7 +68,7 @@ const Orders = () => {
                               order.orders.createdDate
                            ).toLocaleDateString("en-US")}
                         </div>
-                        <div className="col-span-2 text-right text-blue-main font-medium">
+                        <div className="col-span-2 text-right text-blue-main font-semibold">
                            {order.totalPrice.toLocaleString("it-IT", {
                               style: "currency",
                               currency: "VND",

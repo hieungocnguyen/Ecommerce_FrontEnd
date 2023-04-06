@@ -9,16 +9,18 @@ import { authAxios, endpoints } from "../API";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { BiGitCompare, BiShowAlt, BiUndo } from "react-icons/bi";
+import { BiCartAlt, BiGitCompare, BiShowAlt, BiUndo } from "react-icons/bi";
 import { Store } from "../utils/Store";
 import toast, { Toaster } from "react-hot-toast";
 import QuickView from "./Model/QuickView";
+import ItemsInPost from "./Model/ItemsInPost";
 
 const ProductItem = ({ product, inCompare, setLoading }) => {
    const [stateLike, setStateLike] = useState(false);
    const router = useRouter();
    const { state, dispatch } = useContext(Store);
    const [isOpenQuickViewModal, setIsOpenQuickViewModal] = useState(false);
+   const [isOpenItemsModal, setIsOpenItemsModal] = useState(false);
 
    const handleAddToWishList = async () => {
       if (!Cookies.get("accessToken")) {
@@ -112,11 +114,11 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
    return (
       <div className="relative">
          <div
-            className="dark:bg-dark-primary bg-light-primary rounded-lg p-6 cursor-pointer"
+            className="dark:bg-dark-primary bg-light-primary rounded-lg p-6 cursor-pointer hover:shadow-lg"
             onClick={() => handleDetailRoute()}
          >
             <div className="relative">
-               <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all">
+               <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all hover:sha">
                   <Image
                      src={product.avatar}
                      alt=""
@@ -145,20 +147,56 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
                   })}
                </div>
             </div>
-            <div className=" flex items-end justify-end mt-10">
-               <div className="text-right">
-                  <div className="text-blue-main font-bold text-sm text-right mb-1">
-                     {/* {product.category.name} */}
-                  </div>
-                  <div className="italic text-sm">
-                     {moment(product.createdDate).startOf("hour").fromNow()}
-                  </div>
-               </div>
+            <div className="flex gap-4 mt-4">
+               <button
+                  className="w-24 h-14 rounded-2xl flex justify-center items-center text-white bg-primary-color hover:shadow-primary-color hover:shadow-lg text-3xl"
+                  title="Show items"
+                  onClick={(event) => {
+                     event.stopPropagation();
+                     setIsOpenItemsModal(true);
+                  }}
+               >
+                  <BiCartAlt />
+               </button>
+               <button
+                  className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-lg text-3xl"
+                  title="Quick view"
+                  onClick={(event) => {
+                     event.stopPropagation();
+                     setIsOpenQuickViewModal(true);
+                  }}
+               >
+                  <BiShowAlt />
+               </button>
+               {inCompare ? (
+                  <button
+                     className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main  hover:shadow-lg text-3xl"
+                     title="Remove compare"
+                     onClick={(event) => {
+                        event.stopPropagation();
+                        handleRemoveCompare();
+                     }}
+                  >
+                     <BiUndo />
+                  </button>
+               ) : (
+                  <button
+                     className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-lg text-3xl"
+                     title="Add compare"
+                     onClick={(event) => {
+                        event.stopPropagation();
+                        handleAddCompare();
+                     }}
+                  >
+                     <BiGitCompare />
+                  </button>
+               )}
             </div>
+
             <div className="absolute top-0 right-0">
                {!stateLike ? (
                   <button
-                     className="text-blue-main w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
+                     className="text-primary-color w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
                      title="like"
                      onClick={(event) => {
                         event.stopPropagation();
@@ -169,7 +207,7 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
                   </button>
                ) : (
                   <button
-                     className=" text-blue-main w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
+                     className=" text-primary-color w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
                      title="unlike"
                      onClick={(event) => {
                         event.stopPropagation();
@@ -181,34 +219,7 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
                )}
             </div>
          </div>
-         <div className="flex gap-4 absolute bottom-6 left-6">
-            <button
-               className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-md text-3xl"
-               title="Quick view"
-               onClick={() => {
-                  setIsOpenQuickViewModal(true);
-               }}
-            >
-               <BiShowAlt />
-            </button>
-            {inCompare ? (
-               <button
-                  className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-primary-color hover:shadow-primary-color hover:shadow-md text-3xl"
-                  title="Remove compare"
-                  onClick={handleRemoveCompare}
-               >
-                  <BiUndo />
-               </button>
-            ) : (
-               <button
-                  className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-md text-3xl"
-                  title="Add compare"
-                  onClick={handleAddCompare}
-               >
-                  <BiGitCompare />
-               </button>
-            )}
-         </div>
+
          <div
             className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
                isOpenQuickViewModal ? "flex" : "hidden"
@@ -218,6 +229,18 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
                <QuickView
                   postID={product.id}
                   setIsOpenQuickViewModal={setIsOpenQuickViewModal}
+               />
+            </div>
+         </div>
+         <div
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+               isOpenItemsModal ? "flex" : "hidden"
+            }`}
+         >
+            <div className="w-3/4 h-[34rem]">
+               <ItemsInPost
+                  items={product.itemPostSet}
+                  setIsOpenItemsModal={setIsOpenItemsModal}
                />
             </div>
          </div>

@@ -146,32 +146,40 @@ const Register = () => {
          }
       } catch (error) {
          console.log(error);
+         if (
+            error.request.responseURL ===
+            "http://localhost:8080/ou-ecommerce/api/user/register"
+         ) {
+            if (error.response.data.data.username) {
+               toast.error(`Username:${error.response.data.data.username}`, {
+                  position: "top-center",
+               });
+            }
+            if (error.response.data.data.email) {
+               toast.error(`Email:${error.response.data.data.email}`, {
+                  position: "top-center",
+               });
+            }
+            if (error.response.data.data.password) {
+               toast.error(`Password:${error.response.data.data.password}`, {
+                  position: "top-center",
+               });
+            }
+            if (error.response.data.data.rePassword) {
+               toast.error(
+                  `Repassword: ${error.response.data.data.rePassword}`,
+                  {
+                     position: "top-center",
+                  }
+               );
+            }
+            if (error.response.data.data.avatar) {
+               toast.error(`Avatar: ${error.response.data.data.avatar}`, {
+                  position: "top-center",
+               });
+            }
+         }
 
-         if (error.response.data.data.username) {
-            toast.error(`Username:${error.response.data.data.username}`, {
-               position: "top-center",
-            });
-         }
-         if (error.response.data.data.email) {
-            toast.error(`Email:${error.response.data.data.email}`, {
-               position: "top-center",
-            });
-         }
-         if (error.response.data.data.password) {
-            toast.error(`Password:${error.response.data.data.password}`, {
-               position: "top-center",
-            });
-         }
-         if (error.response.data.data.rePassword) {
-            toast.error(`Repassword: ${error.response.data.data.rePassword}`, {
-               position: "top-center",
-            });
-         }
-         if (error.response.data.data.avatar) {
-            toast.error(`Avatar: ${error.response.data.data.avatar}`, {
-               position: "top-center",
-            });
-         }
          setLoading(false);
       }
    };

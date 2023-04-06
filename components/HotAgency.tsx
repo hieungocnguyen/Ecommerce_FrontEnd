@@ -46,7 +46,7 @@ const HotAgency = ({ setLoading }) => {
                                  src={agency[0].avatar}
                                  alt="avatar"
                                  layout="fill"
-                                 className="object-cover"
+                                 className="object-cover hover:shadow-lg"
                               />
                            </div>
                            <div className="absolute -right-4 -bottom-4 rounded-tl-xl pt-2 pb-4 pl-4 pr-4 font-semibold uppercase bg-light-primary dark:bg-dark-primary dark:text-dark-text text-light-text text-2xl z-10 flex items-center justify-center gap-1">
