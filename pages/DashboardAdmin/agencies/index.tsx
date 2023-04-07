@@ -8,8 +8,12 @@ import AdminLayoutDashboard from "../../../components/Dashboard/AdminLayoutDashb
 const AgenciesAdminDashboard = () => {
    const [agencies, setAgencies] = useState([]);
    const loadAgency = async () => {
-      const resAgency = await API.get(endpoints["all_agency"]);
-      setAgencies(resAgency.data.data);
+      try {
+         const resAgency = await API.get(endpoints["all_agency"]);
+         setAgencies(resAgency.data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
    useEffect(() => {
       loadAgency();
@@ -22,7 +26,7 @@ const AgenciesAdminDashboard = () => {
             </div>
 
             <div className="rounded-lg dark:bg-dark-primary bg-light-primary overflow-hidden shadow-lg dark:shadow-dark-shadow shadow-light-primary mb-10">
-               <ul className="grid grid-cols-12 p-5 dark:hover:bg-dark-spot hover:bg-light-spot items-center font-semibold">
+               <ul className="grid grid-cols-12 p-5 items-center font-semibold">
                   <li className="col-span-1">Avatar</li>
                   <li className="col-span-3">Name</li>
                   <li className="col-span-2">Field</li>
@@ -36,7 +40,7 @@ const AgenciesAdminDashboard = () => {
                         href={`/DashboardAdmin/agencies/${agency.id}`}
                         key={agency.id}
                      >
-                        <ul className="grid grid-cols-12 p-5  items-center dark:hover:bg-dark-spot bg-light-spot cursor-pointer">
+                        <ul className="grid grid-cols-12 p-5 items-center dark:bg-dark-spot  dark:hover:bg-dark-primary bg-light-spot hover:bg-light-primary  cursor-pointer">
                            <li className="col-span-1">
                               <Image
                                  src={agency.avatar}

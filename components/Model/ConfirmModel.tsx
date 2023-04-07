@@ -9,7 +9,10 @@ const ConfirmModel = ({
          <div className="font-semibold text-lg text-center mb-4">{content}</div>
          <div className="flex justify-center gap-8 items-center">
             <button
-               onClick={functionConfirm}
+               onClick={() => {
+                  functionConfirm();
+                  setIsOpenConfirm(false);
+               }}
                className="px-4 py-3 bg-blue-main rounded-lg hover:shadow-lg hover:shadow-blue-main text-white font-semibold"
             >
                Yes

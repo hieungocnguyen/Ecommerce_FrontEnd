@@ -37,8 +37,8 @@ const options = {
 };
 
 const arrayYear = [];
-for (let index = 0; index <= 20; index++) {
-   arrayYear[index] = 2020 + index;
+for (let index = 0; index <= 10; index++) {
+   arrayYear[index] = new Date().getFullYear() - 10 + index;
 }
 
 const Revenue = () => {
