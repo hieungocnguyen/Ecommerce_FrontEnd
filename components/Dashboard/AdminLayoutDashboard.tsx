@@ -73,7 +73,7 @@ const AdminLayoutDashboard = ({ children }) => {
                         height={90}
                      />
                   </div>
-                  <div className="mx-4 p-4 dark:bg-dark-spot rounded-lg ">
+                  <div className="mx-4 p-4 dark:bg-dark-spot bg-light-spot bg-opacity-80 rounded-lg ">
                      <div className="font-semibold">
                         {userInfo
                            ? userInfo.firstName + " " + userInfo.lastName

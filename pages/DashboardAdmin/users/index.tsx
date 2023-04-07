@@ -28,7 +28,7 @@ const UsersAdminDashboard = () => {
                </ul>
                {users.map((user) => (
                   <ul
-                     className="grid grid-cols-12 p-5  items-center dark:hover:bg-dark-spot hover:bg-light-primary cursor-pointer"
+                     className="grid grid-cols-12 p-5  items-center dark:hover:bg-dark-spot hover:bg-light-primary cursor-pointer font-semibold"
                      key={user.id}
                   >
                      <li className="col-span-1">
@@ -41,9 +41,13 @@ const UsersAdminDashboard = () => {
                         />
                      </li>
                      <li className="col-span-2">
-                        {user.firstName} {user.lastName}
+                        {user.firstName || user.lastName
+                           ? `${user.firstName} ${user.lastName}`
+                           : "Unnamed"}
                      </li>
-                     <li className="col-span-2">{user.phone}</li>
+                     <li className="col-span-2">
+                        {user.phone ? user.phone : "Not provided"}
+                     </li>
                      <li className="col-span-3">{user.email}</li>
                      <li className="col-span-4">{user.address}</li>
                   </ul>

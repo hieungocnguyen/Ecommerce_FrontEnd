@@ -5,9 +5,13 @@ import { BiCheck, BiShowAlt, BiX } from "react-icons/bi";
 import API, { authAxios, endpoints } from "../../../API";
 import AdminLayoutDashboard from "../../../components/Dashboard/AdminLayoutDashboard";
 import emptyvector from "../../../public/empty-box.png";
+import ConfirmModel from "../../../components/Model/ConfirmModel";
 
 const AgenciesAdminDashboard = () => {
    const [uncensored, setUncensored] = useState([]);
+   const [isOpenConfirmCensor, setIsOpenConfirmCensor] = useState(false);
+   const [isOpenConfirmUnCensor, setIsOpenConfirmUnCensor] = useState(false);
+   const [modelID, setModelID] = useState(-1);
    const loadUncensoredNumber = async () => {
       try {
          const resUncensored = await API.get(endpoints["uncensored_agency"]);
@@ -34,6 +38,7 @@ const AgenciesAdminDashboard = () => {
          });
          console.log(error);
       }
+      setModelID(-1);
    };
    const handleDeny = async (id) => {
       try {
@@ -46,6 +51,7 @@ const AgenciesAdminDashboard = () => {
          });
          console.log(error);
       }
+      setModelID(-1);
    };
    return (
       <AdminLayoutDashboard>
@@ -64,7 +70,7 @@ const AgenciesAdminDashboard = () => {
                   </ul>
                   {uncensored.map((agency) => (
                      <ul
-                        className="grid grid-cols-12 p-5  items-center dark:hover:bg-dark-spot hover:bg-light-spot cursor-pointer relative"
+                        className="grid grid-cols-12 p-5  items-center dark:hover:bg-dark-spot hover:bg-light-spot cursor-pointer relative font-medium"
                         key={agency.id}
                      >
                         <li className="col-span-1">
@@ -83,18 +89,24 @@ const AgenciesAdminDashboard = () => {
                         <li className="col-span-2">{agency.agency.hotline}</li>
                         <li className="col-span-3">{agency.agency.address}</li>
                         <li className="flex gap-5 text-3xl absolute right-5">
-                           <div className="p-2 rounded-lg bg-blue-main text-white shadow-lg hover:shadow-blue-main transition-all">
+                           {/* <div className="p-2 rounded-lg bg-blue-main text-white shadow-lg hover:shadow-blue-main transition-all">
                               <BiShowAlt />
-                           </div>
+                           </div> */}
                            <div
-                              className="p-2 rounded-lg bg-green-600 text-white shadow-lg hover:shadow-green-600 transition-all"
-                              onClick={() => handleAccept(agency.id)}
+                              className="p-2 rounded-lg bg-blue-main text-white shadow-lg hover:shadow-blue-main transition-all"
+                              onClick={() => {
+                                 setIsOpenConfirmCensor(true);
+                                 setModelID(agency.id);
+                              }}
                            >
                               <BiCheck />
                            </div>
                            <div
-                              className="p-2 rounded-lg bg-red-600 text-white  shadow-lg hover:shadow-red-600 transition-all"
-                              onClick={() => handleDeny(agency.id)}
+                              className="p-2 rounded-lg bg-primary-color text-white shadow-lg hover:shadow-primary-color transition-all"
+                              onClick={() => {
+                                 setIsOpenConfirmUnCensor(true);
+                                 setModelID(agency.id);
+                              }}
                            >
                               <BiX />
                            </div>
@@ -117,6 +129,34 @@ const AgenciesAdminDashboard = () => {
                   </div>
                </div>
             )}
+            <div
+               className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                  isOpenConfirmCensor ? "flex" : "hidden"
+               }`}
+            >
+               <div className="w-1/3  h-fit">
+                  <ConfirmModel
+                     functionConfirm={() => handleAccept(modelID)}
+                     content={"You will accept this agency!"}
+                     isOpenConfirm={isOpenConfirmCensor}
+                     setIsOpenConfirm={setIsOpenConfirmCensor}
+                  />
+               </div>
+            </div>
+            <div
+               className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                  isOpenConfirmUnCensor ? "flex" : "hidden"
+               }`}
+            >
+               <div className="w-1/3  h-fit">
+                  <ConfirmModel
+                     functionConfirm={() => handleDeny(modelID)}
+                     content={"You will deny this agency!"}
+                     isOpenConfirm={isOpenConfirmUnCensor}
+                     setIsOpenConfirm={setIsOpenConfirmUnCensor}
+                  />
+               </div>
+            </div>
          </div>
       </AdminLayoutDashboard>
    );

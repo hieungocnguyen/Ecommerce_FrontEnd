@@ -25,6 +25,7 @@ import {
 } from "react-icons/bi";
 import { ClipLoader } from "react-spinners";
 import DeliveryService from "../../components/Model/DeliveryService";
+import ConfirmModel from "../../components/Model/ConfirmModel";
 
 const Payment = () => {
    const { state, dispatch } = useContext(Store);
@@ -47,6 +48,7 @@ const Payment = () => {
    const [isDisableMoMoPayment, setIsDisableMoMoPayment] = useState(false);
    const [isDisableCODPayment, setIsDisableCODPayment] = useState(false);
    const refTotalBill = useRef(null);
+   const [isOpenConfirmPayment, setIsOpenConfirmPayment] = useState(false);
 
    const fetchCartData = async () => {
       const temp = [];
@@ -932,11 +934,15 @@ const Payment = () => {
                      <button
                         className={`py-4 px-10 mx-8 h-fit bg-blue-main rounded-lg font-semibold text-white hover:shadow-blue-main hover:shadow-lg w-fit disabled:bg-gray-400 disabled:hover:shadow-none disabled:cursor-not-allowed `}
                         disabled={
-                           address.id && isDisablePaymentMethod !== 3
+                           address.id &&
+                           isDisablePaymentMethod !== 3 &&
+                           paymentType > 0
                               ? false
                               : true
                         }
-                        onClick={handlePayment}
+                        onClick={() => {
+                           setIsOpenConfirmPayment(true);
+                        }}
                      >
                         {address.id
                            ? paymentType === 1
@@ -952,7 +958,22 @@ const Payment = () => {
                </div>
             </div>
          </div>
-
+         <div
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+               isOpenConfirmPayment ? "flex" : "hidden"
+            }`}
+         >
+            <div className="w-1/3  h-fit">
+               <ConfirmModel
+                  functionConfirm={() => handlePayment()}
+                  content={`You will pay this order via  ${
+                     paymentType === 2 ? "MoMo wallet" : "COD method"
+                  }`}
+                  isOpenConfirm={isOpenConfirmPayment}
+                  setIsOpenConfirm={setIsOpenConfirmPayment}
+               />
+            </div>
+         </div>
          {loading ? <Loader /> : <></>}
          <Toaster />
       </Layout>

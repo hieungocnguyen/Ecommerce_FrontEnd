@@ -6,20 +6,6 @@ import { BiCloudUpload } from "react-icons/bi";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 
-const CssTextField = styled(TextField)({
-   "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-         borderColor: "#525EC1",
-      },
-      "&:hover fieldset": {
-         borderColor: "#525EC1",
-      },
-      "&.Mui-focused fieldset": {
-         borderColor: "#525EC1",
-      },
-   },
-});
-
 const EditItem = ({ itemID, setItemID, setLoading }) => {
    const [valueItem, setValueItem] = useState<any>();
    const [selectedImage, setSelectedImage] = useState();
@@ -143,7 +129,7 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
                      </div>
                   </div>
                </div>
-               <div className="col-span-3">
+               {/* <div className="col-span-3">
                   <div className="mb-4">
                      <CssTextField
                         fullWidth
@@ -231,6 +217,61 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
                         type="submit"
                      >
                         Update
+                     </button>
+                  </div>
+               </div> */}
+               <div className="col-span-3 font-medium">
+                  <div className="mb-4">
+                     <input
+                        name="name"
+                        onChange={handleChange}
+                        required
+                        defaultValue={valueItem.name}
+                        className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
+                        placeholder="Name of item"
+                     />
+                  </div>
+                  <div className="mb-4">
+                     <input
+                        name="description"
+                        type="text"
+                        onChange={handleChange}
+                        required
+                        defaultValue={valueItem.description}
+                        className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
+                        placeholder="Description"
+                     />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                     <div className="col-span-1">
+                        <input
+                           name="unitPrice"
+                           type="number"
+                           onChange={handleChange}
+                           required
+                           defaultValue={valueItem.unitPrice}
+                           className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
+                           placeholder="UnitPrice"
+                        />
+                     </div>
+                     <div className="col-span-1">
+                        <input
+                           name="inventory"
+                           type="number"
+                           onChange={handleChange}
+                           required
+                           defaultValue={valueItem.inventory}
+                           className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
+                           placeholder="Inventory"
+                        />
+                     </div>
+                  </div>
+                  <div className="flex justify-end mt-4">
+                     <button
+                        className="py-3 px-6 bg-blue-main hover:shadow-lg hover:shadow-blue-main transition-all rounded-lg font-semibold text-white"
+                        type="submit"
+                     >
+                        Add new item
                      </button>
                   </div>
                </div>

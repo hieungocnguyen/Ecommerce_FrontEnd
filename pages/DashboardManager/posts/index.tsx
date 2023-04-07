@@ -72,7 +72,7 @@ const Posts = () => {
    return (
       <>
          <LayoutDashboard title="List Post">
-            <div className="relative">
+            <div className="">
                <div className="flex justify-between items-center my-8">
                   <div className="font-semibold text-2xl">Post List</div>
                </div>
@@ -180,11 +180,19 @@ const Posts = () => {
                            </ul>
                         </div>
                      ))}
-                  <EditPost
-                     postID={postID}
-                     setPostID={setPostID}
-                     setLoading={setLoading}
-                  />
+                  <div
+                     className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                        postID > 0 ? "flex" : "hidden"
+                     }`}
+                  >
+                     <div className="w-3/4 h-fit">
+                        <EditPost
+                           postID={postID}
+                           setPostID={setPostID}
+                           setLoading={setLoading}
+                        />
+                     </div>
+                  </div>
                </div>
             </div>
             {loading ? <Loader /> : <></>}

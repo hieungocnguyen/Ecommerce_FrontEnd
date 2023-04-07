@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import API, { authAxios, endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import { Store } from "../utils/Store";
@@ -18,6 +18,8 @@ import Loader from "../components/Loader";
 import Image from "next/image";
 import { AiOutlineClear } from "react-icons/ai";
 import emptyBox from "../public/empty-box.png";
+import { ClipLoader } from "react-spinners";
+import ConfirmModel from "../components/Model/ConfirmModel";
 
 const Cart = () => {
    const { state, dispatch } = useContext(Store);
@@ -27,7 +29,7 @@ const Cart = () => {
    const [totalPrice, setTotalPrice] = useState(0);
    const [loading, setLoading] = useState(false);
    const router = useRouter();
-
+   const [isOpenConfirmRemove, setIsOpenConfirmRemove] = useState(false);
    const loadTotalCart = async () => {
       try {
          const resTotal = await API.get(endpoints["get_total"](userInfo.id));
@@ -51,14 +53,9 @@ const Cart = () => {
       if (userInfo) {
          loadItemsFromCart();
          loadTotalCart();
-      } else {
-         router.push("/signin");
-         toast.error("Login to view cart!", {
-            position: "bottom-center",
-         });
       }
       setInitialRenderComplete(true);
-   }, [router, userInfo]);
+   }, [userInfo]);
 
    const handleClearCart = async () => {
       try {
@@ -134,7 +131,13 @@ const Cart = () => {
    };
 
    if (!initialRenderComplete) {
-      return null;
+      return (
+         <>
+            <div className="flex justify-center my-8">
+               <ClipLoader size={35} color="#FF8500" />
+            </div>
+         </>
+      );
    } else {
       return (
          <Layout title="Cart">
@@ -153,7 +156,7 @@ const Cart = () => {
                      <div>
                         <button
                            className="bg-blue-main px-8 py-3 rounded-lg font-semibold hover:shadow-md hover:shadow-blue-main transition-all flex items-center gap-1 text-white"
-                           onClick={handleClearCart}
+                           onClick={() => setIsOpenConfirmRemove(true)}
                         >
                            <AiOutlineClear className="text-xl" />
                            <div>Clear cart</div>
@@ -261,7 +264,9 @@ const Cart = () => {
                      </div>
                      <button
                         className="col-span-1 flex items-center justify-center hover:opacity-80"
-                        onClick={() => handleDelete(i)}
+                        onClick={() => {
+                           handleDelete(i);
+                        }}
                      >
                         <div className="w-10 h-10 bg-blue-main text-white p-2 flex justify-center items-center text-xl rounded-lg hover:shadow-md hover:shadow-blue-main transition-all">
                            <BiTrashAlt />
@@ -269,24 +274,45 @@ const Cart = () => {
                      </button>
                   </div>
                ))}
-            {itemsInCart.length > 0 ? (
-               <>
-                  <div className="dark:bg-dark-primary bg-light-primary rounded-lg flex my-4 justify-between items-center mx-20 py-8 px-16">
-                     <div className="text-left">
-                        <div className="text-2xl">
-                           Total:{" "}
-                           <span className="text-blue-main font-bold text-3xl">
-                              {totalPrice.toLocaleString("it-IT", {
-                                 style: "currency",
-                                 currency: "VND",
-                              })}
-                           </span>
+            <div
+               className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                  isOpenConfirmRemove ? "flex" : "hidden"
+               }`}
+            >
+               <div className="w-1/3  h-fit">
+                  <ConfirmModel
+                     functionConfirm={() => handleClearCart()}
+                     content={"You will remove all item in your cart!"}
+                     isOpenConfirm={isOpenConfirmRemove}
+                     setIsOpenConfirm={setIsOpenConfirmRemove}
+                  />
+               </div>
+            </div>
+            <Suspense
+               fallback={
+                  <div className="flex justify-center my-8">
+                     <ClipLoader size={35} color="#FF8500" />
+                  </div>
+               }
+            >
+               {itemsInCart.length > 0 ? (
+                  <>
+                     <div className="dark:bg-dark-primary bg-light-primary rounded-lg flex my-4 justify-between items-center mx-20 py-8 px-16">
+                        <div className="text-left">
+                           <div className="text-2xl">
+                              Total:{" "}
+                              <span className="text-blue-main font-bold text-3xl">
+                                 {totalPrice.toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                 })}
+                              </span>
+                           </div>
+                           <div className="text-lg">
+                              Total item: {itemsInCart.length}
+                           </div>
                         </div>
-                        <div className="text-lg">
-                           Total item: {itemsInCart.length}
-                        </div>
-                     </div>
-                     {/* <div className="flex flex-col my-4 w-1/3">
+                        {/* <div className="flex flex-col my-4 w-1/3">
                   <button
                      className="w-full bg-blue-main font-semibold text-white my-2 h-[60px] rounded-lg hover:opacity-80"
                      onClick={handlePaymentbyCash}
@@ -297,29 +323,30 @@ const Cart = () => {
                      Payment by MoMo Wallet
                   </button>
                </div> */}
-                     <button
-                        className="py-4 px-12 bg-blue-main font-semibold rounded-lg text-lg hover:shadow-md hover:shadow-blue-main transition-all text-white"
-                        onClick={handleRouteCheckout}
-                     >
-                        Checkout
-                     </button>
-                  </div>
-               </>
-            ) : (
-               <>
-                  <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
-                     <Image
-                        src={emptyBox}
-                        alt="empty"
-                        layout="fill"
-                        className="object-cover"
-                     />
-                  </div>
-                  <div className="uppercase text-2xl font-semibold">
-                     your cart is empty
-                  </div>
-               </>
-            )}
+                        <button
+                           className="py-4 px-12 bg-blue-main font-semibold rounded-lg text-lg hover:shadow-md hover:shadow-blue-main transition-all text-white"
+                           onClick={handleRouteCheckout}
+                        >
+                           Checkout
+                        </button>
+                     </div>
+                  </>
+               ) : (
+                  <>
+                     <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
+                        <Image
+                           src={emptyBox}
+                           alt="empty"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                     </div>
+                     <div className="uppercase text-2xl font-semibold">
+                        your cart is empty
+                     </div>
+                  </>
+               )}
+            </Suspense>
 
             {loading ? <Loader /> : <></>}
             <Toaster />

@@ -20,20 +20,6 @@ import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-const CssTextField = styled(TextField)({
-   "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-         borderColor: "#525EC1",
-      },
-      "&:hover fieldset": {
-         borderColor: "#525EC1",
-      },
-      "&.Mui-focused fieldset": {
-         borderColor: "#525EC1",
-      },
-   },
-});
-
 const CreateNewPost = () => {
    // const [values, setValues] = useState({
    //    title: "",

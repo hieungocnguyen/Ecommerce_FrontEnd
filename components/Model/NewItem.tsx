@@ -77,6 +77,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                description: "",
             });
             setImportImage(false);
+            setSelectedImage(undefined);
          }
       } catch (error) {}
    };
@@ -135,7 +136,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                   </div>
                </div>
             </div>
-            <div className="col-span-3">
+            <div className="col-span-3 font-medium">
                <div className="mb-4">
                   <input
                      name="name"

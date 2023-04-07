@@ -161,14 +161,8 @@ const Profile = () => {
                            </div>
                         )
                      ) : (
-                        <div className="flex items-center justify-center">
-                           <button
-                              title="Register Agency"
-                              type="button"
-                              className="rounded-xl px-4 py-3 bg-blue-main text-white font-semibold hover:shadow-lg hover:shadow-blue-main"
-                           >
-                              Go to Manager Page
-                           </button>
+                        <div className="flex items-center justify-center font-medium">
+                           Now, you can manage your agency in manager page!
                         </div>
                      )
                   ) : (
