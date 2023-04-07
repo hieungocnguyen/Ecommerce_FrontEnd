@@ -66,9 +66,10 @@ const Orders = () => {
                   <>
                      <div className="mt-8">
                         <div className="grid grid-cols-12 font-semibold px-4 py-4 dark:bg-dark-primary bg-light-primary mb-4 rounded-lg text-center">
+                           <div className="col-span-1 ">ID</div>
                            <div className="col-span-1 ">Items</div>
                            <div className="col-span-2 ">Date</div>
-                           <div className="col-span-5 ">State</div>
+                           <div className="col-span-4 ">State</div>
                            <div className="col-span-4"></div>
                         </div>
                         {orders
@@ -78,6 +79,11 @@ const Orders = () => {
                                  key={order.id}
                                  className="grid grid-cols-12 gap-4 items-center  dark:bg-dark-primary bg-light-spot rounded-lg mb-4 p-6 font-medium text-center"
                               >
+                                 <div className="col-span-1 font-bold text-primary-color">
+                                    {order.orderExpressID
+                                       ? ` #${order.orderExpressID}`
+                                       : "-"}
+                                 </div>
                                  <div className="col-span-1">
                                     <button
                                        className="text-2xl p-3 bg-blue-main text-white rounded-lg hover:shadow-lg hover:shadow-blue-main"
@@ -103,7 +109,7 @@ const Orders = () => {
                                        order.orders.createdDate
                                     ).toLocaleDateString("en-US")}
                                  </div>
-                                 <div className="col-span-5">
+                                 <div className="col-span-4">
                                     <div
                                        className={`relative overflow-hidden h-12 ${
                                           order.orderState.id === 6
@@ -136,6 +142,15 @@ const Orders = () => {
                                  </div>
                                  <div className="col-span-4 flex justify-center gap-4">
                                     <button
+                                       className="text-2xl p-3 bg-blue-main text-white rounded-lg hover:shadow-lg hover:shadow-blue-main"
+                                       title="Review information of order"
+                                       onClick={() => {
+                                          setIDOpenOrderReviewModel(order.id);
+                                       }}
+                                    >
+                                       <BiReceipt />
+                                    </button>
+                                    <button
                                        className={`text-2xl p-3  text-white rounded-lg disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none bg-blue-main hover:shadow-lg hover:shadow-blue-main
                                  `}
                                        onClick={() => {
@@ -154,15 +169,7 @@ const Orders = () => {
                                     >
                                        <BiEditAlt />
                                     </button>
-                                    <button
-                                       className="text-2xl p-3 bg-blue-main text-white rounded-lg hover:shadow-lg hover:shadow-blue-main"
-                                       title="Review information of order"
-                                       onClick={() => {
-                                          setIDOpenOrderReviewModel(order.id);
-                                       }}
-                                    >
-                                       <BiReceipt />
-                                    </button>
+
                                     <button
                                        className={`text-2xl p-3  text-white rounded-lg
                                        disabled:bg-gray-300 bg-blue-main hover:shadow-lg hover:shadow-blue-main disabled:cursor-not-allowed disabled:shadow-none

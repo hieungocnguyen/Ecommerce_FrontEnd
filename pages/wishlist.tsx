@@ -57,7 +57,7 @@ const Wishlist = () => {
             </div>
             <div className="font-semibold text-2xl">/ Wishlist</div>
          </div>
-         <div className="grid grid-cols-12 dark:bg-dark-primary bg-light-primary rounded-lg font-semibold p-4 mb-2 text-left">
+         <div className="grid grid-cols-12 dark:bg-dark-primary bg-light-primary rounded-lg font-semibold p-4 mb-4 text-left">
             <div className="col-span-1">Avatar</div>
             <div className="col-span-3">Name</div>
             <div className="col-span-2">Category</div>
@@ -70,7 +70,7 @@ const Wishlist = () => {
             <>
                {wishList.map((w) => (
                   <div key={w.id}>
-                     <div className="grid grid-cols-12 gap-2 items-center dark:bg-dark-primary bg-light-primary rounded-lg p-4 text-left font-medium">
+                     <div className="grid grid-cols-12 gap-2 items-center dark:bg-dark-primary bg-light-primary rounded-lg p-4 text-left font-medium mb-2">
                         <div className="col-span-1 flex gap-4 items-center overflow-hidden relative w-16 aspect-square">
                            <Image
                               src={w.avatar}

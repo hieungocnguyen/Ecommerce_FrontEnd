@@ -77,7 +77,10 @@ const OrderReview = ({ IDOpenOrderReviewModel, setIDOpenOrderReviewModel }) => {
                      <div className="grid-cols-3 grid">
                         <div className="font-semibold">Amount COD: </div>
                         <div className="col-span-2">
-                           {reviewInfor.amountCOD}
+                           {reviewInfor.amountCOD.toLocaleString("it-IT", {
+                              style: "currency",
+                              currency: "VND",
+                           })}
                         </div>
                      </div>
                      <div className="grid-cols-3 grid">
@@ -89,14 +92,16 @@ const OrderReview = ({ IDOpenOrderReviewModel, setIDOpenOrderReviewModel }) => {
                      <div className="grid-cols-3 grid">
                         <div className="font-semibold">Order date: </div>
                         <div className="col-span-2">
-                           {"["}
-                           {new Date(reviewInfor.orderDate).getHours()}
-                           {":"}
-                           {new Date(reviewInfor.orderDate).getMinutes()}
-                           {"] | "}
-                           {new Date(reviewInfor.orderDate).toLocaleDateString(
+                           {reviewInfor.orderDate
+                              ? `${"["}
+                           ${new Date(reviewInfor.orderDate).getHours()}
+                           ${":"}
+                           ${new Date(reviewInfor.orderDate).getMinutes()}
+                           ${"] | "}
+                           ${new Date(reviewInfor.orderDate).toLocaleDateString(
                               "en-US"
-                           )}
+                           )}`
+                              : ""}
                         </div>
                      </div>
                   </div>
@@ -107,26 +112,28 @@ const OrderReview = ({ IDOpenOrderReviewModel, setIDOpenOrderReviewModel }) => {
                      <div className="mb-1">
                         <span className="font-semibold">Pick Up Shift: </span>
                         <span className="">
-                           from {"["}
-                           {new Date(
+                           {reviewInfor.pickUpShift.from_time
+                              ? `from ${"["}
+                           ${new Date(
                               reviewInfor.pickUpShift.from_time
                            ).getHours()}
-                           {":"}
-                           {new Date(
+                           ${":"}
+                           ${new Date(
                               reviewInfor.pickUpShift.from_time
                            ).getMinutes()}
-                           {"] "}to{" ["}
-                           {new Date(
+                           ${"] "}to${" ["}
+                           ${new Date(
                               reviewInfor.pickUpShift.to_time
                            ).getHours()}
-                           {":"}
-                           {new Date(
+                           ${":"}
+                           ${new Date(
                               reviewInfor.pickUpShift.to_time
                            ).getMinutes()}
-                           {"] "} {"  |  "}
-                           {new Date(
+                           ${"] "} ${"  |  "}
+                           ${new Date(
                               reviewInfor.pickUpShift.to_time
-                           ).toLocaleDateString("en-US")}
+                           ).toLocaleDateString("en-US")}`
+                              : "This order not selected pickup shift"}
                         </span>
                      </div>
                      <div className="mb-1">
@@ -134,18 +141,20 @@ const OrderReview = ({ IDOpenOrderReviewModel, setIDOpenOrderReviewModel }) => {
                            pickUpTimeOfShipper:{" "}
                         </span>
                         <span className="">
-                           {"["}
-                           {new Date(
+                           {reviewInfor.pickUpTimeOfShipper
+                              ? `${"["}
+                           ${new Date(
                               reviewInfor.pickUpTimeOfShipper
                            ).getHours()}
-                           {":"}
-                           {new Date(
+                           ${":"}
+                           ${new Date(
                               reviewInfor.pickUpTimeOfShipper
                            ).getMinutes()}
-                           {"] | "}
-                           {new Date(
+                           ${"] | "}
+                           ${new Date(
                               reviewInfor.pickUpTimeOfShipper
-                           ).toLocaleDateString("en-US")}
+                           ).toLocaleDateString("en-US")}`
+                              : "This order not selected pickup shift"}
                         </span>
                      </div>
                      <div className="mb-1">

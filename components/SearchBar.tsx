@@ -16,7 +16,16 @@ const SearchBar = ({ categories }) => {
       const query = searchInput.current.value;
       router.push(`/search?input=${query}`);
    };
-   useEffect(() => {}, []);
+
+   const FetchSuggest = (action: number) => {
+      let IntervalId;
+      if (action === 0) {
+         clearInterval(IntervalId);
+      } else {
+         IntervalId = setInterval(() => console.log("hehe"), 2000);
+      }
+   };
+
    return (
       <div>
          <form
@@ -37,6 +46,12 @@ const SearchBar = ({ categories }) => {
                   placeholder="Search post..."
                   defaultValue=""
                   ref={searchInput}
+                  // onFocus={() => {
+                  //    FetchSuggest(1);
+                  // }}
+                  // onBlur={() => {
+                  //    FetchSuggest(0);
+                  // }}
                   className="rounded-lg px-4 py-3 font-semibold outline-none w-[500px] bg-light-primary dark:bg-dark-primary"
                />
                <div className="text-sm flex gap-3 pl-2 pt-1 text-blue-main">
