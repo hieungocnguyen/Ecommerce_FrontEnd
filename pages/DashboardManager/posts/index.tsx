@@ -43,25 +43,39 @@ const Posts = () => {
    }, [postID]);
 
    const handlePublishPost = async (id) => {
-      const resPublish = await API.patch(endpoints["publish_salePost"](id));
-      loadPosts();
-      toast.success("Change state successful!", {
-         position: "top-center",
-      });
+      try {
+         const resPublish = await API.patch(endpoints["publish_salePost"](id));
+         loadPosts();
+         toast.success("Change state successful!", {
+            position: "top-center",
+         });
+      } catch (error) {
+         console.log(error);
+      }
    };
    const handleUnpublishPost = async (id) => {
-      const resPublish = await API.patch(endpoints["unpublish_salePost"](id));
-      loadPosts();
-      toast.success("Change state successful!", {
-         position: "top-center",
-      });
+      try {
+         const resPublish = await API.patch(
+            endpoints["unpublish_salePost"](id)
+         );
+         loadPosts();
+         toast.success("Change state successful!", {
+            position: "top-center",
+         });
+      } catch (error) {
+         console.log(error);
+      }
    };
    const handleDeletePost = async (id) => {
-      const resPublish = await API.delete(endpoints["salePost"](id));
-      loadPosts();
-      toast.success("Delete post successful!", {
-         position: "top-center",
-      });
+      try {
+         const resPublish = await API.delete(endpoints["salePost"](id));
+         loadPosts();
+         toast.success("Delete post successful!", {
+            position: "top-center",
+         });
+      } catch (error) {
+         console.log(error);
+      }
    };
    const handleRouting = async (id) => {
       setTimeout(() => setLoading(true));

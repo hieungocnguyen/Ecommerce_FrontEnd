@@ -40,15 +40,19 @@ const AdminHome = () => {
    const [dataStatCategory, setDataStatCategory] = useState([]);
    useEffect(() => {
       const loadDataCate = async () => {
-         const resDataCate = await API.get(endpoints["stat_post_category"]);
-         resDataCate.data.data.map((c) => {
-            setCategory((category) => [...category, c[0]]);
-            setDataStatCategory((dataStatCategory) => [
-               ...dataStatCategory,
-               c[1],
-            ]);
-         });
-         setRespondCateStat(resDataCate.data.data);
+         try {
+            const resDataCate = await API.get(endpoints["stat_post_category"]);
+            resDataCate.data.data.map((c) => {
+               setCategory((category) => [...category, c[0]]);
+               setDataStatCategory((dataStatCategory) => [
+                  ...dataStatCategory,
+                  c[1],
+               ]);
+            });
+            setRespondCateStat(resDataCate.data.data);
+         } catch (error) {
+            console.log(error);
+         }
       };
       loadDataCate();
    }, []);

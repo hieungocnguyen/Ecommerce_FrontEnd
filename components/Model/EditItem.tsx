@@ -21,8 +21,12 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
    };
 
    const fetchItem = async () => {
-      const { data } = await API.get(endpoints["item"](itemID));
-      setValueItem(data.data);
+      try {
+         const { data } = await API.get(endpoints["item"](itemID));
+         setValueItem(data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    const handleChange = (event) => {

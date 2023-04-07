@@ -21,20 +21,6 @@ import NewItem from "../../../components/Model/NewItem";
 import dynamic from "next/dynamic";
 import emptyvector from "../../../public/empty-box.png";
 
-const CssTextField = styled(TextField)({
-   "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-         borderColor: "white",
-      },
-      "&:hover fieldset": {
-         borderColor: "#525EC1",
-      },
-      "&.Mui-focused fieldset": {
-         borderColor: "#525EC1",
-      },
-   },
-});
-
 const ItemsOfPost = () => {
    const router = useRouter();
    const id = router.query.id;
@@ -98,10 +84,14 @@ const ItemsOfPost = () => {
    };
 
    const loadItems = async () => {
-      const resItems = await API.get(endpoints["salePost"](id));
-      setItems(resItems.data.data.itemPostSet);
-      setPicturesSet(resItems.data.data.picturePostSet);
-      setSalePost(resItems.data.data);
+      try {
+         const resItems = await API.get(endpoints["salePost"](id));
+         setItems(resItems.data.data.itemPostSet);
+         setPicturesSet(resItems.data.data.picturePostSet);
+         setSalePost(resItems.data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {
@@ -111,11 +101,15 @@ const ItemsOfPost = () => {
    }, [id, isOpenNewItem, itemID]);
 
    const handleDeleteItem = async (i) => {
-      const resDelete = await API.delete(endpoints["item"](i.id));
-      loadItems();
-      toast.success("Delete item successful!", {
-         position: "bottom-center",
-      });
+      try {
+         const resDelete = await API.delete(endpoints["item"](i.id));
+         loadItems();
+         toast.success("Delete item successful!", {
+            position: "bottom-center",
+         });
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    return (

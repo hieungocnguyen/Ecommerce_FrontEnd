@@ -19,9 +19,14 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
    const [selectedImage, setSelectedImage] = useState();
    const [importImage, setImportImage] = useState(false);
    const [titleVali, setTitleVali] = useState(false);
+
    const fetchPost = async () => {
-      const { data } = await API.get(endpoints["salePost"](postID));
-      setPost(data.data);
+      try {
+         const { data } = await API.get(endpoints["salePost"](postID));
+         setPost(data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
    useEffect(() => {
       if (postID != 0) {

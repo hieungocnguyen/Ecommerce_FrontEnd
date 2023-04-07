@@ -79,32 +79,3 @@ const AgencyPage = ({ agencyInfo }) => {
 };
 
 export default AgencyPage;
-export const getStaticProps = async (context) => {
-   const id = context.params.id;
-   // const resCategories = await axios.get(
-   //    "http://localhost:8080/ou-ecommerce/api/category/all"
-   // );
-   // const categories = await resCategories.data.data;
-   const resAgency = await API.get(endpoints["agency_info"](id));
-   const agencyInfo = await resAgency.data.data;
-   return { props: { agencyInfo } };
-};
-export async function getStaticPaths() {
-   if (process.env.SKIP_BUILD_STATIC_GENERATION) {
-      return {
-         paths: [],
-         fallback: "blocking",
-      };
-   }
-   const res = await axios.get(
-      "http://localhost:8080/ou-ecommerce/api/agency/all"
-   );
-   const agencys = await res.data.data;
-   const paths = agencys.map((agency) => ({
-      params: { id: agency.id.toString() },
-   }));
-   return {
-      paths,
-      fallback: false, // can also be true or 'blocking'
-   };
-}

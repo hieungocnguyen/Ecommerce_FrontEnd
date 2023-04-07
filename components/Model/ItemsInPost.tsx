@@ -49,7 +49,6 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
       }
 
       setQuantityItems(updatedList);
-      console.log(updatedList);
 
       let tempTotal = 0;
       updatedList.map((i) => (tempTotal += i.unitPrice * i.quantity));

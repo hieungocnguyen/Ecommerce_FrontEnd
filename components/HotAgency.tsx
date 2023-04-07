@@ -28,6 +28,7 @@ const HotAgency = ({ setLoading }) => {
       };
       loadHotAagencies();
    }, []);
+
    return (
       <div>
          <h1 className="text-center font-bold text-2xl my-5">Hot Agency</h1>

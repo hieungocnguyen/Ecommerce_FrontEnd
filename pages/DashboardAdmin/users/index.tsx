@@ -6,8 +6,12 @@ import Image from "next/image";
 const UsersAdminDashboard = () => {
    const [users, setUsers] = useState([]);
    const loadUsers = async () => {
-      const resUsers = await API.get(endpoints["user_all"]);
-      setUsers(resUsers.data.data);
+      try {
+         const resUsers = await API.get(endpoints["user_all"]);
+         setUsers(resUsers.data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
    useEffect(() => {
       loadUsers();
