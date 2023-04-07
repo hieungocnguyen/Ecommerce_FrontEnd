@@ -98,7 +98,8 @@ export default function Home({ categories }) {
       </div>
    );
 }
-export const getStaticProps = async () => {
+
+export const getServerSideProps = async () => {
    const resCategories = await axios.get(
       "http://localhost:8080/ou-ecommerce/api/category/all"
    );

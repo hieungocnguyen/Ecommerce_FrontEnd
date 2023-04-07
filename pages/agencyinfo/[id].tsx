@@ -1,10 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import API, { endpoints } from "../../API";
 import Layout from "../../components/Layout/Layout";
 import ProductItem from "../../components/ProductItem";
+import { ClipLoader } from "react-spinners";
+import Image from "next/image";
 
 const AgencyPage = ({ agencyInfo }) => {
    const [salePosts, setSalePosts] = useState([]);
@@ -12,103 +14,64 @@ const AgencyPage = ({ agencyInfo }) => {
    const id = router.query.id;
    const [numberPage, setnumberPage] = useState(1);
    const [agency, setAgency] = useState<any>({});
-   useEffect(() => {
-      const loadAgency = async () => {
+
+   const loadAgency = async () => {
+      try {
          const resAgency = await API.get(endpoints["agency_info"](id));
          setAgency(resAgency.data.data);
-      };
-      const loadPosts = async () => {
-         const resPosts = await API.post(endpoints["search_salePost"], {
-            agency: agency.name,
-            page: numberPage,
-         });
-         setSalePosts(resPosts.data.data.listResult);
-      };
+      } catch (error) {
+         console.log(error);
+      }
+   };
+   const loadPosts = async () => {
+      try {
+         const resPosts = await API.get(
+            endpoints["get_post_published_by_agencyID"](id)
+         );
+         setSalePosts(resPosts.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
       loadPosts();
       loadAgency();
-      const pages = document.querySelectorAll(".paginator");
-      for (let i = 0; i < pages.length; i++) {
-         if (i === numberPage - 1) {
-            pages[i].classList.add("bg-blue-main");
-         } else {
-            pages[i].classList.remove("bg-blue-main");
-         }
-      }
-   }, [router.query.input, numberPage, id, agency.name]);
+   }, []);
+
    return (
       <Layout title="Agency">
-         {/* <div className="col-span-2 dark:bg-dark-primary bg-light-primary rounded-lg h-fit p-8">
-               <div className="flex justify-center items-center">
-                  <img
+         <div className="my-6">
+            <div className="bg-blue-main rounded-lg h-32 relative">
+               <div className="relative -bottom-10 left-1/2 -translate-x-1/2 overflow-hidden w-40 h-40 ">
+                  <Image
                      src={agency.avatar}
                      alt=""
-                     className="w-60 h-60 rounded-full"
+                     layout="fill"
+                     className="rounded-xl"
                   />
                </div>
-               <div className="my-4 font-semibold text-blue-main text-xl">
+               <div className="text-3xl font-semibold text-center mt-14">
                   {agency.name}
                </div>
-               <div className="my-2 font-semibold">{agencyInfo.field.name}</div>
-
-               <div>{agency.address}</div>
-               <div>{agency.hotline}</div>
-            </div> */}
-         {/* posts side */}
-         <div className="col-span-4 my-8">
-            <div className="col-span-1 grid grid-cols-4 gap-8">
-               {salePosts.map((post) => (
-                  <ProductItem
-                     key={post.id}
-                     product={post}
-                     inCompare={false}
-                     setLoading={undefined}
-                  />
-               ))}
             </div>
-            <div
-               className="flex gap-4
-                justify-center my-8"
-            >
-               <div
-                  className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
-                  onClick={(e) => {
-                     setnumberPage(1);
-                  }}
+            <div className="grid grid-cols-4 gap-8 mt-48">
+               <Suspense
+                  fallback={
+                     <div className="flex justify-center my-8">
+                        <ClipLoader size={35} color="#FF8500" />
+                     </div>
+                  }
                >
-                  1
-               </div>
-               <div
-                  className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
-                  onClick={(e) => {
-                     setnumberPage(2);
-                  }}
-               >
-                  2
-               </div>
-               <div
-                  className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
-                  onClick={(e) => {
-                     setnumberPage(3);
-                  }}
-               >
-                  3
-               </div>
-               <div
-                  className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
-                  onClick={(e) => {
-                     setnumberPage(4);
-                  }}
-               >
-                  4
-               </div>
-               <div
-                  className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator"
-                  onClick={(e) => {
-                     setnumberPage(5);
-                  }}
-               >
-                  5
-               </div>
+                  {salePosts.map((post) => (
+                     <ProductItem
+                        key={post.id}
+                        product={post}
+                        inCompare={false}
+                        setLoading={undefined}
+                     />
+                  ))}
+               </Suspense>
             </div>
          </div>
       </Layout>

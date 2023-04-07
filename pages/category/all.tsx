@@ -17,26 +17,36 @@ const CategoryAll = ({ categories }) => {
    const kw = router.query.input;
    const [datePost, setDatePost] = useState(["2020-06-01", "2023-06-01"]);
    const [value, setValue] = useState<number[]>([100000, 500000]);
-   useEffect(() => {
-      const loadPosts = async () => {
+
+   const loadPosts = async () => {
+      try {
          const resPosts = await API.get(endpoints["get_all_salePost"]);
          setSalePosts(resPosts.data.data);
-      };
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
       loadPosts();
    }, [router.query.input]);
 
    const handleSubmitFilter = async (e) => {
       e.preventDefault();
-      const resPosts = await API.post(endpoints["search_salePost"], {
-         kw: "",
-         page: page,
-         fromDate: new Date(datePost[0]).toLocaleDateString("en-US"),
-         fromPrice: value[0],
-         toDate: new Date(datePost[1]).toLocaleDateString("en-US"),
-         toPrice: value[1],
-      });
-      setSalePosts(resPosts.data.data.listResult);
-      console.log(resPosts.data.data.listResult);
+      try {
+         const resPosts = await API.post(endpoints["search_salePost"], {
+            kw: "",
+            page: page,
+            fromDate: new Date(datePost[0]).toLocaleDateString("en-US"),
+            fromPrice: value[0],
+            toDate: new Date(datePost[1]).toLocaleDateString("en-US"),
+            toPrice: value[1],
+         });
+         setSalePosts(resPosts.data.data.listResult);
+         console.log(resPosts.data.data.listResult);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    const handleChange = (event: Event, newValue: number | number[]) => {
@@ -45,7 +55,7 @@ const CategoryAll = ({ categories }) => {
    return (
       <Layout title="Search Page">
          <SearchBar categories={categories} />
-         <div className="text-2xl my-8">All Post</div>
+         <div className="text-3xl my-8 font-semibold">All sale post</div>
          <div className="grid grid-cols-8 gap-8">
             {/* filter side */}
             <form
@@ -105,7 +115,7 @@ const CategoryAll = ({ categories }) => {
                </div>
             </form>
             {/* posts side */}
-            <div className="col-span-6 grid grid-cols-4 gap-8 mb-8">
+            <div className="col-span-6 grid grid-cols-3 gap-8 mb-8">
                {salePosts.map((post) => (
                   <ProductItem
                      key={post.id}

@@ -66,13 +66,23 @@ const SearchBar = ({ categories }) => {
             id="container-category"
          >
             <Link href={`/category/all`}>
-               <div className="bg-primary-color rounded-lg h-10 hover:opacity-80 cursor-pointer flex items-center justify-center">
+               <div
+                  className="bg-primary-color rounded-lg h-10 hover:opacity-80 cursor-pointer flex items-center justify-center"
+                  onClick={() => {
+                     setIsOpen(false);
+                  }}
+               >
                   <a className="font-semibold text-sm text-white">All</a>
                </div>
             </Link>
             {categories.map((i) => (
                <Link href={`/category/${i.id}`} key={i.id}>
-                  <div className="bg-blue-main text-white font-semibold text-sm rounded-lg h-10 flex items-center justify-center hover:opacity-80 cursor-pointer">
+                  <div
+                     className="bg-blue-main text-white font-semibold text-sm rounded-lg h-10 flex items-center justify-center hover:opacity-80 cursor-pointer"
+                     onClick={() => {
+                        setIsOpen(false);
+                     }}
+                  >
                      {i.name}
                   </div>
                </Link>

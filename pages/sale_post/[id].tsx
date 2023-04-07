@@ -367,6 +367,7 @@ const CommentForm = ({
 };
 
 export default ProductPage;
+
 export const getServerSideProps = async (context) => {
    // request salepost detail
    const id = context.params.id;

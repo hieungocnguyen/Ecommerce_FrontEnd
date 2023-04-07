@@ -395,6 +395,3 @@ const RegisterAgency = () => {
 };
 
 export default RegisterAgency;
-function fetchProvinceAll() {
-   throw new Error("Function not implemented.");
-}

@@ -18,29 +18,42 @@ const CategoryPage = ({ categories, category }) => {
    const [datePost, setDatePost] = useState(["2020-06-01", "2023-06-01"]);
    const [value, setValue] = useState<number[]>([100000, 500000]);
    const { slug } = router.query;
-   useEffect(() => {
-      const loadPosts = async () => {
+
+   const loadPosts = async () => {
+      try {
          const resPosts = await API.post(endpoints["search_salePost"], {
             categoryID: Number(slug),
          });
          setSalePosts(resPosts.data.data.listResult);
-      };
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
       loadPosts();
+      console.log(category);
    }, [slug]);
+
    const handleSubmitFilter = async (e) => {
       e.preventDefault();
-      const resPosts = await API.post(endpoints["search_salePost"], {
-         kw: "",
-         page: page,
-         category: Number(slug),
-         fromDate: new Date(datePost[0]).toLocaleDateString("en-US"),
-         fromPrice: value[0],
-         toDate: new Date(datePost[1]).toLocaleDateString("en-US"),
-         toPrice: value[1],
-      });
-      setSalePosts(resPosts.data.data.listResult);
-      console.log(resPosts.data.data.listResult);
+      try {
+         const resPosts = await API.post(endpoints["search_salePost"], {
+            kw: "",
+            page: page,
+            category: Number(slug),
+            fromDate: new Date(datePost[0]).toLocaleDateString("en-US"),
+            fromPrice: value[0],
+            toDate: new Date(datePost[1]).toLocaleDateString("en-US"),
+            toPrice: value[1],
+         });
+         setSalePosts(resPosts.data.data.listResult);
+         console.log(resPosts.data.data.listResult);
+      } catch (error) {
+         console.log(error);
+      }
    };
+
    const handleChange = (event: Event, newValue: number | number[]) => {
       setValue(newValue as number[]);
    };
@@ -48,7 +61,7 @@ const CategoryPage = ({ categories, category }) => {
    return (
       <Layout title="Search Page">
          <SearchBar categories={categories} />
-         <div className="text-2xl my-8">Category {category.title}</div>
+         <div className="text-3xl my-8 font-semibold">{category.name}</div>
          <div className="grid grid-cols-8 gap-8">
             {/* filter side */}
             <form
@@ -109,7 +122,7 @@ const CategoryPage = ({ categories, category }) => {
             </form>
             {/* posts side */}
             {salePosts ? (
-               <div className="col-span-6 grid grid-cols-4 gap-8 mb-8">
+               <div className="col-span-6 grid grid-cols-3 gap-8 mb-8">
                   {salePosts.map((post) => (
                      <ProductItem
                         key={post.id}
@@ -128,7 +141,7 @@ const CategoryPage = ({ categories, category }) => {
 };
 
 export default CategoryPage;
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
    const res = await axios.get(
       "http://localhost:8080/ou-ecommerce/api/category/all"
    );
@@ -140,25 +153,26 @@ export const getStaticProps = async (context) => {
       "http://localhost:8080/ou-ecommerce/api/category/" + id
    );
    const category = await resCategory.data.data;
+
    return { props: { categories, category } };
 };
 
-export async function getStaticPaths() {
-   if (process.env.SKIP_BUILD_STATIC_GENERATION) {
-      return {
-         paths: [],
-         fallback: "blocking",
-      };
-   }
-   const res = await axios.get(
-      "http://localhost:8080/ou-ecommerce/api/category/all"
-   );
-   const category = await res.data.data;
-   const paths = category.map((cate) => ({
-      params: { slug: cate.id.toString() },
-   }));
-   return {
-      paths,
-      fallback: false, // can also be true or 'blocking'
-   };
-}
+// export async function getStaticPaths() {
+//    if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+//       return {
+//          paths: [],
+//          fallback: "blocking",
+//       };
+//    }
+//    const res = await axios.get(
+//       "http://localhost:8080/ou-ecommerce/api/category/all"
+//    );
+//    const category = await res.data.data;
+//    const paths = category.map((cate) => ({
+//       params: { slug: cate.id.toString() },
+//    }));
+//    return {
+//       paths,
+//       fallback: false, // can also be true or 'blocking'
+//    };
+// }

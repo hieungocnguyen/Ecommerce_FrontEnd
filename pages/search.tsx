@@ -58,7 +58,7 @@ const Search = ({ categories }) => {
          <SearchBar categories={categories} />
          {router.query.input ? (
             <div className="text-2xl my-8 italic">
-               Result for &quot;{router.query.input}&quot;
+               Results for &quot;{router.query.input}&quot;
             </div>
          ) : (
             <div> </div>
@@ -162,7 +162,7 @@ const Search = ({ categories }) => {
 };
 
 export default Search;
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
    const resCategories = await axios.get(
       "http://localhost:8080/ou-ecommerce/api/category/all"
    );

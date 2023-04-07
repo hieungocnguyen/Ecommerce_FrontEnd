@@ -71,28 +71,34 @@ const CategoryStatisticle = () => {
    return (
       <LayoutDashboardManager title="Category Stat">
          <div className="w-[90%] mx-auto my-10">
-            <div className="font-semibold text-2xl my-10">
-               Category statistical
+            <div className="font-semibold text-xl my-4">
+               Statistical category
             </div>
-            <div className="grid grid-cols-4 gap-4">
-               <div className="col-span-2 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
+            <div className="grid grid-cols-12 gap-4">
+               <div className="col-span-6 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                   <Doughnut data={dataCate} />
                </div>
-               <div className="col-span-2 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
-                  <div className="grid grid-cols-3 font-semibold text-lg border-b-2 pb-2">
-                     <div className="col-span-2">Category</div>
-                     <div className="">Posts</div>
-                  </div>
-                  <div className="">
-                     {respondCateStat.map((c) => (
-                        <div
-                           key={c[0]}
-                           className="py-2 grid grid-cols-3 border-b-2 "
-                        >
-                           <div className="col-span-2">{c[0]}</div>
-                           <div className="">{c[1]}</div>
-                        </div>
-                     ))}
+               <div className="col-span-6 dark:bg-dark-primary bg-light-primary rounded-lg p-8">
+                  <div className="text-left font-medium ">
+                     <table className="w-full">
+                        <tr className="border-b-2 border-dark-spot dark:bg-light-primary  text-lg">
+                           <td className="border-r-2 border-dark-spot dark:bg-light-primary">
+                              Category
+                           </td>
+                           <td className="text-center">Number of post</td>
+                        </tr>
+                        {respondCateStat.map((item) => (
+                           <tr
+                              key={item.id}
+                              className="border-b-2 border-dark-spot dark:bg-light-primary"
+                           >
+                              <td className="border-r-2 border-dark-spot dark:bg-light-primary">
+                                 {item[0]}
+                              </td>
+                              <td className="text-center">{item[1]}</td>
+                           </tr>
+                        ))}
+                     </table>
                   </div>
                </div>
             </div>
