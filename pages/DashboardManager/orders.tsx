@@ -66,7 +66,7 @@ const Orders = () => {
                   <>
                      <div className="mt-8">
                         <div className="grid grid-cols-12 font-semibold px-4 py-4 dark:bg-dark-primary bg-light-primary mb-4 rounded-lg text-center">
-                           <div className="col-span-1 ">ID</div>
+                           <div className="col-span-1 ">Order Code</div>
                            <div className="col-span-1 ">Items</div>
                            <div className="col-span-2 ">Date</div>
                            <div className="col-span-4 ">State</div>

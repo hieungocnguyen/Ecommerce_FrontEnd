@@ -66,7 +66,6 @@ const Header = () => {
          });
       }
    };
-
    const loadNumberofItems = async () => {
       try {
          const resNumber = await API.get(
@@ -84,7 +83,7 @@ const Header = () => {
       if (userInfo) {
          loadNumberofItems();
       }
-   }, [numberItem, cart]);
+   }, [cart]);
 
    return (
       <div className="bg-light-primary dark:bg-dark-primary flex justify-between items-center w-[90%] mx-auto rounded-b-lg py-[10px]">

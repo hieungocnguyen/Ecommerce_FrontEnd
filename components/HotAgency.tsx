@@ -10,9 +10,7 @@ const HotAgency = ({ setLoading }) => {
    const router = useRouter();
 
    const handleRouteAgency = (agencyID) => {
-      setTimeout(() => setLoading(true));
       router.push(`/agencyinfo/${agencyID}`);
-      setLoading(false);
    };
 
    useEffect(() => {

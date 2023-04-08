@@ -7,10 +7,8 @@ import Cookies from "js-cookie";
 import { Store } from "../../utils/Store";
 import Router, { useRouter } from "next/router";
 import Image from "next/image";
-import { type } from "os";
 import Rating from "@mui/material/Rating";
 import toast, { Toaster } from "react-hot-toast";
-import { BiStore } from "react-icons/bi";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -64,9 +62,7 @@ const ProductPage = ({ salePost }) => {
    }, []);
 
    const handleRouteAgency = () => {
-      setTimeout(() => setLoading(true));
       router.push(`/agencyinfo/${salePost.agency.id}`);
-      setLoading(false);
    };
 
    return (
@@ -208,10 +204,12 @@ const ProductPage = ({ salePost }) => {
             }`}
          >
             <div className="w-3/4 h-[34rem]">
-               <ItemsInPost
-                  items={salePost.itemPostSet}
-                  setIsOpenItemsModal={setIsOpenItemsModal}
-               />
+               {isOpenItemsModal && (
+                  <ItemsInPost
+                     items={salePost.itemPostSet}
+                     setIsOpenItemsModal={setIsOpenItemsModal}
+                  />
+               )}
             </div>
          </div>
 

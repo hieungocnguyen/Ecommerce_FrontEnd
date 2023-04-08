@@ -20,6 +20,7 @@ const Search = ({ categories }) => {
    const [numberPage, setnumberPage] = useState(1);
    const [totalPage, setTotalPage] = useState(1);
    const [loading, setLoading] = useState(false);
+
    useEffect(() => {
       const loadPosts = async () => {
          try {
@@ -126,12 +127,7 @@ const Search = ({ categories }) => {
             {/* posts side */}
             <div className="col-span-6 grid grid-cols-3 gap-8">
                {salePosts.map((post) => (
-                  <ProductItem
-                     key={post.id}
-                     product={post}
-                     inCompare={false}
-                     setLoading={setLoading}
-                  />
+                  <ProductItem key={post.id} product={post} inCompare={false} />
                ))}
             </div>
          </div>

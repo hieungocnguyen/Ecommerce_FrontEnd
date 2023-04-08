@@ -128,7 +128,6 @@ const CategoryPage = ({ categories, category }) => {
                         key={post.id}
                         product={post}
                         inCompare={false}
-                        setLoading={undefined}
                      />
                   ))}
                </div>

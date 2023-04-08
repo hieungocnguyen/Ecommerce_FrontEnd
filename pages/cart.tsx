@@ -30,6 +30,7 @@ const Cart = () => {
    const [loading, setLoading] = useState(false);
    const router = useRouter();
    const [isOpenConfirmRemove, setIsOpenConfirmRemove] = useState(false);
+
    const loadTotalCart = async () => {
       try {
          const resTotal = await API.get(endpoints["get_total"](userInfo.id));
@@ -88,7 +89,6 @@ const Cart = () => {
          });
       } catch (error) {}
    };
-
    const handleChangeQuantity = (item: any, type: number) => {
       let objItem = {
          itemID: item.itemPost.id,
@@ -123,7 +123,6 @@ const Cart = () => {
       };
       fetchUpdateCart();
    };
-
    const handleRouteCheckout = () => {
       setTimeout(() => setLoading(true));
       router.push("/checkout/payment");
@@ -347,8 +346,6 @@ const Cart = () => {
                   </>
                )}
             </Suspense>
-
-            {loading ? <Loader /> : <></>}
             <Toaster />
          </Layout>
       );

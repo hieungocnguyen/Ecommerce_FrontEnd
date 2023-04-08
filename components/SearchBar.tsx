@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { BiListUl, BiSearch } from "react-icons/bi";
+import API, { endpoints } from "../API";
 
 const quickSearch = ["airpod", "gaming desk", "blaze"];
 
@@ -10,6 +11,8 @@ const SearchBar = ({ categories }) => {
    const router = useRouter();
    const searchInput = useRef(null);
    const [isOpen, setIsOpen] = useState(false);
+   const [suggestText, setSuggestText] = useState([]);
+   const [isOpenSearch, setIsOpenSearch] = useState(false);
 
    const searchByKeyWord = (e: any) => {
       e.preventDefault();
@@ -17,21 +20,38 @@ const SearchBar = ({ categories }) => {
       router.push(`/search?input=${query}`);
    };
 
-   const FetchSuggest = (action: number) => {
-      let IntervalId;
-      if (action === 0) {
-         clearInterval(IntervalId);
-      } else {
-         IntervalId = setInterval(() => console.log("hehe"), 2000);
+   const FetchSuggest = async (keyword: string) => {
+      try {
+         const res = await API.get(
+            `${endpoints["get_keyword_suggest"]}?keyword=${keyword}`
+         );
+         setSuggestText(res.data.data);
+         if (res.data.data.length > 0) {
+            setIsOpenSearch(true);
+         }
+      } catch (error) {
+         console.log(error);
       }
    };
 
+   useEffect(() => {
+      function handleClickOutside(event) {
+         if (
+            searchInput.current &&
+            !searchInput.current.contains(event.target)
+         ) {
+            setIsOpenSearch(false);
+         }
+      }
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+         document.removeEventListener("mousedown", handleClickOutside);
+      };
+   }, [searchInput]);
+
    return (
       <div>
-         <form
-            onSubmit={searchByKeyWord}
-            className="flex justify-center gap-4 my-6"
-         >
+         <div className="flex justify-center gap-4 my-6">
             <button
                className="px-4 py-3 bg-blue-main rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-blue-main"
                onClick={() => setIsOpen(!isOpen)}
@@ -40,18 +60,16 @@ const SearchBar = ({ categories }) => {
                <BiListUl className="text-2xl" />
                <div className="font-semibold">Category</div>
             </button>
-            <div className="text-left">
+            <div className="text-left relative">
                <input
                   type="text"
                   placeholder="Search post..."
                   defaultValue=""
                   ref={searchInput}
-                  // onFocus={() => {
-                  //    FetchSuggest(1);
-                  // }}
-                  // onBlur={() => {
-                  //    FetchSuggest(0);
-                  // }}
+                  onChange={(e) => {
+                     FetchSuggest(e.target.value);
+                  }}
+                  onClick={() => setIsOpenSearch(true)}
                   className="rounded-lg px-4 py-3 font-semibold outline-none w-[500px] bg-light-primary dark:bg-dark-primary"
                />
                <div className="text-sm flex gap-3 pl-2 pt-1 text-blue-main">
@@ -65,15 +83,35 @@ const SearchBar = ({ categories }) => {
                      </div>
                   ))}
                </div>
+               {suggestText.length > 0 && isOpenSearch ? (
+                  <>
+                     <div className="absolute rounded-lg z-30 left-0 top-14 w-full h-fit bg-light-primary p-2">
+                        {suggestText.map((text) => (
+                           <div
+                              key={text.id}
+                              onClick={(e) => {
+                                 searchInput.current.value = text;
+                                 searchByKeyWord(e);
+                              }}
+                              className="p-2 cursor-pointer hover:text-blue-main font-medium rounded-lg"
+                           >
+                              {text}
+                           </div>
+                        ))}
+                     </div>
+                  </>
+               ) : (
+                  <></>
+               )}
             </div>
             <button
-               type="submit"
+               onClick={searchByKeyWord}
                className="px-4 py-3 bg-blue-main rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-blue-main"
             >
                <BiSearch className="text-2xl" />
                <div className="font-semibold">Search</div>
             </button>
-         </form>
+         </div>
          <div
             className={`grid grid-cols-5 gap-8 absolute z-10 top-[160px] dark:bg-dark-primary bg-light-primary rounded-lg p-8 w-[90%] transition-all ease-out duration-200 ${
                isOpen ? "scale-100" : "scale-0 -translate-y-40 -translate-x-80"

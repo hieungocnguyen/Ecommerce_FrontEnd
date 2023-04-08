@@ -37,6 +37,7 @@ export let endpoints = {
       `/sale-post/un-published/${agencyID}/all`,
    get_all_post_by_agencyID: (agencyID) =>
       `/sale-post/get-all-sale-post-by-agency-id/${agencyID}`,
+   get_keyword_suggest: `/sale-post/get-keywords-suggest-for-search`,
    //cart API
    add_to_cart: "/cart/add-to-cart",
    update_cart: "/cart/update-cart",

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useRef, useEffect, useState, useContext } from "react";
 import Advertise from "../components/Advertise";
 import Layout from "../components/Layout/Layout";
-import ProductItem from "../components/ProductItem";
+// import ProductItem from "../components/ProductItem";
 import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { Store } from "../utils/Store";
@@ -10,6 +10,10 @@ import API, { endpoints } from "../API";
 import HotAgency from "../components/HotAgency";
 import Loader from "../components/Loader";
 import { log } from "console";
+import dynamic from "next/dynamic";
+
+//lazy loading
+const ProductItem = dynamic(import("../components/ProductItem"));
 
 export default function Home({ categories }) {
    const { state, dispatch } = useContext(Store);
@@ -59,12 +63,7 @@ export default function Home({ categories }) {
                   </h1>
                   <div className="grid lg:grid-cols-4 grid-cols-2 gap-10">
                      {salePosts.map((i) => (
-                        <ProductItem
-                           key={i.id}
-                           product={i}
-                           inCompare={false}
-                           setLoading={setLoading}
-                        />
+                        <ProductItem key={i.id} product={i} inCompare={false} />
                      ))}
                   </div>
 

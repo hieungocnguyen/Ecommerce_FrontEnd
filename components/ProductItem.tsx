@@ -14,8 +14,9 @@ import { Store } from "../utils/Store";
 import toast, { Toaster } from "react-hot-toast";
 import QuickView from "./Model/QuickView";
 import ItemsInPost from "./Model/ItemsInPost";
+import Loading from "./Loading";
 
-const ProductItem = ({ product, inCompare, setLoading }) => {
+const ProductItem = ({ product, inCompare }) => {
    const [stateLike, setStateLike] = useState(false);
    const router = useRouter();
    const { state, dispatch } = useContext(Store);
@@ -100,10 +101,9 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
       }
    };
    const handleDetailRoute = () => {
-      setTimeout(() => setLoading(true));
       router.push(`/sale_post/${product.id}`);
-      setLoading(false);
    };
+
    useEffect(() => {
       if (Cookies.get("accessToken")) {
          loadLikeStatus();
@@ -154,6 +154,7 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
                   onClick={(event) => {
                      event.stopPropagation();
                      setIsOpenItemsModal(true);
+                     console.log(product);
                   }}
                >
                   <BiCartAlt />
@@ -221,28 +222,32 @@ const ProductItem = ({ product, inCompare, setLoading }) => {
          </div>
 
          <div
-            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-30 ${
                isOpenQuickViewModal ? "flex" : "hidden"
             }`}
          >
-            <div className="w-1/2 h-fit ">
-               <QuickView
-                  postID={product.id}
-                  setIsOpenQuickViewModal={setIsOpenQuickViewModal}
-               />
-            </div>
+            {isOpenQuickViewModal && (
+               <div className="w-1/2 h-fit">
+                  <QuickView
+                     postID={product.id}
+                     setIsOpenQuickViewModal={setIsOpenQuickViewModal}
+                  />
+               </div>
+            )}
          </div>
          <div
-            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-30 ${
                isOpenItemsModal ? "flex" : "hidden"
             }`}
          >
-            <div className="w-3/4 h-[34rem]">
-               <ItemsInPost
-                  items={product.itemPostSet}
-                  setIsOpenItemsModal={setIsOpenItemsModal}
-               />
-            </div>
+            {isOpenItemsModal && (
+               <div className="w-3/4 h-[34rem]">
+                  <ItemsInPost
+                     items={product.itemPostSet}
+                     setIsOpenItemsModal={setIsOpenItemsModal}
+                  />
+               </div>
+            )}
          </div>
       </div>
    );

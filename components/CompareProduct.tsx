@@ -5,18 +5,30 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import emptyBox from "../public/empty-box.png";
 import { Store } from "../utils/Store";
+import API, { endpoints } from "../API";
 
 const CompareProduct = ({ openCompare }) => {
-   const [products, setProducts] = useState([]);
+   const [posts, setPosts] = useState([]);
    const { state, dispatch } = useContext(Store);
    const { compare } = state;
 
+   const fetchProducts = () => {
+      let tempPosts = Cookies.get("compare")
+         ? JSON.parse(Cookies.get("compare"))
+         : [];
+      try {
+         if (tempPosts.length > 0) {
+            tempPosts.map(async (post) => {
+               const resPost = await API.get(endpoints["salePost"](post.id));
+               Object.assign(post, resPost.data.data);
+            });
+         }
+         setPosts(tempPosts);
+      } catch (error) {}
+   };
+
    useEffect(() => {
-      if (openCompare) {
-         setProducts(
-            Cookies.get("compare") ? JSON.parse(Cookies.get("compare")) : []
-         );
-      }
+      fetchProducts();
    }, [openCompare, compare]);
 
    return (
@@ -33,14 +45,13 @@ const CompareProduct = ({ openCompare }) => {
             </div>
             <div className="mt-4">
                <div className={`grid grid-cols-4 gap-4 `}>
-                  {products.length > 0 ? (
+                  {posts.length > 0 ? (
                      <>
-                        {products.map((p) => (
+                        {posts.map((product) => (
                            <ProductItem
-                              key={p.id}
-                              product={p}
+                              key={product.id}
+                              product={product}
                               inCompare={true}
-                              setLoading={undefined}
                            />
                         ))}
                      </>
