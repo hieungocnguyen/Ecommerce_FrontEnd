@@ -9,8 +9,12 @@ import { Store } from "../utils/Store";
 import API, { endpoints } from "../API";
 import HotAgency from "../components/HotAgency";
 import Loader from "../components/Loader";
-import { log } from "console";
 import dynamic from "next/dynamic";
+import f1 from "../public/1feature.png";
+import f2 from "../public/2feature.png";
+import f3 from "../public/3feature.png";
+import f4 from "../public/4feature.png";
+import Image from "next/image";
 
 //lazy loading
 const ProductItem = dynamic(import("../components/ProductItem"));
@@ -56,6 +60,62 @@ export default function Home({ categories }) {
                <Advertise />
                <div className="my-16">
                   <HotAgency setLoading={setLoading} />
+               </div>
+               <div className="grid grid-cols-4 gap-6 h-fit">
+                  <div className="border-[3px] border-blue-main p-4 rounded-lg flex gap-4 items-center">
+                     <div className="relative w-16 aspect-square  overflow-hidden">
+                        <Image
+                           src={f1}
+                           alt="img"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                     </div>
+                     <div className=" font-bold text-xl text-left ">
+                        Variety of
+                        <br /> products
+                     </div>
+                  </div>
+                  <div className="border-[3px] border-blue-main p-4 rounded-lg  flex gap-4 items-center">
+                     <div className="relative w-16 aspect-square">
+                        <Image
+                           src={f2}
+                           alt="img"
+                           layout="fill"
+                           className="object-contain"
+                        />
+                     </div>
+                     <div className="font-bold text-xl text-left ">
+                        Best quality guarantee
+                     </div>
+                  </div>
+                  <div className="border-[3px] border-blue-main p-4 rounded-lg flex gap-4 items-center">
+                     <div className="relative w-16 aspect-square  overflow-hidden">
+                        <Image
+                           src={f3}
+                           alt="img"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                     </div>
+                     <div className=" font-bold text-xl text-left ">
+                        Easy tracking
+                        <br /> your order
+                     </div>
+                  </div>
+                  <div className="border-[3px] border-blue-main p-4 rounded-lg flex gap-4 items-center">
+                     <div className="relative w-20 h-16 overflow-hidden">
+                        <Image
+                           src={f4}
+                           alt="img"
+                           layout="fill"
+                           className="object-contain"
+                        />
+                     </div>
+                     <div className=" font-bold text-xl text-left ">
+                        Fast & low cost shipping
+                     </div>
+                  </div>
                </div>
                <div className="my-8">
                   <h1 className="text-center font-bold text-2xl my-5">

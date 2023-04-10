@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { Suspense, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { BiShowAlt } from "react-icons/bi";
+import { BiArrowBack, BiShowAlt } from "react-icons/bi";
 import API, { endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import OrderView from "../components/Model/OrderView";
@@ -14,6 +14,7 @@ import stateorder4 from "../public/stateorder4.png";
 import stateorder5 from "../public/stateorder5.png";
 import stateorder6 from "../public/stateorder6.png";
 import Image from "next/image";
+import router from "next/router";
 
 const Orders = () => {
    const { state, dispatch } = useContext(Store);
@@ -37,10 +38,19 @@ const Orders = () => {
 
    return (
       <Layout title="Your Order">
-         <div className="font-semibold text-2xl py-6">Your Orders</div>
+         <div className="flex gap-4 items-center m-6">
+            <div
+               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               onClick={() => router.back()}
+            >
+               <BiArrowBack />
+            </div>
+            <div className="font-semibold text-2xl">/ Your Orders</div>
+         </div>
+
          <div className="rounded-lg overflow-hidden">
             <div className="grid grid-cols-12 p-5 dark:bg-dark-primary bg-light-primary items-center font-semibold">
-               <div className="col-span-2">Date</div>
+               <div className="col-span-2">Order date</div>
                <div className="col-span-2 text-right">Price</div>
                <div className="col-span-3">Agency</div>
                <div className="col-span-4">State</div>

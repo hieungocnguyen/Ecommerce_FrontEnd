@@ -33,7 +33,7 @@ const HotAgency = ({ setLoading }) => {
          <div className="grid grid-cols-4 gap-8">
             {}
             {hotAgency.map((agency) => (
-               <div className="relative" key={agency.id}>
+               <div className="relative" key={agency[0].id}>
                   <div
                      className="dark:bg-dark-primary bg-light-primary rounded-lg p-6 cursor-pointer  hover:shadow-lg"
                      onClick={() => handleRouteAgency(agency[0].id)}

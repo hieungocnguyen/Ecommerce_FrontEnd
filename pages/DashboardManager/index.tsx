@@ -64,15 +64,15 @@ const AgencyHome = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-8 mt-10">
                      <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
-                        <div>Follow</div>
+                        <div>Follow(s)</div>
                         <div>0</div>
                      </div>
                      <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
-                        <div>Post</div>
+                        <div>Sale post(s)</div>
                         <div>{countPosts}</div>
                      </div>
                      <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
-                        <div>Order</div>
+                        <div>Order(s)</div>
                         <div>{countOrders}</div>
                      </div>
                   </div>

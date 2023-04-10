@@ -73,7 +73,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
 
    const handleSubmitAddToAddressBook = async (e) => {
       e.preventDefault();
-      e.target.reset();
+
       try {
          const resCreate = await API.post(endpoints["create_address"], {
             addressType: addressFull.addressType,
@@ -94,6 +94,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
             setIsOpenAddAddress(false);
             setResetForm(!resetForm);
             toast.success("Add sucessful", { position: "top-center" });
+            e.target.reset();
          }
          if (resCreate.data.code == "400") {
             toast.error(resCreate.data.message, { position: "top-center" });

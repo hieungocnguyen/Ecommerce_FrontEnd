@@ -43,6 +43,7 @@ const Orders = () => {
    const [IDOpenOrderReviewModel, setIDOpenOrderReviewModel] = useState(-1);
    const [IDOpenOrderPickShiftModel, setIDOpenOrderPickShiftModel] =
       useState(-1);
+   const [orderInfoModel, setOrderInfoModel] = useState<any>({});
 
    const loadOrders = async () => {
       try {
@@ -86,10 +87,13 @@ const Orders = () => {
                                  </div>
                                  <div className="col-span-1">
                                     <button
-                                       className="text-2xl p-3 bg-blue-main text-white rounded-lg hover:shadow-lg hover:shadow-blue-main"
+                                       className={`text-2xl p-3 bg-blue-main text-white rounded-lg hover:shadow-lg hover:shadow-blue-main disabled:bg-gray-300 disabled:shadow-none  `}
                                        onClick={() => {
                                           setIDOpenModelOrderItems(order.id);
                                        }}
+                                       disabled={
+                                          order.orderExpressID ? false : true
+                                       }
                                        title="Show items of order"
                                     >
                                        <BiDetail />
@@ -142,10 +146,14 @@ const Orders = () => {
                                  </div>
                                  <div className="col-span-4 flex justify-center gap-4">
                                     <button
-                                       className="text-2xl p-3 bg-blue-main text-white rounded-lg hover:shadow-lg hover:shadow-blue-main"
+                                       className="text-2xl p-3 bg-blue-main text-white rounded-lg hover:shadow-lg hover:shadow-blue-main disabled:bg-gray-300 disabled:shadow-none "
                                        title="Review information of order"
+                                       disabled={
+                                          order.orderExpressID ? false : true
+                                       }
                                        onClick={() => {
                                           setIDOpenOrderReviewModel(order.id);
+                                          setOrderInfoModel(order);
                                        }}
                                     >
                                        <BiReceipt />
@@ -261,12 +269,13 @@ const Orders = () => {
                               IDOpenOrderReviewModel > -1 ? "flex" : "hidden"
                            }`}
                         >
-                           <div className="w-2/5  h-fit">
+                           <div className="w-1/2  h-fit">
                               <OrderReview
                                  IDOpenOrderReviewModel={IDOpenOrderReviewModel}
                                  setIDOpenOrderReviewModel={
                                     setIDOpenOrderReviewModel
                                  }
+                                 orderInfo={orderInfoModel}
                               />
                            </div>
                         </div>

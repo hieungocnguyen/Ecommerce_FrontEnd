@@ -19,6 +19,7 @@ import {
 import { Bar, Line } from "react-chartjs-2";
 import Link from "next/link";
 import ConfirmModel from "../../../../components/Model/ConfirmModel";
+import toast from "react-hot-toast";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
@@ -91,6 +92,7 @@ const AgencyPage = ({ agencyInfo }) => {
       try {
          const res = await API.patch(endpoints["ban_agency"](id));
          fetchAgency();
+         toast.success("Ban agency successful", { position: "top-center" });
       } catch (error) {
          console.log(error);
       }
@@ -100,6 +102,7 @@ const AgencyPage = ({ agencyInfo }) => {
       try {
          const res = await API.patch(endpoints["unban_agency"](id));
          fetchAgency();
+         toast.success("Ban agency unsuccessful", { position: "top-center" });
       } catch (error) {
          console.log(error);
       }

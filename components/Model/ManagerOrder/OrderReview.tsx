@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import API, { endpoints } from "../../../API";
 
-const OrderReview = ({ IDOpenOrderReviewModel, setIDOpenOrderReviewModel }) => {
+const OrderReview = ({
+   IDOpenOrderReviewModel,
+   setIDOpenOrderReviewModel,
+   orderInfo,
+}) => {
    const wrapperRef = useRef(null);
    const [reviewInfor, setReviewInfo] = useState<any>({});
 
@@ -62,7 +66,7 @@ const OrderReview = ({ IDOpenOrderReviewModel, setIDOpenOrderReviewModel }) => {
                      <div className="grid-cols-3 grid">
                         <div className="font-semibold">Address: </div>
                         <div className="col-span-2">
-                           {reviewInfor.customerAddress}
+                           {orderInfo.deliveryInfo.fullAddress}
                         </div>
                      </div>
                   </div>
@@ -104,6 +108,12 @@ const OrderReview = ({ IDOpenOrderReviewModel, setIDOpenOrderReviewModel }) => {
                               : ""}
                         </div>
                      </div>
+                     <div className="grid-cols-3 grid">
+                        <div className="font-semibold">Order status: </div>
+                        <div className="col-span-2 uppercase">
+                           {reviewInfor.orderStatus}
+                        </div>
+                     </div>
                   </div>
                </div>
                <div className="bg-dark-text dark:bg-dark-bg rounded-xl p-3 my-3">
@@ -136,7 +146,7 @@ const OrderReview = ({ IDOpenOrderReviewModel, setIDOpenOrderReviewModel }) => {
                               : "This order not selected pickup shift"}
                         </span>
                      </div>
-                     <div className="mb-1">
+                     {/* <div className="mb-1">
                         <span className="font-semibold">
                            pickUpTimeOfShipper:{" "}
                         </span>
@@ -156,7 +166,7 @@ const OrderReview = ({ IDOpenOrderReviewModel, setIDOpenOrderReviewModel }) => {
                            ).toLocaleDateString("en-US")}`
                               : "This order not selected pickup shift"}
                         </span>
-                     </div>
+                     </div> */}
                      <div className="mb-1">
                         <span className="font-semibold">
                            Expected Delivery Time:{" "}

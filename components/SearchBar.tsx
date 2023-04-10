@@ -10,12 +10,12 @@ const quickSearch = ["airpod", "gaming desk", "blaze"];
 const SearchBar = ({ categories }) => {
    const router = useRouter();
    const searchInput = useRef(null);
+   const searchContainer = useRef(null);
    const [isOpen, setIsOpen] = useState(false);
    const [suggestText, setSuggestText] = useState([]);
    const [isOpenSearch, setIsOpenSearch] = useState(false);
 
-   const searchByKeyWord = (e: any) => {
-      e.preventDefault();
+   const searchByKeyWord = () => {
       const query = searchInput.current.value;
       router.push(`/search?input=${query}`);
    };
@@ -37,8 +37,8 @@ const SearchBar = ({ categories }) => {
    useEffect(() => {
       function handleClickOutside(event) {
          if (
-            searchInput.current &&
-            !searchInput.current.contains(event.target)
+            searchContainer.current &&
+            !searchContainer.current.contains(event.target)
          ) {
             setIsOpenSearch(false);
          }
@@ -47,11 +47,11 @@ const SearchBar = ({ categories }) => {
       return () => {
          document.removeEventListener("mousedown", handleClickOutside);
       };
-   }, [searchInput]);
+   }, [searchContainer]);
 
    return (
       <div>
-         <div className="flex justify-center gap-4 my-6">
+         <div className="flex justify-center gap-4 my-4">
             <button
                className="px-4 py-3 bg-blue-main rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-blue-main"
                onClick={() => setIsOpen(!isOpen)}
@@ -60,7 +60,7 @@ const SearchBar = ({ categories }) => {
                <BiListUl className="text-2xl" />
                <div className="font-semibold">Category</div>
             </button>
-            <div className="text-left relative">
+            <div className="text-left relative" ref={searchContainer}>
                <input
                   type="text"
                   placeholder="Search post..."
@@ -72,12 +72,12 @@ const SearchBar = ({ categories }) => {
                   onClick={() => setIsOpenSearch(true)}
                   className="rounded-lg px-4 py-3 font-semibold outline-none w-[500px] bg-light-primary dark:bg-dark-primary"
                />
-               <div className="text-sm flex gap-3 pl-2 pt-1 text-blue-main">
+               <div className="text-sm flex gap-3 pl-2 pt-2 ">
                   {quickSearch.map((i) => (
                      <div
                         key={i}
                         onClick={() => (searchInput.current.value = i)}
-                        className="cursor-pointer"
+                        className="cursor-pointer bg-blue-main py-1 px-3 rounded-full text-white font-medium"
                      >
                         {i}
                      </div>
@@ -88,10 +88,10 @@ const SearchBar = ({ categories }) => {
                      <div className="absolute rounded-lg z-30 left-0 top-14 w-full h-fit bg-light-primary p-2">
                         {suggestText.map((text) => (
                            <div
-                              key={text.id}
-                              onClick={(e) => {
+                              key={text}
+                              onClick={() => {
                                  searchInput.current.value = text;
-                                 searchByKeyWord(e);
+                                 searchByKeyWord();
                               }}
                               className="p-2 cursor-pointer hover:text-blue-main font-medium rounded-lg"
                            >

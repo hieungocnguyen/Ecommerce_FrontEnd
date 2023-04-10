@@ -17,6 +17,7 @@ import router, { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 import API, { endpoints } from "../../API";
 import Image from "next/image";
+import { BiBell } from "react-icons/bi";
 
 const Header = () => {
    const { state, dispatch } = useContext(Store);
@@ -87,7 +88,13 @@ const Header = () => {
 
    return (
       <div className="bg-light-primary dark:bg-dark-primary flex justify-between items-center w-[90%] mx-auto rounded-b-lg py-[10px]">
-         <div className="ml-7 mr-[6rem] flex items-center justify-center">
+         <div className="ml-7 flex items-center justify-center">
+            <div className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer mr-3 hover:text-blue-main">
+               EN
+            </div>
+            <div className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer mr-2">
+               <BiBell className="w-6 h-6 hover:text-blue-main" />
+            </div>
             <ThemeToggler />
          </div>
          <div>

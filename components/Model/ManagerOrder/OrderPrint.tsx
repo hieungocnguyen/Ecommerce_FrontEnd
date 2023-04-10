@@ -54,7 +54,7 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
                   name="shiftradio"
                />
                <label
-                  className="grid grid-rows-1 gap-2 p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg"
+                  className="grid grid-rows-1 gap-1 p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg"
                   htmlFor="print-size-1"
                   onClick={(e) => setSizeSelected(1)}
                >
@@ -93,61 +93,13 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
                         />
                      </svg>
                   </div>
-                  <div className="font-bold text-lg text-center">A4</div>
+                  <div className="font-bold text-lg text-center">A5</div>
+                  <div className="text-center font-medium text-sm">
+                     For large order
+                  </div>
                </label>
             </div>
 
-            <div className="">
-               <input
-                  className="hidden orderstate"
-                  id="print-size-3"
-                  type="radio"
-                  name="shiftradio"
-                  // checked=
-               />
-               <label
-                  className="grid grid-rows-1 gap-2 p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg"
-                  htmlFor="print-size-3"
-                  onClick={(e) => setSizeSelected(2)}
-               >
-                  <div className="w-10 mx-auto">
-                     <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 430.19 592.86"
-                     >
-                        <path
-                           d="M26.31,592.86H323.87a11,11,0,0,0,7.67-3.18L427,494.22a0,0,0,0,1,0,0,10.65,10.65,0,0,0,2.09-3.1c.15-.33.24-.67.36-1a10.39,10.39,0,0,0,.58-2.86c0-.24.14-.44.14-.67V26.32A26.35,26.35,0,0,0,403.87,0H26.31A26.34,26.34,0,0,0,0,26.32V566.54A26.34,26.34,0,0,0,26.31,592.86Zm308.41-37v-53a5.42,5.42,0,0,1,5.42-5.42h53ZM21.69,26.32a4.64,4.64,0,0,1,4.62-4.63H403.87a4.64,4.64,0,0,1,4.63,4.63V475.7H340.14A27.14,27.14,0,0,0,313,502.81v68.36H26.31a4.64,4.64,0,0,1-4.62-4.63Z"
-                           fill="#525ec1"
-                        />
-                        <path
-                           d="M113.41,123h71.75a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
-                           fill="#525ec1"
-                        />
-                        <path
-                           d="M113.41,491.58h71.75a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
-                           fill="#525ec1"
-                        />
-                        <path
-                           d="M113.41,223H316.78a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
-                           fill="#525ec1"
-                        />
-                        <path
-                           d="M113.41,272.5H316.78a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
-                           fill="#525ec1"
-                        />
-                        <path
-                           d="M113.41,322H316.78a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
-                           fill="#525ec1"
-                        />
-                        <path
-                           d="M113.41,371.51H316.78a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
-                           fill="#525ec1"
-                        />
-                     </svg>
-                  </div>
-                  <div className="font-bold text-lg text-center">52x70(mm)</div>
-               </label>
-            </div>
             <div className="">
                <input
                   className="hidden orderstate"
@@ -157,7 +109,7 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
                   // checked=
                />
                <label
-                  className="grid grid-rows-1 gap-2 p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg"
+                  className="grid grid-rows-1 gap-1 p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg"
                   htmlFor="print-size-2"
                   onClick={(e) => setSizeSelected(3)}
                >
@@ -197,6 +149,64 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
                      </svg>
                   </div>
                   <div className="font-bold text-lg text-center">80x80(mm)</div>
+                  <div className="text-center font-medium text-sm">
+                     For medium order
+                  </div>
+               </label>
+            </div>
+
+            <div className="">
+               <input
+                  className="hidden orderstate"
+                  id="print-size-3"
+                  type="radio"
+                  name="shiftradio"
+                  // checked=
+               />
+               <label
+                  className="grid grid-rows-1 gap-1 p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg"
+                  htmlFor="print-size-3"
+                  onClick={(e) => setSizeSelected(2)}
+               >
+                  <div className="w-10 mx-auto">
+                     <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 430.19 592.86"
+                     >
+                        <path
+                           d="M26.31,592.86H323.87a11,11,0,0,0,7.67-3.18L427,494.22a0,0,0,0,1,0,0,10.65,10.65,0,0,0,2.09-3.1c.15-.33.24-.67.36-1a10.39,10.39,0,0,0,.58-2.86c0-.24.14-.44.14-.67V26.32A26.35,26.35,0,0,0,403.87,0H26.31A26.34,26.34,0,0,0,0,26.32V566.54A26.34,26.34,0,0,0,26.31,592.86Zm308.41-37v-53a5.42,5.42,0,0,1,5.42-5.42h53ZM21.69,26.32a4.64,4.64,0,0,1,4.62-4.63H403.87a4.64,4.64,0,0,1,4.63,4.63V475.7H340.14A27.14,27.14,0,0,0,313,502.81v68.36H26.31a4.64,4.64,0,0,1-4.62-4.63Z"
+                           fill="#525ec1"
+                        />
+                        <path
+                           d="M113.41,123h71.75a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
+                           fill="#525ec1"
+                        />
+                        <path
+                           d="M113.41,491.58h71.75a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
+                           fill="#525ec1"
+                        />
+                        <path
+                           d="M113.41,223H316.78a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
+                           fill="#525ec1"
+                        />
+                        <path
+                           d="M113.41,272.5H316.78a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
+                           fill="#525ec1"
+                        />
+                        <path
+                           d="M113.41,322H316.78a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
+                           fill="#525ec1"
+                        />
+                        <path
+                           d="M113.41,371.51H316.78a10.85,10.85,0,0,0,0-21.69H113.41a10.85,10.85,0,0,0,0,21.69Z"
+                           fill="#525ec1"
+                        />
+                     </svg>
+                  </div>
+                  <div className="font-bold text-lg text-center">52x70(mm)</div>
+                  <div className="text-center font-medium text-sm">
+                     For small order
+                  </div>
                </label>
             </div>
          </div>
