@@ -17,16 +17,17 @@ import router, { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 import API, { endpoints } from "../../API";
 import Image from "next/image";
-import { BiBell } from "react-icons/bi";
+import { BiBell, BiChevronDown } from "react-icons/bi";
 
 const Header = () => {
    const { state, dispatch } = useContext(Store);
    const router = useRouter();
-   const { pathname, asPath, query } = router;
+   const { pathname, asPath, query, locale } = router;
    const { cart, userInfo } = state;
    const [numberItem, setNumberItem] = useState(0);
    const [isOpen, setIsOpen] = useState(false);
    const [agencyInfo, setAgencyInfo] = useState<any>({});
+   const [isOpenLangOption, setIsOpenLangOption] = useState(false);
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -117,15 +118,219 @@ const Header = () => {
                }}
             >
                EN
-            </div>
-            <div
-               className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main"
-               onClick={() => {
-                  router.push({ pathname, query }, asPath, { locale: "vi" });
-               }}
-            >
-               VI
             </div> */}
+            <div className="relative">
+               <div
+                  className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center gap-1 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main"
+                  onClick={() => {
+                     setIsOpenLangOption(!isOpenLangOption);
+                  }}
+               >
+                  {locale === "vi" ? (
+                     <>
+                        <span>
+                           <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 900 600"
+                              width={22}
+                           >
+                              <rect width="900" height="600" fill="#da251d" />
+                              <polygon
+                                 points="515.47 321.24 621.3 244.5 490.51 244.5 450 120 409.5 244.5 278.7 244.5 384.53 321.24 344.1 445.5 450 368.71 555.9 445.5 515.47 321.24"
+                                 fill="#ff0"
+                              />
+                           </svg>
+                        </span>
+                        <span>VI</span>
+                        <span>
+                           <BiChevronDown className="text-2xl" />
+                        </span>
+                     </>
+                  ) : (
+                     <>
+                        <span>
+                           <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 1990 1050"
+                              width={22}
+                           >
+                              <rect
+                                 y="0.1"
+                                 width="1989.48"
+                                 height="1048.2"
+                                 fill="#fff"
+                              />
+                              <polygon
+                                 points="1989.63 419.52 1113.63 419.52 1113.63 0.16 874.51 0.16 874.51 419.52 0.83 419.52 0.83 629.09 874.51 629.09 874.51 1048.28 1113.63 1048.28 1113.63 629.09 1989.63 629.09 1989.63 419.52"
+                                 fill="#ce1124"
+                              />
+                              <polygon
+                                 points="0.02 122.15 0.02 350.38 433.95 350.38 0.02 122.15"
+                                 fill="#00247d"
+                              />
+                              <polygon
+                                 points="239.42 0.05 233.06 0.34 795.72 297.83 795.72 0.05 239.42 0.05"
+                                 fill="#00247d"
+                              />
+                              <polygon
+                                 points="667.79 348.93 0.02 0.1 0.02 82.32 508.67 348.93 667.79 348.93"
+                                 fill="#ce1124"
+                              />
+                              <polygon
+                                 points="1322.21 699.36 1989.99 1048.19 1989.99 965.97 1481.34 699.36 1322.21 699.36"
+                                 fill="#ce1124"
+                              />
+                              <polygon
+                                 points="0.02 927.9 0.02 699.67 433.95 699.67 0.02 927.9"
+                                 fill="#00247d"
+                              />
+                              <polygon
+                                 points="239.42 1050 233.06 1049.71 795.72 752.22 795.72 1050 239.42 1050"
+                                 fill="#00247d"
+                              />
+                              <polygon
+                                 points="664.38 699.34 0.46 1048.01 155.73 1048.16 796.36 713.52 796.36 699.34 664.38 699.34"
+                                 fill="#ce1124"
+                              />
+                              <polygon
+                                 points="1990 122.1 1990 350.32 1556.07 350.32 1990 122.1"
+                                 fill="#00247d"
+                              />
+                              <polygon
+                                 points="1750.6 0 1756.96 0.29 1194.3 297.78 1194.3 0 1750.6 0"
+                                 fill="#00247d"
+                              />
+                              <polygon
+                                 points="1989.36 0.49 1840.01 0.48 1194.87 337.48 1194.87 349.3 1331.36 349.3 1989.36 0.49"
+                                 fill="#ce1124"
+                              />
+                              <polygon
+                                 points="1990 927.81 1990 699.59 1556.07 699.59 1990 927.81"
+                                 fill="#00247d"
+                              />
+                              <polygon
+                                 points="1750.6 1049.91 1756.96 1049.63 1194.3 752.13 1194.3 1049.91 1750.6 1049.91"
+                                 fill="#00247d"
+                              />
+                           </svg>
+                        </span>
+                        <span>EN</span>
+                        <span>
+                           <BiChevronDown className="text-2xl" />
+                        </span>
+                     </>
+                  )}
+               </div>
+               <div
+                  className={`absolute z-20  left-0 bg-light-primary rounded-lg dark:bg-dark-primary p-2 font-medium transition-all ${
+                     isOpenLangOption
+                        ? "scale-100 -bottom-[7rem] left-0"
+                        : "scale-0 -bottom-10 -left-10"
+                  }`}
+               >
+                  <div
+                     className="py-2 px-3 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main rounded-xl flex items-center gap-2"
+                     onClick={() => {
+                        router.replace({ pathname, query }, asPath, {
+                           locale: "vi",
+                        });
+                        setIsOpenLangOption(false);
+                     }}
+                  >
+                     <span>
+                        <svg
+                           xmlns="http://www.w3.org/2000/svg"
+                           viewBox="0 0 900 600"
+                           width={22}
+                        >
+                           <rect width="900" height="600" fill="#da251d" />
+                           <polygon
+                              points="515.47 321.24 621.3 244.5 490.51 244.5 450 120 409.5 244.5 278.7 244.5 384.53 321.24 344.1 445.5 450 368.71 555.9 445.5 515.47 321.24"
+                              fill="#ff0"
+                           />
+                        </svg>
+                     </span>
+                     <span>Vietnamese</span>
+                  </div>
+                  <div
+                     className="py-2 px-3 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main rounded-xl flex items-center gap-2"
+                     onClick={() => {
+                        router.replace({ pathname, query }, asPath, {
+                           locale: "en",
+                        });
+                        setIsOpenLangOption(false);
+                     }}
+                  >
+                     <span>
+                        <svg
+                           xmlns="http://www.w3.org/2000/svg"
+                           viewBox="0 0 1990 1050"
+                           width={22}
+                        >
+                           <rect
+                              y="0.1"
+                              width="1989.48"
+                              height="1048.2"
+                              fill="#fff"
+                           />
+                           <polygon
+                              points="1989.63 419.52 1113.63 419.52 1113.63 0.16 874.51 0.16 874.51 419.52 0.83 419.52 0.83 629.09 874.51 629.09 874.51 1048.28 1113.63 1048.28 1113.63 629.09 1989.63 629.09 1989.63 419.52"
+                              fill="#ce1124"
+                           />
+                           <polygon
+                              points="0.02 122.15 0.02 350.38 433.95 350.38 0.02 122.15"
+                              fill="#00247d"
+                           />
+                           <polygon
+                              points="239.42 0.05 233.06 0.34 795.72 297.83 795.72 0.05 239.42 0.05"
+                              fill="#00247d"
+                           />
+                           <polygon
+                              points="667.79 348.93 0.02 0.1 0.02 82.32 508.67 348.93 667.79 348.93"
+                              fill="#ce1124"
+                           />
+                           <polygon
+                              points="1322.21 699.36 1989.99 1048.19 1989.99 965.97 1481.34 699.36 1322.21 699.36"
+                              fill="#ce1124"
+                           />
+                           <polygon
+                              points="0.02 927.9 0.02 699.67 433.95 699.67 0.02 927.9"
+                              fill="#00247d"
+                           />
+                           <polygon
+                              points="239.42 1050 233.06 1049.71 795.72 752.22 795.72 1050 239.42 1050"
+                              fill="#00247d"
+                           />
+                           <polygon
+                              points="664.38 699.34 0.46 1048.01 155.73 1048.16 796.36 713.52 796.36 699.34 664.38 699.34"
+                              fill="#ce1124"
+                           />
+                           <polygon
+                              points="1990 122.1 1990 350.32 1556.07 350.32 1990 122.1"
+                              fill="#00247d"
+                           />
+                           <polygon
+                              points="1750.6 0 1756.96 0.29 1194.3 297.78 1194.3 0 1750.6 0"
+                              fill="#00247d"
+                           />
+                           <polygon
+                              points="1989.36 0.49 1840.01 0.48 1194.87 337.48 1194.87 349.3 1331.36 349.3 1989.36 0.49"
+                              fill="#ce1124"
+                           />
+                           <polygon
+                              points="1990 927.81 1990 699.59 1556.07 699.59 1990 927.81"
+                              fill="#00247d"
+                           />
+                           <polygon
+                              points="1750.6 1049.91 1756.96 1049.63 1194.3 752.13 1194.3 1049.91 1750.6 1049.91"
+                              fill="#00247d"
+                           />
+                        </svg>
+                     </span>
+                     <span>English</span>
+                  </div>
+               </div>
+            </div>
             <ThemeToggler />
             <div className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer">
                <BiBell className="w-6 h-6 hover:text-blue-main" />

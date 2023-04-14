@@ -11,7 +11,14 @@ const Loading = () => {
          url !== router.asPath && setLoading(true);
       };
       const handleComplete = (url) => {
-         url === router.asPath && setLoading(false);
+         console.log(router);
+
+         if (router.locale != "en") {
+            (url.slice(3).length == 0 ? "/" : url.slice(3)) === router.asPath &&
+               setLoading(false);
+         } else {
+            url === router.asPath && setLoading(false);
+         }
       };
       router.events.on("routeChangeStart", handleStart);
       router.events.on("routeChangeComplete", handleComplete);
@@ -26,7 +33,7 @@ const Loading = () => {
 
    return (
       loading && (
-         <div className="fixed top-0 right-0 w-screen h-screen flex items-center justify-center bg-opacity-30 bg-blue-main z-50">
+         <div className="fixed top-0 right-0 w-screen h-screen flex items-center justify-center bg-opacity-20 bg-blue-main z-50">
             <div className="flex justify-center my-8">
                <SyncLoader size={20} color="#525EC1" />
             </div>

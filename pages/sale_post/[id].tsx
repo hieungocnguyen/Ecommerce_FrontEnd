@@ -84,23 +84,25 @@ const ProductPage = ({ salePost }) => {
                      spaceBetween={20}
                      className="mySwiper rounded-lg overflow-hidden mt-4 w-3/4"
                   >
-                     {salePost.picturePostSet.map((pic) => (
-                        <SwiperSlide key={pic.id}>
-                           <div
-                              className="overflow-hidden aspect-square relative cursor-pointer"
-                              onClick={(e) => {
-                                 setMainPic(pic.image);
-                              }}
-                           >
-                              <Image
-                                 src={pic.image}
-                                 alt="img"
-                                 className="object-cover rounded-lg"
-                                 layout="fill"
-                              />
-                           </div>
-                        </SwiperSlide>
-                     ))}
+                     {salePost.picturePostSet
+                        .sort((a, b) => (a.id < b.id ? 1 : -1))
+                        .map((pic) => (
+                           <SwiperSlide key={pic.id}>
+                              <div
+                                 className="overflow-hidden aspect-square relative cursor-pointer"
+                                 onClick={(e) => {
+                                    setMainPic(pic.image);
+                                 }}
+                              >
+                                 <Image
+                                    src={pic.image}
+                                    alt="img"
+                                    className="object-cover rounded-lg"
+                                    layout="fill"
+                                 />
+                              </div>
+                           </SwiperSlide>
+                        ))}
                   </Swiper>
                </div>
             </Suspense>

@@ -112,7 +112,7 @@ const SearchBar = ({ categories }) => {
                className="px-4 py-3 bg-blue-main rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-blue-main"
             >
                <BiSearch className="text-2xl" />
-               <div className="font-semibold">Search</div>
+               <div className="font-semibold">{trans.home.search}</div>
             </button>
          </div>
          <div
