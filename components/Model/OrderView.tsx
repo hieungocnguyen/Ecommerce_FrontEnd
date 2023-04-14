@@ -6,9 +6,9 @@ import { ClipLoader } from "react-spinners";
 
 const OrderView = ({
    orderInfo,
+   setOrderInfo,
    orderAgencyID,
    setOrderAgencyID,
-   setOrderInfo,
 }) => {
    const wrapperRef = useRef(null);
    const [detailOrders, setDetailOrders] = useState<any>();
@@ -47,40 +47,153 @@ const OrderView = ({
       >
          {detailOrders ? (
             <>
-               <div className="">
-                  {detailOrders.map((order) => (
-                     <div
-                        key={order.id}
-                        className="grid grid-cols-12 items-center gap-2 my-3 text-left p-3 bg-light-spot rounded-lg"
-                     >
-                        <div className="col-span-1 w-full relative overflow-hidden rounded-xl aspect-square">
-                           <Image
-                              src={order.itemPost.avatar}
-                              alt="avatar"
-                              layout="fill"
-                              className="object-cover"
-                           />
+               <div className="text-center font-bold text-xl mb-2">
+                  Detail Order
+               </div>
+               <div className="grid grid-cols-2 gap-6 mb-2">
+                  <div className="text-left">
+                     <div className="text-lg text-center font-semibold mb-2">
+                        From agency
+                     </div>
+                     <div className="p-4 rounded-xl bg-dark-text dark:bg-dark-spot">
+                        <div>
+                           <span className="font-semibold">Agency:</span>{" "}
+                           {orderInfo.agency.name}
                         </div>
-                        <div className="col-span-4">
-                           {order.itemPost.name} - {order.itemPost.description}
+                        <div>
+                           <span className="font-semibold">Field:</span>{" "}
+                           {orderInfo.agency.field.name}
                         </div>
-                        <div className="col-span-3">
-                           {order.itemPost.unitPrice.toLocaleString("it-IT", {
-                              style: "currency",
-                              currency: "VND",
-                           })}
+                        <div>
+                           <span className="font-semibold">Hotline:</span>{" "}
+                           {orderInfo.agency.hotline}
                         </div>
-                        <div className="col-span-1">x{order.quantity}</div>
-                        <div className="col-span-3 text-blue-main font-semibold text-lg">
-                           {(
-                              order.quantity * order.itemPost.unitPrice
-                           ).toLocaleString("it-IT", {
-                              style: "currency",
-                              currency: "VND",
-                           })}
+                        <div>
+                           <span className="font-semibold">Address:</span>{" "}
+                           {orderInfo.agency.fromAddress}
                         </div>
                      </div>
-                  ))}
+                  </div>
+                  <div className="text-left">
+                     <div className="text-lg text-center font-semibold mb-2">
+                        To customer
+                     </div>
+                     <div className="p-4 rounded-xl bg-dark-text dark:bg-dark-spot">
+                        <div>
+                           <span className="font-semibold">
+                              Customer&apos;s Name:
+                           </span>{" "}
+                           {orderInfo.deliveryInfo.customerName}
+                        </div>
+                        <div>
+                           <span className="font-semibold">Phone:</span>{" "}
+                           {orderInfo.deliveryInfo.deliveryPhone}
+                        </div>
+                        <div>
+                           <span className="font-semibold">Type address:</span>{" "}
+                           {orderInfo.deliveryInfo.addressType}
+                        </div>
+                        <div>
+                           <span className="font-semibold">Address:</span>{" "}
+                           {orderInfo.deliveryInfo.fullAddress}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div className="">
+                  <div className="text-lg font-semibold text-center">
+                     Item(s) in order
+                  </div>
+                  <div
+                     className={`overflow-auto ${
+                        detailOrders.length > 2 ? "h-52" : "h-fit"
+                     } `}
+                  >
+                     {detailOrders.map((order) => (
+                        <div
+                           key={order.id}
+                           className="grid grid-cols-12 items-center gap-2 my-3 text-left p-3 bg-dark-text dark:bg-dark-spot rounded-lg"
+                        >
+                           <div className="col-span-1 w-full relative overflow-hidden rounded-xl aspect-square">
+                              <Image
+                                 src={order.itemPost.avatar}
+                                 alt="avatar"
+                                 layout="fill"
+                                 className="object-cover"
+                              />
+                           </div>
+                           <div className="col-span-4">
+                              {order.itemPost.name} -{" "}
+                              {order.itemPost.description}
+                           </div>
+                           <div className="col-span-3">
+                              {order.itemPost.unitPrice.toLocaleString(
+                                 "it-IT",
+                                 {
+                                    style: "currency",
+                                    currency: "VND",
+                                 }
+                              )}
+                           </div>
+                           <div className="col-span-1">x{order.quantity}</div>
+                           <div className="col-span-3 text-blue-main font-semibold text-lg">
+                              {(
+                                 order.quantity * order.itemPost.unitPrice
+                              ).toLocaleString("it-IT", {
+                                 style: "currency",
+                                 currency: "VND",
+                              })}
+                           </div>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+               <div className="bg-dark-text dark:bg-dark-spot rounded-xl p-4 grid grid-cols-2 mt-3 px-8">
+                  <div className=" text-left">
+                     <div>
+                        {orderInfo.expectedDeliveryTime ? (
+                           <>
+                              <div className="">
+                                 <span className="font-semibold">
+                                    Delivery Time Expected:
+                                 </span>{" "}
+                                 {new Date(
+                                    orderInfo.expectedDeliveryTime
+                                 ).toLocaleDateString("en-GB")}
+                              </div>
+                           </>
+                        ) : (
+                           <></>
+                        )}
+                     </div>
+                     <div className="">
+                        <span className="font-semibold">Payment Type: </span>
+                        {orderInfo.orders.paymentType.name}
+                     </div>
+                  </div>
+                  <div className="">
+                     <div className="text-right">
+                        <div className="text-blue-main text-xl font-semibold">
+                           {orderInfo.totalPrice.toLocaleString("it-IT", {
+                              style: "currency",
+                              currency: "VND",
+                           })}
+                        </div>
+                        {orderInfo.shipFee ? (
+                           <>
+                              <div className="text-primary-color font-semibold">
+                                 {" + (ship fee) "}
+                                 {orderInfo.shipFee.toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                 })}
+                              </div>
+                           </>
+                        ) : (
+                           <></>
+                        )}
+                     </div>
+                  </div>
                </div>
             </>
          ) : (
@@ -90,88 +203,6 @@ const OrderView = ({
                </div>
             </div>
          )}
-         {/* <div className="grid grid-cols-12 gap-6">
-            <div className="col-span-6 text-left h-fit">
-               <div className="relative overflow-hidden w-full aspect-square rounded-xl mb-4">
-                  <Image
-                     src={detailOrder.itemPost.avatar}
-                     alt="avatar"
-                     layout="fill"
-                     className="object-cover"
-                  />
-               </div>
-               <div className="mb-2">
-                  <div className="font-semibold text-xl">
-                     {detailOrder.itemPost.name}
-                  </div>
-                  <div className="">
-                     {detailOrder.itemPost.description}
-                  </div>
-               </div>
-               <div className="text-xl text-blue-main font-semibold">
-                  {detailOrder.itemPost.unitPrice.toLocaleString(
-                     "it-IT",
-                     {
-                        style: "currency",
-                        currency: "VND",
-                     }
-                  )}
-               </div>
-               <div className="">Quantity: {detailOrder.quantity}</div>
-               <div className="h-[1px] w-full bg-light-text my-2"></div>
-               <div className="text-2xl text-blue-main font-bold">
-                  {orderInfo.totalPrice.toLocaleString("it-IT", {
-                     style: "currency",
-                     currency: "VND",
-                  })}
-               </div>
-            </div>
-            <div className="col-span-6 h-fit">
-               <div className="mb-4 text-xl font-semibold">
-                  Delivery information
-               </div>
-               <div className="text-left">
-                  <div className="">
-                     Name: {orderInfo.deliveryInfo.customer.firstName}{" "}
-                     {orderInfo.deliveryInfo.customer.lastName}
-                  </div>
-                  <div className="">
-                     Email: {orderInfo.deliveryInfo.customer.email}
-                  </div>
-                  <div className="">
-                     Address Type: {orderInfo.deliveryInfo.addressType}
-                  </div>
-                  <div className="">
-                     Address: {orderInfo.deliveryInfo.fullAddress}
-                  </div>
-                  <div className="">
-                     Phone: {orderInfo.deliveryInfo.deliveryPhone}
-                  </div>
-                  <div className="">
-                     Description: {orderInfo.deliveryInfo.description}
-                  </div>
-               </div>
-               <Link href={`/agencyinfo/${orderInfo.agency.id}`}>
-                  <div className="flex items-center gap-2 cursor-pointer bg-light-spot p-2 rounded-lg mt-4">
-                     <div className="relative overflow-hidden w-16 rounded-xl aspect-square">
-                        <Image
-                           src={orderInfo.agency.avatar}
-                           alt="avatar"
-                           layout="fill"
-                        />
-                     </div>
-                     <div className="text-left">
-                        <div className="font-semibold">
-                           {orderInfo.agency.name}
-                        </div>
-                        <div className="text-sm">
-                           {orderInfo.agency.address}
-                        </div>
-                     </div>
-                  </div>
-               </Link>
-            </div>
-         </div> */}
       </div>
    );
 };

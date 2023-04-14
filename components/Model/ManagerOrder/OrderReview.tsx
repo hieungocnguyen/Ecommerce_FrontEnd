@@ -142,7 +142,7 @@ const OrderReview = ({
                            ${"] "} ${"  |  "}
                            ${new Date(
                               reviewInfor.pickUpShift.to_time
-                           ).toLocaleDateString("en-US")}`
+                           ).toLocaleDateString("en-GB")}`
                               : "This order not selected pickup shift"}
                         </span>
                      </div>
@@ -183,7 +183,7 @@ const OrderReview = ({
                            {"] | "}
                            {new Date(
                               reviewInfor.expectedDeliveryTime
-                           ).toLocaleDateString("en-US")}
+                           ).toLocaleDateString("en-GB")}
                         </span>
                      </div>
                      <div className="">

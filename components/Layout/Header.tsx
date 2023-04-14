@@ -25,9 +25,11 @@ const Header = () => {
    const { cart, userInfo } = state;
    const [numberItem, setNumberItem] = useState(0);
    const [isOpen, setIsOpen] = useState(false);
+   const [agencyInfo, setAgencyInfo] = useState<any>({});
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
+      dispatch({ type: "AGENCY_INFO_REMOVE" });
       Cookies.remove("userInfo");
       Cookies.remove("accessToken");
       Cookies.remove("cartItems");
@@ -38,16 +40,16 @@ const Header = () => {
    };
    const forwardManagerDashboard = async () => {
       try {
-         const resAllAgency = await API.get(endpoints["all_agency"]);
-         resAllAgency.data.data.map(async (agency) => {
-            if (agency.manager.id === userInfo.id) {
-               const resInfoAngency = await API.get(
-                  endpoints["agency_info"](agency.id)
-               );
-               Cookies.set("agencyInfo", JSON.stringify(agency));
-               dispatch({ type: "AGENCY_INFO_SET", payload: agency });
-            }
-         });
+         // const resAllAgency = await API.get(endpoints["all_agency"]);
+         // resAllAgency.data.data.map(async (agency) => {
+         //    if (agency.manager.id === userInfo.id) {
+         //       const resInfoAngency = await API.get(
+         //          endpoints["agency_info"](agency.id)
+         //       );
+         //       Cookies.set("agencyInfo", JSON.stringify(agency));
+         //       dispatch({ type: "AGENCY_INFO_SET", payload: agency });
+         //    }
+         // });
          if (userInfo.role.name === "ROLE_ADMIN") {
             router.push("/DashboardAdmin");
          } else {
@@ -79,23 +81,41 @@ const Header = () => {
          console.log(error);
       }
    };
+   const fetchAgency = async () => {
+      try {
+         const resAllAgency = await API.get(endpoints["all_agency"]);
+         resAllAgency.data.data.map(async (agency) => {
+            if (agency.manager.id === userInfo.id) {
+               const resInfoAngency = await API.get(
+                  endpoints["agency_info"](agency.id)
+               );
+               Cookies.set("agencyInfo", JSON.stringify(agency));
+               dispatch({ type: "AGENCY_INFO_SET", payload: agency });
+               setAgencyInfo(agency);
+            }
+         });
+      } catch (error) {
+         console.log(error);
+      }
+   };
 
    useEffect(() => {
       if (userInfo) {
          loadNumberofItems();
+         fetchAgency();
       }
    }, [cart]);
 
    return (
       <div className="bg-light-primary dark:bg-dark-primary flex justify-between items-center w-[90%] mx-auto rounded-b-lg py-[10px]">
-         <div className="ml-7 flex items-center justify-center">
-            <div className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer mr-3 hover:text-blue-main">
+         <div className="ml-7 flex items-center justify-center gap-2">
+            <div className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main">
                EN
             </div>
-            <div className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer mr-2">
+            <ThemeToggler />
+            <div className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer">
                <BiBell className="w-6 h-6 hover:text-blue-main" />
             </div>
-            <ThemeToggler />
          </div>
          <div>
             <Link href="/" title="Home">
@@ -106,8 +126,28 @@ const Header = () => {
          </div>
          <Suspense fallback={<p></p>}>
             <div className="mr-10 flex items-center">
+               {userInfo && userInfo.role.name !== "ROLE_GENERAL" ? (
+                  <>
+                     <div
+                        className={`font-bold p-1 border-2 uppercase text-xs rounded-md ${
+                           agencyInfo.isActive === 0 &&
+                           userInfo.role.name === "ROLE_MANAGER"
+                              ? "text-red-600 border-red-600"
+                              : "text-blue-main border-blue-main "
+                        }`}
+                     >
+                        {userInfo.role.name === "ROLE_ADMIN" ? (
+                           <>admin</>
+                        ) : (
+                           <>manager</>
+                        )}
+                     </div>
+                  </>
+               ) : (
+                  <></>
+               )}
                <button
-                  className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mr-6 relative"
+                  className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mx-4 relative"
                   title="cart"
                   onClick={handleCartRoute}
                >

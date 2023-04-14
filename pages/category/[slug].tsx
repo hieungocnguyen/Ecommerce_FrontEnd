@@ -42,9 +42,9 @@ const CategoryPage = ({ categories, category }) => {
             kw: "",
             page: page,
             category: Number(slug),
-            fromDate: new Date(datePost[0]).toLocaleDateString("en-US"),
+            fromDate: new Date(datePost[0]).toLocaleDateString("en-GB"),
             fromPrice: value[0],
-            toDate: new Date(datePost[1]).toLocaleDateString("en-US"),
+            toDate: new Date(datePost[1]).toLocaleDateString("en-GB"),
             toPrice: value[1],
          });
          setSalePosts(resPosts.data.data.listResult);

@@ -2,7 +2,6 @@
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { AiOutlineDelete } from "react-icons/ai";
 import {
    BiBlock,
    BiCalendarCheck,
@@ -111,7 +110,7 @@ const Orders = () => {
                                     {"] | "}
                                     {new Date(
                                        order.orders.createdDate
-                                    ).toLocaleDateString("en-US")}
+                                    ).toLocaleDateString("en-GB")}
                                  </div>
                                  <div className="col-span-4">
                                     <div

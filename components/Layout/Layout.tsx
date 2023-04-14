@@ -1,6 +1,6 @@
 import Head from "next/head";
 import React, { useContext, useEffect, useState } from "react";
-import { BiGitCompare, BiX } from "react-icons/bi";
+import { BiArrowToTop, BiGitCompare, BiX } from "react-icons/bi";
 import CompareProduct from "../CompareProduct";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -13,12 +13,30 @@ const Layout = ({ title, children }) => {
    const [lengthCompare, setLengthCompare] = useState(0);
    const { state, dispatch } = useContext(Store);
    const { compare } = state;
+   const [visible, setVisible] = useState(false);
 
    useEffect(() => {
       setLengthCompare(
          Cookies.get("compare") ? JSON.parse(Cookies.get("compare")).length : 0
       );
    }, [compare]);
+
+   const toggleVisible = () => {
+      const scrolled = document.documentElement.scrollTop;
+      if (scrolled > 400) {
+         setVisible(true);
+      } else if (scrolled <= 400) {
+         setVisible(false);
+      }
+   };
+   window.addEventListener("scroll", toggleVisible);
+
+   const scrollToTop = () => {
+      window.scrollTo({
+         top: 0,
+         behavior: "smooth",
+      });
+   };
 
    return (
       <div>
@@ -33,7 +51,7 @@ const Layout = ({ title, children }) => {
             {children}
          </main>
          <div
-            className={`fixed bottom-10 right-10 w-14 h-14 z-20 rounded-full bg-blue-main flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out ${
+            className={`fixed bottom-10 right-10 w-14 h-14 z-20 rounded-full bg-blue-main flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-blue-main ${
                lengthCompare === 0 && !openCompare ? "scale-0" : "scale-100"
             } ${openCompare ? "scale-125" : ""}`}
             onClick={() => setOpenCompare(!openCompare)}
@@ -44,6 +62,17 @@ const Layout = ({ title, children }) => {
                   lengthCompare === 0 ? "scale-0" : "scale-100"
                }`}
             ></div>
+         </div>
+         <div
+            className={`fixed  right-10 w-14 h-14 z-20 rounded-full bg-blue-main flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-blue-main ${
+               visible ? "scale-100" : "scale-0"
+            } ${
+               lengthCompare === 0 && !openCompare ? "bottom-10" : "bottom-28"
+            }`}
+            onClick={scrollToTop}
+            title="Scroll to top"
+         >
+            <BiArrowToTop className="text-3xl" />
          </div>
          <CompareProduct openCompare={openCompare} />
          <footer>

@@ -18,7 +18,7 @@ import Cookies from "js-cookie";
 
 const Profile = () => {
    const { state, dispatch } = useContext(Store);
-   const { userInfo } = state;
+   const { userInfo, agencyInfo } = state;
    const [user, setUser] = useState<any>({});
    const [waitAccept, setWaitAccept] = useState<boolean>(false);
    const [authProvider, setAuthProvider] = useState<number>(0);
@@ -161,9 +161,26 @@ const Profile = () => {
                            </div>
                         )
                      ) : (
-                        <div className="flex items-center justify-center font-medium">
-                           Now, you can manage your agency in manager page!
-                        </div>
+                        <>
+                           {agencyInfo.isActive === 1 ? (
+                              <>
+                                 <div
+                                    className={`flex items-center justify-center font-medium`}
+                                 >
+                                    Now, you can manage your agency in manager
+                                    page
+                                 </div>
+                              </>
+                           ) : (
+                              <>
+                                 <div
+                                    className={`flex items-center justify-center font-semibold text-red-600 text-xl`}
+                                 >
+                                    Your agency has banned!
+                                 </div>
+                              </>
+                           )}
+                        </>
                      )
                   ) : (
                      <></>

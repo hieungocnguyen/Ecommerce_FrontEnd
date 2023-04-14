@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { Suspense, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { BiArrowBack, BiShowAlt } from "react-icons/bi";
+import { BiArrowBack, BiMessageAltError, BiShowAlt } from "react-icons/bi";
 import API, { endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import OrderView from "../components/Model/OrderView";
@@ -49,12 +49,13 @@ const Orders = () => {
          </div>
 
          <div className="rounded-lg overflow-hidden">
-            <div className="grid grid-cols-12 p-5 dark:bg-dark-primary bg-light-primary items-center font-semibold">
+            <div className="grid grid-cols-12 gap-4 p-5 dark:bg-dark-primary bg-light-primary items-center font-semibold">
+               <div className="col-span-1">Order code</div>
                <div className="col-span-2">Order date</div>
-               <div className="col-span-2 text-right">Price</div>
+               <div className="col-span-2 text-right">Price + Ship fee</div>
                <div className="col-span-3">Agency</div>
-               <div className="col-span-4">State</div>
-               <div className="col-span-1">View Detail</div>
+               <div className="col-span-3">State</div>
+               <div className="col-span-1">Detail</div>
             </div>
             <div className="mb-8">
                <Suspense
@@ -67,25 +68,54 @@ const Orders = () => {
                   {orders.map((order) => (
                      <div
                         key={order.id}
-                        className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-spot hover:bg-light-spot font-medium"
+                        className={`grid grid-cols-12 gap-4 p-5 items-center dark:hover:bg-dark-spot hover:bg-light-spot font-medium `}
                      >
+                        <div className="col-span-1 text-primary-color font-semibold text-center">
+                           {order.orderExpressID ? (
+                              `# ${order.orderExpressID}`
+                           ) : (
+                              <>
+                                 <span
+                                    className="flex justify-center cursor-pointer"
+                                    onClick={() =>
+                                       toast.error(
+                                          "This order has an error, please wait for admin to process it"
+                                       )
+                                    }
+                                 >
+                                    <BiMessageAltError className="text-3xl text-red-600" />
+                                 </span>
+                              </>
+                           )}
+                        </div>
                         <div className="col-span-2">
                            {new Date(order.orders.createdDate).getHours()}
                            {":"}
                            {new Date(order.orders.createdDate).getMinutes()}
-                           {"  |  "}
+                           <br />
                            {new Date(
                               order.orders.createdDate
-                           ).toLocaleDateString("en-US")}
+                           ).toLocaleDateString("en-GB")}
                         </div>
+
                         <div className="col-span-2 text-right text-blue-main font-semibold">
                            {order.totalPrice.toLocaleString("it-IT", {
                               style: "currency",
                               currency: "VND",
                            })}
+                           <br />
+                           <span className="text-primary-color text-sm">
+                              {order.shipFee
+                                 ? `+ ${order.shipFee.toLocaleString("it-IT", {
+                                      style: "currency",
+                                      currency: "VND",
+                                   })}`
+                                 : ""}
+                           </span>
                         </div>
                         <div className="col-span-3">{order.agency.name}</div>
-                        <div className="col-span-4">
+
+                        <div className="col-span-3">
                            <div
                               className={`relative overflow-hidden h-12 ${
                                  order.orderState.id === 6 ? "opacity-50" : ""
@@ -134,14 +164,16 @@ const Orders = () => {
                   orderAgencyID > 0 ? "flex" : "hidden"
                }`}
             >
-               <div className="w-3/5 h-fit ">
-                  <OrderView
-                     orderInfo={orderInfo}
-                     orderAgencyID={orderAgencyID}
-                     setOrderAgencyID={setOrderAgencyID}
-                     setOrderInfo={setOrderInfo}
-                  />
-               </div>
+               {orderAgencyID > 0 && (
+                  <div className="w-2/3 h-fit ">
+                     <OrderView
+                        orderInfo={orderInfo}
+                        orderAgencyID={orderAgencyID}
+                        setOrderAgencyID={setOrderAgencyID}
+                        setOrderInfo={setOrderInfo}
+                     />
+                  </div>
+               )}
             </div>
          </div>
       </Layout>

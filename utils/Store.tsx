@@ -67,6 +67,7 @@ function reducer(state: any, action: { type: any; payload: any }) {
       case "AGENCY_INFO_SET":
          return { ...state, agencyInfo: action.payload };
       case "AGENCY_INFO_REMOVE":
+         Cookies.remove("agencyInfo");
          return { ...state, agencyInfo: null };
       case "USER_LOGIN":
          return { ...state, userInfo: action.payload };

@@ -72,12 +72,12 @@ const SearchBar = ({ categories }) => {
                   onClick={() => setIsOpenSearch(true)}
                   className="rounded-lg px-4 py-3 font-semibold outline-none w-[500px] bg-light-primary dark:bg-dark-primary"
                />
-               <div className="text-sm flex gap-3 pl-2 pt-2 ">
+               <div className="text-xs flex gap-3 pl-2 pt-2 ">
                   {quickSearch.map((i) => (
                      <div
                         key={i}
                         onClick={() => (searchInput.current.value = i)}
-                        className="cursor-pointer bg-blue-main py-1 px-3 rounded-full text-white font-medium"
+                        className="cursor-pointer bg-blue-main py-[1px] px-2 rounded-full text-white font-medium"
                      >
                         {i}
                      </div>

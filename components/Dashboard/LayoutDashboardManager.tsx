@@ -30,6 +30,8 @@ const LayoutDashboard = ({ title, children }) => {
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
+      dispatch({ type: "AGENCY_INFO_REMOVE" });
+
       Cookies.remove("userInfo");
       Cookies.remove("accessToken");
       Cookies.remove("cartItems");

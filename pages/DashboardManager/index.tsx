@@ -62,6 +62,16 @@ const AgencyHome = () => {
                   <div className="font-semibold text-2xl my-10">
                      Hi {agencyInfo ? agencyInfo.name : ""}, Welcome back!
                   </div>
+                  {agencyInfo.isActive === 0 ? (
+                     <>
+                        <div className="text-xl font-semibold text-red-600">
+                           Your agency has banned!
+                        </div>
+                     </>
+                  ) : (
+                     <></>
+                  )}
+                  <div className=""></div>
                   <div className="grid grid-cols-3 gap-8 mt-10">
                      <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
                         <div>Follow(s)</div>
