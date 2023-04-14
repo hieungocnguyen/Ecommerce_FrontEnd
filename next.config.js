@@ -1,7 +1,6 @@
 /**
  * @type {import('next').NextConfig}
  */
-
 const nextConfig = {
    reactStrictMode: true,
    swcMinify: true,
@@ -9,6 +8,11 @@ const nextConfig = {
 
 module.exports = {
    nextConfig,
+   i18n: {
+      locales: ["en", "vi"],
+      defaultLocale: "en",
+      localeDetection: false,
+   },
    images: {
       domains: [
          "images.unsplash.com",

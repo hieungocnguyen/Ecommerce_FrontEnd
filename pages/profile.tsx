@@ -162,23 +162,27 @@ const Profile = () => {
                         )
                      ) : (
                         <>
-                           {agencyInfo.isActive === 1 ? (
-                              <>
-                                 <div
-                                    className={`flex items-center justify-center font-medium`}
-                                 >
-                                    Now, you can manage your agency in manager
-                                    page
-                                 </div>
-                              </>
+                           {agencyInfo ? (
+                              agencyInfo.isActive === 1 ? (
+                                 <>
+                                    <div
+                                       className={`flex items-center justify-center font-medium`}
+                                    >
+                                       Now, you can manage your agency in
+                                       manager page
+                                    </div>
+                                 </>
+                              ) : (
+                                 <>
+                                    <div
+                                       className={`flex items-center justify-center font-semibold text-red-600 text-xl`}
+                                    >
+                                       Your agency has banned!
+                                    </div>
+                                 </>
+                              )
                            ) : (
-                              <>
-                                 <div
-                                    className={`flex items-center justify-center font-semibold text-red-600 text-xl`}
-                                 >
-                                    Your agency has banned!
-                                 </div>
-                              </>
+                              <></>
                            )}
                         </>
                      )

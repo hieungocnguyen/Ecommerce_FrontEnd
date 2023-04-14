@@ -7,10 +7,12 @@ const Loading = () => {
    const router = useRouter();
 
    useEffect(() => {
-      const handleStart = (url) => url !== router.asPath && setLoading(true);
-      const handleComplete = (url) =>
+      const handleStart = (url) => {
+         url !== router.asPath && setLoading(true);
+      };
+      const handleComplete = (url) => {
          url === router.asPath && setLoading(false);
-
+      };
       router.events.on("routeChangeStart", handleStart);
       router.events.on("routeChangeComplete", handleComplete);
       router.events.on("routeChangeError", handleComplete);

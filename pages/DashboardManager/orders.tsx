@@ -7,6 +7,7 @@ import {
    BiCalendarCheck,
    BiDetail,
    BiEditAlt,
+   BiErrorCircle,
    BiFoodMenu,
    BiMoney,
    BiPrinter,
@@ -79,10 +80,14 @@ const Orders = () => {
                                  key={order.id}
                                  className="grid grid-cols-12 gap-4 items-center  dark:bg-dark-primary bg-light-spot rounded-lg mb-4 p-6 font-medium text-center"
                               >
-                                 <div className="col-span-1 font-bold text-primary-color">
-                                    {order.orderExpressID
-                                       ? ` #${order.orderExpressID}`
-                                       : "-"}
+                                 <div className="col-span-1 font-bold text-primary-color whitespace-nowrap">
+                                    {order.orderExpressID ? (
+                                       `# ${order.orderExpressID}`
+                                    ) : (
+                                       <span className="flex justify-center">
+                                          <BiErrorCircle className="text-3xl" />
+                                       </span>
+                                    )}
                                  </div>
                                  <div className="col-span-1">
                                     <button

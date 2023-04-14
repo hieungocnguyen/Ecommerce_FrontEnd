@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import API, { endpoints } from "../../../API";
+import { ClipLoader } from "react-spinners";
 
 const OrderReview = ({
    IDOpenOrderReviewModel,
@@ -30,6 +31,7 @@ const OrderReview = ({
       function handleClickOutside(event) {
          if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
             setIDOpenOrderReviewModel(-1);
+            setReviewInfo({});
          }
       }
       document.addEventListener("mousedown", handleClickOutside);
@@ -194,7 +196,11 @@ const OrderReview = ({
                </div>
             </>
          ) : (
-            <></>
+            <>
+               <div className="flex justify-center my-8">
+                  <ClipLoader size={35} color="#FF8500" />
+               </div>
+            </>
          )}
       </div>
    );

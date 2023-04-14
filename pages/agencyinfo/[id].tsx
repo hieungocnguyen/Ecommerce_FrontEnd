@@ -9,6 +9,7 @@ import { ClipLoader } from "react-spinners";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { BiArrowBack } from "react-icons/bi";
+import useTrans from "../hook/useTrans";
 
 const ProductItem = dynamic(import("../../components/ProductItem"));
 
@@ -16,6 +17,7 @@ const AgencyPage = ({ agencyInfo, posts }) => {
    const router = useRouter();
    const [numberPage, setnumberPage] = useState(1);
 
+   const trans = useTrans();
    // const loadAgency = async () => {
    //    try {
    //       const resAgency = await API.get(endpoints["agency_info"](id));
@@ -50,7 +52,9 @@ const AgencyPage = ({ agencyInfo, posts }) => {
                >
                   <BiArrowBack />
                </div>
-               <div className="font-semibold text-2xl">/ Agency Page</div>
+               <div className="font-semibold text-2xl">
+                  / {trans.agencyPage.title}
+               </div>
             </div>
             <div className="bg-blue-main rounded-lg h-32 relative">
                <div className="relative -bottom-10 left-1/2 -translate-x-1/2 overflow-hidden w-40 h-40 ">

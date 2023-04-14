@@ -136,13 +136,13 @@ const AdminLayoutDashboard = ({ children }) => {
                                  </div>
                               </Link>
                            </div>
-                           <Link href="/DashboardAdmin/users">
-                              <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
-                                 <BiUser className="text-lg" />
-                                 User List
-                              </div>
-                           </Link>
                         </div>
+                        <Link href="/DashboardAdmin/users">
+                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                              <BiUser className="text-lg" />
+                              User List
+                           </div>
+                        </Link>
                      </div>
                      <div className="absolute bottom-4 flex justify-center items-center gap-2 w-full">
                         <Link href="/">

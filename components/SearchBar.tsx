@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { BiListUl, BiSearch } from "react-icons/bi";
 import API, { endpoints } from "../API";
+import useTrans from "../pages/hook/useTrans";
 
 const quickSearch = ["airpod", "gaming desk", "blaze"];
 
@@ -14,6 +15,8 @@ const SearchBar = ({ categories }) => {
    const [isOpen, setIsOpen] = useState(false);
    const [suggestText, setSuggestText] = useState([]);
    const [isOpenSearch, setIsOpenSearch] = useState(false);
+
+   const trans = useTrans();
 
    const searchByKeyWord = () => {
       const query = searchInput.current.value;
@@ -58,7 +61,7 @@ const SearchBar = ({ categories }) => {
                type="button"
             >
                <BiListUl className="text-2xl" />
-               <div className="font-semibold">Category</div>
+               <div className="font-semibold">{trans.home.category}</div>
             </button>
             <div className="text-left relative" ref={searchContainer}>
                <input
@@ -72,7 +75,7 @@ const SearchBar = ({ categories }) => {
                   onClick={() => setIsOpenSearch(true)}
                   className="rounded-lg px-4 py-3 font-semibold outline-none w-[500px] bg-light-primary dark:bg-dark-primary"
                />
-               <div className="text-xs flex gap-3 pl-2 pt-2 ">
+               <div className="text-sm flex gap-3 pl-2 pt-2 ">
                   {quickSearch.map((i) => (
                      <div
                         key={i}
