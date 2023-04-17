@@ -2,13 +2,14 @@ import { positions } from "@mui/system";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { BiPencil } from "react-icons/bi";
+import { BiCaretLeft, BiPencil } from "react-icons/bi";
 import API, { endpoints } from "../../API";
 
 const AddressSelect = ({
    setAddress,
    setIsOpenAddressSelect,
    isOpenAddressSelect,
+   setIsOpenModelGeoLocation,
 }) => {
    const wrapperRef = useRef(null);
    const [province, setProvince] = useState([]);
@@ -101,7 +102,21 @@ const AddressSelect = ({
          className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8"
          ref={wrapperRef}
       >
-         <div className="font-semibold text-xl mb-4">Select new address</div>
+         <div className="flex justify-between items-center mb-6">
+            <div className="font-semibold text-xl">Select new address</div>
+            <div
+               className="flex gap-1 cursor-pointer"
+               onClick={() => {
+                  setIsOpenAddressSelect(false);
+                  setIsOpenModelGeoLocation(true);
+               }}
+            >
+               <div>
+                  <BiCaretLeft className="text-xl text-blue-main" />
+               </div>
+               <div className="font-medium">Switch to input manually</div>
+            </div>
+         </div>
          {isOpenAddressSelect ? (
             <>
                <form

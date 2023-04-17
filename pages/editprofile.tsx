@@ -13,6 +13,8 @@ import { BiArrowBack, BiCloudUpload, BiPencil } from "react-icons/bi";
 import Loader from "../components/Loader";
 import AddressSelect from "../components/Model/AddressSelect";
 import ConfirmModel from "../components/Model/ConfirmModel";
+import WayToSelectAddress from "../components/Model/WayToSelectAddress";
+import GeoLocationAddress from "../components/Model/GeoLocationAddress";
 
 const EditProfile = () => {
    const { state, dispatch } = useContext(Store);
@@ -33,6 +35,10 @@ const EditProfile = () => {
    const [isOpenAddressSelect, setIsOpenAddressSelect] = useState(false);
    const [isOpenConfirm, setIsOpenConfirm] = useState(false);
    const [isChange, setIsChange] = useState(false);
+
+   const [isOpenModelWaySelectAddress, setIsOpenModelWaySelectAddress] =
+      useState(false);
+   const [isOpenModelGeoLocation, setIsOpenModelGeoLocation] = useState(false);
 
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
@@ -236,7 +242,9 @@ const EditProfile = () => {
                            <button
                               className="col-span-1 border-2 border-blue-main rounded-lg text-2xl text-blue-main flex justify-center items-center hover:bg-blue-main hover:text-white"
                               type="button"
-                              onClick={() => setIsOpenAddressSelect(true)}
+                              onClick={() =>
+                                 setIsOpenModelWaySelectAddress(true)
+                              }
                            >
                               <BiPencil />
                            </button>
@@ -256,18 +264,53 @@ const EditProfile = () => {
          </form>
          <div
             className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+               isOpenModelWaySelectAddress ? "flex" : "hidden"
+            }`}
+         >
+            {isOpenModelWaySelectAddress && (
+               <div className="w-1/2 h-fit">
+                  <WayToSelectAddress
+                     setIsOpenModelWaySelectAddress={
+                        setIsOpenModelWaySelectAddress
+                     }
+                     setIsOpenAddressSelect={setIsOpenAddressSelect}
+                     setIsOpenModelGeoLocation={setIsOpenModelGeoLocation}
+                  />
+               </div>
+            )}
+         </div>
+         <div
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
                isOpenAddressSelect ? "flex" : "hidden"
             }`}
          >
-            <div className="w-3/5 h-fit">
-               <AddressSelect
-                  setAddress={setAddress}
-                  setIsOpenAddressSelect={setIsOpenAddressSelect}
-                  isOpenAddressSelect={isOpenAddressSelect}
-               />
-            </div>
+            {isOpenAddressSelect && (
+               <div className="w-3/5 h-fit">
+                  <AddressSelect
+                     setAddress={setAddress}
+                     setIsOpenAddressSelect={setIsOpenAddressSelect}
+                     isOpenAddressSelect={isOpenAddressSelect}
+                     setIsOpenModelGeoLocation={setIsOpenModelGeoLocation}
+                  />
+               </div>
+            )}
          </div>
-         {loading ? <Loader /> : <></>}
+         <div
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+               isOpenModelGeoLocation ? "flex" : "hidden"
+            }`}
+         >
+            {isOpenModelGeoLocation && (
+               <div className="w-1/2 h-fit">
+                  <GeoLocationAddress
+                     setIsOpenModelGeoLocation={setIsOpenModelGeoLocation}
+                     setAddress={setAddress}
+                     setIsOpenAddressSelect={setIsOpenAddressSelect}
+                  />
+               </div>
+            )}
+         </div>
+         {/* {loading ? <Loader /> : <></>} */}
          <div
             className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
                isOpenConfirm ? "flex" : "hidden"

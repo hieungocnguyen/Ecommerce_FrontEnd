@@ -18,6 +18,8 @@ import toast, { Toaster } from "react-hot-toast";
 import API, { endpoints } from "../../API";
 import Image from "next/image";
 import { BiBell, BiChevronDown } from "react-icons/bi";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../pages/lib/firebase-config";
 
 const Header = () => {
    const { state, dispatch } = useContext(Store);
@@ -28,6 +30,7 @@ const Header = () => {
    const [isOpen, setIsOpen] = useState(false);
    const [agencyInfo, setAgencyInfo] = useState<any>({});
    const [isOpenLangOption, setIsOpenLangOption] = useState(false);
+   const [notiList, setNotiList] = useState([]);
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -105,20 +108,24 @@ const Header = () => {
       if (userInfo) {
          loadNumberofItems();
          fetchAgency();
+
+         const unsubcribe = onSnapshot(
+            collection(db, "agency-3"),
+            (snapshot) => {
+               setNotiList(
+                  snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+               );
+            }
+         );
+         return () => {
+            unsubcribe();
+         };
       }
    }, [cart]);
 
    return (
       <div className="bg-light-primary dark:bg-dark-primary flex justify-between items-center w-[90%] mx-auto rounded-b-lg py-[10px]">
          <div className="ml-7 flex items-center justify-center gap-2">
-            {/* <div
-               className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main"
-               onClick={() => {
-                  router.push({ pathname, query }, asPath, { locale: "en" });
-               }}
-            >
-               EN
-            </div> */}
             <div className="relative">
                <div
                   className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center gap-1 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main"
@@ -332,8 +339,15 @@ const Header = () => {
                </div>
             </div>
             <ThemeToggler />
-            <div className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer">
-               <BiBell className="w-6 h-6 hover:text-blue-main" />
+            <div>
+               <div className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer">
+                  <BiBell className="w-6 h-6 hover:text-blue-main" />
+               </div>
+               <div className="">
+                  {/* {notiList.map((noti) => (
+                     <div key={noti.id}>{noti.data.title}</div>
+                  ))} */}
+               </div>
             </div>
          </div>
          <div>
