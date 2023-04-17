@@ -128,7 +128,7 @@ const Header = () => {
          <div className="ml-7 flex items-center justify-center gap-2">
             <div className="relative">
                <div
-                  className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center gap-1 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main"
+                  className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center gap-1 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main max-w-[86px]"
                   onClick={() => {
                      setIsOpenLangOption(!isOpenLangOption);
                   }}

@@ -20,52 +20,10 @@ const Register = () => {
       watch,
       formState: { errors },
    } = useForm();
-   const [province, setProvince] = useState([]);
-   const [district, setDistrict] = useState([]);
-   const [ward, setWard] = useState([]);
-   const [street, setStreet] = useState("empty");
-   const [address, setAddress] = useState("");
-   const [wardID, setWardID] = useState(0);
    const [selectedImage, setSelectedImage] = useState();
    const router = useRouter();
    const [loading, setLoading] = useState(false);
    const [importImage, setImportImage] = useState(false);
-   const [isFetching, setIsFetching] = useState(false);
-
-   const fetchProvinceAll = async () => {
-      const res = await API.get(
-         "http://localhost:8080/ou-ecommerce/api/location/provinces/all"
-      );
-
-      if (res.data.code === "200") {
-         setIsFetching(true);
-      }
-      setProvince(res.data.data);
-   };
-   const handleSelectProvince = (provinceID: string) => {
-      const fetchDistrictByProvinceID = async (provinceID) => {
-         const res = await API.get(
-            `http://localhost:8080/ou-ecommerce/api/location/districts/get-districts-by-province-id/${provinceID}`
-         );
-         setDistrict(res.data.data);
-         setWard([]);
-         setStreet("empty");
-      };
-      fetchDistrictByProvinceID(provinceID);
-   };
-   const handleSelectDistrict = (districtID: string) => {
-      const fetchWardByDistrictID = async (districtID) => {
-         const res = await API.get(
-            `http://localhost:8080/ou-ecommerce/api/location/wards/get-wards-by-district-id/${districtID}`
-         );
-         setWard(res.data.data);
-         setStreet("empty");
-      };
-      fetchWardByDistrictID(districtID);
-   };
-   useEffect(() => {
-      fetchProvinceAll();
-   }, []);
 
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
@@ -100,15 +58,6 @@ const Register = () => {
 
       try {
          setLoading(true);
-         if (wardID !== 0) {
-            const resGetLocation = await API.get(
-               endpoints["get_full_address"](wardID)
-            );
-
-            let address = resGetLocation.data.data;
-            formData.append("address", address);
-         }
-
          if (importImage) {
             const resUploadCloudinary = await API.post(
                endpoints["upload_cloudinary"],
@@ -139,6 +88,7 @@ const Register = () => {
 
          if (resRegister) {
             setLoading(false);
+
             router.push("/signin");
             toast.success("Register successful", {
                position: "top-center",
@@ -197,242 +147,131 @@ const Register = () => {
                / Register a new account
             </div>
          </div>
-         {isFetching ? (
-            <>
-               <form
-                  onSubmit={handleSubmit(submitHandler)}
-                  className="grid grid-cols-12 gap-8 mx-40 mb-12"
-               >
-                  <div className="col-span-3">
-                     <div className="relative overflow-hidden w-full aspect-square rounded-xl">
-                        <Image
-                           src={
-                              selectedImage
-                                 ? URL.createObjectURL(selectedImage)
-                                 : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg"
-                           }
-                           alt="avatar"
-                           layout="fill"
-                           className="object-cover"
-                        />
-                        <label
-                           className={`absolute w-full h-full top-0 left-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0  z-20 cursor-pointer`}
-                           htmlFor="upload-photo"
-                        >
-                           <div className="w-full h-full text-5xl flex justify-center items-center">
-                              <BiCloudUpload />
-                           </div>
-                           <input
-                              type="file"
-                              name="photo"
-                              id="upload-photo"
-                              className="hidden"
-                              onChange={imageChange}
-                           />
-                        </label>
+
+         <form
+            onSubmit={handleSubmit(submitHandler)}
+            className="grid grid-cols-12 gap-8 mx-40 mb-12"
+         >
+            <div className="col-span-3">
+               <div className="relative overflow-hidden w-full aspect-square rounded-xl">
+                  <Image
+                     src={
+                        selectedImage
+                           ? URL.createObjectURL(selectedImage)
+                           : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg"
+                     }
+                     alt="avatar"
+                     layout="fill"
+                     className="object-cover"
+                  />
+                  <label
+                     className={`absolute w-full h-full top-0 left-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0  z-20 cursor-pointer`}
+                     htmlFor="upload-photo"
+                  >
+                     <div className="w-full h-full text-5xl flex justify-center items-center">
+                        <BiCloudUpload />
                      </div>
-                  </div>
-                  <div className="col-span-9 font-semibold">
-                     <div className="text-left">
-                        <div className="grid grid-cols-12 gap-4">
-                           <div className="col-span-12">
-                              <label
-                                 htmlFor="username"
-                                 className="font-semibold"
-                              >
-                                 Username*
-                              </label>
-                              <input
-                                 type="text"
-                                 id="username"
-                                 placeholder="Username*"
-                                 required
-                                 {...register("username")}
-                                 className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full font-semibold"
-                              />
-                           </div>
-                           <div className="col-span-6">
-                              <label
-                                 htmlFor="password"
-                                 className="font-semibold"
-                              >
-                                 Password*
-                              </label>
-                              <input
-                                 type="password"
-                                 id="password"
-                                 placeholder="Password*"
-                                 required
-                                 {...register("password")}
-                                 className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full"
-                              />
-                           </div>
-                           <div className="col-span-6">
-                              <label
-                                 htmlFor="confirmPassword"
-                                 className="font-semibold"
-                              >
-                                 Confirm Password*
-                              </label>
-                              <input
-                                 type="password"
-                                 id=" confirmPassword"
-                                 placeholder="Confirm Password*"
-                                 required
-                                 {...register("confirmPassword")}
-                                 className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full "
-                              />
-                           </div>
-                           <div className="col-span-6">
-                              <label htmlFor="email" className="font-semibold">
-                                 Email*
-                              </label>
-                              <input
-                                 type="email"
-                                 id=" email"
-                                 placeholder="Email*"
-                                 required
-                                 {...register("email")}
-                                 className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full"
-                              />
-                           </div>
-                           <div className="col-span-6 mb-4">
-                              <label
-                                 htmlFor="genderID"
-                                 className="font-semibold"
-                              >
-                                 Gender*
-                              </label>
-                              <select
-                                 name="cars"
-                                 id="cars"
-                                 placeholder="Gender*"
-                                 required
-                                 {...register("genderID")}
-                                 className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full font-semibold"
-                              >
-                                 <option value="" className="hidden">
-                                    -Choose your gender-
-                                 </option>
-                                 <option value={1}>Male</option>
-                                 <option value={2}>Female</option>
-                                 <option value={3}>Other</option>
-                              </select>
-                           </div>
-                           <div className="col-span-4">
-                              <label
-                                 htmlFor="province"
-                                 className="font-semibold"
-                              >
-                                 Province
-                              </label>
-                              <select
-                                 id="province"
-                                 className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-semibold focus:outline-blue-main disabled:cursor-not-allowed"
-                                 onChange={(e) => {
-                                    handleSelectProvince(e.target.value);
-                                 }}
-                              >
-                                 <option value={0} className="hidden">
-                                    Select Province
-                                 </option>
-                                 {province.map((p) => (
-                                    <option
-                                       key={p.provinceID}
-                                       value={p.provinceID}
-                                       className=""
-                                    >
-                                       {p.provinceName}
-                                    </option>
-                                 ))}
-                              </select>
-                           </div>
-                           <div className="col-span-4">
-                              <label
-                                 htmlFor="district"
-                                 className="font-semibold"
-                              >
-                                 District
-                              </label>
-                              <select
-                                 id="district"
-                                 className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-semibold focus:outline-blue-main disabled:cursor-not-allowed"
-                                 onChange={(e) =>
-                                    handleSelectDistrict(e.target.value)
-                                 }
-                                 disabled={district.length > 0 ? false : true}
-                              >
-                                 <option value={0} className="hidden">
-                                    Select District
-                                 </option>
-                                 {district.map((p) => (
-                                    <option
-                                       key={p.districtID}
-                                       value={p.districtID}
-                                    >
-                                       {p.districtName}
-                                    </option>
-                                 ))}
-                              </select>
-                           </div>
-                           <div className="col-span-4">
-                              <label htmlFor="ward" className="font-semibold">
-                                 Ward
-                              </label>
-                              <select
-                                 id="ward"
-                                 className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-semibold focus:outline-blue-main disabled:cursor-not-allowed"
-                                 disabled={ward.length > 0 ? false : true}
-                                 onChange={(e) => {
-                                    setStreet("");
-                                    setWardID(Number(e.target.value));
-                                 }}
-                              >
-                                 <option value={0} className="hidden">
-                                    Select Ward
-                                 </option>
-                                 {ward.map((p) => (
-                                    <option key={p.wardID} value={p.wardID}>
-                                       {p.wardName}
-                                    </option>
-                                 ))}
-                              </select>
-                           </div>
-                           <div className="col-span-12">
-                              <label htmlFor="street" className="font-semibold">
-                                 Street
-                              </label>
-                              <input
-                                 {...register("street")}
-                                 id="street"
-                                 name="street"
-                                 required
-                                 type="text"
-                                 placeholder="Street"
-                                 className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-semibold focus:outline-blue-main disabled:cursor-not-allowed"
-                                 disabled={street == "" ? false : true}
-                              />
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div className="col-span-12">
-                     <button
-                        className="bg-blue-main p-3 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-main transition-all"
-                        type="submit"
-                     >
-                        Register a new account
-                     </button>
-                  </div>
-               </form>
-            </>
-         ) : (
-            <div>
-               <div className="flex justify-center my-8">
-                  <ClipLoader size={35} color="#FF8500" />
+                     <input
+                        type="file"
+                        name="photo"
+                        id="upload-photo"
+                        className="hidden"
+                        onChange={imageChange}
+                     />
+                  </label>
                </div>
             </div>
-         )}
+            <div className="col-span-9 font-semibold">
+               <div className="text-left">
+                  <div className="grid grid-cols-12 gap-4">
+                     <div className="col-span-12">
+                        <label htmlFor="username" className="font-semibold">
+                           Username*
+                        </label>
+                        <input
+                           type="text"
+                           id="username"
+                           placeholder="Username*"
+                           required
+                           {...register("username")}
+                           className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full font-semibold"
+                        />
+                     </div>
+                     <div className="col-span-6">
+                        <label htmlFor="password" className="font-semibold">
+                           Password*
+                        </label>
+                        <input
+                           type="password"
+                           id="password"
+                           placeholder="Password*"
+                           required
+                           {...register("password")}
+                           className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full"
+                        />
+                     </div>
+                     <div className="col-span-6">
+                        <label
+                           htmlFor="confirmPassword"
+                           className="font-semibold"
+                        >
+                           Confirm Password*
+                        </label>
+                        <input
+                           type="password"
+                           id=" confirmPassword"
+                           placeholder="Confirm Password*"
+                           required
+                           {...register("confirmPassword")}
+                           className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full "
+                        />
+                     </div>
+                     <div className="col-span-6">
+                        <label htmlFor="email" className="font-semibold">
+                           Email*
+                        </label>
+                        <input
+                           type="email"
+                           id=" email"
+                           placeholder="Email*"
+                           required
+                           {...register("email")}
+                           className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full"
+                        />
+                     </div>
+                     <div className="col-span-6 mb-4">
+                        <label htmlFor="genderID" className="font-semibold">
+                           Gender*
+                        </label>
+                        <select
+                           name="cars"
+                           id="cars"
+                           placeholder="Gender*"
+                           required
+                           {...register("genderID")}
+                           className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full font-semibold"
+                        >
+                           <option value="" className="hidden">
+                              -Choose your gender-
+                           </option>
+                           <option value={1}>Male</option>
+                           <option value={2}>Female</option>
+                           <option value={3}>Other</option>
+                        </select>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div className="col-span-12">
+               <button
+                  className="bg-blue-main p-3 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-main transition-all"
+                  type="submit"
+               >
+                  Register a new account
+               </button>
+            </div>
+         </form>
+
          {/* <form
             onSubmit={handleSubmit(submitHandler)}
             className="grid grid-cols-12 gap-8 mx-40 mb-12"
