@@ -108,20 +108,26 @@ const Header = () => {
       if (userInfo) {
          loadNumberofItems();
          fetchAgency();
+      }
+   }, [cart]);
 
+   useEffect(() => {
+      if (userInfo) {
          const unsubcribe = onSnapshot(
-            collection(db, "agency-3"),
+            collection(db, `user-${userInfo.id}`),
             (snapshot) => {
                setNotiList(
                   snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
                );
             }
          );
+         console.log(`user-${userInfo.id}`);
+
          return () => {
             unsubcribe();
          };
       }
-   }, [cart]);
+   }, [userInfo]);
 
    return (
       <div className="bg-light-primary dark:bg-dark-primary flex justify-between items-center w-[90%] mx-auto rounded-b-lg py-[10px]">
@@ -339,14 +345,20 @@ const Header = () => {
                </div>
             </div>
             <ThemeToggler />
-            <div>
+            <div className="relative">
                <div className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer">
                   <BiBell className="w-6 h-6 hover:text-blue-main" />
                </div>
-               <div className="">
-                  {/* {notiList.map((noti) => (
-                     <div key={noti.id}>{noti.data.title}</div>
-                  ))} */}
+               <div className="absolute left-0 top-14 z-20 p-4 rounded-lg bg-light-primary w-96">
+                  {notiList.length > 0 ? (
+                     notiList.map((noti) => (
+                        <div key={noti.id}>
+                           <div>{noti.data.title}</div>
+                        </div>
+                     ))
+                  ) : (
+                     <div>Do not have any notification!</div>
+                  )}
                </div>
             </div>
          </div>

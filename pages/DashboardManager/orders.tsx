@@ -8,8 +8,6 @@ import {
    BiDetail,
    BiEditAlt,
    BiErrorCircle,
-   BiFoodMenu,
-   BiMoney,
    BiPrinter,
    BiReceipt,
 } from "react-icons/bi";

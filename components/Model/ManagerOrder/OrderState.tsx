@@ -10,6 +10,8 @@ const OrderState = ({
    setStateCurrentID,
 }) => {
    const wrapperRef = useRef(null);
+   const stateTemp = stateCurrentID;
+   const [stateOrder, setStateOrder] = useState(-1);
 
    useEffect(() => {
       function handleClickOutside(event) {
@@ -27,11 +29,12 @@ const OrderState = ({
    const handleSubmitState = async () => {
       try {
          const res = await API.patch(
-            endpoints["change_state"](IDOpenModelChangeState, stateCurrentID)
+            endpoints["change_state"](IDOpenModelChangeState, stateOrder)
          );
          if (res.data.code == "200") {
             setIDOpenModelChangeState(-1);
             setStateCurrentID(-1);
+
             toast.success("Change state successful", {
                position: "top-center",
             });
@@ -74,8 +77,8 @@ const OrderState = ({
                   id="radio1"
                   type="radio"
                   name="orderRadio"
-                  checked={stateCurrentID === 1}
-                  disabled={stateCurrentID === 4 ? true : false}
+                  checked={stateOrder === 1}
+                  disabled={stateTemp === 4 ? true : false}
                />
                <label
                   className="grid grid-rows-2 gap-2 p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg w-full h-32"
@@ -89,7 +92,7 @@ const OrderState = ({
                            }
                         );
                      } else {
-                        setStateCurrentID(1);
+                        setStateOrder(1);
                      }
                   }}
                >
@@ -118,8 +121,8 @@ const OrderState = ({
                   id="radio2"
                   type="radio"
                   name="orderRadio"
-                  checked={stateCurrentID === 2}
-                  disabled={stateCurrentID === 4 ? true : false}
+                  checked={stateOrder === 2}
+                  disabled={stateTemp === 4 ? true : false}
                />
                <label
                   className="grid grid-rows-2 gap-2 w-full p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg h-32"
@@ -133,7 +136,7 @@ const OrderState = ({
                            }
                         );
                      } else {
-                        setStateCurrentID(2);
+                        setStateOrder(2);
                      }
                   }}
                >
@@ -169,8 +172,8 @@ const OrderState = ({
                   id="radio3"
                   type="radio"
                   name="orderRadio"
-                  checked={stateCurrentID === 3}
-                  disabled={stateCurrentID === 4 ? true : false}
+                  checked={stateOrder === 3}
+                  disabled={stateTemp === 4 ? true : false}
                />
                <label
                   className="grid grid-rows-2 gap-2 w-full p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg h-32 "
@@ -184,7 +187,7 @@ const OrderState = ({
                            }
                         );
                      } else {
-                        setStateCurrentID(3);
+                        setStateOrder(3);
                      }
                   }}
                >
@@ -247,12 +250,12 @@ const OrderState = ({
                   id="radio4"
                   type="radio"
                   name="orderRadio"
-                  checked={stateCurrentID === 4}
+                  checked={stateOrder === 4}
                />
                <label
                   className="grid grid-rows-2 gap-2 w-full p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg h-32"
                   htmlFor="radio4"
-                  onClick={(e) => setStateCurrentID(4)}
+                  onClick={(e) => setStateOrder(4)}
                >
                   <div className="w-12 row-span-1">
                      <svg
@@ -361,12 +364,12 @@ const OrderState = ({
                   id="radio5"
                   type="radio"
                   name="orderRadio"
-                  checked={stateCurrentID === 5}
+                  checked={stateOrder === 5}
                />
                <label
                   className="grid grid-rows-2 gap-2 w-full p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg h-32"
                   htmlFor="radio5"
-                  onClick={(e) => setStateCurrentID(5)}
+                  onClick={(e) => setStateOrder(5)}
                >
                   <div className="w-10 row-span-1">
                      <svg
