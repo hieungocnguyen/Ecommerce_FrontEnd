@@ -20,6 +20,7 @@ import Image from "next/image";
 import { BiBell, BiChevronDown } from "react-icons/bi";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../pages/lib/firebase-config";
+import moment from "moment";
 
 const Header = () => {
    const { state, dispatch } = useContext(Store);
@@ -31,6 +32,8 @@ const Header = () => {
    const [agencyInfo, setAgencyInfo] = useState<any>({});
    const [isOpenLangOption, setIsOpenLangOption] = useState(false);
    const [notiList, setNotiList] = useState([]);
+   const [isNotiOpen, setIsNotiOpen] = useState(false);
+   const [unSeen, setUnSeen] = useState(false);
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -64,7 +67,6 @@ const Header = () => {
          console.log(error);
       }
    };
-
    const handleCartRoute = () => {
       if (userInfo) {
          router.push("/cart");
@@ -111,6 +113,7 @@ const Header = () => {
       }
    }, [cart]);
 
+   //firestore connect
    useEffect(() => {
       if (userInfo) {
          const unsubcribe = onSnapshot(
@@ -119,19 +122,122 @@ const Header = () => {
                setNotiList(
                   snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
                );
+               snapshot.docs.map((doc) => {
+                  if (doc.data().seen === false) {
+                     setUnSeen(true);
+                     console.log(doc.data());
+                  }
+               });
             }
          );
-         console.log(`user-${userInfo.id}`);
-
          return () => {
             unsubcribe();
          };
       }
    }, [userInfo]);
 
+   const fetchChangeSeenNoti = async () => {
+      try {
+         if (userInfo) {
+            const res = await API.get(
+               endpoints["update_seen_status"](`user-${userInfo.id}`)
+            );
+            console.log(res.data);
+            setUnSeen(false);
+         }
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    return (
       <div className="bg-light-primary dark:bg-dark-primary flex justify-between items-center w-[90%] mx-auto rounded-b-lg py-[10px]">
          <div className="ml-7 flex items-center justify-center gap-2">
+            <div className="relative">
+               <div
+                  className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer"
+                  onClick={() => {
+                     if (isNotiOpen === true) {
+                        fetchChangeSeenNoti();
+                     }
+                     setIsNotiOpen(!isNotiOpen);
+                  }}
+               >
+                  <BiBell className="w-6 h-6 hover:text-blue-main" />
+                  {unSeen ? (
+                     <div className="absolute top-1 right-1 w-2 h-2 bg-red-600 rounded-full"></div>
+                  ) : (
+                     <div></div>
+                  )}
+               </div>
+               <div
+                  className={`absolute left-0 top-14 z-20 rounded-lg bg-light-primary dark:bg-dark-primary overflow-auto w-[34rem] transition-all ease-out ${
+                     notiList.length > 5 ? "h-[26rem]" : "h-fit"
+                  } ${
+                     isNotiOpen
+                        ? "scale-100 "
+                        : "scale-0 -translate-x-64 -translate-y-60"
+                  }`}
+               >
+                  {notiList.sort((a, b) =>
+                     a.data.createdDate.seconds < b.data.createdDate.seconds
+                        ? 1
+                        : -1
+                  ).length > 0 ? (
+                     notiList.map((noti) => (
+                        <div
+                           key={noti.id}
+                           className={`flex gap-4 items-center p-3 hover:bg-[#bdbec5] dark:hover:bg-[#191919] ${
+                              noti.data.seen === true
+                                 ? "bg-light-primary"
+                                 : "bg-[#d3d4dc]"
+                           }`}
+                           onClick={() => console.log(noti)}
+                        >
+                           <div>
+                              <div className="relative overflow-hidden aspect-square h-16 rounded-xl ">
+                                 <Image
+                                    src={noti.data.image}
+                                    alt="noti"
+                                    layout="fill"
+                                    className="object-cover"
+                                 />
+                              </div>
+                           </div>
+                           <div className="w-full">
+                              <div className="whitespace-nowrap font-semibold mb-1 flex items-center gap-2">
+                                 {!noti.data.seen && (
+                                    <div className="w-3 h-3 rounded-full bg-red-600"></div>
+                                 )}
+                                 <div>{noti.data.title}</div>
+                              </div>
+
+                              <div className="text-sm mb-3">
+                                 {noti.data.details}
+                              </div>
+                              <div className="flex justify-between items-center w-full">
+                                 <div className="font-semibold text-xs bg-blue-main rounded-md py-0.5 px-1 text-white inline-block">
+                                    {noti.data.type}
+                                 </div>
+                                 <div className="text-sm italic">
+                                    {moment(
+                                       noti.data.createdDate.seconds * 1000
+                                    )
+                                       .startOf("hours")
+                                       .fromNow()}
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     ))
+                  ) : (
+                     <div className="whitespace-nowrap">
+                        Do not have any notification!
+                     </div>
+                  )}
+               </div>
+            </div>
+            <ThemeToggler />
             <div className="relative">
                <div
                   className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center gap-1 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main max-w-[86px]"
@@ -342,23 +448,6 @@ const Header = () => {
                      </span>
                      <span>English</span>
                   </div>
-               </div>
-            </div>
-            <ThemeToggler />
-            <div className="relative">
-               <div className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer">
-                  <BiBell className="w-6 h-6 hover:text-blue-main" />
-               </div>
-               <div className="absolute left-0 top-14 z-20 p-4 rounded-lg bg-light-primary w-96">
-                  {notiList.length > 0 ? (
-                     notiList.map((noti) => (
-                        <div key={noti.id}>
-                           <div>{noti.data.title}</div>
-                        </div>
-                     ))
-                  ) : (
-                     <div>Do not have any notification!</div>
-                  )}
                </div>
             </div>
          </div>

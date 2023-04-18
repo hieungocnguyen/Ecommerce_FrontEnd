@@ -104,6 +104,9 @@ export let endpoints = {
       pickShiftID
    ) => `/order-tracking/ghn/order/set-pick-shift/${orderAgencyID}/${pickShiftID}
    `,
+   //notification
+   update_seen_status: (recipientID) =>
+      `/notify/update-seen-status/${recipientID}`,
 };
 export const authAxios = () =>
    axios.create({
