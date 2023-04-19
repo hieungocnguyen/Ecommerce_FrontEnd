@@ -64,7 +64,6 @@ export let endpoints = {
    comment_all_post: (postID) => `/action/comment/${postID}/all`,
 
    //agency
-
    register_agency: `/agency/register`,
    all_agency_cesorship: `/censorship/all`,
    all_agency: `/agency/all`,
