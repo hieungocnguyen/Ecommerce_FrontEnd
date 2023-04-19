@@ -90,17 +90,23 @@ const Header = () => {
    };
    const fetchAgency = async () => {
       try {
-         const resAllAgency = await API.get(endpoints["all_agency"]);
-         resAllAgency.data.data.map(async (agency) => {
-            if (agency.manager.id === userInfo.id) {
-               const resInfoAngency = await API.get(
-                  endpoints["agency_info"](agency.id)
-               );
-               Cookies.set("agencyInfo", JSON.stringify(agency));
-               dispatch({ type: "AGENCY_INFO_SET", payload: agency });
-               setAgencyInfo(agency);
-            }
-         });
+         // const resAllAgency = await API.get(endpoints["all_agency"]);
+         // resAllAgency.data.data.map(async (agency) => {
+         //    if (agency.manager.id === userInfo.id) {
+         //       const resInfoAngency = await API.get(
+         //          endpoints["agency_info"](agency.id)
+         //       );
+         //       Cookies.set("agencyInfo", JSON.stringify(agency));
+         //       dispatch({ type: "AGENCY_INFO_SET", payload: agency });
+         //       setAgencyInfo(agency);
+         //    }
+         // });
+         const res = await API.get(
+            endpoints["get_agency_info_by_userID"](userInfo.id)
+         );
+         Cookies.set("agencyInfo", JSON.stringify(res.data.data));
+         dispatch({ type: "AGENCY_INFO_SET", payload: res.data.data });
+         setAgencyInfo(res.data.data);
       } catch (error) {
          console.log(error);
       }
@@ -109,7 +115,9 @@ const Header = () => {
    useEffect(() => {
       if (userInfo) {
          loadNumberofItems();
-         fetchAgency();
+         if (userInfo.role.id === 2) {
+            fetchAgency();
+         }
       }
    }, [cart]);
 
@@ -557,6 +565,11 @@ const Header = () => {
                            <Link href={"/wishlist"}>
                               <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
                                  Wishlist
+                              </div>
+                           </Link>
+                           <Link href={"/followed"}>
+                              <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
+                                 Followed
                               </div>
                            </Link>
                            <div

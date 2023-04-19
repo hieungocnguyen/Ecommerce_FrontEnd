@@ -38,6 +38,7 @@ export let endpoints = {
    get_all_post_by_agencyID: (agencyID) =>
       `/sale-post/get-all-sale-post-by-agency-id/${agencyID}`,
    get_keyword_suggest: `/sale-post/get-keywords-suggest-for-search`,
+
    //cart API
    add_to_cart: "/cart/add-to-cart",
    update_cart: "/cart/update-cart",
@@ -61,17 +62,25 @@ export let endpoints = {
    comment_post: (postID) => `/action/comment/create/${postID}`,
    comment_all: `action/comment/all`,
    comment_all_post: (postID) => `/action/comment/${postID}/all`,
+
    //agency
+
    register_agency: `/agency/register`,
    all_agency_cesorship: `/censorship/all`,
    all_agency: `/agency/all`,
    agency_info: (agencyID) => `/agency/${agencyID}`,
+   get_agency_info_by_userID: (userID) =>
+      `/agency/get-agency-by-user-id/${userID}`,
    uncensored_agency: `/censorship/uncensored`,
    accept_agency: (censorshipID) => `/censorship/accepted/${censorshipID}`,
    deny_agency: (censorshipID) => `/censorship/denied/${censorshipID}`,
    agency_fields_all: `/agency-field/all`,
    ban_agency: (agencyID) => `/agency/ban/${agencyID}`,
    unban_agency: (agencyID) => `/agency/unban/${agencyID}`,
+   follow_agency: (agencyID) => `/action/follow/${agencyID}`,
+   get_state_follow_agency: (agencyID) => `/action/follow/state/${agencyID}`,
+   get_list_agency_follow: (userID) => `/agency/follow-list/${userID}`,
+
    //category
    category_all: `/category/all`,
    //stat

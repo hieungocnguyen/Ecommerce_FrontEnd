@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import { Suspense, useEffect, useState } from "react";
-import API, { endpoints } from "../../API";
+import API, { authAxios, endpoints } from "../../API";
 import Layout from "../../components/Layout/Layout";
 // import ProductItem from "../../components/ProductItem";
 import { ClipLoader } from "react-spinners";
@@ -16,6 +16,7 @@ const ProductItem = dynamic(import("../../components/ProductItem"));
 const AgencyPage = ({ agencyInfo, posts }) => {
    const router = useRouter();
    const [numberPage, setnumberPage] = useState(1);
+   const [stateFollow, setStateFollow] = useState<boolean>(false);
 
    const trans = useTrans();
    // const loadAgency = async () => {
@@ -41,6 +42,35 @@ const AgencyPage = ({ agencyInfo, posts }) => {
    //    // loadPosts();
    //    // loadAgency();
    // }, []);
+
+   const fetchFollowAgencyState = async () => {
+      try {
+         const res = await authAxios().get(
+            endpoints["get_state_follow_agency"](agencyInfo.id)
+         );
+         // console.log(res.data.data);
+         setStateFollow(res.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
+      if (agencyInfo) {
+         fetchFollowAgencyState();
+      }
+   }, [agencyInfo]);
+
+   const handleFollowAgency = async () => {
+      try {
+         const res = await authAxios().get(
+            endpoints["follow_agency"](agencyInfo.id)
+         );
+         setStateFollow(res.data.data.state === 1 ? true : false);
+      } catch (error) {
+         console.log(error);
+      }
+   };
 
    return (
       <Layout title="Agency">
@@ -69,7 +99,15 @@ const AgencyPage = ({ agencyInfo, posts }) => {
                   {agencyInfo ? agencyInfo.name : ""}
                </div>
             </div>
-            <div className="grid grid-cols-4 gap-8 mt-48">
+            <div
+               className={`mt-36 px-4 py-3 border-blue-main border-2 inline-block mx-auto cursor-pointer rounded-lg font-semibold ${
+                  stateFollow ? "" : "bg-blue-main text-white"
+               }`}
+               onClick={() => handleFollowAgency()}
+            >
+               {stateFollow ? "Unfollow" : "Follow"}
+            </div>
+            <div className="grid grid-cols-4 gap-8 mt-8">
                <Suspense
                   fallback={
                      <div className="flex justify-center my-8">
