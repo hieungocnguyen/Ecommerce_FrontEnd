@@ -22,7 +22,7 @@ const ProductItem = dynamic(import("../components/ProductItem"));
 export default function Home({ categories }) {
    const { state, dispatch } = useContext(Store);
    const [salePosts, setSalePost] = useState([]);
-   const [numberPage, setnumberPage] = useState(1);
+   const [numberPage, setNumberPage] = useState(1);
    const [hotAgency, setHotAgency] = useState<any>([]);
    const [totalPage, setTotalPage] = useState(1);
    const [openCompare, setOpenCompare] = useState(false);
@@ -42,14 +42,6 @@ export default function Home({ categories }) {
 
    useEffect(() => {
       loadPosts();
-      const pages = document.querySelectorAll(".paginator");
-      for (let i = 0; i < pages.length; i++) {
-         if (i === numberPage - 1) {
-            pages[i].classList.add(...["bg-blue-main", "text-white"]);
-         } else {
-            pages[i].classList.remove(...["bg-blue-main", "text-white"]);
-         }
-      }
    }, [numberPage]);
 
    return (
@@ -132,23 +124,24 @@ export default function Home({ categories }) {
                      className="flex gap-4
                    justify-center mt-8"
                   >
-                     {totalPage > 1 ? (
+                     {totalPage > 1 &&
                         Array.from(Array(totalPage), (e, i) => {
                            return (
                               <div
                                  key={i}
-                                 className="w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold "
+                                 className={`w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold ${
+                                    numberPage === i + 1
+                                       ? "bg-blue-main text-white"
+                                       : ""
+                                 } `}
                                  onClick={(e) => {
-                                    setnumberPage(i + 1);
+                                    setNumberPage(i + 1);
                                  }}
                               >
                                  {i + 1}
                               </div>
                            );
-                        })
-                     ) : (
-                        <div></div>
-                     )}
+                        })}
                   </div>
                </div>
             </div>

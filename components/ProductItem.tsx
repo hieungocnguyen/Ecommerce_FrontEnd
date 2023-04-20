@@ -130,7 +130,7 @@ const ProductItem = ({ product, inCompare }) => {
                   {product.sellStatus.name}
                </div>
             </div>
-            <div className="text-left font-bold text-xl uppercase mt-4 mb-2 line-clamp-2">
+            <div className="text-left font-bold text-xl uppercase mt-4 mb-2 line-clamp-2 h-14">
                {product.title}
             </div>
             <div className="text-left">
