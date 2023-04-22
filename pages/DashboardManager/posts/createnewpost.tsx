@@ -21,17 +21,6 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 const CreateNewPost = () => {
-   // const [values, setValues] = useState({
-   //    title: "",
-   //    categoryID: null,
-   //    sellStatusID: null,
-   //    initialPrice: null,
-   //    finalPrice: null,
-   //    brand: null,
-   //    manufacturer: null,
-   //    origin: null,
-   //    description: "",
-   // });
    const {
       register,
       handleSubmit,
@@ -50,8 +39,14 @@ const CreateNewPost = () => {
       if (e.target.files[0] === undefined) {
          setImportImage(false);
       } else {
-         setSelectedImage(e.target.files[0]);
-         setImportImage(true);
+         // size < 2MB
+         if (e.target.files[0].size <= 2097152) {
+            setSelectedImage(e.target.files[0]);
+            setImportImage(true);
+         } else {
+            setImportImage(false);
+            toast.error("Maximum upload size is 2MB, please try other image");
+         }
       }
    };
 
@@ -133,36 +128,37 @@ const CreateNewPost = () => {
                className="grid grid-cols-4 gap-8"
                onSubmit={handleSubmit(handleCreatePost)}
             >
-               <div className="col-span-1 dark:bg-neutral-800 bg-light-spot rounded-lg flex flex-col items-center h-fit py-8">
-                  <div className="font-semibold text-lg mb-2">Avatar</div>
-                  <div className="">
-                     <div className="relative overflow-hidden w-32 h-32 rounded-xl">
-                        <Image
-                           src={
-                              selectedImage
-                                 ? URL.createObjectURL(selectedImage)
-                                 : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg"
-                           }
-                           alt="avatar"
-                           layout="fill"
-                           className="object-cover"
+               <div className="col-span-1 rounded-lg flex flex-col items-center h-fit">
+                  <div className="relative overflow-hidden w-full aspect-square rounded-xl">
+                     <Image
+                        src={
+                           selectedImage
+                              ? URL.createObjectURL(selectedImage)
+                              : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg"
+                        }
+                        alt="avatar"
+                        layout="fill"
+                        className="object-cover"
+                     />
+                     <label
+                        className={`absolute w-full h-full top-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0  z-20 cursor-pointer `}
+                        htmlFor="upload-photo"
+                     >
+                        <div className="w-full h-full text-5xl flex justify-center items-center">
+                           <BiCloudUpload />
+                        </div>
+                        <input
+                           type="file"
+                           name="photo"
+                           id="upload-photo"
+                           className="hidden"
+                           onChange={imageChange}
+                           accept="image/png, image/jpeg"
                         />
-                        <label
-                           className={`absolute w-full h-full top-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0  z-20 cursor-pointer `}
-                           htmlFor="upload-photo"
-                        >
-                           <div className="w-full h-full text-5xl flex justify-center items-center">
-                              <BiCloudUpload />
-                           </div>
-                           <input
-                              type="file"
-                              name="photo"
-                              id="upload-photo"
-                              className="hidden"
-                              onChange={imageChange}
-                           />
-                        </label>
-                     </div>
+                     </label>
+                  </div>
+                  <div className="mt-2 text-gray-500 font-medium text-sm italic">
+                     *Maximum image size 2MB
                   </div>
                </div>
                <div className="col-span-3 dark:bg-neutral-800 bg-light-spot rounded-lg p-8">

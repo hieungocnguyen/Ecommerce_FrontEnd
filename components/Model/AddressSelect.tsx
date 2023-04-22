@@ -80,20 +80,24 @@ const AddressSelect = ({
    }, [wrapperRef, isOpenAddressSelect]);
 
    const submitHandler = async ({ street }) => {
-      try {
-         const resGetLocation = await API.get(
-            endpoints["get_full_address"](wardID)
-         );
-         setAddress(`${street}, ${resGetLocation.data.data}`);
-         setIsOpenAddressSelect(false);
-         toast.success("Select new address successful!", {
-            position: "top-center",
-         });
-      } catch (error) {
-         console.log(error);
-         toast.error("Something wrong, please try again later!", {
-            position: "top-center",
-         });
+      if (wardID > 0) {
+         try {
+            const resGetLocation = await API.get(
+               endpoints["get_full_address"](wardID)
+            );
+            setAddress(`${street}, ${resGetLocation.data.data}`);
+            setIsOpenAddressSelect(false);
+            toast.success("Select new address successful!", {
+               position: "top-center",
+            });
+         } catch (error) {
+            console.log(error);
+            toast.error("Something wrong, please try again later!", {
+               position: "top-center",
+            });
+         }
+      } else {
+         toast.error("Please choose your ward!");
       }
    };
 

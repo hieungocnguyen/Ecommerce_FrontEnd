@@ -143,7 +143,7 @@ const Profile = () => {
                   {userInfo ? (
                      userInfo.role.name === "ROLE_GENERAL" ? (
                         waitAccept ? (
-                           <div>
+                           <div className="font-medium">
                               Waiting administrator accept your register
                               application
                            </div>

@@ -3,20 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { BiCloudUpload } from "react-icons/bi";
 import API, { authAxios, endpoints } from "../../API";
-
-const CssTextField = styled(TextField)({
-   "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-         borderColor: "white",
-      },
-      "&:hover fieldset": {
-         borderColor: "#525EC1",
-      },
-      "&.Mui-focused fieldset": {
-         borderColor: "#525EC1",
-      },
-   },
-});
+import toast from "react-hot-toast";
 
 const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
    const [selectedImage, setSelectedImage] = useState();
@@ -27,8 +14,14 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
       if (e.target.files[0] === undefined) {
          setImportImage(false);
       } else {
-         setSelectedImage(e.target.files[0]);
-         setImportImage(true);
+         // size < 2MB
+         if (e.target.files[0].size <= 2097152) {
+            setSelectedImage(e.target.files[0]);
+            setImportImage(true);
+         } else {
+            setImportImage(false);
+            toast.error("Maximum upload size is 2MB, please try other image");
+         }
       }
    };
    const handleChange = (event) => {
@@ -79,7 +72,9 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
             setImportImage(false);
             setSelectedImage(undefined);
          }
-      } catch (error) {}
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {}, []);
@@ -131,8 +126,12 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                            id="upload-photo-new-item"
                            className="hidden"
                            onChange={imageChange}
+                           accept="image/png, image/jpeg"
                         />
                      </label>
+                  </div>
+                  <div className="mt-2 text-gray-500 font-medium text-sm italic">
+                     *Maximum 2MB
                   </div>
                </div>
             </div>

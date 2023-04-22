@@ -80,8 +80,14 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
       if (e.target.files[0] === undefined) {
          setImportImage(false);
       } else {
-         setSelectedImage(e.target.files[0]);
-         setImportImage(true);
+         // size < 2MB
+         if (e.target.files[0].size <= 2097152) {
+            setSelectedImage(e.target.files[0]);
+            setImportImage(true);
+         } else {
+            setImportImage(false);
+            toast.error("Maximum upload size is 2MB, please try other image");
+         }
       }
    };
 
@@ -109,315 +115,43 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                   </div>
                </div>
                <form
-                  className="grid grid-cols-4 gap-8"
+                  className="grid grid-cols-4 gap-4"
                   onSubmit={handleUpdatePost}
                >
-                  <div className="col-span-1 dark:bg-neutral-800 bg-light-primary rounded-lg flex flex-col items-center h-fit p-8">
-                     <div className="font-semibold text-lg mb-4">Avatar</div>
-                     <div className="">
-                        <div className="relative overflow-hidden w-40 h-40 rounded-xl">
-                           <Image
-                              src={
-                                 selectedImage
-                                    ? URL.createObjectURL(selectedImage)
-                                    : post.avatar
-                              }
-                              alt="avatar"
-                              layout="fill"
-                              className="object-cover"
+                  <div className="col-span-1 dark:bg-neutral-800 bg-light-primary rounded-lg flex flex-col items-center h-fit px-4">
+                     <div className="relative overflow-hidden w-full aspect-square rounded-xl">
+                        <Image
+                           src={
+                              selectedImage
+                                 ? URL.createObjectURL(selectedImage)
+                                 : post.avatar
+                           }
+                           alt="avatar"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                        <label
+                           className={`absolute w-full h-full top-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0 z-20 cursor-pointer `}
+                           htmlFor="upload-photo"
+                        >
+                           <div className="w-full h-full text-5xl flex justify-center items-center">
+                              <BiCloudUpload />
+                           </div>
+                           <input
+                              type="file"
+                              name="photo"
+                              id="upload-photo"
+                              className="hidden"
+                              onChange={imageChange}
                            />
-                           <label
-                              className={`absolute w-full h-full top-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0 z-20 cursor-pointer `}
-                              htmlFor="upload-photo"
-                           >
-                              <div className="w-full h-full text-5xl flex justify-center items-center">
-                                 <BiCloudUpload />
-                              </div>
-                              <input
-                                 type="file"
-                                 name="photo"
-                                 id="upload-photo"
-                                 className="hidden"
-                                 onChange={imageChange}
-                              />
-                           </label>
-                        </div>
+                        </label>
+                     </div>
+                     <div className="font-medium mt-1">Avatar</div>
+                     <div className="mt-2 text-gray-500 font-medium text-sm italic">
+                        *Maximum image size 2MB
                      </div>
                   </div>
-                  <div className="col-span-3 dark:bg-neutral-800 bg-light-spot rounded-lg p-8">
-                     {/* <div className="mb-4">
-                        <CssTextField
-                           fullWidth
-                           label="Title"
-                           name="title"
-                           onChange={handlePostChange}
-                           required
-                           defaultValue={post.title}
-                           error={titleVali}
-                           helperText={
-                              titleVali
-                                 ? "Title post must more than 20 characters"
-                                 : ""
-                           }
-                           variant="outlined"
-                           InputProps={{
-                              style: {
-                                 color: "#525EC1",
-                                 outline: "#525EC1",
-                              },
-                           }}
-                           InputLabelProps={{
-                              style: {
-                                 color: "#525EC1",
-                              },
-                           }}
-                        />
-                     </div>
-                     <div className="grid grid-cols-2 gap-4 mb-4">
-                        <FormControl fullWidth variant="outlined" required>
-                           <InputLabel
-                              id="category-input"
-                              sx={{
-                                 color: "#525EC1",
-                                 "&.Mui-focused ": {
-                                    color: "#525EC1",
-                                 },
-                              }}
-                           >
-                              Category
-                           </InputLabel>
-                           <Select
-                              labelId="category-input"
-                              id="demo-simple-select"
-                              name="categoryID"
-                              defaultValue={post.category.id}
-                              label="Category"
-                              onChange={handlePostChange}
-                              sx={{
-                                 color: "#525EC1",
-                                 ".MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "#525EC1",
-                                 },
-                                 "&.Mui-focused .MuiOutlinedInput-notchedOutline":
-                                    {
-                                       borderColor: "#525EC1",
-                                    },
-                                 "&:hover .MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "#525EC1",
-                                 },
-                                 ".MuiSvgIcon-root ": {
-                                    fill: "#525EC1 !important",
-                                 },
-                              }}
-                           >
-                              <MenuItem value={undefined}>----</MenuItem>
-                              <MenuItem value={1}>Moms, Kids & Babies</MenuItem>
-                              <MenuItem value={2}>
-                                 Consumer Electronics
-                              </MenuItem>
-                              <MenuItem value={3}>Fashion</MenuItem>
-                              <MenuItem value={4}>Home & Living</MenuItem>
-                              <MenuItem value={5}>Shoes</MenuItem>
-                              <MenuItem value={6}>Grocery</MenuItem>
-                              <MenuItem value={7}>
-                                 Computer & Accessories
-                              </MenuItem>
-                              <MenuItem value={8}>Mobile & Gadgets</MenuItem>
-                              <MenuItem value={9}>Sport & Outdoor</MenuItem>
-                              <MenuItem value={10}>Books & Stationery</MenuItem>
-                              <MenuItem value={11}>Home Appliances</MenuItem>
-                              <MenuItem value={12}>Cameras</MenuItem>
-                              <MenuItem value={13}>Watches</MenuItem>
-                              <MenuItem value={14}>Automotive</MenuItem>
-                           </Select>
-                        </FormControl>
-                        <FormControl fullWidth variant="outlined" required>
-                           <InputLabel
-                              id="sellstatus-input"
-                              sx={{
-                                 color: "#525EC1",
-                                 "&.Mui-focused ": {
-                                    color: "#525EC1",
-                                 },
-                              }}
-                           >
-                              Status
-                           </InputLabel>
-                           <Select
-                              labelId="sellstatus-input"
-                              id="demo-simple-select"
-                              name="sellStatusID"
-                              defaultValue={post.sellStatus.id}
-                              label="Status"
-                              onChange={handlePostChange}
-                              sx={{
-                                 color: "#525EC1",
-                                 ".MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "#525EC1",
-                                 },
-                                 "&.Mui-focused .MuiOutlinedInput-notchedOutline":
-                                    {
-                                       borderColor: "#525EC1",
-                                    },
-                                 "&:hover .MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "#525EC1",
-                                 },
-                                 ".MuiSvgIcon-root ": {
-                                    fill: "#525EC1 !important",
-                                 },
-                              }}
-                           >
-                              <MenuItem value={undefined}>IN STOCK</MenuItem>
-                              <MenuItem value={1}>IN STOCK</MenuItem>
-                              <MenuItem value={2}>BEST SELLER</MenuItem>
-                              <MenuItem value={3}>PROMOTION</MenuItem>
-                              <MenuItem value={4}>SUPER SALE</MenuItem>
-                              <MenuItem value={5}>FREE SHIP</MenuItem>
-                              <MenuItem value={6}>TRENDING</MenuItem>
-                           </Select>
-                        </FormControl>
-                     </div>
-                     <div className="mb-4">
-                        <CssTextField
-                           fullWidth
-                           label="Brand"
-                           name="brand"
-                           onChange={handlePostChange}
-                           required
-                           defaultValue={post.brand}
-                           variant="outlined"
-                           InputProps={{
-                              style: {
-                                 color: "#525EC1",
-                                 outline: "#525EC1",
-                              },
-                           }}
-                           InputLabelProps={{
-                              style: {
-                                 color: "#525EC1",
-                              },
-                           }}
-                        />
-                     </div>
-                     <div className="mb-4 grid grid-cols-2 gap-4">
-                        <div>
-                           <CssTextField
-                              fullWidth
-                              label="Manufacturer"
-                              name="manufacturer"
-                              onChange={handlePostChange}
-                              required
-                              defaultValue={post.manufacturer}
-                              variant="outlined"
-                              InputProps={{
-                                 style: {
-                                    color: "#525EC1",
-                                    outline: "#525EC1",
-                                 },
-                              }}
-                              InputLabelProps={{
-                                 style: {
-                                    color: "#525EC1",
-                                 },
-                              }}
-                           />
-                        </div>
-                        <div>
-                           <CssTextField
-                              fullWidth
-                              label="Origin"
-                              name="origin"
-                              onChange={handlePostChange}
-                              required
-                              defaultValue={post.origin}
-                              variant="outlined"
-                              InputProps={{
-                                 style: {
-                                    color: "#525EC1",
-                                    outline: "#525EC1",
-                                 },
-                              }}
-                              InputLabelProps={{
-                                 style: {
-                                    color: "#525EC1",
-                                 },
-                              }}
-                           />
-                        </div>
-                     </div>
-                     <div className="grid grid-cols-2 gap-4 mb-4">
-                        <CssTextField
-                           fullWidth
-                           label="Final Price (VND)"
-                           name="finalPrice"
-                           onChange={handlePostChange}
-                           required
-                           defaultValue={post.finalPrice}
-                           variant="outlined"
-                           type="number"
-                           InputProps={{
-                              style: {
-                                 color: "#525EC1",
-                                 outline: "#525EC1",
-                              },
-                           }}
-                           InputLabelProps={{
-                              style: {
-                                 color: "#525EC1",
-                              },
-                           }}
-                        />
-                        <CssTextField
-                           fullWidth
-                           label="Initial Price (VND)"
-                           name="initialPrice"
-                           onChange={handlePostChange}
-                           required
-                           defaultValue={post.initialPrice}
-                           variant="outlined"
-                           InputProps={{
-                              style: {
-                                 color: "#525EC1",
-                                 outline: "#525EC1",
-                              },
-                           }}
-                           InputLabelProps={{
-                              style: {
-                                 color: "#525EC1",
-                              },
-                           }}
-                        />
-                     </div>
-                     <div className="mb-4">
-                        <CssTextField
-                           fullWidth
-                           label="Description"
-                           name="description"
-                           onChange={handlePostChange}
-                           required
-                           defaultValue={post.description}
-                           variant="outlined"
-                           InputProps={{
-                              style: {
-                                 color: "#525EC1",
-                                 outline: "#525EC1",
-                              },
-                           }}
-                           InputLabelProps={{
-                              style: {
-                                 color: "#525EC1",
-                              },
-                           }}
-                        />
-                     </div>
-                     <div className="flex justify-end mt-4">
-                        <button
-                           className="py-3 px-6 bg-blue-main hover:bg-opacity-80 rounded-lg font-semibold text-white"
-                           type="submit"
-                        >
-                           Save
-                        </button>
-                     </div> */}
+                  <div className="col-span-3 dark:bg-neutral-800 bg-light-spot rounded-lg p-4">
                      <div className="grid grid-cols-12 gap-4 font-medium">
                         <div className="col-span-12">
                            <label htmlFor="title" className="pl-2 text-sm">
@@ -433,6 +167,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               defaultValue={post.title}
                               placeholder="Title"
                               className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
+                              accept="image/png, image/jpeg"
                            />
                         </div>
                         <div className="col-span-6">

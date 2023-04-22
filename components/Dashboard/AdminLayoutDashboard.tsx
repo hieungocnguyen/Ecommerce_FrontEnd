@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import {
+   BiBell,
    BiChevronDown,
    BiChevronRight,
    BiHomeAlt,
@@ -18,14 +19,18 @@ import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import Head from "next/head";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../pages/lib/firebase-config";
 
-const AdminLayoutDashboard = ({ children }) => {
+const AdminLayoutDashboard = ({ title, children }) => {
    const { state, dispatch } = useContext(Store);
    const { userInfo, agencyInfo } = state;
-   const [agency, setAgency] = useState<any>({});
    const [openMenu, setOpenMenu] = useState(false);
    const router = useRouter();
    const [numberUncensored, setNumberUncensored] = useState(0);
+   const [unSeen, setUnSeen] = useState(false);
+
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
       Cookies.remove("userInfo");
@@ -48,13 +53,33 @@ const AdminLayoutDashboard = ({ children }) => {
    useEffect(() => {
       if (userInfo && userInfo.role.name === "ROLE_ADMIN") {
          loadUncensoredNumber();
+         SnapFirestore();
       } else {
          router.push("/403");
       }
    }, []);
 
+   const SnapFirestore = () => {
+      const unsubcribe = onSnapshot(collection(db, `admin`), (snapshot) => {
+         setUnSeen(false);
+         snapshot.docs.map((doc) => {
+            if (doc.data().seen === false) {
+               setUnSeen(true);
+               return;
+            }
+         });
+      });
+      return () => {
+         unsubcribe();
+      };
+   };
+
    return (
-      <>
+      <div>
+         <Head>
+            <title>{title ? title + " - Manager Page" : "Manager Page"}</title>
+            <meta name="description" content="Ecommerce Website" />
+         </Head>
          {userInfo && userInfo.role.name === "ROLE_ADMIN" ? (
             <>
                <div className="grid grid-cols-6">
@@ -95,7 +120,17 @@ const AdminLayoutDashboard = ({ children }) => {
                               General
                            </div>
                         </Link>
-
+                        <Link href="/DashboardAdmin/notification">
+                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                              <BiBell className="text-lg" />
+                              Notification{" "}
+                              {unSeen ? (
+                                 <span className="w-3 h-3 bg-blue-main rounded-full"></span>
+                              ) : (
+                                 <></>
+                              )}
+                           </div>
+                        </Link>
                         <div className="transition-all duration-1000">
                            <div
                               className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3"
@@ -166,7 +201,7 @@ const AdminLayoutDashboard = ({ children }) => {
          ) : (
             <></>
          )}
-      </>
+      </div>
    );
 };
 

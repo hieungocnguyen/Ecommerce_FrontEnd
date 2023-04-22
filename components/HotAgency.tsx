@@ -72,7 +72,7 @@ const HotAgency = ({ setLoading }) => {
                      ))}
                   </div>
                   <Link href="/allagency">
-                     <div className="my-6 text-lg px-5 py-3 rounded-lg border-2 border-blue-main inline-block hover:bg-blue-main hover:text-white font-semibold cursor-pointer">
+                     <div className="mt-10 text-lg px-5 py-3 rounded-lg border-2 border-blue-main inline-block hover:bg-blue-main hover:text-white font-semibold cursor-pointer hover:shadow-lg hover:shadow-blue-main">
                         See all agency
                      </div>
                   </Link>

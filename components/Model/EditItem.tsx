@@ -15,8 +15,14 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
       if (e.target.files[0] === undefined) {
          setImportImage(false);
       } else {
-         setSelectedImage(e.target.files[0]);
-         setImportImage(true);
+         // size < 2MB
+         if (e.target.files[0].size <= 2097152) {
+            setSelectedImage(e.target.files[0]);
+            setImportImage(true);
+         } else {
+            setImportImage(false);
+            toast.error("Maximum upload size is 2MB, please try other image");
+         }
       }
    };
 
@@ -128,8 +134,12 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
                               id="upload-photo-edit-item"
                               className="hidden"
                               onChange={imageChange}
+                              accept="image/png, image/jpeg"
                            />
                         </label>
+                     </div>
+                     <div className="mt-2 text-gray-500 font-medium text-sm italic">
+                        *Maximum 2MB
                      </div>
                   </div>
                </div>

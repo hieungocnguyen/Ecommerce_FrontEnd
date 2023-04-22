@@ -101,12 +101,16 @@ const Header = () => {
          //       setAgencyInfo(agency);
          //    }
          // });
-         const res = await API.get(
-            endpoints["get_agency_info_by_userID"](userInfo.id)
-         );
-         Cookies.set("agencyInfo", JSON.stringify(res.data.data));
-         dispatch({ type: "AGENCY_INFO_SET", payload: res.data.data });
-         setAgencyInfo(res.data.data);
+         try {
+            const res = await API.get(
+               endpoints["get_agency_info_by_userID"](userInfo.id)
+            );
+            Cookies.set("agencyInfo", JSON.stringify(res.data.data));
+            dispatch({ type: "AGENCY_INFO_SET", payload: res.data.data });
+            setAgencyInfo(res.data.data);
+         } catch (error) {
+            console.log(error);
+         }
       } catch (error) {
          console.log(error);
       }
@@ -133,7 +137,6 @@ const Header = () => {
                snapshot.docs.map((doc) => {
                   if (doc.data().seen === false) {
                      setUnSeen(true);
-                     console.log(doc.data());
                   }
                });
             }
@@ -197,8 +200,8 @@ const Header = () => {
                            key={noti.id}
                            className={`flex gap-4 items-center p-3 hover:bg-[#bdbec5] dark:hover:bg-[#191919] ${
                               noti.data.seen === true
-                                 ? "bg-light-primary"
-                                 : "bg-[#d3d4dc]"
+                                 ? "bg-light-primary dark:bg-dark-primary"
+                                 : "bg-[#d3d4dc] dark:bg-dark-spot"
                            }`}
                            onClick={() => console.log(noti)}
                         >
@@ -231,7 +234,7 @@ const Header = () => {
                                     {moment(
                                        noti.data.createdDate.seconds * 1000
                                     )
-                                       .startOf("hours")
+                                       .startOf("m")
                                        .fromNow()}
                                  </div>
                               </div>

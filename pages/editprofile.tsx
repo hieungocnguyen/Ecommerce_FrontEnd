@@ -44,8 +44,14 @@ const EditProfile = () => {
       if (e.target.files[0] === undefined) {
          setImportImage(false);
       } else {
-         setSelectedImage(e.target.files[0]);
-         setImportImage(true);
+         // size < 2MB
+         if (e.target.files[0].size <= 2097152) {
+            setSelectedImage(e.target.files[0]);
+            setImportImage(true);
+         } else {
+            setImportImage(false);
+            toast.error("Maximum upload size is 2MB, please try other image");
+         }
       }
    };
    useEffect(() => {
@@ -146,35 +152,40 @@ const EditProfile = () => {
             onSubmit={handleSubmit(submitHandler)}
             className="grid grid-cols-12 gap-12 mx-24 items-center"
          >
-            <div className="col-span-3 relative overflow-hidden w-full aspect-square rounded-full">
-               <Image
-                  src={
-                     selectedImage
-                        ? URL.createObjectURL(selectedImage)
-                        : user.avatar
-                  }
-                  alt="avatar"
-                  layout="fill"
-                  className="object-cover"
-               />
-               <label
-                  className={`absolute w-full h-full top-0 left-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0  z-20 cursor-pointer`}
-                  htmlFor="upload-photo"
-               >
-                  <div className="w-full h-full text-6xl flex justify-center items-center">
-                     <BiCloudUpload />
-                  </div>
-                  <input
-                     type="file"
-                     name="photo"
-                     id="upload-photo"
-                     className="hidden"
-                     onChange={(e) => {
-                        setIsChange(true);
-                        imageChange(e);
-                     }}
+            <div className="col-span-3">
+               <div className="relative overflow-hidden w-full aspect-square rounded-full">
+                  <Image
+                     src={
+                        selectedImage
+                           ? URL.createObjectURL(selectedImage)
+                           : user.avatar
+                     }
+                     alt="avatar"
+                     layout="fill"
+                     className="object-cover"
                   />
-               </label>
+                  <label
+                     className={`absolute w-full h-full top-0 left-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0  z-20 cursor-pointer`}
+                     htmlFor="upload-photo"
+                  >
+                     <div className="w-full h-full text-6xl flex justify-center items-center">
+                        <BiCloudUpload />
+                     </div>
+                     <input
+                        type="file"
+                        name="photo"
+                        id="upload-photo"
+                        className="hidden"
+                        onChange={(e) => {
+                           setIsChange(true);
+                           imageChange(e);
+                        }}
+                     />
+                  </label>
+               </div>
+               <div className="mt-2 text-gray-500 font-medium text-sm italic">
+                  *Maximum image size 2MB
+               </div>
             </div>
             <div className="col-span-9">
                <div className="grid grid-cols-12 gap-4 text-left font-medium">

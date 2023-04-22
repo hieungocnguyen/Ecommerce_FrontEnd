@@ -29,8 +29,14 @@ const Register = () => {
       if (e.target.files[0] === undefined) {
          setImportImage(false);
       } else {
-         setSelectedImage(e.target.files[0]);
-         setImportImage(true);
+         // size < 2MB
+         if (e.target.files[0].size <= 2097152) {
+            setSelectedImage(e.target.files[0]);
+            setImportImage(true);
+         } else {
+            setImportImage(false);
+            toast.error("Maximum upload size is 2MB, please try other image");
+         }
       }
    };
 
@@ -179,6 +185,9 @@ const Register = () => {
                         onChange={imageChange}
                      />
                   </label>
+               </div>
+               <div className="mt-2 text-gray-500 font-medium text-sm italic">
+                  *Maximum image size 2MB
                </div>
             </div>
             <div className="col-span-9 font-semibold">

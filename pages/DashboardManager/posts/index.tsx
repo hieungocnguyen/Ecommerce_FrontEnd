@@ -78,9 +78,7 @@ const Posts = () => {
       }
    };
    const handleRouting = async (id) => {
-      setTimeout(() => setLoading(true));
       router.push(`/DashboardManager/posts/${id}`);
-      setLoading(false);
    };
 
    return (
@@ -104,7 +102,7 @@ const Posts = () => {
                      .sort((a, b) => (a.id > b.id ? -1 : 1))
                      .map((post) => (
                         <div key={post.id}>
-                           <ul className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-bg hover:bg-light-spot cursor-pointer relative">
+                           <ul className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-bg hover:bg-light-primary cursor-pointer relative">
                               {/* <Link href={`/DashboardManager/posts/${post.id}`}> */}
                               <div
                                  className="col-span-10 grid grid-cols-10 items-center"

@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import {
+   BiBarChartAlt2,
+   BiBell,
    BiChevronRight,
    BiHomeAlt,
    BiLogIn,
@@ -18,6 +20,8 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Loader from "../Loader";
 import Head from "next/head";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../pages/lib/firebase-config";
 
 const LayoutDashboard = ({ title, children }) => {
    const { state, dispatch } = useContext(Store);
@@ -27,6 +31,7 @@ const LayoutDashboard = ({ title, children }) => {
    const [openStatisticle, setOpenStatisticle] = useState(false);
    const [openPost, setOpenPost] = useState(false);
    const [loading, setLoading] = useState(false);
+   const [unSeen, setUnSeen] = useState(false);
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -40,6 +45,30 @@ const LayoutDashboard = ({ title, children }) => {
          position: "bottom-center",
       });
    };
+
+   const SnapFirestore = () => {
+      const unsubcribe = onSnapshot(
+         collection(db, `agency-${agencyInfo.id}`),
+         (snapshot) => {
+            setUnSeen(false);
+            snapshot.docs.map((doc) => {
+               if (doc.data().seen === false) {
+                  setUnSeen(true);
+                  return;
+               }
+            });
+         }
+      );
+      return () => {
+         unsubcribe();
+      };
+   };
+
+   useEffect(() => {
+      if (agencyInfo) {
+         SnapFirestore();
+      }
+   }, [agencyInfo]);
 
    return (
       <div>
@@ -87,7 +116,17 @@ const LayoutDashboard = ({ title, children }) => {
                         General
                      </div>
                   </Link>
-
+                  <Link href="/DashboardManager/notification">
+                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                        <BiBell className="text-lg" />
+                        Notification{" "}
+                        {unSeen ? (
+                           <span className="w-3 h-3 bg-blue-main rounded-full"></span>
+                        ) : (
+                           <></>
+                        )}
+                     </div>
+                  </Link>
                   <div>
                      <div
                         className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3"
@@ -129,7 +168,7 @@ const LayoutDashboard = ({ title, children }) => {
                         className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3"
                         onClick={() => setOpenStatisticle(!openStatisticle)}
                      >
-                        <BiStats className="text-lg" />
+                        <BiBarChartAlt2 className="text-lg" />
                         Statistical
                         <BiChevronRight
                            className={`absolute right-6 font-semibold text-2xl transition-all ${

@@ -33,35 +33,41 @@ const ItemsOfPost = () => {
    const [isOpenNewItem, setIsOpenNewItem] = useState(false);
 
    const addImageSet = async (image) => {
-      try {
-         setLoading(true);
-         const uploadCloud = await API.post(
-            endpoints["upload_cloudinary"],
-            {
-               file: image,
-            },
-            {
-               headers: {
-                  "Content-Type": "multipart/form-data",
+      if (image && image.size <= 2097152) {
+         try {
+            setLoading(true);
+            const uploadCloud = await API.post(
+               endpoints["upload_cloudinary"],
+               {
+                  file: image,
                },
+               {
+                  headers: {
+                     "Content-Type": "multipart/form-data",
+                  },
+               }
+            );
+            const createPicture = await API.post(endpoints["create_piture"], {
+               image: uploadCloud.data.data,
+               postID: id,
+            });
+            if (createPicture) {
+               setLoading(false);
+               toast.success("Add picture successful!", {
+                  position: "top-center",
+               });
+               loadItems();
             }
-         );
-         const createPicture = await API.post(endpoints["create_piture"], {
-            image: uploadCloud.data.data,
-            postID: id,
-         });
-         if (createPicture) {
+         } catch (error) {
             setLoading(false);
-            toast.success("Add picture successful!", {
+            toast.error(`${error.response.data}`, {
                position: "top-center",
             });
-            loadItems();
          }
-      } catch (error) {
-         setLoading(false);
-         toast.error(`${error.response.data}`, {
-            position: "top-center",
-         });
+      } else {
+         if (image && image.size > 2097152) {
+            toast.error("Maximum upload size is 2MB, please try other image");
+         }
       }
    };
    const deleteHandle = async (p) => {

@@ -64,8 +64,14 @@ const RegisterAgency = () => {
       if (e.target.files[0] === undefined) {
          setImportImage(false);
       } else {
-         setSelectedImage(e.target.files[0]);
-         setImportImage(true);
+         // size < 2MB
+         if (e.target.files[0].size <= 2097152) {
+            setSelectedImage(e.target.files[0]);
+            setImportImage(true);
+         } else {
+            setImportImage(false);
+            toast.error("Maximum upload size is 2MB, please try other image");
+         }
       }
    };
 
@@ -116,9 +122,13 @@ const RegisterAgency = () => {
 
          Cookies.set("userInfo", JSON.stringify(dataCurrentUser.data.data));
          dispatch({ type: "USER_LOGIN", payload: dataCurrentUser.data.data });
-         if (resRegister) {
+         if (resRegister.data.code === "201") {
             setLoading(false);
             router.push("/profile");
+            toast.error("Register agency successfully!");
+         } else {
+            setLoading(false);
+            toast.error(resRegister.data.message);
          }
       } catch (error) {
          setLoading(false);
@@ -167,8 +177,12 @@ const RegisterAgency = () => {
                         id="upload-photo"
                         className="hidden"
                         onChange={imageChange}
+                        accept="image/png, image/jpeg"
                      />
                   </label>
+               </div>
+               <div className="mt-2 text-gray-500 font-medium text-sm italic">
+                  *Maximum image size 2MB
                </div>
             </div>
 

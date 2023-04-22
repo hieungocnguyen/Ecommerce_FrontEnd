@@ -79,6 +79,7 @@ const OrderState = ({
                   name="orderRadio"
                   checked={stateOrder === 1}
                   disabled={stateTemp === 4 ? true : false}
+                  readOnly
                />
                <label
                   className="grid grid-rows-2 gap-2 p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg w-full h-32"
@@ -123,6 +124,7 @@ const OrderState = ({
                   name="orderRadio"
                   checked={stateOrder === 2}
                   disabled={stateTemp === 4 ? true : false}
+                  readOnly
                />
                <label
                   className="grid grid-rows-2 gap-2 w-full p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg h-32"
@@ -174,6 +176,7 @@ const OrderState = ({
                   name="orderRadio"
                   checked={stateOrder === 3}
                   disabled={stateTemp === 4 ? true : false}
+                  readOnly
                />
                <label
                   className="grid grid-rows-2 gap-2 w-full p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg h-32 "
@@ -251,6 +254,7 @@ const OrderState = ({
                   type="radio"
                   name="orderRadio"
                   checked={stateOrder === 4}
+                  readOnly
                />
                <label
                   className="grid grid-rows-2 gap-2 w-full p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg h-32"
@@ -365,6 +369,7 @@ const OrderState = ({
                   type="radio"
                   name="orderRadio"
                   checked={stateOrder === 5}
+                  readOnly
                />
                <label
                   className="grid grid-rows-2 gap-2 w-full p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg h-32"
