@@ -105,7 +105,7 @@ const OrderReview = ({
                            ${new Date(reviewInfor.orderDate).getMinutes()}
                            ${"] | "}
                            ${new Date(reviewInfor.orderDate).toLocaleDateString(
-                              "en-US"
+                              "en-GB"
                            )}`
                               : ""}
                         </div>
@@ -123,9 +123,10 @@ const OrderReview = ({
                   <div className="mx-4 mt-1 mb-2">
                      <div className="mb-1">
                         <span className="font-semibold">Pick Up Shift: </span>
-                        <span className="">
-                           {reviewInfor.pickUpShift.from_time
-                              ? `from ${"["}
+                        {reviewInfor.pickUpShift && (
+                           <span className="">
+                              {reviewInfor.pickUpShift.from_time
+                                 ? `from ${"["}
                            ${new Date(
                               reviewInfor.pickUpShift.from_time
                            ).getHours()}
@@ -145,8 +146,9 @@ const OrderReview = ({
                            ${new Date(
                               reviewInfor.pickUpShift.to_time
                            ).toLocaleDateString("en-GB")}`
-                              : "This order not selected pickup shift"}
-                        </span>
+                                 : "This order not selected pickup shift"}
+                           </span>
+                        )}
                      </div>
                      {/* <div className="mb-1">
                         <span className="font-semibold">
@@ -169,25 +171,28 @@ const OrderReview = ({
                               : "This order not selected pickup shift"}
                         </span>
                      </div> */}
-                     <div className="mb-1">
-                        <span className="font-semibold">
-                           Expected Delivery Time:{" "}
-                        </span>
-                        <span className="">
-                           {"["}
-                           {new Date(
-                              reviewInfor.expectedDeliveryTime
-                           ).getHours()}
-                           {":"}
-                           {new Date(
-                              reviewInfor.expectedDeliveryTime
-                           ).getMinutes()}
-                           {"] | "}
-                           {new Date(
-                              reviewInfor.expectedDeliveryTime
-                           ).toLocaleDateString("en-GB")}
-                        </span>
-                     </div>
+                     {reviewInfor.expectedDeliveryTime && (
+                        <div className="mb-1">
+                           <span className="font-semibold">
+                              Expected Delivery Time:{" "}
+                           </span>
+                           <span className="">
+                              {"[ "}
+                              {new Date(
+                                 reviewInfor.expectedDeliveryTime
+                              ).getHours()}
+                              {" : "}
+                              {new Date(
+                                 reviewInfor.expectedDeliveryTime
+                              ).getMinutes()}
+                              {" ] | "}
+                              {new Date(
+                                 reviewInfor.expectedDeliveryTime
+                              ).toLocaleDateString("en-GB")}
+                           </span>
+                        </div>
+                     )}
+
                      <div className="">
                         <span className="font-semibold">Note: </span>
                         <span className="">{reviewInfor.note}</span>

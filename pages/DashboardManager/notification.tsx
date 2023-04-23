@@ -70,42 +70,50 @@ const Notification = () => {
                      <ClipLoader size={35} color="#FF8500" />
                   </div>
                ) : (
-                  notiList.map((noti) => (
-                     <div
-                        key={noti.id}
-                        className={`p-4 w-full rounded-lg  flex items-center gap-4 mb-4 transition-all hover:bg-[#bdbec5] dark:hover:bg-[#191919] ${
-                           noti.data.seen === false
-                              ? "bg-[#d3d4dc] dark:bg-dark-spot"
-                              : "bg-light-primary dark:bg-dark-primary"
-                        }`}
-                     >
-                        <div className="relative h-16 aspect-square rounded-xl overflow-hidden">
-                           <Image
-                              src={noti.data.image}
-                              alt="image"
-                              layout="fill"
-                              className="object-cover"
-                           />
-                        </div>
-                        <div>
-                           <div className="text-lg font-medium">
-                              {noti.data.title}
+                  notiList
+                     .sort((a, b) =>
+                        a.data.createdDate.seconds < b.data.createdDate.seconds
+                           ? 1
+                           : -1
+                     )
+                     .map((noti) => (
+                        <div
+                           key={noti.id}
+                           className={`p-4 w-full rounded-lg  flex items-center gap-4 mb-4 transition-all hover:bg-[#bdbec5] dark:hover:bg-[#191919] ${
+                              noti.data.seen === false
+                                 ? "bg-[#d3d4dc] dark:bg-dark-spot"
+                                 : "bg-light-primary dark:bg-dark-primary"
+                           }`}
+                        >
+                           <div className="relative h-16 aspect-square rounded-xl overflow-hidden">
+                              <Image
+                                 src={noti.data.image}
+                                 alt="image"
+                                 layout="fill"
+                                 className="object-cover"
+                              />
                            </div>
-                           <div className=" mb-1">{noti.data.details}</div>
                            <div>
-                              <span className="text-sm text-blue-main font-semibold">
-                                 {noti.data.type}
-                              </span>
-                              <span className="text-sm italic">
-                                 {" - "}
-                                 {moment(noti.data.createdDate.seconds * 1000)
-                                    .startOf("m")
-                                    .fromNow()}
-                              </span>
+                              <div className="text-lg font-medium">
+                                 {noti.data.title}
+                              </div>
+                              <div className=" mb-1">{noti.data.details}</div>
+                              <div>
+                                 <span className="text-sm text-blue-main font-semibold">
+                                    {noti.data.type}
+                                 </span>
+                                 <span className="text-sm italic">
+                                    {" - "}
+                                    {moment(
+                                       noti.data.createdDate.seconds * 1000
+                                    )
+                                       .startOf("m")
+                                       .fromNow()}
+                                 </span>
+                              </div>
                            </div>
                         </div>
-                     </div>
-                  ))
+                     ))
                )}
             </div>
          </div>

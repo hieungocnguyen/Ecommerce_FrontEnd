@@ -95,7 +95,7 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
                   </div>
                   <div className="font-bold text-lg text-center">A5</div>
                   <div className="text-center font-medium text-sm">
-                     For large order
+                     For large box
                   </div>
                </label>
             </div>
@@ -150,7 +150,7 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
                   </div>
                   <div className="font-bold text-lg text-center">80x80(mm)</div>
                   <div className="text-center font-medium text-sm">
-                     For medium order
+                     For medium box
                   </div>
                </label>
             </div>
@@ -205,7 +205,7 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
                   </div>
                   <div className="font-bold text-lg text-center">52x70(mm)</div>
                   <div className="text-center font-medium text-sm">
-                     For small order
+                     For small box
                   </div>
                </label>
             </div>

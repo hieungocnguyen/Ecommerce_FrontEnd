@@ -8,7 +8,7 @@ import useTrans from "../pages/hook/useTrans";
 
 const quickSearch = ["airpod", "gaming desk", "blaze"];
 
-const SearchBar = ({ categories }) => {
+const SearchBar = ({ categories, setNumberPage }) => {
    const router = useRouter();
    const searchInput = useRef(null);
    const searchContainer = useRef(null);
@@ -21,6 +21,7 @@ const SearchBar = ({ categories }) => {
    const searchByKeyWord = () => {
       const query = searchInput.current.value;
       router.push(`/search?input=${query}`);
+      setNumberPage(1);
    };
 
    const FetchSuggest = async (keyword: string) => {

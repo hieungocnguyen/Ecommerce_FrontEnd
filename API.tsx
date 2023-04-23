@@ -79,6 +79,8 @@ export let endpoints = {
    follow_agency: (agencyID) => `/action/follow/${agencyID}`,
    get_state_follow_agency: (agencyID) => `/action/follow/state/${agencyID}`,
    get_list_agency_follow: (userID) => `/agency/follow-list/${userID}`,
+   search_agency: `/agency/search`,
+   get_top_agency: `/agency/top-agency`,
 
    //category
    category_all: `/category/all`,

@@ -187,7 +187,7 @@ const Header = () => {
                   } ${
                      isNotiOpen
                         ? "scale-100 "
-                        : "scale-0 -translate-x-64 -translate-y-60"
+                        : "scale-0 -translate-x-64 -translate-y-40"
                   }`}
                >
                   {notiList.sort((a, b) =>

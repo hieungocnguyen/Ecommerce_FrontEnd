@@ -1,56 +1,31 @@
-import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
-import { useGeolocated } from "react-geolocated";
-import API from "../API";
+import React, { useState } from "react";
 
-const Demo = () => {
-   const {
-      coords,
-      isGeolocationAvailable,
-      isGeolocationEnabled,
-      positionError,
-   } = useGeolocated({
-      positionOptions: {
-         enableHighAccuracy: false,
-      },
-      userDecisionTimeout: 9000,
-      isOptimisticGeolocationEnabled: true,
-   });
-   const [location, setLocation] = useState<string>("");
+const Test = () => {
+   const [input, setInput] = useState();
 
-   useEffect(() => {
-      const fetchLocation = async () => {
-         const res = await API.get(
-            `http://localhost:8080/ou-ecommerce/api/location/get-nearest-location?latitude=${coords.latitude}&longitude=${coords.longitude}`
-         );
-         setLocation(res.data.data);
-      };
-      if (coords) {
-         fetchLocation();
-      }
-      console.log(isGeolocationEnabled);
-   }, [coords]);
+   const currencyFormat = (e) => {
+      let value = e.target.value;
+      value = value.replace(/\D/g, "");
+      value = value.replace(/(\d)(\d{3})$/, "$1.$2");
+      value = value.replace(/(?=(\d{3})+(\D))\B/g, ".");
+      e.target.value = value;
+      return e;
+   };
 
    return (
       <div>
-         {!isGeolocationAvailable ? (
-            <div>Your browser does not support Geolocation.</div>
-         ) : isGeolocationEnabled ? (
-            coords ? (
-               <div>
-                  <div>Latitude: {coords.latitude}</div>
-                  <div>Longitude: {coords.longitude}</div>
-                  <div className="">Location: {location}</div>
-               </div>
-            ) : (
-               <div>Getting the location data&hellip;</div>
-            )
-         ) : (
-            <div>Geolocation is not enabled.</div>
-         )}
+         <input
+            type="text"
+            value={input}
+            onChange={(e) => {
+               setInput(currencyFormat(e).target.value);
+               console.log(
+                  currencyFormat(e).target.value.replace(/[^a-zA-Z0-9 ]/g, "")
+               );
+            }}
+         />
       </div>
    );
 };
 
-// export default Demo;
-export default dynamic(() => Promise.resolve(Demo), { ssr: false });
+export default Test;

@@ -5,9 +5,30 @@ import Image from "next/image";
 import router from "next/router";
 import { BiArrowBack } from "react-icons/bi";
 import emptyBox from "../public/empty-box.png";
+import AgencyCard from "../components/AgencyCard";
 
-const AllAgency = ({ agencyList }) => {
+const AllAgency = () => {
    const [keyword, setKeyWord] = useState("");
+   const [agencyList, setAgencyList] = useState([]);
+   const [numberPage, setNumberPage] = useState(1);
+   const [totalPage, setTotalPage] = useState(1);
+
+   const fetchAgencies = async () => {
+      try {
+         const res = await API.post(endpoints["search_agency"], {
+            kw: keyword,
+            page: numberPage,
+         });
+         setAgencyList(res.data.data.listResult);
+         setTotalPage(res.data.data.totalPage);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
+      fetchAgencies();
+   }, [numberPage]);
 
    const handleRouteAgency = (agencyID) => {
       router.push(`/agencyinfo/${agencyID}`);
@@ -25,78 +46,30 @@ const AllAgency = ({ agencyList }) => {
                </div>
                <div className="font-semibold text-2xl">/ All agency</div>
             </div>
-            <div className="w-2/3 mx-auto mb-8">
+            <div className="mx-auto mb-8">
                <input
                   type="text"
-                  onChange={(e) => setKeyWord(e.target.value.toLowerCase())}
+                  onChange={(e) => setKeyWord(e.target.value)}
                   placeholder="Name agency..."
-                  className="p-4 w-full bg-light-primary dark:bg-dark-primary rounded-lg font-medium"
+                  className="p-4 w-2/3 bg-light-primary dark:bg-dark-primary rounded-lg font-medium"
                />
+               <button
+                  onClick={() => fetchAgencies()}
+                  className="ml-4 px-5 py-4 bg-blue-main text-white font-medium rounded-lg hover:shadow-lg hover:shadow-blue-main transition-all"
+               >
+                  Search
+               </button>
             </div>
             <div className="grid grid-cols-4 gap-8">
-               {/* {agencyList?agencyList
-                     .filter((a) => a.name.toLowerCase().search(keyword) >= 0)>0?agencyList
-                     .filter((a) => a.name.toLowerCase().search(keyword) >= 0)
-                     .map((agency) => 
-                        <div key={agency.id}>
-                           <div
-                              className="dark:bg-dark-primary bg-light-primary rounded-lg p-6 cursor-pointer  hover:shadow-lg"
-                              onClick={() => handleRouteAgency(agency.id)}
-                           >
-                              <div>
-                                 <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all">
-                                    <Image
-                                       src={agency.avatar}
-                                       alt="avatar"
-                                       layout="fill"
-                                       className="object-cover hover:shadow-lg"
-                                    />
-                                 </div>
-
-                                 <div className="text-center font-bold text-xl uppercase mt-4 line-clamp-2 text-blue-main">
-                                    {agency.name}
-                                 </div>
-                                 <div className="text-center font-semibold">
-                                    {agency.field.name}
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        :<div>Empty</div>:<></>} */}
                {agencyList ? (
-                  agencyList.filter(
-                     (a) => a.name.toLowerCase().search(keyword) >= 0
-                  ).length > 0 ? (
-                     agencyList
-                        .filter(
-                           (a) => a.name.toLowerCase().search(keyword) >= 0
-                        )
-                        .map((agency) => (
-                           <div key={agency.id}>
-                              <div
-                                 className="dark:bg-dark-primary bg-light-primary rounded-lg p-6 cursor-pointer  hover:shadow-lg"
-                                 onClick={() => handleRouteAgency(agency.id)}
-                              >
-                                 <div>
-                                    <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all">
-                                       <Image
-                                          src={agency.avatar}
-                                          alt="avatar"
-                                          layout="fill"
-                                          className="object-cover hover:shadow-lg"
-                                       />
-                                    </div>
-
-                                    <div className="text-center font-bold text-xl uppercase mt-4 line-clamp-2 text-blue-main">
-                                       {agency.name}
-                                    </div>
-                                    <div className="text-center font-semibold">
-                                       {agency.field.name}
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        ))
+                  agencyList.length > 0 ? (
+                     agencyList.map((agency) => (
+                        <AgencyCard
+                           agency={agency}
+                           key={agency.id}
+                           likeNumber={undefined}
+                        />
+                     ))
                   ) : (
                      <>
                         <div className="col-span-4 flex  justify-center items-center">
@@ -115,14 +88,41 @@ const AllAgency = ({ agencyList }) => {
                   <></>
                )}
             </div>
+            {/* paginate */}
+            <div
+               className="flex gap-4
+                   justify-center mt-8"
+            >
+               {totalPage > 1 &&
+                  Array.from(Array(totalPage), (e, i) => {
+                     return (
+                        <div
+                           key={i}
+                           className={`w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold ${
+                              numberPage === i + 1
+                                 ? "bg-blue-main text-white"
+                                 : ""
+                           } `}
+                           onClick={(e) => {
+                              setNumberPage(i + 1);
+                           }}
+                        >
+                           {i + 1}
+                        </div>
+                     );
+                  })}
+            </div>
          </div>
       </Layout>
    );
 };
 
 export default AllAgency;
-export const getServerSideProps = async () => {
-   const fetchAllAgency = await API.get(endpoints["all_agency"]);
-   const agencyList = fetchAllAgency.data.data;
-   return { props: { agencyList } };
-};
+// export const getServerSideProps = async () => {
+//    const fetchAllAgency = await API.post(endpoints["search_agency"], {
+//       kw: "",
+//       page: 0,
+//    });
+//    const agencyList = fetchAllAgency.data.data.listResult;
+//    return { props: { agencyList } };
+// };

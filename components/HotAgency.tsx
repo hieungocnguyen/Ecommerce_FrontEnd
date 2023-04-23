@@ -3,28 +3,26 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AiFillFire, AiFillHeart } from "react-icons/ai";
-import API from "../API";
+import API, { endpoints } from "../API";
+import dynamic from "next/dynamic";
 
-const HotAgency = ({ setLoading }) => {
+// import AgencyCard from "./AgencyCard";
+const AgencyCard = dynamic(import("./AgencyCard"));
+
+const HotAgency = () => {
    const [hotAgency, setHotAgency] = useState([]);
-   const router = useRouter();
 
-   const handleRouteAgency = (agencyID) => {
-      router.push(`/agencyinfo/${agencyID}`);
+   const fetchHotAgencies = async () => {
+      try {
+         const resHot = await API.get(`${endpoints["get_top_agency"]}/4`);
+         setHotAgency(resHot.data.data);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {
-      const loadHotAagencies = async () => {
-         try {
-            const resHot = await API.get(
-               "http://localhost:8080/ou-ecommerce/api/agency/top-agency/4"
-            );
-            setHotAgency(resHot.data.data);
-         } catch (error) {
-            console.log(error);
-         }
-      };
-      loadHotAagencies();
+      fetchHotAgencies();
    }, []);
 
    return (
@@ -40,35 +38,11 @@ const HotAgency = ({ setLoading }) => {
                   </div>
                   <div className="grid grid-cols-4 gap-8">
                      {hotAgency.map((agency) => (
-                        <div className="relative" key={agency[0].id}>
-                           <div
-                              className="dark:bg-dark-primary bg-light-primary rounded-lg p-6 cursor-pointer  hover:shadow-lg"
-                              onClick={() => handleRouteAgency(agency[0].id)}
-                           >
-                              <div>
-                                 <div className="relative">
-                                    <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all">
-                                       <Image
-                                          src={agency[0].avatar}
-                                          alt="avatar"
-                                          layout="fill"
-                                          className="object-cover hover:shadow-lg"
-                                       />
-                                    </div>
-                                    <div className="absolute -right-4 -bottom-4 rounded-tl-xl pt-2 pb-4 pl-4 pr-4 font-semibold uppercase bg-light-primary dark:bg-dark-primary dark:text-dark-text text-light-text text-2xl z-10 flex items-center justify-center gap-1">
-                                       <div>{agency[1]}</div>
-                                       <AiFillHeart className="text-2xl" />
-                                    </div>
-                                 </div>
-                                 <div className="text-center font-bold text-xl uppercase mt-4 line-clamp-2 text-blue-main">
-                                    {agency[0].name}
-                                 </div>
-                                 <div className="text-center font-semibold">
-                                    {agency[0].field.name}
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
+                        <AgencyCard
+                           agency={agency[0]}
+                           key={agency[0].id}
+                           likeNumber={agency[1]}
+                        />
                      ))}
                   </div>
                   <Link href="/allagency">

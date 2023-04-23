@@ -14,14 +14,19 @@ const CategoryAll = ({ categories }) => {
    const [salePosts, setSalePosts] = useState([]);
    const router = useRouter();
    const [page, setPage] = useState(0);
+   const [numberPage, setNumberPage] = useState(1);
+   const [totalPage, setTotalPage] = useState(1);
    const kw = router.query.input;
    const [datePost, setDatePost] = useState(["2020-06-01", "2023-06-01"]);
    const [value, setValue] = useState<number[]>([100000, 500000]);
 
    const loadPosts = async () => {
       try {
-         const resPosts = await API.get(endpoints["get_all_salePost"]);
-         setSalePosts(resPosts.data.data);
+         const resPosts = await API.post(endpoints["search_salePost"], {
+            page: numberPage,
+         });
+         setSalePosts(resPosts.data.data.listResult);
+         setTotalPage(resPosts.data.data.totalPage);
       } catch (error) {
          console.log(error);
       }
@@ -29,14 +34,14 @@ const CategoryAll = ({ categories }) => {
 
    useEffect(() => {
       loadPosts();
-   }, [router.query.input]);
+   }, [router.query.input, numberPage]);
 
    const handleSubmitFilter = async (e) => {
       e.preventDefault();
       try {
          const resPosts = await API.post(endpoints["search_salePost"], {
             kw: "",
-            page: page,
+            page: 1,
             fromDate: new Date(datePost[0]).toLocaleDateString("en-GB"),
             fromPrice: value[0],
             toDate: new Date(datePost[1]).toLocaleDateString("en-GB"),
@@ -54,7 +59,7 @@ const CategoryAll = ({ categories }) => {
    };
    return (
       <Layout title="Search Page">
-         <SearchBar categories={categories} />
+         <SearchBar categories={categories} setNumberPage={setPage} />
          <div className="text-3xl my-8 font-semibold">All sale post</div>
          <div className="grid grid-cols-8 gap-8">
             {/* filter side */}
@@ -120,6 +125,32 @@ const CategoryAll = ({ categories }) => {
                   <ProductItem key={post.id} product={post} inCompare={false} />
                ))}
             </div>
+         </div>
+         {/* paginate */}
+         <div
+            className="flex gap-4
+                      justify-center mt-8"
+         >
+            {totalPage > 1 &&
+               Array.from(Array(totalPage), (e, i) => {
+                  return (
+                     <div
+                        key={i}
+                        className={`w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold ${
+                           numberPage === i + 1 ? "bg-blue-main text-white" : ""
+                        } `}
+                        onClick={(e) => {
+                           setNumberPage(i + 1);
+                           window.scrollTo({
+                              top: 0,
+                              behavior: "smooth",
+                           });
+                        }}
+                     >
+                        {i + 1}
+                     </div>
+                  );
+               })}
          </div>
       </Layout>
    );
