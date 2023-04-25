@@ -46,7 +46,7 @@ const AgenciesAdminDashboard = () => {
    };
 
    return (
-      <AdminLayoutDashboard>
+      <AdminLayoutDashboard title={"List Agency"}>
          <div className="w-[90%] mx-auto">
             <div className="flex justify-between my-10">
                <div className="font-semibold text-2xl">Agency List</div>
