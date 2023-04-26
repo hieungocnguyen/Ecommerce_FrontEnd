@@ -19,11 +19,15 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
    const [selectedImage, setSelectedImage] = useState();
    const [importImage, setImportImage] = useState(false);
    const [titleVali, setTitleVali] = useState(false);
+   const [initialPrice, setInitialPrice] = useState("");
+   const [finalPrice, setFinalPrice] = useState("");
 
    const fetchPost = async () => {
       try {
          const { data } = await API.get(endpoints["salePost"](postID));
          setPost(data.data);
+         setInitialPrice(currencyFormat(data.data.initialPrice.toString()));
+         setFinalPrice(currencyFormat(data.data.finalPrice.toString()));
       } catch (error) {
          console.log(error);
       }
@@ -57,6 +61,8 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
             const resUpdate = await API.put(endpoints["salePost"](post.id), {
                ...post,
                avatar: imageURL,
+               finalPrice: finalPrice.replace(/[^a-zA-Z0-9 ]/g, ""),
+               initialPrice: initialPrice.replace(/[^a-zA-Z0-9 ]/g, ""),
             });
 
             if (resUpdate) {
@@ -91,6 +97,15 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
       }
    };
 
+   const currencyFormat = (text) => {
+      let value = text;
+      value = value.replace(/\D/g, "");
+      value = value.replace(/(\d)(\d{3})$/, "$1.$2");
+      value = value.replace(/(?=(\d{3})+(\D))\B/g, ".");
+      text = value;
+      return text;
+   };
+
    const handlePostChange = (event) => {
       setPost({
          ...post,
@@ -102,8 +117,8 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
       <div className=" dark:bg-neutral-800 bg-light-primary rounded-lg p-6 border-2 border-blue-main shadow-lg">
          {post ? (
             <div>
-               <div className="font-semibold mb-4 flex justify-between items-center">
-                  <div className="text-xl">Edit Post </div>
+               <div className="font-semibold mb-6 flex justify-between items-center">
+                  <div className="text-2xl ml-4">Edit Post </div>
                   <div
                      className="p-3 bg-primary-color hover:shadow-primary-color hover:shadow-lg cursor-pointer rounded-lg text-white text-lg"
                      onClick={() => {
@@ -151,7 +166,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                         *Maximum image size 2MB
                      </div>
                   </div>
-                  <div className="col-span-3 dark:bg-neutral-800 bg-light-spot rounded-lg p-4">
+                  <div className="col-span-3 rounded-lg">
                      <div className="grid grid-cols-12 gap-4 font-medium">
                         <div className="col-span-12">
                            <label htmlFor="title" className="pl-2 text-sm">
@@ -268,15 +283,17 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                         </div>
                         <div className="col-span-6">
                            <label htmlFor="finalPrice" className="pl-2 text-sm">
-                              Final Price
+                              Final Price (VND)
                            </label>
                            <input
-                              type="number"
+                              type="text"
                               id="finalPrice"
                               name="finalPrice"
-                              onChange={handlePostChange}
+                              onChange={(e) =>
+                                 setFinalPrice(currencyFormat(e.target.value))
+                              }
                               required
-                              defaultValue={post.finalPrice}
+                              value={finalPrice}
                               placeholder="Final Price"
                               className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                            />
@@ -286,14 +303,16 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               htmlFor="initialPrice"
                               className="pl-2 text-sm"
                            >
-                              Initial Price
+                              Initial Price (VND)
                            </label>
                            <input
-                              type="number"
+                              type="text"
                               id="initialPrice"
                               name="initialPrice"
-                              defaultValue={post.initialPrice}
-                              onChange={handlePostChange}
+                              value={initialPrice}
+                              onChange={(e) =>
+                                 setInitialPrice(currencyFormat(e.target.value))
+                              }
                               required
                               placeholder="Initial Price"
                               className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"

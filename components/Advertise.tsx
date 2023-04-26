@@ -39,6 +39,7 @@ const Advertise = () => {
                      delay: 3000,
                      disableOnInteraction: false,
                   }}
+                  spaceBetween={20}
                   modules={[Autoplay]}
                   className="mySwiper h-full w-full rounded-lg overflow-hidden"
                >

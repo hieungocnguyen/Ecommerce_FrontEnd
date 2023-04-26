@@ -10,6 +10,7 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
    const [valueItem, setValueItem] = useState<any>();
    const [selectedImage, setSelectedImage] = useState();
    const [importImage, setImportImage] = useState(false);
+   const [unitPrice, setUnitPrice] = useState("");
 
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
@@ -30,9 +31,19 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
       try {
          const { data } = await API.get(endpoints["item"](itemID));
          setValueItem(data.data);
+         setUnitPrice(currencyFormat(data.data.unitPrice.toString()));
       } catch (error) {
          console.log(error);
       }
+   };
+
+   const currencyFormat = (text) => {
+      let value = text;
+      value = value.replace(/\D/g, "");
+      value = value.replace(/(\d)(\d{3})$/, "$1.$2");
+      value = value.replace(/(?=(\d{3})+(\D))\B/g, ".");
+      text = value;
+      return text;
    };
 
    const handleChange = (event) => {
@@ -63,7 +74,7 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
          const resUpdate = await API.put(endpoints["item"](itemID), {
             inventory: valueItem.inventory,
             name: valueItem.name,
-            unitPrice: valueItem.unitPrice,
+            unitPrice: Number(unitPrice.replace(/[^a-zA-Z0-9 ]/g, "")),
             avatar: imageURL,
             description: valueItem.description,
          });
@@ -143,97 +154,6 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
                      </div>
                   </div>
                </div>
-               {/* <div className="col-span-3">
-                  <div className="mb-4">
-                     <CssTextField
-                        fullWidth
-                        label="Name"
-                        name="name"
-                        onChange={handleChange}
-                        required
-                        defaultValue={valueItem.name}
-                        variant="outlined"
-                        InputProps={{
-                           style: { color: "#525EC1", outline: "#525EC1" },
-                        }}
-                        InputLabelProps={{
-                           style: {
-                              color: "#525EC1",
-                           },
-                        }}
-                     />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                     <div className="col-span-1">
-                        <CssTextField
-                           fullWidth
-                           label="Unit Price"
-                           name="unitPrice"
-                           type="number"
-                           onChange={handleChange}
-                           required
-                           variant="outlined"
-                           defaultValue={valueItem.unitPrice}
-                           InputProps={{
-                              style: { color: "#525EC1", outline: "#525EC1" },
-                           }}
-                           InputLabelProps={{
-                              style: {
-                                 color: "#525EC1",
-                              },
-                           }}
-                        />
-                     </div>
-                     <div className="col-span-1">
-                        <CssTextField
-                           fullWidth
-                           label="Inventory"
-                           name="inventory"
-                           type="number"
-                           onChange={handleChange}
-                           required
-                           defaultValue={valueItem.inventory}
-                           variant="outlined"
-                           InputProps={{
-                              style: { color: "#525EC1", outline: "#525EC1" },
-                           }}
-                           InputLabelProps={{
-                              style: {
-                                 color: "#525EC1",
-                              },
-                           }}
-                        />
-                     </div>
-                  </div>
-                  <div className="mb-4">
-                     <CssTextField
-                        fullWidth
-                        label="Description"
-                        name="description"
-                        onChange={handleChange}
-                        required
-                        defaultValue={valueItem.description}
-                        variant="outlined"
-                        InputProps={{
-                           style: { color: "#525EC1", outline: "#525EC1" },
-                        }}
-                        InputLabelProps={{
-                           style: {
-                              color: "#525EC1",
-                           },
-                        }}
-                     />
-                  </div>
-
-                  <div className="flex justify-end mt-4">
-                     <button
-                        className="py-3 px-6 bg-blue-main hover:shadow-lg hover:shadow-blue-main rounded-lg font-semibold text-white"
-                        type="submit"
-                     >
-                        Update
-                     </button>
-                  </div>
-               </div> */}
                <div className="col-span-3 font-medium">
                   <div className="mb-4">
                      <input
@@ -260,10 +180,12 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
                      <div className="col-span-1">
                         <input
                            name="unitPrice"
-                           type="number"
-                           onChange={handleChange}
+                           type="text"
+                           onChange={(e) =>
+                              setUnitPrice(currencyFormat(e.target.value))
+                           }
                            required
-                           defaultValue={valueItem.unitPrice}
+                           value={unitPrice}
                            className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
                            placeholder="UnitPrice"
                         />
@@ -285,7 +207,7 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
                         className="py-3 px-6 bg-blue-main hover:shadow-lg hover:shadow-blue-main transition-all rounded-lg font-semibold text-white"
                         type="submit"
                      >
-                        Add new item
+                        Save
                      </button>
                   </div>
                </div>

@@ -33,6 +33,8 @@ const CreateNewPost = () => {
    const { state, dispatch } = useContext(Store);
    const { userInfo, agencyInfo } = state;
    const [loading, setLoading] = useState(false);
+   const [initialPrice, setInitialPrice] = useState("");
+   const [finalPrice, setFinalPrice] = useState("");
    const router = useRouter();
 
    const imageChange = (e) => {
@@ -52,6 +54,15 @@ const CreateNewPost = () => {
 
    useEffect(() => {}, []);
 
+   const currencyFormat = (e) => {
+      let value = e.target.value;
+      value = value.replace(/\D/g, "");
+      value = value.replace(/(\d)(\d{3})$/, "$1.$2");
+      value = value.replace(/(?=(\d{3})+(\D))\B/g, ".");
+      e.target.value = value;
+      return e;
+   };
+
    const handleCreatePost = async ({
       title,
       categoryID,
@@ -59,8 +70,6 @@ const CreateNewPost = () => {
       brand,
       origin,
       manufacturer,
-      finalPrice,
-      initialPrice,
       description,
    }) => {
       const formData = new FormData();
@@ -81,8 +90,14 @@ const CreateNewPost = () => {
             formData.append("brand", brand);
             formData.append("origin", origin);
             formData.append("manufacturer", manufacturer);
-            formData.append("finalPrice", finalPrice);
-            formData.append("initialPrice", initialPrice);
+            formData.append(
+               "finalPrice",
+               finalPrice.replace(/[^a-zA-Z0-9 ]/g, "")
+            );
+            formData.append(
+               "initialPrice",
+               initialPrice.replace(/[^a-zA-Z0-9 ]/g, "")
+            );
             formData.append("description", description);
 
             const resUploadCloudinary = await API.post(
@@ -267,9 +282,12 @@ const CreateNewPost = () => {
                            Final Price
                         </label>
                         <input
-                           type="number"
+                           type="text"
                            id="finalPrice"
-                           {...register("finalPrice")}
+                           value={finalPrice}
+                           onChange={(e) => {
+                              setFinalPrice(currencyFormat(e).target.value);
+                           }}
                            required
                            placeholder="Final Price"
                            className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
@@ -280,9 +298,12 @@ const CreateNewPost = () => {
                            Initial Price
                         </label>
                         <input
-                           type="number"
+                           type="text"
                            id="initialPrice"
-                           {...register("initialPrice")}
+                           value={initialPrice}
+                           onChange={(e) => {
+                              setInitialPrice(currencyFormat(e).target.value);
+                           }}
                            required
                            placeholder="Initial Price"
                            className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"

@@ -9,6 +9,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
    const [selectedImage, setSelectedImage] = useState();
    const [importImage, setImportImage] = useState(false);
    const [values, setValues] = useState<any>({});
+   const [unitPrice, setUnitPrice] = useState("");
 
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
@@ -30,6 +31,16 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
          [event.target.name]: event.target.value,
       });
    };
+
+   const currencyFormat = (text) => {
+      let value = text;
+      value = value.replace(/\D/g, "");
+      value = value.replace(/(\d)(\d{3})$/, "$1.$2");
+      value = value.replace(/(?=(\d{3})+(\D))\B/g, ".");
+      text = value;
+      return text;
+   };
+
    const handleAddItem = async (e) => {
       e.preventDefault();
       let imageURL =
@@ -55,7 +66,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                avatar: imageURL,
                inventory: Number(values.inventory),
                name: values.name,
-               unitPrice: Number(values.unitPrice),
+               unitPrice: Number(unitPrice.replace(/[^a-zA-Z0-9 ]/g, "")),
                description: values.description,
             }
          );
@@ -78,6 +89,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
    };
 
    useEffect(() => {}, []);
+
    return (
       <div className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8">
          <div className="flex justify-between mb-4">
@@ -100,7 +112,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
             </div>
          </div>
          <form className="grid grid-cols-4 gap-8" onSubmit={handleAddItem}>
-            <div className="col-span-1 rounded-lg flex flex-col items-center h-fit p-4">
+            <div className="col-span-1 rounded-lg flex flex-col items-center h-fit">
                <div className="">
                   <div className="relative overflow-hidden w-44 h-44 rounded-xl">
                      <Image
@@ -161,10 +173,12 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                   <div className="col-span-1">
                      <input
                         name="unitPrice"
-                        type="number"
-                        onChange={handleChange}
+                        type="text"
+                        onChange={(e) =>
+                           setUnitPrice(currencyFormat(e.target.value))
+                        }
                         required
-                        value={values.unitPrice}
+                        value={unitPrice}
                         className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
                         placeholder="UnitPrice"
                      />

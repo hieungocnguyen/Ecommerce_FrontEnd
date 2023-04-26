@@ -170,9 +170,9 @@ const ItemsOfPost = () => {
                                     <li className="col-span-2">
                                        {i.inventory}
                                     </li>
-                                    <li className="col-span-1 flex gap-3">
+                                    <li className="col-span-1 flex gap-2">
                                        <div
-                                          className=" p-3 bg-green-600  rounded-lg cursor-pointer flex justify-center items-center text-xl text-white hover:shadow-bg-green-600 hover:shadow-lg"
+                                          className=" p-3 bg-green-500  rounded-lg cursor-pointer flex justify-center items-center text-xl text-white hover:shadow-green-500 hover:shadow-lg"
                                           onClick={() => {
                                              setItemID(i.id);
                                           }}
@@ -180,7 +180,7 @@ const ItemsOfPost = () => {
                                           <BiEditAlt />
                                        </div>
                                        <div
-                                          className=" p-3 bg-red-600  rounded-lg cursor-pointer text-xl text-white hover:shadow-bg-red-600 hover:shadow-lg"
+                                          className=" p-3 bg-red-500  rounded-lg cursor-pointer text-xl text-white hover:shadow-red-500 hover:shadow-lg"
                                           onClick={() => handleDeleteItem(i)}
                                        >
                                           <AiOutlineDelete />
@@ -242,7 +242,7 @@ const ItemsOfPost = () => {
                                  className="object-cover"
                               />
                               <div
-                                 className="w-full h-2/5  bg-red-800 absolute -bottom-24 group-hover:bottom-0 transition-all ease-out cursor-pointer flex justify-center items-center bg-opacity-80"
+                                 className="w-full h-2/5  bg-red-800 absolute -bottom-24 group-hover:bottom-0 transition-all ease-out cursor-pointer flex justify-center items-center bg-opacity-90"
                                  onClick={() => deleteHandle(p)}
                               >
                                  <BiTrashAlt className="text-dark-text text-3xl" />

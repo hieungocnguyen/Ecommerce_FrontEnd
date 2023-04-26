@@ -175,13 +175,13 @@ const Posts = () => {
                               </li>
                               <li className="col-span-1 flex justify-end items-center gap-4 text-xl dark:text-white text-light-text absolute z-20 right-4">
                                  <div
-                                    className="p-3 rounded-lg dark:bg-dark-spot border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+                                    className="p-3 rounded-lg dark:bg-dark-spot bg-green-500 hover:shadow-lg hover:shadow-green-500 text-white"
                                     onClick={() => setPostID(post.id)}
                                  >
                                     <BiEdit className="" />
                                  </div>
                                  <div
-                                    className="p-3 rounded-lg dark:bg-dark-spot border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
+                                    className="p-3 rounded-lg dark:bg-dark-spot bg-red-500 hover:shadow-lg hover:shadow-red-500 text-white"
                                     onClick={() => {
                                        handleDeletePost(post.id);
                                     }}
