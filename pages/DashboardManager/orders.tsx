@@ -8,6 +8,7 @@ import {
    BiDetail,
    BiEditAlt,
    BiErrorCircle,
+   BiMessageAltX,
    BiPrinter,
    BiReceipt,
 } from "react-icons/bi";
@@ -20,6 +21,7 @@ import stateorder3 from "../../public/stateorder3.png";
 import stateorder4 from "../../public/stateorder4.png";
 import stateorder5 from "../../public/stateorder5.png";
 import stateorder6 from "../../public/stateorder6.png";
+import stateorder7 from "../../public/stateorder7.png";
 import emptyBox from "../../public/empty-box.png";
 import Image from "next/image";
 import OrderState from "../../components/Model/ManagerOrder/OrderState";
@@ -28,6 +30,7 @@ import OrderPrint from "../../components/Model/ManagerOrder/OrderPrint";
 import CancelOrder from "../../components/Model/ManagerOrder/OrderCancel";
 import OrderReview from "../../components/Model/ManagerOrder/OrderReview";
 import OrderPickShift from "../../components/Model/ManagerOrder/OrderPickShift";
+import OrderAcceptCancel from "../../components/Model/ManagerOrder/OrderAcceptCancel";
 
 const Orders = () => {
    const { state, dispatch } = useContext(Store);
@@ -42,6 +45,7 @@ const Orders = () => {
    const [IDOpenOrderPickShiftModel, setIDOpenOrderPickShiftModel] =
       useState(-1);
    const [orderInfoModel, setOrderInfoModel] = useState<any>({});
+   const [IDOpenAcceptCancelModel, setIDOpenAcceptCancelModel] = useState(-1);
 
    const loadOrders = async () => {
       try {
@@ -54,7 +58,7 @@ const Orders = () => {
 
    useEffect(() => {
       loadOrders();
-   }, [stateCurrentID, IDOpenOrderCancelModel]);
+   }, [stateCurrentID, IDOpenOrderCancelModel, IDOpenAcceptCancelModel]);
 
    return (
       <>
@@ -117,11 +121,7 @@ const Orders = () => {
                                  </div>
                                  <div className="col-span-4">
                                     <div
-                                       className={`relative overflow-hidden h-12 ${
-                                          order.orderState.id === 6
-                                             ? "opacity-50"
-                                             : ""
-                                       }`}
+                                       className={`relative overflow-hidden h-12 `}
                                     >
                                        <Image
                                           src={
@@ -137,6 +137,8 @@ const Orders = () => {
                                                 ? stateorder5
                                                 : order.orderState.id === 6
                                                 ? stateorder6
+                                                : order.orderState.id === 7
+                                                ? stateorder7
                                                 : stateorder1
                                           }
                                           alt="state"
@@ -216,27 +218,43 @@ const Orders = () => {
                                     >
                                        <BiPrinter />
                                     </button>
-                                    <button
-                                       className={`text-2xl p-3 text-white rounded-lg disabled:cursor-not-allowed disabled:shadow-none disabled:bg-gray-300 bg-red-600 hover:shadow-lg hover:shadow-red-600`}
-                                       onClick={() => {
-                                          setIDOpenOrderCancelModel(order.id);
-                                       }}
-                                       disabled={
-                                          order.orderState.id === 6 ||
-                                          order.orderState.id === 5 ||
-                                          order.orderState.id === 4
-                                             ? true
-                                             : false
-                                       }
-                                       title="Cancel order"
-                                    >
-                                       <BiBlock />
-                                    </button>
+                                    {order.orderState.id === 7 ? (
+                                       <button
+                                          className={`text-2xl p-3 text-white rounded-lg disabled:cursor-not-allowed disabled:shadow-none disabled:bg-gray-300 bg-primary-color hover:shadow-lg hover:shadow-primary-color`}
+                                          onClick={() => {
+                                             setIDOpenAcceptCancelModel(
+                                                order.id
+                                             );
+                                          }}
+                                          title="Accept cancel request"
+                                       >
+                                          <BiMessageAltX />
+                                       </button>
+                                    ) : (
+                                       <button
+                                          className={`text-2xl p-3 text-white rounded-lg disabled:cursor-not-allowed disabled:shadow-none disabled:bg-gray-300 bg-red-500 hover:shadow-lg hover:shadow-red-500`}
+                                          onClick={() => {
+                                             setIDOpenOrderCancelModel(
+                                                order.id
+                                             );
+                                          }}
+                                          disabled={
+                                             order.orderState.id === 6 ||
+                                             order.orderState.id === 5 ||
+                                             order.orderState.id === 4
+                                                ? true
+                                                : false
+                                          }
+                                          title="Cancel order"
+                                       >
+                                          <BiBlock />
+                                       </button>
+                                    )}
                                  </div>
                               </div>
                            ))}
                         <div
-                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-md items-center justify-center z-20 ${
                               IDOpenModalOrderItems > -1 ? "flex" : "hidden"
                            }`}
                         >
@@ -250,7 +268,7 @@ const Orders = () => {
                            </div>
                         </div>
                         <div
-                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-md items-center justify-center z-20 ${
                               IDOpenModelChangeState > -1 ? "flex" : "hidden"
                            }`}
                         >
@@ -265,9 +283,8 @@ const Orders = () => {
                               />
                            </div>
                         </div>
-
                         <div
-                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-md items-center justify-center z-20 ${
                               IDOpenOrderReviewModel > -1 ? "flex" : "hidden"
                            }`}
                         >
@@ -281,9 +298,8 @@ const Orders = () => {
                               />
                            </div>
                         </div>
-
                         <div
-                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-md items-center justify-center z-20 ${
                               IDOpenOrderPickShiftModel > -1 ? "flex" : "hidden"
                            }`}
                         >
@@ -298,9 +314,8 @@ const Orders = () => {
                               />
                            </div>
                         </div>
-
                         <div
-                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-md items-center justify-center z-20 ${
                               IDOpenOrderPrintModel > -1 ? "flex" : "hidden"
                            }`}
                         >
@@ -314,7 +329,7 @@ const Orders = () => {
                            </div>
                         </div>
                         <div
-                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-md items-center justify-center z-20 ${
                               IDOpenOrderCancelModel > -1 ? "flex" : "hidden"
                            }`}
                         >
@@ -324,6 +339,22 @@ const Orders = () => {
                                     setIDOpenOrderCancelModel
                                  }
                                  IDOpenOrderCancelModel={IDOpenOrderCancelModel}
+                              />
+                           </div>
+                        </div>
+                        <div
+                           className={`fixed top-0 right-0 w-full h-screen backdrop-blur-md items-center justify-center z-20 ${
+                              IDOpenAcceptCancelModel > -1 ? "flex" : "hidden"
+                           }`}
+                        >
+                           <div className="w-1/3 h-fit">
+                              <OrderAcceptCancel
+                                 setIDOpenAcceptCancelModel={
+                                    setIDOpenAcceptCancelModel
+                                 }
+                                 IDOpenAcceptCancelModel={
+                                    IDOpenAcceptCancelModel
+                                 }
                               />
                            </div>
                         </div>

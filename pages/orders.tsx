@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import dynamic from "next/dynamic";
 import { Suspense, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -19,7 +20,7 @@ import router from "next/router";
 import ConfirmModel from "../components/Model/ConfirmModel";
 
 const Orders = () => {
-   const { state, dispatch } = useContext(Store);
+   const { state } = useContext(Store);
    const { userInfo } = state;
    const [orders, setOrders] = useState([]);
    const [orderAgencyID, setOrderAgencyID] = useState(0);
@@ -153,11 +154,7 @@ const Orders = () => {
                         <div className="col-span-2">{order.agency.name}</div>
 
                         <div className="col-span-3">
-                           <div
-                              className={`relative overflow-hidden h-12 ${
-                                 order.orderState.id === 6 ? "opacity-50" : ""
-                              }`}
-                           >
+                           <div className={`relative overflow-hidden h-12`}>
                               <Image
                                  src={
                                     order.orderState.id === 1
@@ -185,7 +182,11 @@ const Orders = () => {
                         </div>
                         <div className="col-span-2 flex gap-4 justify-center">
                            <button
-                              className="p-3 text-2xl bg-blue-main hover:shadow-lg hover:shadow-blue-main text-white rounded-lg"
+                              className={`p-3 text-2xl  hover:shadow-lg text-white rounded-lg ${
+                                 order.orderState.id === 5
+                                    ? "bg-green-500 hover:shadow-green-500"
+                                    : "bg-blue-main hover:shadow-blue-main"
+                              }`}
                               title="View detail order"
                               onClick={() => {
                                  setOrderAgencyID(order.id);
