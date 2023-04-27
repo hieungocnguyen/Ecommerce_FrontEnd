@@ -19,36 +19,11 @@ const AgencyPage = ({ agencyInfo, posts }) => {
    const [stateFollow, setStateFollow] = useState<boolean>(false);
 
    const trans = useTrans();
-   // const loadAgency = async () => {
-   //    try {
-   //       const resAgency = await API.get(endpoints["agency_info"](id));
-   //       setAgency(resAgency.data.data);
-   //    } catch (error) {
-   //       console.log(error);
-   //    }
-   // };
-   // const loadPosts = async () => {
-   //    try {
-   //       const resPosts = await API.get(
-   //          endpoints["get_post_published_by_agencyID"](id)
-   //       );
-   //       setSalePosts(resPosts.data.data);
-   //    } catch (error) {
-   //       console.log(error);
-   //    }
-   // };
-
-   // useEffect(() => {
-   //    // loadPosts();
-   //    // loadAgency();
-   // }, []);
-
    const fetchFollowAgencyState = async () => {
       try {
          const res = await authAxios().get(
             endpoints["get_state_follow_agency"](agencyInfo.id)
          );
-         // console.log(res.data.data);
          setStateFollow(res.data.data);
       } catch (error) {
          console.log(error);

@@ -1,90 +1,70 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable react-hooks/exhaustive-deps */
-import { SyntheticEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import API, { endpoints } from "../../API";
 import LayoutDashboard from "../../components/Dashboard/LayoutDashboardManager";
 import { Store } from "../../utils/Store";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import {
-   CategoryScale,
-   LinearScale,
-   BarElement,
-   Title,
-   PointElement,
-   LineElement,
-} from "chart.js";
-import { Doughnut } from "react-chartjs-2";
-import { Bar, Line } from "react-chartjs-2";
 import dynamic from "next/dynamic";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-ChartJS.register(
-   CategoryScale,
-   LinearScale,
-   BarElement,
-   Title,
-   Tooltip,
-   Legend,
-   LinearScale,
-   PointElement,
-   LineElement
-);
-
 const AgencyHome = () => {
-   const { state, dispatch } = useContext(Store);
-   const { userInfo, agencyInfo } = state;
+   const { state } = useContext(Store);
+   const { agencyInfo } = state;
    const [countPosts, setCountPosts] = useState(0);
    const [countOrders, setCountOrders] = useState(0);
 
-   useEffect(() => {
-      const loadCount = async () => {
-         try {
-            const resPosts = await API.get(
-               endpoints["get_all_post_by_agencyID"](agencyInfo.id)
-            );
-            setCountPosts(resPosts.data.data.length);
+   const loadCount = async () => {
+      try {
+         const resPosts = await API.get(
+            endpoints["get_all_post_by_agencyID"](agencyInfo.id)
+         );
+         setCountPosts(resPosts.data.data.length);
 
-            const resOrders = await API.get(
-               endpoints["order_agency"](agencyInfo.id)
-            );
-            setCountOrders(resOrders.data.data.length);
-         } catch (error) {
-            console.log(error);
-         }
-      };
+         const resOrders = await API.get(
+            endpoints["order_agency"](agencyInfo.id)
+         );
+         setCountOrders(resOrders.data.data.length);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+   useEffect(() => {
       loadCount();
    }, []);
    return (
       <>
          <LayoutDashboard title="Homepage">
-            <div className="w-[90%] mx-auto">
-               <div>
-                  <div className="font-semibold text-2xl my-10">
-                     Hi {agencyInfo ? agencyInfo.name : ""}, Welcome back!
+            <div className="w-[90%] mx-auto my-8">
+               <div className="grid grid-cols-12 gap-8 h-40">
+                  <div className="col-span-7 bg-light-primary rounded-lg p-8">
+                     <div className="font-semibold text-xl">
+                        Hi {agencyInfo ? agencyInfo.name : ""}!
+                     </div>
+                     <div>
+                        {agencyInfo && agencyInfo.isActive === 0 ? (
+                           <>
+                              <div className="text-xl font-semibold text-red-600">
+                                 Your agency has banned!
+                              </div>
+                           </>
+                        ) : (
+                           <></>
+                        )}
+                     </div>
                   </div>
-                  {agencyInfo.isActive === 0 ? (
-                     <>
-                        <div className="text-xl font-semibold text-red-600">
-                           Your agency has banned!
-                        </div>
-                     </>
-                  ) : (
-                     <></>
-                  )}
-                  <div className=""></div>
-                  <div className="grid grid-cols-3 gap-8 mt-10">
-                     <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
-                        <div>Follow(s)</div>
-                        <div>0</div>
-                     </div>
-                     <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
-                        <div>Sale post(s)</div>
-                        <div>{countPosts}</div>
-                     </div>
-                     <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center h-32 rounded-lg text-2xl font-semibold">
-                        <div>Order(s)</div>
-                        <div>{countOrders}</div>
-                     </div>
+                  <div className="col-span-5 bg-blue-main rounded-lg"></div>
+               </div>
+
+               <div className=""></div>
+               <div className="grid grid-cols-3 gap-8 mt-10 h-24">
+                  <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center  rounded-lg text-xl font-semibold">
+                     <div>Follow(s)</div>
+                     <div>0</div>
+                  </div>
+                  <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center  rounded-lg text-xl font-semibold">
+                     <div>Sale post(s)</div>
+                     <div>{countPosts}</div>
+                  </div>
+                  <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center  rounded-lg text-xl font-semibold">
+                     <div>Order(s)</div>
+                     <div>{countOrders}</div>
                   </div>
                </div>
             </div>

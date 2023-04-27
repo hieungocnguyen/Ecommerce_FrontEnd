@@ -117,6 +117,15 @@ export let endpoints = {
    //notification
    update_seen_status: (recipientID) =>
       `/notify/update-seen-status/${recipientID}`,
+
+   //renewal
+   get_list_renewal_manager_by_agencyID: (agencyID) =>
+      `/renewal/get-renewal-manage-by-agency-id/${agencyID}`,
+   get_list_renewal_package: `/renewal/get-list-renewal-package`,
+   create_order_renewal: (agencyID, packageID) =>
+      `/renewal/create-order-renewal/${agencyID}/${packageID}`,
+   get_renewal_momo_payment_info: (packageID) =>
+      `/renewal/get-momo-payment-info/${packageID}`,
 };
 export const authAxios = () =>
    axios.create({

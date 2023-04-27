@@ -27,6 +27,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
    const { state, dispatch } = useContext(Store);
    const { userInfo, agencyInfo } = state;
    const [openMenu, setOpenMenu] = useState(false);
+   const [openStatisticle, setOpenStatisticle] = useState(false);
    const router = useRouter();
    const [numberUncensored, setNumberUncensored] = useState(0);
    const [unSeen, setUnSeen] = useState(false);
@@ -168,6 +169,42 @@ const AdminLayoutDashboard = ({ title, children }) => {
                                           numberUncensored ? "" : "hidden"
                                        }`}
                                     ></span>
+                                 </div>
+                              </Link>
+                           </div>
+                        </div>
+                        <div className="transition-all duration-1000">
+                           <div
+                              className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3"
+                              onClick={(e) =>
+                                 openStatisticle
+                                    ? setOpenStatisticle(false)
+                                    : setOpenStatisticle(true)
+                              }
+                           >
+                              <BiStore className="text-lg" />
+                              Statistical
+                              <BiChevronRight
+                                 className={`absolute right-6 font-semibold text-2xl transition-all ${
+                                    openStatisticle ? "rotate-90" : ""
+                                 }`}
+                              />
+                           </div>
+                           <div
+                              className={` font-semibold text-sm pl-8 ${
+                                 openStatisticle ? "" : "hidden"
+                              }`}
+                           >
+                              <Link href="/DashboardAdmin/statisticle/category">
+                                 <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
+                                    Category
+                                 </div>
+                              </Link>
+                              <Link href="/DashboardAdmin/statisticle/renewal">
+                                 <div
+                                    className={`p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer items-center flex `}
+                                 >
+                                    Renewal
                                  </div>
                               </Link>
                            </div>

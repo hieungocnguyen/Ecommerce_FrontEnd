@@ -182,23 +182,3 @@ export const getServerSideProps = async (context) => {
 
    return { props: { categories, category } };
 };
-
-// export async function getStaticPaths() {
-//    if (process.env.SKIP_BUILD_STATIC_GENERATION) {
-//       return {
-//          paths: [],
-//          fallback: "blocking",
-//       };
-//    }
-//    const res = await axios.get(
-//       "http://localhost:8080/ou-ecommerce/api/category/all"
-//    );
-//    const category = await res.data.data;
-//    const paths = category.map((cate) => ({
-//       params: { slug: cate.id.toString() },
-//    }));
-//    return {
-//       paths,
-//       fallback: false, // can also be true or 'blocking'
-//    };
-// }

@@ -36,7 +36,7 @@ const HotAgency = () => {
                      </span>
                      Hot Agency
                   </div>
-                  <div className="grid grid-cols-4 gap-8">
+                  <div className="grid grid-cols-4 gap-10">
                      {hotAgency.map((agency) => (
                         <AgencyCard
                            agency={agency[0]}

@@ -54,7 +54,7 @@ const AgenciesAdminDashboard = () => {
       setModelID(-1);
    };
    return (
-      <AdminLayoutDashboard>
+      <AdminLayoutDashboard title="Uncensored Agencies">
          <div className="w-[90%] mx-auto">
             <div className="flex justify-between my-10">
                <div className="font-semibold text-2xl">Uncensored Agencies</div>

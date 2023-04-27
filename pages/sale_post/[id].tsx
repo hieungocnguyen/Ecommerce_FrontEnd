@@ -15,14 +15,16 @@ import "swiper/css";
 // import ItemsInPost from "../../components/Model/ItemsInPost";
 import Loader from "../../components/Loader";
 import dynamic from "next/dynamic";
+// import RelativePost from "../../components/RelativePost";
 
 const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
+const RelativePost = dynamic(() => import("../../components/RelativePost"));
 
 const ProductPage = ({ salePost }) => {
    const { state, dispatch } = useContext(Store);
    const [quantityItems, setQuantityItems] = useState([]);
    const [comments, setComments] = useState([]);
-   const [mainPic, setMainPic] = useState(salePost.avatar);
+   const [mainPic, setMainPic] = useState();
    const router = useRouter();
    const { id } = router.query;
    const [starAvg, setStarAvg] = useState(0);
@@ -59,7 +61,8 @@ const ProductPage = ({ salePost }) => {
       loadComment();
       loadStarAvg();
       loadCommentCount();
-   }, []);
+      setMainPic(salePost.avatar);
+   }, [id]);
 
    const handleRouteAgency = () => {
       router.push(`/agencyinfo/${salePost.agency.id}`);
@@ -214,9 +217,8 @@ const ProductPage = ({ salePost }) => {
                )}
             </div>
          </div>
-
          {/* comment */}
-         <div className="grid grid-cols-1 my-8 mx-16  " id="section_comment">
+         <div className="grid grid-cols-1 my-8 mx-16" id="section_comment">
             <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
                <div className="font-semibold text-left ml-12 text-xl">
                   Feedback
@@ -264,6 +266,9 @@ const ProductPage = ({ salePost }) => {
                      ))}
                </Suspense>
             </div>
+         </div>
+         <div className="my-10">
+            <RelativePost IDCategory={salePost.category.id} IDSalePost={id} />
          </div>
          {loading ? <Loader /> : <></>}
          <Toaster />
@@ -378,23 +383,3 @@ export const getServerSideProps = async (context) => {
 
    return { props: { salePost } };
 };
-
-// export async function getStaticPaths() {
-//    if (process.env.SKIP_BUILD_STATIC_GENERATION) {
-//       return {
-//          paths: [],
-//          fallback: "blocking",
-//       };
-//    }
-//    const res = await axios.get(
-//       "http://localhost:8080/ou-ecommerce/api/sale-post/all"
-//    );
-//    const salePosts = await res.data.data;
-//    const paths = salePosts.map((salePost) => ({
-//       params: { id: salePost.id.toString() },
-//    }));
-//    return {
-//       paths,
-//       fallback: false, // can also be true or 'blocking'
-//    };
-// }

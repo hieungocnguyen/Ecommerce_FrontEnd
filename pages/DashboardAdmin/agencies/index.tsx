@@ -6,6 +6,7 @@ import API, { endpoints } from "../../../API";
 import AdminLayoutDashboard from "../../../components/Dashboard/AdminLayoutDashboard";
 import ConfirmModel from "../../../components/Model/ConfirmModel";
 import { toast } from "react-hot-toast";
+import { BiMessageRounded } from "react-icons/bi";
 
 const AgenciesAdminDashboard = () => {
    const [agencies, setAgencies] = useState([]);
@@ -58,8 +59,8 @@ const AgenciesAdminDashboard = () => {
                   <li className="col-span-3">Name</li>
                   <li className="col-span-2">Field</li>
                   <li className="col-span-2">Hotline</li>
-                  <li className="col-span-3">Address</li>
-                  <li className=""></li>
+                  <li className="col-span-2">Address</li>
+                  <li className="col-span-2"></li>
                </ul>
                {agencies
                   .filter((agency) => agency.isCensored === 1)
@@ -81,11 +82,18 @@ const AgenciesAdminDashboard = () => {
                            <li className="col-span-3">{agency.name}</li>
                            <li className="col-span-2">{agency.field.name}</li>
                            <li className="col-span-2">{agency.hotline}</li>
-                           <li className="col-span-3">{agency.address}</li>
-                           <li className="col-span-1">
+                           <li className="col-span-2">{agency.address}</li>
+                           <li className="col-span-2">
+                              {agency.isActive == 0 &&
+                                 agency.deactivatedByAdmin == 1 && (
+                                    <div className="text-primary-color flex gap-1 items-center text-sm text-center font-medium">
+                                       <BiMessageRounded />
+                                       Banned by Admin
+                                    </div>
+                                 )}
                               {agency.isActive == 1 ? (
                                  <div
-                                    className=" bg-primary-color text-white p-4 w-full rounded-lg font-semibold text-center cursor-pointer hover:shadow-lg hover:shadow-primary-color"
+                                    className=" bg-blue-main text-white px-4 py-2 w-full rounded-lg font-semibold text-center cursor-pointer hover:shadow-lg hover:shadow-blue-main"
                                     onClick={(event) => {
                                        event.stopPropagation();
                                        setIsOpenConfirmBan(true);
@@ -96,7 +104,7 @@ const AgenciesAdminDashboard = () => {
                                  </div>
                               ) : (
                                  <div
-                                    className=" bg-blue-main text-white p-4 w-full rounded-lg font-semibold text-center cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+                                    className=" bg-primary-color text-white px-4 py-2 w-full rounded-lg font-semibold text-center cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                                     onClick={(event) => {
                                        event.stopPropagation();
                                        setIsOpenConfirmUnBan(true);

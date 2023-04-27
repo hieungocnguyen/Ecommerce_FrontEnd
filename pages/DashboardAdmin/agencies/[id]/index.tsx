@@ -109,7 +109,7 @@ const AgencyPage = ({ agencyInfo }) => {
    };
 
    return (
-      <AdminLayoutDashboard>
+      <AdminLayoutDashboard title="Detail">
          <div className="w-[90%] mx-auto">
             <div className="my-10">
                <div className="font-semibold text-2xl">Agency</div>

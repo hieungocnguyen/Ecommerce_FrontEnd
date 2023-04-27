@@ -33,6 +33,9 @@ const initialState = {
    allInCartToPayment: Cookies.get("allInCartToPayment")
       ? JSON.parse(Cookies.get("allInCartToPayment"))
       : null,
+   renewalPackageID: Cookies.get("renewalPackageID")
+      ? JSON.parse(Cookies.get("renewalPackageID"))
+      : null,
 };
 function reducer(state: any, action: { type: any; payload: any }) {
    switch (action.type) {
@@ -123,6 +126,14 @@ function reducer(state: any, action: { type: any; payload: any }) {
       case "REMOVE_INFO_PAYMENT": {
          Cookies.remove("allInCartToPayment");
          return { ...state, allInCartToPayment: null };
+      }
+      case "ADD_RENEWAL_ID": {
+         Cookies.set("renewalPackageID", JSON.stringify(action.payload));
+         return { ...state, renewalPackageID: action.payload };
+      }
+      case "REMOVE_RENEWAL_ID": {
+         Cookies.remove("renewalPackageID");
+         return { ...state, renewalPackageID: null };
       }
 
       default:

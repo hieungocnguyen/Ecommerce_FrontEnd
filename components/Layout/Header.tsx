@@ -90,27 +90,12 @@ const Header = () => {
    };
    const fetchAgency = async () => {
       try {
-         // const resAllAgency = await API.get(endpoints["all_agency"]);
-         // resAllAgency.data.data.map(async (agency) => {
-         //    if (agency.manager.id === userInfo.id) {
-         //       const resInfoAngency = await API.get(
-         //          endpoints["agency_info"](agency.id)
-         //       );
-         //       Cookies.set("agencyInfo", JSON.stringify(agency));
-         //       dispatch({ type: "AGENCY_INFO_SET", payload: agency });
-         //       setAgencyInfo(agency);
-         //    }
-         // });
-         try {
-            const res = await API.get(
-               endpoints["get_agency_info_by_userID"](userInfo.id)
-            );
-            Cookies.set("agencyInfo", JSON.stringify(res.data.data));
-            dispatch({ type: "AGENCY_INFO_SET", payload: res.data.data });
-            setAgencyInfo(res.data.data);
-         } catch (error) {
-            console.log(error);
-         }
+         const res = await API.get(
+            endpoints["get_agency_info_by_userID"](userInfo.id)
+         );
+         Cookies.set("agencyInfo", JSON.stringify(res.data.data));
+         dispatch({ type: "AGENCY_INFO_SET", payload: res.data.data });
+         setAgencyInfo(res.data.data);
       } catch (error) {
          console.log(error);
       }
@@ -471,26 +456,31 @@ const Header = () => {
          </div>
          <Suspense fallback={<p></p>}>
             <div className="mr-10 flex items-center">
-               {userInfo && userInfo.role.name !== "ROLE_GENERAL" ? (
-                  <>
-                     <div
-                        className={`font-extrabold p-1 border-2 uppercase text-xs rounded-md ${
-                           agencyInfo.isActive === 0 &&
-                           userInfo.role.name === "ROLE_MANAGER"
-                              ? "text-red-600 border-red-600"
-                              : "text-blue-main border-blue-main "
-                        }`}
-                     >
-                        {userInfo.role.name === "ROLE_ADMIN" ? (
+               <div
+                  className={`font-extrabold p-1 border-2 uppercase text-xs rounded-md ${
+                     agencyInfo.isActive === 0 &&
+                     userInfo.role.name === "ROLE_MANAGER"
+                        ? "text-red-600 border-red-600"
+                        : "text-blue-main border-blue-main "
+                  }`}
+               >
+                  {userInfo ? (
+                     userInfo.role.id === 1 ? (
+                        <>admin</>
+                     ) : userInfo.role.id === 2 ? (
+                        <>manager</>
+                     ) : (
+                        <>user</>
+                     )
+                  ) : (
+                     <>guest</>
+                  )}
+                  {/* {userInfo.role.name === "ROLE_ADMIN" ? (
                            <>admin</>
                         ) : (
                            <>manager</>
-                        )}
-                     </div>
-                  </>
-               ) : (
-                  <></>
-               )}
+                        )} */}
+               </div>
                <button
                   className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mx-4 relative"
                   title="cart"

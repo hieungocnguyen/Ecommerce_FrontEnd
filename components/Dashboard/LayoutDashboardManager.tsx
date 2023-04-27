@@ -9,6 +9,7 @@ import {
    BiLogIn,
    BiPackage,
    BiReceipt,
+   BiRocket,
    BiStats,
 } from "react-icons/bi";
 import API, { endpoints } from "../../API";
@@ -34,13 +35,14 @@ const LayoutDashboard = ({ title, children }) => {
    const [unSeen, setUnSeen] = useState(false);
 
    const logoutClickHandler = () => {
+      router.push("/signin");
+
       dispatch({ type: "USER_LOGOUT" });
       dispatch({ type: "AGENCY_INFO_REMOVE" });
 
       Cookies.remove("userInfo");
       Cookies.remove("accessToken");
       Cookies.remove("cartItems");
-      router.push("/signin");
       toast.success("sign out success", {
          position: "bottom-center",
       });
@@ -79,13 +81,13 @@ const LayoutDashboard = ({ title, children }) => {
          <div className="grid grid-cols-6">
             {/* Side Bar */}
             <div className="col-span-1 dark:bg-dark-primary bg-light-primary h-screen sticky top-0">
-               <div className="flex justify-center my-4">
+               <div className="flex justify-center my-2">
                   <Link href="/">
                      <Logo width="125" />
                   </Link>
                </div>
-               <div className="my-8">
-                  <div className="flex justify-center mb-4">
+               <div className="bg-slate-400 bg-opacity-20 mx-4 p-4 rounded-lg">
+                  <div className="relative overflow-hidden w-28 aspect-square rounded-xl mx-auto">
                      <Image
                         src={
                            agencyInfo
@@ -93,15 +95,11 @@ const LayoutDashboard = ({ title, children }) => {
                               : "https://images.unsplash.com/photo-1612994370726-5d4d609fca1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
                         }
                         alt="avatar"
-                        className="rounded-full object-cover"
-                        width={90}
-                        height={90}
+                        className="object-cover"
+                        layout="fill"
                      />
                   </div>
-                  <div
-                     className="mx-4 p-4 bg-slate-500 bg-opacity-10 rounded-lg   hover:bg-opacity-30 transition-all"
-                     // onClick={() => handleRouteEditProfile()}
-                  >
+                  <div className="mt-2 text-center">
                      <div className="font-semibold">
                         {agencyInfo ? agencyInfo.name : ""}
                      </div>
@@ -109,7 +107,7 @@ const LayoutDashboard = ({ title, children }) => {
                   </div>
                </div>
                {/* navigate */}
-               <div className="mt-10 mx-4">
+               <div className="mt-6 mx-4">
                   <Link href="/DashboardManager">
                      <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
                         <BiHomeAlt className="text-lg" />
@@ -193,6 +191,12 @@ const LayoutDashboard = ({ title, children }) => {
                         </Link>
                      </div>
                   </div>
+                  <Link href="/DashboardManager/renewal">
+                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                        <BiRocket className="text-lg" />
+                        Renewal
+                     </div>
+                  </Link>
                </div>
                <div className="absolute bottom-4 flex justify-center items-center gap-2 w-full">
                   <Link href="/">
