@@ -5,6 +5,7 @@ import API, { endpoints } from "../../../API";
 import renewalBackground from "../../../public/renewal.png";
 import Image from "next/image";
 import Link from "next/link";
+import emptyvector from "../../../public/empty-box.png";
 
 const Renewal = () => {
    const { state } = useContext(Store);
@@ -124,34 +125,52 @@ const Renewal = () => {
             </div>
             <div className="">
                <div className="font-semibold text-xl my-6">History renewal</div>
-               <div className="">
-                  {historyRenewalList
-                     .sort((a, b) => (a.createdDate < b.createdDate ? 1 : -1))
-                     .map((item) => (
-                        <div
-                           key={item.id}
-                           className="grid grid-cols-12 font-medium text-center mb-4 bg-light-primary dark:bg-dark-primary rounded-lg py-8"
-                        >
-                           <div className="col-span-3">
-                              {new Date(item.createdDate).toLocaleDateString(
-                                 "en-GB"
-                              )}
+               {historyRenewalList.length > 0 ? (
+                  <div className="">
+                     {historyRenewalList
+                        .sort((a, b) =>
+                           a.createdDate < b.createdDate ? 1 : -1
+                        )
+                        .map((item) => (
+                           <div
+                              key={item.id}
+                              className="grid grid-cols-12 font-medium text-center mb-4 bg-light-primary dark:bg-dark-primary rounded-lg py-8"
+                           >
+                              <div className="col-span-3">
+                                 {new Date(item.createdDate).toLocaleDateString(
+                                    "en-GB"
+                                 )}
+                              </div>
+                              <div className="col-span-3">
+                                 {item.renewalPackage.packageName}
+                              </div>
+                              <div className="col-span-3">
+                                 {item.price.toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                 })}
+                              </div>
+                              <div className="col-span-3 text-blue-main font-bold">
+                                 + {item.numberOfDaysAvailable} days
+                              </div>
                            </div>
-                           <div className="col-span-3">
-                              {item.renewalPackage.packageName}
-                           </div>
-                           <div className="col-span-3">
-                              {item.price.toLocaleString("it-IT", {
-                                 style: "currency",
-                                 currency: "VND",
-                              })}
-                           </div>
-                           <div className="col-span-3 text-blue-main font-bold">
-                              + {item.numberOfDaysAvailable} days
-                           </div>
-                        </div>
-                     ))}
-               </div>
+                        ))}
+                  </div>
+               ) : (
+                  <div>
+                     <div className="relative w-52 h-52 rounded-md overflow-hidden mx-auto">
+                        <Image
+                           src={emptyvector}
+                           alt="Empty"
+                           layout="fill"
+                           objectFit="cover"
+                        ></Image>
+                     </div>
+                     <div className="uppercase text-xl font-semibold text-center">
+                        You have not renewed any package yet
+                     </div>
+                  </div>
+               )}
             </div>
          </div>
       </LayoutDashboardManager>

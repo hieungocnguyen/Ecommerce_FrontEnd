@@ -128,9 +128,11 @@ const Revenue = () => {
                                     id="link1"
                                  >
                                     <div>
-                                       <RevenueByMonth
-                                          agencyInfoID={agencyInfo.id}
-                                       />
+                                       {agencyInfo && (
+                                          <RevenueByMonth
+                                             agencyInfoID={agencyInfo.id}
+                                          />
+                                       )}
                                     </div>
                                  </div>
                                  <div
@@ -140,9 +142,11 @@ const Revenue = () => {
                                     id="link2"
                                  >
                                     <div>
-                                       <RevenueByQuarter
-                                          agencyInfoID={agencyInfo.id}
-                                       />
+                                       {agencyInfo && (
+                                          <RevenueByQuarter
+                                             agencyInfoID={agencyInfo.id}
+                                          />
+                                       )}
                                     </div>
                                  </div>
                                  <div
@@ -152,9 +156,11 @@ const Revenue = () => {
                                     id="link3"
                                  >
                                     <div>
-                                       <RevenueByYear
-                                          agencyInfoID={agencyInfo.id}
-                                       />
+                                       {agencyInfo && (
+                                          <RevenueByYear
+                                             agencyInfoID={agencyInfo.id}
+                                          />
+                                       )}
                                     </div>
                                  </div>
                               </div>

@@ -81,6 +81,8 @@ export let endpoints = {
    get_list_agency_follow: (userID) => `/agency/follow-list/${userID}`,
    search_agency: `/agency/search`,
    get_top_agency: `/agency/top-agency`,
+   count_follow_agency: (agencyID) =>
+      `/action/follow/count-follow-by-agency/${agencyID}`,
 
    //category
    category_all: `/category/all`,
@@ -126,6 +128,12 @@ export let endpoints = {
       `/renewal/create-order-renewal/${agencyID}/${packageID}`,
    get_renewal_momo_payment_info: (packageID) =>
       `/renewal/get-momo-payment-info/${packageID}`,
+   stat_renewal_by_year: `/renewal/stats-revenue-by-year`,
+   stat_renewal_by_quarter: (year) =>
+      `/renewal/stats-revenue-quarter-by-year/${year}`,
+   stat_renewal_by_month: (year) =>
+      `/renewal/stats-revenue-month-by-year/${year}`,
+   get_all_renewal: `/renewal/get-all-orders-renewal`,
 };
 export const authAxios = () =>
    axios.create({

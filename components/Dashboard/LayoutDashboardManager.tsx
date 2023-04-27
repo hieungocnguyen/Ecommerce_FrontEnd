@@ -35,17 +35,15 @@ const LayoutDashboard = ({ title, children }) => {
    const [unSeen, setUnSeen] = useState(false);
 
    const logoutClickHandler = () => {
-      router.push("/signin");
-
       dispatch({ type: "USER_LOGOUT" });
       dispatch({ type: "AGENCY_INFO_REMOVE" });
 
       Cookies.remove("userInfo");
       Cookies.remove("accessToken");
       Cookies.remove("cartItems");
-      toast.success("sign out success", {
-         position: "bottom-center",
-      });
+
+      router.push("/signin");
+      toast.success("sign out success");
    };
 
    const SnapFirestore = () => {

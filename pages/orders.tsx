@@ -15,6 +15,7 @@ import stateorder4 from "../public/stateorder4.png";
 import stateorder5 from "../public/stateorder5.png";
 import stateorder6 from "../public/stateorder6.png";
 import stateorder7 from "../public/stateorder7.png";
+import emptyBox from "../public/empty-box.png";
 import Image from "next/image";
 import router from "next/router";
 import ConfirmModel from "../components/Model/ConfirmModel";
@@ -103,120 +104,141 @@ const Orders = () => {
                      </div>
                   }
                >
-                  {orders.map((order) => (
-                     <div
-                        key={order.id}
-                        className={`grid grid-cols-12 gap-4 p-5 items-center dark:hover:bg-dark-spot hover:bg-light-spot font-medium `}
-                     >
-                        <div className="col-span-1 text-primary-color font-semibold text-center">
-                           {order.orderExpressID ? (
-                              `# ${order.orderExpressID}`
-                           ) : (
-                              <>
-                                 <span
-                                    className="flex justify-center cursor-pointer"
-                                    onClick={() =>
-                                       toast.error(
-                                          "This order has an error, please wait for admin to process it"
-                                       )
+                  {orders.length > 0 ? (
+                     orders.map((order) => (
+                        <div
+                           key={order.id}
+                           className={`grid grid-cols-12 gap-4 p-5 items-center dark:hover:bg-dark-spot hover:bg-light-spot font-medium `}
+                        >
+                           <div className="col-span-1 text-primary-color font-semibold text-center">
+                              {order.orderExpressID ? (
+                                 `# ${order.orderExpressID}`
+                              ) : (
+                                 <>
+                                    <span
+                                       className="flex justify-center cursor-pointer"
+                                       onClick={() =>
+                                          toast.error(
+                                             "This order has an error, please wait for admin to process it"
+                                          )
+                                       }
+                                    >
+                                       <BiMessageAltError className="text-3xl text-red-600" />
+                                    </span>
+                                 </>
+                              )}
+                           </div>
+                           <div className="col-span-2">
+                              {new Date(order.orders.createdDate).getHours()}
+                              {":"}
+                              {new Date(order.orders.createdDate).getMinutes()}
+                              <br />
+                              {new Date(
+                                 order.orders.createdDate
+                              ).toLocaleDateString("en-GB")}
+                           </div>
+
+                           <div className="col-span-2 text-right text-blue-main font-semibold">
+                              {order.totalPrice.toLocaleString("it-IT", {
+                                 style: "currency",
+                                 currency: "VND",
+                              })}
+                              <br />
+                              <span className="text-primary-color text-sm">
+                                 {order.shipFee
+                                    ? `+ ${order.shipFee.toLocaleString(
+                                         "it-IT",
+                                         {
+                                            style: "currency",
+                                            currency: "VND",
+                                         }
+                                      )}`
+                                    : ""}
+                              </span>
+                           </div>
+                           <div className="col-span-2">{order.agency.name}</div>
+
+                           <div className="col-span-3">
+                              <div className={`relative overflow-hidden h-12`}>
+                                 <Image
+                                    src={
+                                       order.orderState.id === 1
+                                          ? stateorder1
+                                          : order.orderState.id === 2
+                                          ? stateorder2
+                                          : order.orderState.id === 3
+                                          ? stateorder3
+                                          : order.orderState.id === 4
+                                          ? stateorder4
+                                          : order.orderState.id === 5
+                                          ? stateorder5
+                                          : order.orderState.id === 6
+                                          ? stateorder6
+                                          : order.orderState.id === 7
+                                          ? stateorder7
+                                          : stateorder1
                                     }
-                                 >
-                                    <BiMessageAltError className="text-3xl text-red-600" />
-                                 </span>
-                              </>
-                           )}
-                        </div>
-                        <div className="col-span-2">
-                           {new Date(order.orders.createdDate).getHours()}
-                           {":"}
-                           {new Date(order.orders.createdDate).getMinutes()}
-                           <br />
-                           {new Date(
-                              order.orders.createdDate
-                           ).toLocaleDateString("en-GB")}
-                        </div>
-
-                        <div className="col-span-2 text-right text-blue-main font-semibold">
-                           {order.totalPrice.toLocaleString("it-IT", {
-                              style: "currency",
-                              currency: "VND",
-                           })}
-                           <br />
-                           <span className="text-primary-color text-sm">
-                              {order.shipFee
-                                 ? `+ ${order.shipFee.toLocaleString("it-IT", {
-                                      style: "currency",
-                                      currency: "VND",
-                                   })}`
-                                 : ""}
-                           </span>
-                        </div>
-                        <div className="col-span-2">{order.agency.name}</div>
-
-                        <div className="col-span-3">
-                           <div className={`relative overflow-hidden h-12`}>
-                              <Image
-                                 src={
-                                    order.orderState.id === 1
-                                       ? stateorder1
-                                       : order.orderState.id === 2
-                                       ? stateorder2
-                                       : order.orderState.id === 3
-                                       ? stateorder3
-                                       : order.orderState.id === 4
-                                       ? stateorder4
-                                       : order.orderState.id === 5
-                                       ? stateorder5
-                                       : order.orderState.id === 6
-                                       ? stateorder6
-                                       : order.orderState.id === 7
-                                       ? stateorder7
-                                       : stateorder1
+                                    alt="state"
+                                    layout="fill"
+                                    objectFit="contain"
+                                    className=""
+                                 />
+                              </div>
+                           </div>
+                           <div className="col-span-2 flex gap-4 justify-center">
+                              <button
+                                 className={`p-3 text-2xl  hover:shadow-lg text-white rounded-lg ${
+                                    order.orderState.id === 5
+                                       ? "bg-green-500 hover:shadow-green-500"
+                                       : "bg-blue-main hover:shadow-blue-main"
+                                 }`}
+                                 title="View detail order"
+                                 onClick={() => {
+                                    setOrderAgencyID(order.id);
+                                    setOrderInfo(order);
+                                 }}
+                              >
+                                 <BiShowAlt />
+                              </button>
+                              <button
+                                 className={`p-3 text-2xl bg-red-500 hover:shadow-lg hover:shadow-red-500 text-white rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none`}
+                                 title="Cancel order"
+                                 disabled={
+                                    order.orderState.id > 3 ? true : false
                                  }
-                                 alt="state"
-                                 layout="fill"
-                                 objectFit="contain"
-                                 className=""
-                              />
+                                 onClick={() => {
+                                    setOrderIDCancel(order.id);
+                                    if (order.orderState.id === 1) {
+                                       setIsOpenConfirmModelCancel(true);
+                                    }
+                                    if (
+                                       order.orderState.id === 2 ||
+                                       order.orderState.id === 3
+                                    ) {
+                                       setIsOpenConfirmModelChangeState(true);
+                                    }
+                                 }}
+                              >
+                                 <BiX />
+                              </button>
                            </div>
                         </div>
-                        <div className="col-span-2 flex gap-4 justify-center">
-                           <button
-                              className={`p-3 text-2xl  hover:shadow-lg text-white rounded-lg ${
-                                 order.orderState.id === 5
-                                    ? "bg-green-500 hover:shadow-green-500"
-                                    : "bg-blue-main hover:shadow-blue-main"
-                              }`}
-                              title="View detail order"
-                              onClick={() => {
-                                 setOrderAgencyID(order.id);
-                                 setOrderInfo(order);
-                              }}
-                           >
-                              <BiShowAlt />
-                           </button>
-                           <button
-                              className={`p-3 text-2xl bg-red-500 hover:shadow-lg hover:shadow-red-500 text-white rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none`}
-                              title="Cancel order"
-                              disabled={order.orderState.id > 3 ? true : false}
-                              onClick={() => {
-                                 setOrderIDCancel(order.id);
-                                 if (order.orderState.id === 1) {
-                                    setIsOpenConfirmModelCancel(true);
-                                 }
-                                 if (
-                                    order.orderState.id === 2 ||
-                                    order.orderState.id === 3
-                                 ) {
-                                    setIsOpenConfirmModelChangeState(true);
-                                 }
-                              }}
-                           >
-                              <BiX />
-                           </button>
+                     ))
+                  ) : (
+                     <div>
+                        <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
+                           <Image
+                              src={emptyBox}
+                              alt="empty"
+                              layout="fill"
+                              className="object-cover"
+                           />
+                        </div>
+                        <div className="uppercase text-2xl font-semibold mb-4">
+                           You have not followed any agencies yet
                         </div>
                      </div>
-                  ))}
+                  )}
                </Suspense>
             </div>
             <div

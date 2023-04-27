@@ -8,6 +8,7 @@ import { BiListCheck } from "react-icons/bi";
 import Image from "next/image";
 import moment from "moment";
 import API, { endpoints } from "../../API";
+import emptyBox from "../../public/empty-box.png";
 
 const Notification = () => {
    const { state, dispatch } = useContext(Store);
@@ -69,7 +70,7 @@ const Notification = () => {
                   <div className="flex justify-center my-8">
                      <ClipLoader size={35} color="#FF8500" />
                   </div>
-               ) : (
+               ) : notiList.length > 0 ? (
                   notiList
                      .sort((a, b) =>
                         a.data.createdDate.seconds < b.data.createdDate.seconds
@@ -114,6 +115,17 @@ const Notification = () => {
                            </div>
                         </div>
                      ))
+               ) : (
+                  <div>
+                     <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
+                        <Image
+                           src={emptyBox}
+                           alt="empty"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                     </div>
+                  </div>
                )}
             </div>
          </div>

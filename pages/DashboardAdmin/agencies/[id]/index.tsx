@@ -20,6 +20,7 @@ import { Bar, Line } from "react-chartjs-2";
 import Link from "next/link";
 import ConfirmModel from "../../../../components/Model/ConfirmModel";
 import toast from "react-hot-toast";
+import emptyvector from "../../../../public/empty-box.png";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
@@ -53,40 +54,51 @@ const AgencyPage = ({ agencyInfo }) => {
    const id = router.query.id;
    const [agency, setAgency] = useState<any>({});
    const [openTab, setOpenTab] = useState(1);
-   const [countPosts, setCountPosts] = useState(0);
-   const [countOrders, setCountOrders] = useState(0);
-   const [respondCateStat, setRespondCateStat] = useState([]);
    const [isOpenConfirmBan, setIsOpenConfirmBan] = useState(false);
    const [isOpenConfirmUnBan, setIsOpenConfirmUnBan] = useState(false);
 
-   const loadCount = async () => {
+   const [expireDate, setExpireDate] = useState(0);
+   const [countDown, setCountDown] = useState(0);
+   const [historyRenewalList, setHistoryRenewalList] = useState<any>([]);
+
+   const fetchAgency = async () => {
       try {
-         const resPosts = await API.post(endpoints["search_salePost"], {
-            nameOfAgency: agencyInfo.name,
-         });
-         setCountPosts(resPosts.data.data.listResult.length);
-         const resOrders = await API.get(
-            endpoints["order_agency"](agencyInfo.id)
+         const resAgency = await API.get(endpoints["agency_info"](id));
+         setAgency(resAgency.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   const fetchRenewal = async () => {
+      try {
+         const res = await API.get(
+            endpoints["get_list_renewal_manager_by_agencyID"](id)
          );
-         setCountOrders(resOrders.data.data.length);
+         setExpireDate(res.data.data.expireDate);
+         setHistoryRenewalList(res.data.data.renewalOrderSet);
       } catch (error) {
          console.log(error);
       }
    };
 
    useEffect(() => {
-      loadCount();
-   }, []);
-
-   const fetchAgency = async () => {
-      const resAgency = await API.get(endpoints["agency_info"](id));
-      setAgency(resAgency.data.data);
-   };
-   useEffect(() => {
       if (id) {
          fetchAgency();
+         fetchRenewal();
       }
    }, [id]);
+
+   useEffect(() => {
+      if (expireDate > 0) {
+         setCountDown(expireDate - new Date().getTime());
+         const interval = setInterval(() => {
+            setCountDown(expireDate - new Date().getTime());
+         }, 1000);
+
+         return () => clearInterval(interval);
+      }
+   }, [expireDate]);
 
    const handleBanAgency = async () => {
       try {
@@ -110,8 +122,8 @@ const AgencyPage = ({ agencyInfo }) => {
 
    return (
       <AdminLayoutDashboard title="Detail">
-         <div className="w-[90%] mx-auto">
-            <div className="my-10">
+         <div className="w-[90%] mx-auto my-10">
+            <div className="">
                <div className="font-semibold text-2xl">Agency</div>
                <div className="flex gap-2 mt-2 items-center text-sm font-medium">
                   <div className="opacity-60">Admin Dashboard</div>
@@ -124,149 +136,202 @@ const AgencyPage = ({ agencyInfo }) => {
                </div>
             </div>
             <div className="mb-10">
-               <div className="grid grid-cols-12 gap-6">
+               <div className="grid grid-cols-12 gap-10">
                   <div className="col-span-6 dark:bg-dark-primary bg-light-primary p-6 flex items-end gap-4 rounded-lg">
                      <div className=" relative overflow-hidden w-40 h-40 rounded-2xl ">
                         <Image src={agency.avatar} alt="" layout="fill" />
                      </div>
-                     <div className="mb-4">
+                     <div className="mb-2">
                         <div className="font-semibold text-2xl">
                            {agency.name}
                         </div>
                         <div className="font-medium opacity-80">
                            {agencyInfo.field.name}
                         </div>
-                     </div>
-                  </div>
-                  <div className="col-span-6 grid grid-flow-row grid-rows-2">
-                     <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-6 row-span-1">
-                        <div className="flex gap-2 items-center font-medium mb-2">
-                           <BiPhone className="text-xl" />
+                        <div className="text-sm font-medium">
                            Hotline: {agency.hotline}
                         </div>
-                        <div className="flex gap-2 items-center font-medium">
-                           <BiMap className="text-xl" /> Address:{" "}
-                           {agency.address}
+                        <div className="text-sm font-medium">
+                           Address: {agency.address}
                         </div>
                      </div>
-                     <div className=" row-span-1 flex justify-center items-center">
-                        {agency.isActive == 1 ? (
-                           <div
-                              className=" bg-primary-color text-white p-4 w-full rounded-lg font-bold text-lg text-center cursor-pointer hover:shadow-lg hover:shadow-primary-color"
-                              onClick={() => setIsOpenConfirmBan(true)}
-                           >
-                              Ban this agency
-                           </div>
-                        ) : (
-                           <div
-                              className=" bg-blue-main text-white p-4 w-full rounded-lg font-bold text-lg text-center cursor-pointer hover:shadow-lg hover:shadow-blue-main"
-                              onClick={() => setIsOpenConfirmUnBan(true)}
-                           >
-                              Unban this agency
-                           </div>
-                        )}
+                  </div>
+                  <div className="col-span-6">
+                     <div className="w-full">
+                        <div
+                           className={`rounded-lg p-6 h-[210px] flex justify-around items-center ${
+                              countDown > 0 ? "bg-blue-main" : "bg-red-500"
+                           }`}
+                        >
+                           {countDown > 0 ? (
+                              <div>
+                                 <div className="text-center text-lg text-white font-semibold mb-4">
+                                    Remaining time until service expiration
+                                 </div>
+                                 <div className="flex justify-around items-center gap-8 text-3xl font-semibold">
+                                    <div>
+                                       <div className="bg-light-primary w-20 py-6 text-center rounded-lg">
+                                          {Math.floor(
+                                             countDown / (1000 * 60 * 60 * 24)
+                                          )}
+                                       </div>
+                                       <div className="text-base text-center mt-2 text-light-primary">
+                                          Days
+                                       </div>
+                                    </div>
+                                    <div>
+                                       <div className="bg-light-primary w-20 py-6 text-center rounded-lg">
+                                          {Math.floor(
+                                             (countDown %
+                                                (1000 * 60 * 60 * 24)) /
+                                                (1000 * 60 * 60)
+                                          )}
+                                       </div>
+                                       <div className="text-base text-center mt-2 text-light-primary">
+                                          Hours
+                                       </div>
+                                    </div>
+                                    <div>
+                                       <div className="bg-light-primary w-20 py-6 text-center rounded-lg">
+                                          {Math.floor(
+                                             (countDown % (1000 * 60 * 60)) /
+                                                (1000 * 60)
+                                          )}
+                                       </div>
+                                       <div className="text-base text-center mt-2 text-light-primary">
+                                          Minutes
+                                       </div>
+                                    </div>
+                                    <div>
+                                       <div className="bg-light-primary w-20 py-6 text-center rounded-lg">
+                                          {Math.floor(
+                                             (countDown % (1000 * 60)) / 1000
+                                          )}
+                                       </div>
+                                       <div className="text-base text-center mt-2 text-light-primary">
+                                          Seconds
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           ) : (
+                              <div className="text-white font-semibold text-lg ">
+                                 Service plan of this agency has expired
+                              </div>
+                           )}
+                        </div>
                      </div>
                   </div>
                </div>
             </div>
             {/* tabs reveane */}
-            <div className="font-semibold text-lg">Revenue of this agency</div>
-            <div className="">
-               <div className="flex flex-wrap">
-                  <div className="w-full">
-                     <ul
-                        className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
-                        role="tablist"
-                     >
-                        <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                           <a
-                              className={
-                                 "font-semibold p-3 shadow-lg rounded block leading-normal " +
-                                 (openTab === 1
-                                    ? "text-white bg-blue-main"
-                                    : "dark:bg-dark-primary bg-light-primary")
-                              }
-                              onClick={(e) => {
-                                 e.preventDefault();
-                                 setOpenTab(1);
-                              }}
-                              data-toggle="tab"
-                              href="#link1"
-                              role="tablist"
-                           >
-                              Month by year
-                           </a>
-                        </li>
-                        <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                           <a
-                              className={
-                                 "font-semibold p-3 shadow-lg rounded block leading-normal " +
-                                 (openTab === 2
-                                    ? "text-white bg-blue-main"
-                                    : "dark:bg-dark-primary bg-light-primary")
-                              }
-                              onClick={(e) => {
-                                 e.preventDefault();
-                                 setOpenTab(2);
-                              }}
-                              data-toggle="tab"
-                              href="#link2"
-                              role="tablist"
-                           >
-                              Quarter by year
-                           </a>
-                        </li>
-                        <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                           <a
-                              className={
-                                 "font-semibold p-3 shadow-lg rounded block leading-normal " +
-                                 (openTab === 3
-                                    ? "text-white bg-blue-main"
-                                    : "dark:bg-dark-primary bg-light-primary")
-                              }
-                              onClick={(e) => {
-                                 e.preventDefault();
-                                 setOpenTab(3);
-                              }}
-                              data-toggle="tab"
-                              href="#link3"
-                              role="tablist"
-                           >
-                              By year
-                           </a>
-                        </li>
-                     </ul>
-                     <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
-                        <div className="px-4 py-5 flex-auto">
-                           <div className="tab-content tab-space">
-                              <div
-                                 className={openTab === 1 ? "block" : "hidden"}
-                                 id="link1"
+            <div>
+               <div className="font-semibold text-lg">
+                  Revenue of this agency
+               </div>
+               <div className="">
+                  <div className="flex flex-wrap">
+                     <div className="w-full">
+                        <ul
+                           className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+                           role="tablist"
+                        >
+                           <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                              <a
+                                 className={
+                                    "font-semibold p-3 shadow-lg rounded block leading-normal " +
+                                    (openTab === 1
+                                       ? "text-white bg-blue-main"
+                                       : "dark:bg-dark-primary bg-light-primary")
+                                 }
+                                 onClick={(e) => {
+                                    e.preventDefault();
+                                    setOpenTab(1);
+                                 }}
+                                 data-toggle="tab"
+                                 href="#link1"
+                                 role="tablist"
                               >
-                                 <div>
-                                    <RevenueByMonth
-                                       agencyInfoID={agencyInfo.id}
-                                    />
+                                 Month by year
+                              </a>
+                           </li>
+                           <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                              <a
+                                 className={
+                                    "font-semibold p-3 shadow-lg rounded block leading-normal " +
+                                    (openTab === 2
+                                       ? "text-white bg-blue-main"
+                                       : "dark:bg-dark-primary bg-light-primary")
+                                 }
+                                 onClick={(e) => {
+                                    e.preventDefault();
+                                    setOpenTab(2);
+                                 }}
+                                 data-toggle="tab"
+                                 href="#link2"
+                                 role="tablist"
+                              >
+                                 Quarter by year
+                              </a>
+                           </li>
+                           <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                              <a
+                                 className={
+                                    "font-semibold p-3 shadow-lg rounded block leading-normal " +
+                                    (openTab === 3
+                                       ? "text-white bg-blue-main"
+                                       : "dark:bg-dark-primary bg-light-primary")
+                                 }
+                                 onClick={(e) => {
+                                    e.preventDefault();
+                                    setOpenTab(3);
+                                 }}
+                                 data-toggle="tab"
+                                 href="#link3"
+                                 role="tablist"
+                              >
+                                 By year
+                              </a>
+                           </li>
+                        </ul>
+                        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
+                           <div className="px-4 py-5 flex-auto">
+                              <div className="tab-content tab-space">
+                                 <div
+                                    className={
+                                       openTab === 1 ? "block" : "hidden"
+                                    }
+                                    id="link1"
+                                 >
+                                    <div>
+                                       <RevenueByMonth
+                                          agencyInfoID={agencyInfo.id}
+                                       />
+                                    </div>
                                  </div>
-                              </div>
-                              <div
-                                 className={openTab === 2 ? "block" : "hidden"}
-                                 id="link2"
-                              >
-                                 <div>
-                                    <RevenueByQuarter
-                                       agencyInfoID={agencyInfo.id}
-                                    />
+                                 <div
+                                    className={
+                                       openTab === 2 ? "block" : "hidden"
+                                    }
+                                    id="link2"
+                                 >
+                                    <div>
+                                       <RevenueByQuarter
+                                          agencyInfoID={agencyInfo.id}
+                                       />
+                                    </div>
                                  </div>
-                              </div>
-                              <div
-                                 className={openTab === 3 ? "block" : "hidden"}
-                                 id="link3"
-                              >
-                                 <div>
-                                    <RevenueByYear
-                                       agencyInfoID={agencyInfo.id}
-                                    />
+                                 <div
+                                    className={
+                                       openTab === 3 ? "block" : "hidden"
+                                    }
+                                    id="link3"
+                                 >
+                                    <div>
+                                       <RevenueByYear
+                                          agencyInfoID={agencyInfo.id}
+                                       />
+                                    </div>
                                  </div>
                               </div>
                            </div>
@@ -274,34 +339,107 @@ const AgencyPage = ({ agencyInfo }) => {
                      </div>
                   </div>
                </div>
-            </div>
-            <div
-               className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
-                  isOpenConfirmBan ? "flex" : "hidden"
-               }`}
-            >
-               <div className="w-1/3  h-fit">
-                  <ConfirmModel
-                     functionConfirm={() => handleBanAgency()}
-                     content={"You will ban this agency!"}
-                     isOpenConfirm={isOpenConfirmBan}
-                     setIsOpenConfirm={setIsOpenConfirmBan}
-                  />
+               <div
+                  className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                     isOpenConfirmBan ? "flex" : "hidden"
+                  }`}
+               >
+                  <div className="w-1/3  h-fit">
+                     <ConfirmModel
+                        functionConfirm={() => handleBanAgency()}
+                        content={"You will ban this agency!"}
+                        isOpenConfirm={isOpenConfirmBan}
+                        setIsOpenConfirm={setIsOpenConfirmBan}
+                     />
+                  </div>
+               </div>
+               <div
+                  className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                     isOpenConfirmUnBan ? "flex" : "hidden"
+                  }`}
+               >
+                  <div className="w-1/3  h-fit">
+                     <ConfirmModel
+                        functionConfirm={() => handleUnbanAgency()}
+                        content={"You will unban this agency!"}
+                        isOpenConfirm={isOpenConfirmUnBan}
+                        setIsOpenConfirm={setIsOpenConfirmUnBan}
+                     />
+                  </div>
                </div>
             </div>
-            <div
-               className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
-                  isOpenConfirmUnBan ? "flex" : "hidden"
-               }`}
-            >
-               <div className="w-1/3  h-fit">
-                  <ConfirmModel
-                     functionConfirm={() => handleUnbanAgency()}
-                     content={"You will unban this agency!"}
-                     isOpenConfirm={isOpenConfirmUnBan}
-                     setIsOpenConfirm={setIsOpenConfirmUnBan}
-                  />
+            {/* history renewal */}
+            <div className="">
+               <div className="font-semibold text-xl my-6">History renewal</div>
+               <div
+                  className={` overflow-auto ${
+                     historyRenewalList.length > 5 ? "h-[500px]" : "h-fit"
+                  }`}
+               >
+                  {historyRenewalList.length > 0 ? (
+                     <div className="">
+                        {historyRenewalList
+                           .sort((a, b) =>
+                              a.createdDate < b.createdDate ? 1 : -1
+                           )
+                           .map((item) => (
+                              <div
+                                 key={item.id}
+                                 className="grid grid-cols-12 font-medium text-center mb-4 bg-light-primary dark:bg-dark-primary rounded-lg py-8"
+                              >
+                                 <div className="col-span-3">
+                                    {new Date(
+                                       item.createdDate
+                                    ).toLocaleDateString("en-GB")}
+                                 </div>
+                                 <div className="col-span-3">
+                                    {item.renewalPackage.packageName}
+                                 </div>
+                                 <div className="col-span-3">
+                                    {item.price.toLocaleString("it-IT", {
+                                       style: "currency",
+                                       currency: "VND",
+                                    })}
+                                 </div>
+                                 <div className="col-span-3 text-blue-main font-bold">
+                                    + {item.numberOfDaysAvailable} days
+                                 </div>
+                              </div>
+                           ))}
+                     </div>
+                  ) : (
+                     <div>
+                        <div className="relative w-52 h-52 rounded-md overflow-hidden mx-auto">
+                           <Image
+                              src={emptyvector}
+                              alt="Empty"
+                              layout="fill"
+                              objectFit="cover"
+                           ></Image>
+                        </div>
+                        <div className="uppercase text-xl font-semibold text-center">
+                           You have not renewed any package yet
+                        </div>
+                     </div>
+                  )}
                </div>
+            </div>
+            <div className="mt-10 w-1/2 mx-auto">
+               {agency.isActive == 1 ? (
+                  <div
+                     className=" bg-red-500 text-white p-4 w-full rounded-lg font-bold text-lg text-center cursor-pointer hover:shadow-lg hover:shadow-red-500"
+                     onClick={() => setIsOpenConfirmBan(true)}
+                  >
+                     Ban this agency
+                  </div>
+               ) : (
+                  <div
+                     className=" bg-blue-main text-white p-4 w-full rounded-lg font-bold text-lg text-center cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+                     onClick={() => setIsOpenConfirmUnBan(true)}
+                  >
+                     Unban this agency
+                  </div>
+               )}
             </div>
          </div>
       </AdminLayoutDashboard>

@@ -21,8 +21,8 @@ const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
 const RelativePost = dynamic(() => import("../../components/RelativePost"));
 
 const ProductPage = ({ salePost }) => {
-   const { state, dispatch } = useContext(Store);
-   const [quantityItems, setQuantityItems] = useState([]);
+   // const { state, dispatch } = useContext(Store);
+   // const [quantityItems, setQuantityItems] = useState([]);
    const [comments, setComments] = useState([]);
    const [mainPic, setMainPic] = useState();
    const router = useRouter();
@@ -175,12 +175,15 @@ const ProductPage = ({ salePost }) => {
                   </div>
                </div>
                <div className="grid grid-cols-12 gap-8 mt-8 ">
-                  <div
-                     className="col-span-6 bg-blue-main text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-md hover:shadow-blue-main transition-all"
+                  <button
+                     className={`col-span-6 bg-blue-main text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all disabled:bg-gray-400 disabled:hover:shadow-gray-400`}
                      onClick={() => setIsOpenItemsModal(true)}
+                     disabled={salePost.agency.isActive === 0 ? true : false}
                   >
-                     Choose item to add to cart
-                  </div>
+                     {salePost.agency.isActive === 0
+                        ? "This agency has banned"
+                        : "Choose item to add to cart"}
+                  </button>
                   <div
                      className="col-span-6 dark:bg-dark-primary bg-light-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-md dark:hover:shadow-dark-primary hover:shadow-light-primary transition-all"
                      onClick={handleRouteAgency}

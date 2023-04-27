@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import {
+   BiBarChartAlt2,
    BiBell,
    BiChevronDown,
    BiChevronRight,
@@ -182,7 +183,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                                     : setOpenStatisticle(true)
                               }
                            >
-                              <BiStore className="text-lg" />
+                              <BiBarChartAlt2 className="text-lg" />
                               Statistical
                               <BiChevronRight
                                  className={`absolute right-6 font-semibold text-2xl transition-all ${

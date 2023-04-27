@@ -6,6 +6,8 @@ import SearchBar from "../../components/SearchBar";
 import axios from "axios";
 import API, { endpoints } from "../../API";
 import { Slider } from "@mui/material";
+import Image from "next/image";
+import emptyBox from "../../public/empty-box.png";
 
 function valuetext(value: number) {
    return `${value}°C`;
@@ -122,7 +124,7 @@ const CategoryPage = ({ categories, category }) => {
                </div>
             </form>
             {/* posts side */}
-            {salePosts ? (
+            {salePosts.length > 0 ? (
                <div className="col-span-6 grid grid-cols-3 gap-8 mb-8">
                   {salePosts.map((post) => (
                      <ProductItem
@@ -133,7 +135,16 @@ const CategoryPage = ({ categories, category }) => {
                   ))}
                </div>
             ) : (
-               <></>
+               <div className="col-span-6">
+                  <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
+                     <Image
+                        src={emptyBox}
+                        alt="empty"
+                        layout="fill"
+                        className="object-cover"
+                     />
+                  </div>
+               </div>
             )}
          </div>
          {/* paginate */}

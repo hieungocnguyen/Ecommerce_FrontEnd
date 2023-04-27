@@ -9,6 +9,7 @@ const AgencyHome = () => {
    const { agencyInfo } = state;
    const [countPosts, setCountPosts] = useState(0);
    const [countOrders, setCountOrders] = useState(0);
+   const [countFollow, setCountFollow] = useState(0);
 
    const loadCount = async () => {
       try {
@@ -21,6 +22,11 @@ const AgencyHome = () => {
             endpoints["order_agency"](agencyInfo.id)
          );
          setCountOrders(resOrders.data.data.length);
+
+         const resFollow = await API.get(
+            endpoints["count_follow_agency"](agencyInfo.id)
+         );
+         setCountFollow(resFollow.data.data);
       } catch (error) {
          console.log(error);
       }
@@ -56,7 +62,7 @@ const AgencyHome = () => {
                <div className="grid grid-cols-3 gap-8 mt-10 h-24">
                   <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center  rounded-lg text-xl font-semibold">
                      <div>Follow(s)</div>
-                     <div>0</div>
+                     <div>{countFollow}</div>
                   </div>
                   <div className="dark:bg-dark-primary bg-light-primary flex flex-col justify-center items-center  rounded-lg text-xl font-semibold">
                      <div>Sale post(s)</div>

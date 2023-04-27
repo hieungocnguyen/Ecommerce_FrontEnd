@@ -85,12 +85,17 @@ const AgenciesAdminDashboard = () => {
                            <li className="col-span-2">{agency.address}</li>
                            <li className="col-span-2">
                               {agency.isActive == 0 &&
-                                 agency.deactivatedByAdmin == 1 && (
-                                    <div className="text-primary-color flex gap-1 items-center text-sm text-center font-medium">
+                                 (agency.deactivatedByAdmin == 1 ? (
+                                    <div className="text-primary-color flex gap-1 items-center text-sm font-medium pl-3 mb-1">
                                        <BiMessageRounded />
                                        Banned by Admin
                                     </div>
-                                 )}
+                                 ) : (
+                                    <div className="text-primary-color flex gap-1 items-center text-sm font-medium pl-3 mb-1">
+                                       <BiMessageRounded />
+                                       Banned by Expired
+                                    </div>
+                                 ))}
                               {agency.isActive == 1 ? (
                                  <div
                                     className=" bg-blue-main text-white px-4 py-2 w-full rounded-lg font-semibold text-center cursor-pointer hover:shadow-lg hover:shadow-blue-main"

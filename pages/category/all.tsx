@@ -6,6 +6,8 @@ import API, { endpoints } from "../../API";
 import Layout from "../../components/Layout/Layout";
 import ProductItem from "../../components/ProductItem";
 import SearchBar from "../../components/SearchBar";
+import Image from "next/image";
+import emptyBox from "../../public/empty-box.png";
 
 function valuetext(value: number) {
    return `${value}°C`;
@@ -121,9 +123,26 @@ const CategoryAll = ({ categories }) => {
             </form>
             {/* posts side */}
             <div className="col-span-6 grid grid-cols-3 gap-8 mb-8">
-               {salePosts.map((post) => (
-                  <ProductItem key={post.id} product={post} inCompare={false} />
-               ))}
+               {salePosts.length > 0 ? (
+                  salePosts.map((post) => (
+                     <ProductItem
+                        key={post.id}
+                        product={post}
+                        inCompare={false}
+                     />
+                  ))
+               ) : (
+                  <div className="col-span-6">
+                     <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
+                        <Image
+                           src={emptyBox}
+                           alt="empty"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                     </div>
+                  </div>
+               )}
             </div>
          </div>
          {/* paginate */}
