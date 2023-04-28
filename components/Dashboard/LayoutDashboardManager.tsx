@@ -99,6 +99,16 @@ const LayoutDashboard = ({ title, children }) => {
                      </div>
                      <div className="text-sm">Manager Agency</div>
                   </div>
+                  <div className="mt-2">
+                     <button
+                        className="bg-blue-main text-white font-semibold w-full py-2 rounded-lg"
+                        onClick={() =>
+                           router.push("/DashboardManager/editinfo")
+                        }
+                     >
+                        Edit profile
+                     </button>
+                  </div>
                </div>
                {/* navigate */}
                <div className="mt-6 mx-4">

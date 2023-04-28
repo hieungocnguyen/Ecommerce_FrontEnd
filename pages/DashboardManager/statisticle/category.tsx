@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import API, { endpoints } from "../../../API";
 import LayoutDashboardManager from "../../../components/Dashboard/LayoutDashboardManager";
 import { Chart, ArcElement } from "chart.js";
+import { Store } from "../../../utils/Store";
 Chart.register(ArcElement);
 
 const CategoryStatisticle = () => {
    const [category, setCategory] = useState([]);
    const [dataStatCategory, setDataStatCategory] = useState([]);
    const [respondCateStat, setRespondCateStat] = useState([]);
+   const { state, dispatch } = useContext(Store);
+   const { agencyInfo } = state;
    useEffect(() => {
       setCategory([]);
       setDataStatCategory([]);
       const loadDataCate = async () => {
          try {
-            const resDataCate = await API.get(endpoints["stat_post_category"]);
+            const resDataCate = await API.get(
+               endpoints["stat_category_by_agency"](agencyInfo.id)
+            );
             resDataCate.data.data.map((c) => {
                setCategory((category) => [...category, c[0]]);
                setDataStatCategory((dataStatCategory) => [

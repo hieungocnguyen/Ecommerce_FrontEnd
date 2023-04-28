@@ -88,6 +88,8 @@ export let endpoints = {
    category_all: `/category/all`,
    //stat
    stat_post_category: `/sale-post/stats-by-category`,
+   stat_category_by_agency: (agencyID) =>
+      `/sale-post/stats-by-category/${agencyID}`,
    //item
    item: (itemID) => `/item/${itemID}`,
    //payment

@@ -118,7 +118,7 @@ const AddressSelect = ({
                <div>
                   <BiCaretLeft className="text-xl text-blue-main" />
                </div>
-               <div className="font-medium">Switch to input manually</div>
+               <div className="font-medium">Switch to input by GPS</div>
             </div>
          </div>
          {isOpenAddressSelect ? (
