@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 const Logo = (props: any) => {
    const { theme, setTheme } = useTheme();
    const [lightMode, setLightMode] = useState(false);
+
    useEffect(() => {
       if (theme == "light") {
          setLightMode(true);

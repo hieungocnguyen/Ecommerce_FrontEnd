@@ -25,7 +25,7 @@ const Orders = () => {
    const { userInfo } = state;
    const [orders, setOrders] = useState([]);
    const [orderAgencyID, setOrderAgencyID] = useState(0);
-   const [orderInfo, setOrderInfo] = useState({});
+   const [orderInfo, setOrderInfo] = useState<any>({});
    const [isOpenConfirmModelCancel, setIsOpenConfirmModelCancel] =
       useState(false);
    const [orderIDCancel, setOrderIDCancel] = useState(-1);
@@ -45,11 +45,43 @@ const Orders = () => {
       loadOrder();
    }, []);
 
+   const handleCancelButton = async (order) => {
+      try {
+         const resOrder = await API.get(endpoints["order_user"](userInfo.id));
+         setOrders(resOrder.data.data);
+         if (
+            resOrder.data.data.find((o) => o.id === order.id).orderState.id !=
+            order.orderState.id
+         ) {
+            toast.error(
+               "The status of this order has just been changed by agency, please try again!"
+            );
+         } else {
+            setOrderIDCancel(order.id);
+            if (order.orderState.id === 1) {
+               setIsOpenConfirmModelCancel(true);
+            }
+            if (order.orderState.id === 2 || order.orderState.id === 3) {
+               setIsOpenConfirmModelChangeState(true);
+            }
+         }
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    const handleCancelOrder = async () => {
       try {
          const res = await API.patch(endpoints["cancel_order"](orderIDCancel));
          if (res.data.code === "200") {
             toast.success("Cancel order successful!");
+            const resNotify = await API.post(endpoints["send_notify"], {
+               details: `The order #${orderInfo.orderExpressID} is canceled by the user`,
+               image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682708935/cancel_rtlc2h.webp",
+               recipientID: `agency-${orderInfo.agency.id}`,
+               title: "An order is cancelled from user",
+               type: "Order tracking",
+            });
          } else {
             toast.error(res.data.message);
          }
@@ -66,6 +98,13 @@ const Orders = () => {
          );
          if (res.data.code === "200") {
             toast.success("Successful! Please waiting for agency accept");
+            const resNotify = await API.post(endpoints["send_notify"], {
+               details: `User requested to cancel the order #${orderInfo.orderExpressID}`,
+               image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682708935/cancel_rtlc2h.webp",
+               recipientID: `agency-${orderInfo.agency.id}`,
+               title: "Have a request to cancel order from user",
+               type: "Order tracking",
+            });
          } else {
             toast.error(res.data.message);
          }
@@ -207,16 +246,8 @@ const Orders = () => {
                                     order.orderState.id > 3 ? true : false
                                  }
                                  onClick={() => {
-                                    setOrderIDCancel(order.id);
-                                    if (order.orderState.id === 1) {
-                                       setIsOpenConfirmModelCancel(true);
-                                    }
-                                    if (
-                                       order.orderState.id === 2 ||
-                                       order.orderState.id === 3
-                                    ) {
-                                       setIsOpenConfirmModelChangeState(true);
-                                    }
+                                    handleCancelButton(order);
+                                    setOrderInfo(order);
                                  }}
                               >
                                  <BiX />

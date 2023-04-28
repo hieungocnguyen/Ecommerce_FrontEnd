@@ -121,7 +121,7 @@ const ProductItem = ({ product, inCompare }) => {
                <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all hover:sha">
                   <Image
                      src={product.avatar}
-                     alt=""
+                     alt="avt"
                      layout="fill"
                      className="object-cover"
                   />

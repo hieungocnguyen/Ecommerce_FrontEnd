@@ -119,6 +119,7 @@ export let endpoints = {
    //notification
    update_seen_status: (recipientID) =>
       `/notify/update-seen-status/${recipientID}`,
+   send_notify: `/notify/send-notify`,
 
    //renewal
    get_list_renewal_manager_by_agencyID: (agencyID) =>

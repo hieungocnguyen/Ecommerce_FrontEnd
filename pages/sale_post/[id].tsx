@@ -31,6 +31,7 @@ const ProductPage = ({ salePost }) => {
    const [commentCount, setCommentCount] = useState(0);
    const [isOpenItemsModal, setIsOpenItemsModal] = useState(false);
    const [loading, setLoading] = useState(false);
+   const [isShowMore, setIsShowMore] = useState(false);
 
    const loadComment = async () => {
       try {
@@ -77,7 +78,7 @@ const ProductPage = ({ salePost }) => {
                   <div className="overflow-hidden aspect-square relative ">
                      <Image
                         src={mainPic}
-                        alt="tai nghe"
+                        alt="img"
                         className="object-cover rounded-lg"
                         layout="fill"
                      />
@@ -218,6 +219,31 @@ const ProductPage = ({ salePost }) => {
                      setIsOpenItemsModal={setIsOpenItemsModal}
                   />
                )}
+            </div>
+         </div>
+         <div className="my-8 mx-16 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
+            <div className="font-semibold text-left ml-12 text-xl">
+               Description
+            </div>
+            <div
+               className={`my-6 mx-16 text-left overflow-hidden relative ${
+                  isShowMore ? "h-fit" : "h-52"
+               }`}
+            >
+               <div
+                  dangerouslySetInnerHTML={{ __html: salePost.description }}
+               ></div>
+               {!isShowMore && (
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 rounded-lg"></div>
+               )}
+            </div>
+            <div className="">
+               <button
+                  className="px-4 py-2 rounded-lg border-2 border-blue-main text-blue-main font-semibold"
+                  onClick={() => setIsShowMore(!isShowMore)}
+               >
+                  {isShowMore ? "Show less" : "Show more"}
+               </button>
             </div>
          </div>
          {/* comment */}

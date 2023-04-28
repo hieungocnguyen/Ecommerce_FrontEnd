@@ -193,7 +193,7 @@ const Posts = () => {
                         </div>
                      ))}
                   <div
-                     className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-20 ${
+                     className={`fixed pt-10 top-0 right-0 w-full h-screen overflow-auto backdrop-blur-sm  justify-center z-20 ${
                         postID > 0 ? "flex" : "hidden"
                      }`}
                   >

@@ -3,10 +3,11 @@ import AdminLayoutDashboard from "../../../components/Dashboard/AdminLayoutDashb
 import API, { endpoints } from "../../../API";
 import dynamic from "next/dynamic";
 import { Store } from "../../../utils/Store";
-import { Bar, Line } from "react-chartjs-2";
+import { Bar, Line, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import emptyvector from "../../../public/empty-box.png";
 import Image from "next/image";
+
 import {
    CategoryScale,
    LinearScale,
@@ -172,6 +173,13 @@ const Renewal = () => {
             </div>
             <div className="">
                <div className="font-semibold text-xl my-6">History renewal</div>
+               <div className="grid grid-cols-12 px-6 py-2 font-bold">
+                  <div className="col-span-2">Order date</div>
+                  <div className="col-span-3">Agency</div>
+                  <div className="col-span-3">Package name</div>
+                  <div className="col-span-2">Price</div>
+                  <div className="col-span-2">Number day available</div>
+               </div>
                <div
                   className={` overflow-auto ${
                      historyRenewalList.length > 5 ? "h-[500px]" : "h-fit"
@@ -186,23 +194,36 @@ const Renewal = () => {
                            .map((item) => (
                               <div
                                  key={item.id}
-                                 className="grid grid-cols-12 font-medium text-center mb-4 bg-light-primary dark:bg-dark-primary rounded-lg py-8"
+                                 className="grid grid-cols-12 font-medium mb-4 bg-light-primary dark:bg-dark-primary rounded-lg p-6 items-center"
                               >
-                                 <div className="col-span-3">
+                                 <div className="col-span-2">
                                     {new Date(
                                        item.createdDate
                                     ).toLocaleDateString("en-GB")}
                                  </div>
+                                 <div className="col-span-3 flex gap-3 items-center">
+                                    <div className="relative overflow-hidden w-12 aspect-square rounded-xl">
+                                       <Image
+                                          src={item.renewalManage.agency.avatar}
+                                          alt="avt"
+                                          layout="fill"
+                                          className="object-cover"
+                                       />
+                                    </div>
+                                    <div className="">
+                                       {item.renewalManage.agency.name}
+                                    </div>
+                                 </div>
                                  <div className="col-span-3">
                                     {item.renewalPackage.packageName}
                                  </div>
-                                 <div className="col-span-3">
+                                 <div className="col-span-2">
                                     {item.price.toLocaleString("it-IT", {
                                        style: "currency",
                                        currency: "VND",
                                     })}
                                  </div>
-                                 <div className="col-span-3 text-blue-main font-bold">
+                                 <div className="col-span-2 text-blue-main font-bold">
                                     + {item.numberOfDaysAvailable} days
                                  </div>
                               </div>
@@ -267,10 +288,10 @@ const RevenueByMonth = () => {
       labels: lablesRespondRevenueByMonth,
       datasets: [
          {
-            label: "Revenue",
+            label: "Renewal",
             data: valuesRespondRevenueByMonth,
-            borderColor: "#525EC1",
-            backgroundColor: "white",
+            borderColor: ["#F45050"],
+            backgroundColor: ["#F45050"],
          },
       ],
    };
@@ -384,22 +405,22 @@ const RevenueByQuarter = () => {
       labels: lablesRespondRevenueByQuarter,
       datasets: [
          {
-            label: "Revenue",
+            label: "Renewal",
             data: valuesRespondRevenueByQuarter,
-            borderColor: "#525EC1",
-            backgroundColor: "white",
+            borderColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
+            backgroundColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
          },
       ],
    };
    return (
       <>
          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-8 ">
+            <div className="col-span-6">
                <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8">
-                  <Line options={options} data={databyQuarter} />
+                  <Pie options={options} data={databyQuarter} />
                </div>
             </div>
-            <div className="col-span-4">
+            <div className="col-span-6">
                <div className="flex gap-6 items-center mb-4">
                   <select
                      name=""
@@ -483,10 +504,10 @@ const RevenueByYear = () => {
       labels: lablesRespondRevenueByYear,
       datasets: [
          {
-            label: "Revenue",
+            label: "Renewal",
             data: valuesRespondRevenueByYear,
-
-            backgroundColor: "#525EC1",
+            borderColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
+            backgroundColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
          },
       ],
    };

@@ -14,6 +14,7 @@ const StateOfPayment = () => {
    const { renewalPackageID, agencyInfo } = state;
    const router = useRouter();
    const resultCode = router.query.resultCode;
+   const message = router.query.message;
 
    const handlePaymentMoMo = async () => {
       if (renewalPackageID != null) {
@@ -44,13 +45,18 @@ const StateOfPayment = () => {
    }, [resultCode]);
 
    let result = <PaymentSuccess />;
-   if (resultCode == "1006") {
-      result = <PaymentFailed detail="User denied the transaction" />;
-   } else if (resultCode == "1005") {
-      result = <PaymentFailed detail="Payment expired transaction" />;
-   } else if (resultCode == "1004") {
-      result = <PaymentFailed detail="Exceeded payment limit of MOMO" />;
+   if (resultCode !== "0") {
+      result = <PaymentFailed detail={message} />;
    }
+   // if (resultCode == "1006") {
+   //    result = <PaymentFailed detail="User denied the transaction" />;
+   // } else if (resultCode == "1005") {
+   //    result = <PaymentFailed detail="Payment expired transaction" />;
+   // } else if (resultCode == "1004") {
+   //    result = <PaymentFailed detail="Exceeded payment limit of MOMO" />;
+   // } else if (resultCode == "99") {
+   //    result = <PaymentFailed detail="Exceeded payment limit of MOMO" />;
+   // }
 
    return <>{result}</>;
 };

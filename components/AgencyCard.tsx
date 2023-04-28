@@ -30,16 +30,20 @@ const AgencyCard = ({ agency, likeNumber }) => {
    }, []);
 
    const handleFollowAgency = async () => {
-      try {
-         const res = await authAxios().get(
-            endpoints["follow_agency"](agency.id)
-         );
-         fetchFollowState();
-         stateFollow
-            ? toast.success("Unfollow agency successful!")
-            : toast.success("Follow agency successful!");
-      } catch (error) {
-         console.log(error);
+      if (userInfo) {
+         try {
+            const res = await authAxios().get(
+               endpoints["follow_agency"](agency.id)
+            );
+            fetchFollowState();
+            stateFollow
+               ? toast.success("Unfollow agency successful!")
+               : toast.success("Follow agency successful!");
+         } catch (error) {
+            console.log(error);
+         }
+      } else {
+         toast.error("Please log in to follow agency!");
       }
    };
    return (

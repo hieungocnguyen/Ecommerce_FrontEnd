@@ -13,6 +13,12 @@ import { BiCloudUpload, BiExit } from "react-icons/bi";
 import dynamic from "next/dynamic";
 import Loader from "../Loader";
 import { toast } from "react-hot-toast";
+import "react-quill/dist/quill.snow.css";
+
+const QuillNoSSRWrapper = dynamic(import("react-quill"), {
+   ssr: false,
+   loading: () => <p>Loading ...</p>,
+});
 
 const EditPost = ({ postID, setPostID, setLoading }) => {
    const [post, setPost] = useState<any>();
@@ -21,6 +27,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
    const [titleVali, setTitleVali] = useState(false);
    const [initialPrice, setInitialPrice] = useState("");
    const [finalPrice, setFinalPrice] = useState("");
+   const [description, setDescription] = useState("");
 
    const fetchPost = async () => {
       try {
@@ -28,15 +35,24 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
          setPost(data.data);
          setInitialPrice(currencyFormat(data.data.initialPrice.toString()));
          setFinalPrice(currencyFormat(data.data.finalPrice.toString()));
+         setDescription(data.data.description);
       } catch (error) {
          console.log(error);
       }
    };
+
    useEffect(() => {
       if (postID != 0) {
          fetchPost();
       }
    }, [postID]);
+
+   const handlePostChange = (event) => {
+      setPost({
+         ...post,
+         [event.target.name]: event.target.value,
+      });
+   };
 
    const handleUpdatePost = async (event) => {
       event.preventDefault();
@@ -63,6 +79,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                avatar: imageURL,
                finalPrice: finalPrice.replace(/[^a-zA-Z0-9 ]/g, ""),
                initialPrice: initialPrice.replace(/[^a-zA-Z0-9 ]/g, ""),
+               description: description,
             });
 
             if (resUpdate) {
@@ -104,13 +121,6 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
       value = value.replace(/(?=(\d{3})+(\D))\B/g, ".");
       text = value;
       return text;
-   };
-
-   const handlePostChange = (event) => {
-      setPost({
-         ...post,
-         [event.target.name]: event.target.value,
-      });
    };
 
    return (
@@ -325,7 +335,13 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                            >
                               Description
                            </label>
-                           <input
+                           <QuillNoSSRWrapper
+                              theme="snow"
+                              value={description}
+                              onChange={setDescription}
+                              className="bg-light-bg dark:bg-dark-bg"
+                           />
+                           {/* <input
                               type="text"
                               id="description"
                               name="description"
@@ -334,7 +350,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               required
                               placeholder="Description"
                               className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
-                           />
+                           /> */}
                         </div>
                         <div className=" col-span-12 flex justify-end">
                            <button

@@ -13,6 +13,7 @@ import Link from "next/link";
 const StateOfPayment = () => {
    const router = useRouter();
    const resultCode = router.query.resultCode;
+   const message = router.query.message;
    const { state, dispatch } = useContext(Store);
    const { addressPayment, allInCartToPayment } = state;
 
@@ -41,14 +42,19 @@ const StateOfPayment = () => {
          console.log(error);
       }
    };
+
    let result = <PaymentSuccess />;
-   if (resultCode == "1006") {
-      result = <PaymentFailed detail="User denied the transaction" />;
-   } else if (resultCode == "1005") {
-      result = <PaymentFailed detail="Payment expired transaction" />;
-   } else if (resultCode == "1004") {
-      result = <PaymentFailed detail="Exceeded payment limit of MOMO" />;
+   if (resultCode && resultCode !== "0") {
+      result = <PaymentFailed detail={message} />;
    }
+
+   // if (resultCode == "1006") {
+   //    result = <PaymentFailed detail="User denied the transaction" />;
+   // } else if (resultCode == "1005") {
+   //    result = <PaymentFailed detail="Payment expired transaction" />;
+   // } else if (resultCode == "1004") {
+   //    result = <PaymentFailed detail="Exceeded payment limit of MOMO" />;
+   // }
    useEffect(() => {
       //fetch when payment successful
       if (resultCode === "0") {

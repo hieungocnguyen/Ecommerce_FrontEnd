@@ -87,12 +87,8 @@ const LayoutDashboard = ({ title, children }) => {
                <div className="bg-slate-400 bg-opacity-20 mx-4 p-4 rounded-lg">
                   <div className="relative overflow-hidden w-28 aspect-square rounded-xl mx-auto">
                      <Image
-                        src={
-                           agencyInfo
-                              ? agencyInfo.avatar
-                              : "https://images.unsplash.com/photo-1612994370726-5d4d609fca1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-                        }
-                        alt="avatar"
+                        src={agencyInfo ? agencyInfo.avatar : ""}
+                        alt=""
                         className="object-cover"
                         layout="fill"
                      />

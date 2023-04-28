@@ -2,15 +2,6 @@ import LayoutDashboard from "../../../components/Dashboard/LayoutDashboardManage
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import {
-   FormControl,
-   InputBase,
-   InputLabel,
-   MenuItem,
-   Select,
-   styled,
-   TextField,
-} from "@mui/material";
 import React from "react";
 import API, { authAxios, endpoints } from "../../../API";
 import { Store } from "../../../utils/Store";
@@ -19,6 +10,13 @@ import { BiCloudUpload } from "react-icons/bi";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+// import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
+const QuillNoSSRWrapper = dynamic(import("react-quill"), {
+   ssr: false,
+   loading: () => <p>Loading ...</p>,
+});
 
 const CreateNewPost = () => {
    const {
@@ -35,6 +33,7 @@ const CreateNewPost = () => {
    const [loading, setLoading] = useState(false);
    const [initialPrice, setInitialPrice] = useState("");
    const [finalPrice, setFinalPrice] = useState("");
+   const [description, setDescription] = useState("");
    const router = useRouter();
 
    const imageChange = (e) => {
@@ -70,7 +69,7 @@ const CreateNewPost = () => {
       brand,
       origin,
       manufacturer,
-      description,
+      // description,
    }) => {
       const formData = new FormData();
       let imageURL =
@@ -313,14 +312,19 @@ const CreateNewPost = () => {
                         <label htmlFor="description" className="pl-2 text-sm">
                            Description
                         </label>
-                        <input
+                        <QuillNoSSRWrapper
+                           theme="snow"
+                           value={description}
+                           onChange={setDescription}
+                           className="bg-light-bg dark:bg-dark-bg"
+                        />
+                        {/* <input
                            type="text"
                            id="description"
-                           {...register("description")}
                            required
                            placeholder="Description"
                            className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
-                        />
+                        /> */}
                      </div>
                      <div className=" col-span-12 flex justify-end">
                         <button

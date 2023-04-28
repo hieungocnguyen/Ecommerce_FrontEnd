@@ -456,31 +456,34 @@ const Header = () => {
          </div>
          <Suspense fallback={<p></p>}>
             <div className="mr-10 flex items-center">
-               <div
-                  className={`font-extrabold p-1 border-2 uppercase text-xs rounded-md ${
-                     agencyInfo.isActive === 0 &&
-                     userInfo.role.name === "ROLE_MANAGER"
-                        ? "text-red-600 border-red-600"
-                        : "text-blue-main border-blue-main "
-                  }`}
-               >
-                  {userInfo ? (
-                     userInfo.role.id === 1 ? (
-                        <>admin</>
-                     ) : userInfo.role.id === 2 ? (
-                        <>manager</>
+               {userInfo != null && (
+                  <div
+                     className={`font-extrabold p-1 border-2 uppercase text-xs rounded-md ${
+                        agencyInfo.isActive === 0 &&
+                        userInfo.role.name === "ROLE_MANAGER"
+                           ? "text-red-600 border-red-600"
+                           : "text-blue-main border-blue-main "
+                     }`}
+                  >
+                     {userInfo ? (
+                        userInfo.role.id === 1 ? (
+                           <>admin</>
+                        ) : userInfo.role.id === 2 ? (
+                           <>manager</>
+                        ) : (
+                           <>user</>
+                        )
                      ) : (
-                        <>user</>
-                     )
-                  ) : (
-                     <>guest</>
-                  )}
-                  {/* {userInfo.role.name === "ROLE_ADMIN" ? (
+                        <>guest</>
+                     )}
+                     {/* {userInfo.role.name === "ROLE_ADMIN" ? (
                            <>admin</>
                         ) : (
                            <>manager</>
                         )} */}
-               </div>
+                  </div>
+               )}
+
                <button
                   className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mx-4 relative"
                   title="cart"

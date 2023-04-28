@@ -24,6 +24,11 @@ const AgenciesAdminDashboard = () => {
    };
    useEffect(() => {
       fetchAgencies();
+      const interval = setInterval(() => {
+         fetchAgencies();
+      }, 6000);
+
+      return () => clearInterval(interval);
    }, []);
 
    const handleBanAgency = async (modelID) => {
