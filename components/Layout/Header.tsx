@@ -104,9 +104,11 @@ const Header = () => {
          const res = await API.get(
             endpoints["get_agency_info_by_userID"](userInfo.id)
          );
-         Cookies.set("agencyInfo", JSON.stringify(res.data.data));
-         dispatch({ type: "AGENCY_INFO_SET", payload: res.data.data });
-         setAgencyInfo(res.data.data);
+         if (res.data.data != null) {
+            Cookies.set("agencyInfo", JSON.stringify(res.data.data));
+            dispatch({ type: "AGENCY_INFO_SET", payload: res.data.data });
+            setAgencyInfo(res.data.data);
+         }
       } catch (error) {
          console.log(error);
       }

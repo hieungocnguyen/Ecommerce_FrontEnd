@@ -4,6 +4,8 @@ import API, { endpoints } from "../../../API";
 import toast from "react-hot-toast";
 
 const OrderAcceptCancel = ({
+   IDUserRequest,
+   setIDUserRequest,
    setIDOpenAcceptCancelModel,
    IDOpenAcceptCancelModel,
 }) => {
@@ -13,6 +15,7 @@ const OrderAcceptCancel = ({
       function handleClickOutside(event) {
          if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
             setIDOpenAcceptCancelModel(-1);
+            setIDUserRequest(-1);
          }
       }
       document.addEventListener("mousedown", handleClickOutside);
@@ -28,10 +31,18 @@ const OrderAcceptCancel = ({
          );
          if (res.data.code === "200") {
             toast.success("Cancel order successful!");
+            const resNotify = await API.post(endpoints["send_notify"], {
+               details: `Your request to cancel order has been accepted by agency`,
+               image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682768680/istockphoto-690051340-612x612_bp1xyy.jpg",
+               recipientID: `user-${IDUserRequest}`,
+               title: "Your order has accepted to cancel by agency",
+               type: "Order Processing",
+            });
          } else {
             toast.error(res.data.message);
          }
          setIDOpenAcceptCancelModel(-1);
+         setIDUserRequest(-1);
       } catch (error) {
          console.log(error);
       }
@@ -45,10 +56,18 @@ const OrderAcceptCancel = ({
             toast.success(
                "Denied successful! This order is changed to accept state"
             );
+            const resNotify = await API.post(endpoints["send_notify"], {
+               details: `Your request to cancel order has been denied by agency`,
+               image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682768635/access-denied_illustration_fkvevm.jpg",
+               recipientID: `user-${IDUserRequest}`,
+               title: "Your order has denied to cancel by agency",
+               type: "Order Processing",
+            });
          } else {
             toast.error(res.data.message);
          }
          setIDOpenAcceptCancelModel(-1);
+         setIDUserRequest(-1);
       } catch (error) {
          console.log(error);
       }

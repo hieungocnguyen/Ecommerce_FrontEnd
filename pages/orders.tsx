@@ -80,7 +80,7 @@ const Orders = () => {
                image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682708935/cancel_rtlc2h.webp",
                recipientID: `agency-${orderInfo.agency.id}`,
                title: "An order is cancelled from user",
-               type: "Order tracking",
+               type: "Order Processing",
             });
          } else {
             toast.error(res.data.message);
@@ -103,7 +103,7 @@ const Orders = () => {
                image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682708935/cancel_rtlc2h.webp",
                recipientID: `agency-${orderInfo.agency.id}`,
                title: "Have a request to cancel order from user",
-               type: "Order tracking",
+               type: "Order Processing",
             });
          } else {
             toast.error(res.data.message);

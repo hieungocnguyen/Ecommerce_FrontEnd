@@ -46,6 +46,7 @@ const Orders = () => {
       useState(-1);
    const [orderInfoModel, setOrderInfoModel] = useState<any>({});
    const [IDOpenAcceptCancelModel, setIDOpenAcceptCancelModel] = useState(-1);
+   const [IDUserRequest, setIDUserRequest] = useState(-1);
 
    const loadOrders = async () => {
       try {
@@ -225,6 +226,9 @@ const Orders = () => {
                                              setIDOpenAcceptCancelModel(
                                                 order.id
                                              );
+                                             setIDUserRequest(
+                                                order.deliveryInfo.customer.id
+                                             );
                                           }}
                                           title="Accept cancel request"
                                        >
@@ -349,6 +353,8 @@ const Orders = () => {
                         >
                            <div className="w-1/3 h-fit">
                               <OrderAcceptCancel
+                                 IDUserRequest={IDUserRequest}
+                                 setIDUserRequest={setIDUserRequest}
                                  setIDOpenAcceptCancelModel={
                                     setIDOpenAcceptCancelModel
                                  }
