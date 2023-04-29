@@ -26,7 +26,7 @@ const AgenciesAdminDashboard = () => {
       fetchAgencies();
       const interval = setInterval(() => {
          fetchAgencies();
-      }, 6000);
+      }, 10000);
 
       return () => clearInterval(interval);
    }, []);
@@ -91,19 +91,19 @@ const AgenciesAdminDashboard = () => {
                            <li className="col-span-2">
                               {agency.isActive == 0 &&
                                  (agency.deactivatedByAdmin == 1 ? (
-                                    <div className="text-primary-color flex gap-1 items-center text-sm font-medium pl-3 mb-1">
+                                    <div className="text-red-500 flex gap-1 items-center text-sm font-medium pl-3 mb-1">
                                        <BiMessageRounded />
                                        Banned by Admin
                                     </div>
                                  ) : (
-                                    <div className="text-primary-color flex gap-1 items-center text-sm font-medium pl-3 mb-1">
+                                    <div className="text-red-500 flex gap-1 items-center text-sm font-medium pl-3 mb-1">
                                        <BiMessageRounded />
                                        Banned by Expired
                                     </div>
                                  ))}
                               {agency.isActive == 1 ? (
                                  <div
-                                    className=" bg-blue-main text-white px-4 py-2 w-full rounded-lg font-semibold text-center cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+                                    className=" bg-green-500 text-white px-4 py-2 w-full rounded-lg font-semibold text-center cursor-pointer hover:shadow-lg hover:shadow-green-500"
                                     onClick={(event) => {
                                        event.stopPropagation();
                                        setIsOpenConfirmBan(true);
@@ -114,7 +114,7 @@ const AgenciesAdminDashboard = () => {
                                  </div>
                               ) : (
                                  <div
-                                    className=" bg-primary-color text-white px-4 py-2 w-full rounded-lg font-semibold text-center cursor-pointer hover:shadow-lg hover:shadow-primary-color"
+                                    className=" bg-red-500 text-white px-4 py-2 w-full rounded-lg font-semibold text-center cursor-pointer hover:shadow-lg hover:shadow-red-500"
                                     onClick={(event) => {
                                        event.stopPropagation();
                                        setIsOpenConfirmUnBan(true);

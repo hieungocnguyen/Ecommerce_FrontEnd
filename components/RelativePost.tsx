@@ -27,7 +27,7 @@ const RelativePost = ({ IDCategory, IDSalePost }) => {
       <div>
          {posts.length > 1 && (
             <div>
-               <div className="text-2xl font-bold mb-4">RelativePost</div>
+               <div className="text-2xl font-bold mb-4">Relative post</div>
                <div className="grid grid-cols-4 gap-10">
                   {posts.map(
                      (post) =>

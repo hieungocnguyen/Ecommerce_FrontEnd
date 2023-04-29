@@ -149,13 +149,13 @@ const ProductItem = ({ product, inCompare }) => {
             </div>
             <div className="flex gap-4 mt-4">
                <button
-                  className="w-24 h-14 rounded-2xl flex justify-center items-center text-white bg-primary-color hover:shadow-primary-color hover:shadow-lg text-3xl"
+                  className="w-24 h-14 rounded-2xl flex justify-center items-center text-white bg-primary-color hover:shadow-primary-color hover:shadow-lg text-3xl disabled:bg-gray-500 disabled:shadow-none disabled:cursor-not-allowed"
                   title="Show items"
                   onClick={(event) => {
                      event.stopPropagation();
                      setIsOpenItemsModal(true);
-                     console.log(product);
                   }}
+                  disabled={product.agency.isActive == 1 ? false : true}
                >
                   <BiCartAlt />
                </button>

@@ -35,14 +35,16 @@ const Profile = () => {
    };
    const loadInfoAgency = async () => {
       try {
-         const resAllAgency = await API.get(endpoints["all_agency"]);
-         resAllAgency.data.data.map((agency) => {
-            if (userInfo.id === agency.manager.id) {
-               if (agency.isCensored === 0) {
-                  setWaitAccept(true);
-               }
+         const resAgency = await API.get(
+            endpoints["get_agency_info_by_userID"](userInfo.id)
+         );
+         if (resAgency.data.data != null) {
+            Cookies.set("agencyInfo", JSON.stringify(resAgency.data.data));
+            dispatch({ type: "AGENCY_INFO_SET", payload: resAgency.data.data });
+            if (resAgency.data.data.isCensored === 0) {
+               setWaitAccept(true);
             }
-         });
+         }
       } catch (error) {
          console.log(error);
       }
@@ -139,9 +141,9 @@ const Profile = () => {
                      </div>
                   </div>
                </div>
-               <div className="col-span-6 border-blue-main border-2 rounded-lg p-4 items-center flex justify-center ">
-                  {userInfo ? (
-                     userInfo.role.name === "ROLE_GENERAL" ? (
+               {user && (
+                  <div className="col-span-6 border-blue-main border-2 rounded-lg p-4 items-center flex justify-center ">
+                     {user.role && user.role.id === 3 ? (
                         waitAccept ? (
                            <div className="font-medium">
                               Waiting administrator accept your register
@@ -160,36 +162,23 @@ const Profile = () => {
                               </Link>
                            </div>
                         )
-                     ) : (
+                     ) : agencyInfo && agencyInfo.isActive === 1 ? (
                         <>
-                           {agencyInfo ? (
-                              agencyInfo.isActive === 1 ? (
-                                 <>
-                                    <div
-                                       className={`flex items-center justify-center font-medium`}
-                                    >
-                                       Now, you can manage your agency in
-                                       manager page
-                                    </div>
-                                 </>
-                              ) : (
-                                 <>
-                                    <div
-                                       className={`flex items-center justify-center font-semibold text-red-600 text-xl`}
-                                    >
-                                       Your agency has banned!
-                                    </div>
-                                 </>
-                              )
-                           ) : (
-                              <></>
-                           )}
+                           <div
+                              className={`flex items-center justify-center font-medium`}
+                           >
+                              Now, you can manage your agency in manager page
+                           </div>
                         </>
-                     )
-                  ) : (
-                     <></>
-                  )}
-               </div>
+                     ) : (
+                        <div
+                           className={`flex items-center justify-center font-semibold text-red-600 text-xl`}
+                        >
+                           Your agency has banned!
+                        </div>
+                     )}
+                  </div>
+               )}
             </div>
          </div>
       </Layout>

@@ -371,6 +371,12 @@ const AgencyPage = ({ agencyInfo }) => {
             {/* history renewal */}
             <div className="">
                <div className="font-semibold text-xl my-6">History renewal</div>
+               <div className="grid grid-cols-12 text-center mb-2 font-bold">
+                  <div className="col-span-3">Order date</div>
+                  <div className="col-span-3">Package name</div>
+                  <div className="col-span-3">Price</div>
+                  <div className="col-span-3">Number of day available</div>
+               </div>
                <div
                   className={` overflow-auto ${
                      historyRenewalList.length > 5 ? "h-[500px]" : "h-fit"

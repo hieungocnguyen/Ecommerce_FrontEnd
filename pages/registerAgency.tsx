@@ -122,10 +122,11 @@ const RegisterAgency = () => {
 
          Cookies.set("userInfo", JSON.stringify(dataCurrentUser.data.data));
          dispatch({ type: "USER_LOGIN", payload: dataCurrentUser.data.data });
+
          if (resRegister.data.code === "201") {
             setLoading(false);
             router.push("/profile");
-            toast.error("Register agency successfully!");
+            toast.success("Register agency successfully!");
          } else {
             setLoading(false);
             toast.error(resRegister.data.message);

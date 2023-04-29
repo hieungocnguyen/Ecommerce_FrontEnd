@@ -88,6 +88,17 @@ const Header = () => {
          console.log(error);
       }
    };
+
+   const loadUser = async () => {
+      try {
+         const resUser = await API.get(endpoints["user"](userInfo.id));
+         Cookies.set("userInfo", JSON.stringify(resUser.data.data));
+         dispatch({ type: "USER_LOGIN", payload: resUser.data.data });
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    const fetchAgency = async () => {
       try {
          const res = await API.get(
@@ -104,9 +115,8 @@ const Header = () => {
    useEffect(() => {
       if (userInfo) {
          loadNumberofItems();
-         if (userInfo.role.id === 2) {
-            fetchAgency();
-         }
+         fetchAgency();
+         loadUser();
       }
    }, [cart]);
 
