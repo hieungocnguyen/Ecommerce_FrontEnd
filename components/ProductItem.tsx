@@ -126,7 +126,7 @@ const ProductItem = ({ product, inCompare }) => {
                      className="object-cover"
                   />
                </div>
-               <div className="absolute -left-4 -bottom-4 rounded-tr-xl pt-2 pb-4 pr-4 pl-6 font-bold uppercase bg-light-primary dark:bg-dark-primary text-blue-main text-lg z-10">
+               <div className="absolute -left-4 -bottom-4 rounded-tr-xl pt-2 pb-4 pr-4 pl-6 font-bold uppercase bg-light-primary dark:bg-dark-primary text-primary-color text-lg z-10">
                   {product.sellStatus.name}
                </div>
             </div>
@@ -134,7 +134,7 @@ const ProductItem = ({ product, inCompare }) => {
                {product.title}
             </div>
             <div className="text-left">
-               <div className="text-2xl font-bold text-blue-main">
+               <div className="text-2xl font-bold text-primary-color">
                   {product.finalPrice.toLocaleString("it-IT", {
                      style: "currency",
                      currency: "VND",
@@ -149,7 +149,7 @@ const ProductItem = ({ product, inCompare }) => {
             </div>
             <div className="flex gap-4 mt-4">
                <button
-                  className="w-24 h-14 rounded-2xl flex justify-center items-center text-white bg-primary-color hover:shadow-primary-color hover:shadow-lg text-3xl disabled:bg-gray-500 disabled:shadow-none disabled:cursor-not-allowed"
+                  className="w-24 h-14 rounded-2xl flex justify-center items-center text-white bg-secondary-color hover:shadow-secondary-color hover:shadow-lg text-3xl disabled:bg-gray-500 disabled:shadow-none disabled:cursor-not-allowed"
                   title="Show items"
                   onClick={(event) => {
                      event.stopPropagation();
@@ -160,7 +160,7 @@ const ProductItem = ({ product, inCompare }) => {
                   <BiCartAlt />
                </button>
                <button
-                  className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-lg text-3xl"
+                  className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-primary-color hover:shadow-primary-color hover:shadow-lg text-3xl"
                   title="Quick view"
                   onClick={(event) => {
                      event.stopPropagation();
@@ -171,7 +171,7 @@ const ProductItem = ({ product, inCompare }) => {
                </button>
                {inCompare ? (
                   <button
-                     className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main  hover:shadow-lg text-3xl"
+                     className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-primary-color hover:shadow-primary-color  hover:shadow-lg text-3xl"
                      title="Remove compare"
                      onClick={(event) => {
                         event.stopPropagation();
@@ -182,7 +182,7 @@ const ProductItem = ({ product, inCompare }) => {
                   </button>
                ) : (
                   <button
-                     className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-blue-main hover:shadow-blue-main hover:shadow-lg text-3xl"
+                     className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-primary-color hover:shadow-primary-color hover:shadow-lg text-3xl"
                      title="Add compare"
                      onClick={(event) => {
                         event.stopPropagation();
@@ -197,7 +197,7 @@ const ProductItem = ({ product, inCompare }) => {
             <div className="absolute top-0 right-0">
                {!stateLike ? (
                   <button
-                     className="text-primary-color w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
+                     className="text-secondary-color w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
                      title="like"
                      onClick={(event) => {
                         event.stopPropagation();
@@ -208,7 +208,7 @@ const ProductItem = ({ product, inCompare }) => {
                   </button>
                ) : (
                   <button
-                     className=" text-primary-color w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
+                     className=" text-secondary-color w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
                      title="unlike"
                      onClick={(event) => {
                         event.stopPropagation();

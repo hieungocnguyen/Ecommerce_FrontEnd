@@ -46,7 +46,7 @@ const HotAgency = () => {
                      ))}
                   </div>
                   <Link href="/allagency">
-                     <div className="mt-10 text-lg px-5 py-3 rounded-lg border-2 border-blue-main inline-block hover:bg-blue-main hover:text-white font-semibold cursor-pointer hover:shadow-lg hover:shadow-blue-main">
+                     <div className="mt-10 text-lg px-5 py-3 rounded-lg border-2 border-primary-color inline-block hover:bg-primary-color hover:text-white font-semibold cursor-pointer hover:shadow-lg hover:shadow-primary-color">
                         See all agency
                      </div>
                   </Link>

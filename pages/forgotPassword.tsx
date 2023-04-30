@@ -82,7 +82,7 @@ const ForgotPassword = () => {
       <Layout title="Forgot Password">
          <div className="flex gap-4 items-center m-6">
             <div
-               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                onClick={() => router.back()}
             >
                <BiArrowBack />
@@ -107,13 +107,13 @@ const ForgotPassword = () => {
                   <div className="flex flex-col items-center justify-center">
                      <button
                         onClick={handleConfirm}
-                        className="p-3 bg-blue-main hover:bg-opacity-80 text-white rounded-lg font-semibold w-fit mb-4"
+                        className="p-3 bg-primary-color hover:bg-opacity-80 text-white rounded-lg font-semibold w-fit mb-4"
                      >
                         Confirm this code
                      </button>
                      <button
                         onClick={() => setHasSent(!hasSent)}
-                        className="hover:bg-opacity-80 text-blue-main rounded-lg font-semibold"
+                        className="hover:bg-opacity-80 text-primary-color rounded-lg font-semibold"
                      >
                         Send code to other mail
                      </button>
@@ -135,7 +135,7 @@ const ForgotPassword = () => {
                   </div>
                   <button
                      type="submit"
-                     className="p-3 bg-blue-main hover:bg-opacity-80 text-white rounded-lg font-semibold"
+                     className="p-3 bg-primary-color hover:bg-opacity-80 text-white rounded-lg font-semibold"
                   >
                      Send to this mail
                   </button>

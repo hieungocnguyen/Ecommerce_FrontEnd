@@ -60,7 +60,7 @@ const Advertise = () => {
             </div>
          </div>
          <div className="col-span-1 flex flex-col gap-6">
-            <div className="h-1/2 w-full bg-blue-main rounded-lg">
+            <div className="h-1/2 w-full bg-primary-color rounded-lg">
                <div className="relative h-full w-full rounded-lg overflow-hidden">
                   <Image
                      src="https://images.unsplash.com/photo-1612731486606-2614b4d74921?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1120&q=80"
@@ -70,7 +70,7 @@ const Advertise = () => {
                   />
                </div>
             </div>
-            <div className="h-1/2 w-full bg-blue-main rounded-lg">
+            <div className="h-1/2 w-full bg-primary-color rounded-lg">
                <div className="relative h-full w-full rounded-lg overflow-hidden">
                   <Image
                      src="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"

@@ -106,7 +106,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
 
    return (
       <div
-         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 w-full h-full relative shadow-lg border-2 border-blue-main"
+         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 w-full h-full relative shadow-lg border-2 border-primary-color"
          ref={wrapperRef}
       >
          <div>
@@ -198,7 +198,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                   <select
                      id="province"
                      required
-                     className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                     className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                      onChange={(e) => {
                         handleSelectProvince(e.target.value);
                         setAddressFull({
@@ -233,7 +233,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                   <select
                      id="district"
                      required
-                     className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                     className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                      onChange={(e) => {
                         handleSelectDistrict(e.target.value);
                         setAddressFull({
@@ -268,7 +268,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                   <select
                      id="ward"
                      required
-                     className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                     className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                      disabled={wards.length > 0 ? false : true}
                      onChange={(e) => {
                         setIsDisableStreet(false);
@@ -304,7 +304,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                         required
                         type="text"
                         placeholder="Street"
-                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                         disabled={isDisableStreet}
                         onChange={(e) => {
                            setAddressFull({
@@ -318,7 +318,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                <div className="col-span-12 flex justify-center">
                   <button
                      type="submit"
-                     className="px-4 py-3 bg-blue-main hover:shadow-lg hover:shadow-blue-main text-white rounded-lg font-semibold"
+                     className="px-4 py-3 bg-primary-color hover:shadow-lg hover:shadow-primary-color text-white rounded-lg font-semibold"
                   >
                      Add to Address Book
                   </button>

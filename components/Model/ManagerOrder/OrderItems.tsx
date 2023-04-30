@@ -63,7 +63,7 @@ const OrderItems = ({ setIDOpenModelOrderItems, IDOpenModalOrderItems }) => {
                            })}
                         </div>
                         <div className="col-span-1">x{item.quantity}</div>
-                        <div className="col-span-3 text-blue-main font-semibold text-lg">
+                        <div className="col-span-3 text-primary-color font-semibold text-lg">
                            {(
                               item.quantity * item.itemPost.unitPrice
                            ).toLocaleString("it-IT", {

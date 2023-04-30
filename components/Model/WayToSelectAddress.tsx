@@ -30,7 +30,7 @@ const WayToSelectAddress = ({
          </div>
          <div className="flex justify-center gap-8">
             <div
-               className="px-4 py-3 rounded-xl bg-blue-main text-white font-semibold cursor-pointer flex items-center gap-1"
+               className="px-4 py-3 rounded-xl bg-primary-color text-white font-semibold cursor-pointer flex items-center gap-1"
                onClick={() => {
                   setIsOpenAddressSelect(true);
                   setIsOpenModelWaySelectAddress(false);
@@ -42,7 +42,7 @@ const WayToSelectAddress = ({
                <div>Select address manual</div>
             </div>
             <div
-               className="px-4 py-3 rounded-xl bg-blue-main text-white font-semibold cursor-pointer flex items-center gap-1"
+               className="px-4 py-3 rounded-xl bg-primary-color text-white font-semibold cursor-pointer flex items-center gap-1"
                onClick={() => {
                   setIsOpenModelGeoLocation(true);
                   setIsOpenModelWaySelectAddress(false);

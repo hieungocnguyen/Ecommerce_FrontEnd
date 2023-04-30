@@ -314,7 +314,7 @@ const Payment = () => {
       <Layout title="Payment">
          <div className="flex gap-4 items-center m-6">
             <div
-               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                onClick={() => router.back()}
             >
                <BiArrowBack />
@@ -330,7 +330,7 @@ const Payment = () => {
                         .map((i) => (
                            <div key={i.id} className="mb-10">
                               {/* agency name */}
-                              <div className="bg-dark-text dark:bg-dark-bg px-5 py-3 rounded-t-xl w-fit text-left font-medium flex gap-2 items-center hover:text-primary-color transition-all cursor-pointer">
+                              <div className="bg-dark-text dark:bg-dark-bg px-5 py-3 rounded-t-xl w-fit text-left font-medium flex gap-2 items-center hover:text-secondary-color transition-all cursor-pointer">
                                  <BiStore className="text-2xl" />
                                  {i.name}
                               </div>
@@ -506,7 +506,7 @@ const Payment = () => {
                                           <div className="font-medium">
                                              Ship fee:{" "}
                                           </div>
-                                          <div className="text-right text-primary-color font-semibold text-lg">
+                                          <div className="text-right text-secondary-color font-semibold text-lg">
                                              {paymentType === 1 &&
                                              i.selectedService
                                                 .serviceInfoWithCOD
@@ -605,7 +605,7 @@ const Payment = () => {
                                           <div className="font-medium">
                                              Subtotal without ship fee:
                                           </div>
-                                          <div className="font-bold text-2xl text-blue-main">
+                                          <div className="font-bold text-2xl text-primary-color">
                                              {i.calculatorPrice.toLocaleString(
                                                 "it-IT",
                                                 {
@@ -624,16 +624,16 @@ const Payment = () => {
                         ))}
                      <div ref={refTotalBill}>
                         {!address.id ? (
-                           <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-xl font-semibold border-2 border-primary-color shadow-lg">
+                           <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-xl font-semibold border-2 border-secondary-color shadow-lg">
                               No Selected address, please create a new address!
                            </div>
                         ) : paymentType === 1 ? (
-                           <div className="p-6 bg-dark-text dark:bg-dark-bg rounded-xl border-2 border-primary-color shadow-lg">
+                           <div className="p-6 bg-dark-text dark:bg-dark-bg rounded-xl border-2 border-secondary-color shadow-lg">
                               <div className="font-semibold mb-2">
                                  Total bill when payment by cash on delivery
                                  (COD)
                               </div>
-                              <div className="text-4xl font-bold text-blue-main">
+                              <div className="text-4xl font-bold text-primary-color">
                                  {totalOrder.toLocaleString("it-IT", {
                                     style: "currency",
                                     currency: "VND",
@@ -641,11 +641,11 @@ const Payment = () => {
                               </div>
                            </div>
                         ) : paymentType === 2 ? (
-                           <div className="p-6 bg-dark-text dark:bg-dark-bg rounded-xl border-2 border-primary-color shadow-lg">
+                           <div className="p-6 bg-dark-text dark:bg-dark-bg rounded-xl border-2 border-secondary-color shadow-lg">
                               <div className="font-semibold mb-2">
                                  Total bill when payment by MOMO Wallet
                               </div>
-                              <div className="text-4xl font-bold text-blue-main">
+                              <div className="text-4xl font-bold text-primary-color">
                                  {totalOrder.toLocaleString("it-IT", {
                                     style: "currency",
                                     currency: "VND",
@@ -653,7 +653,7 @@ const Payment = () => {
                               </div>
                            </div>
                         ) : (
-                           <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-lg font-semibold border-2 border-primary-color shadow-lg">
+                           <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-lg font-semibold border-2 border-secondary-color shadow-lg">
                               Total bill will display when selected payment
                               method
                            </div>
@@ -742,7 +742,7 @@ const Payment = () => {
                               </div>
                               <div className="flex justify-center my-6">
                                  <button
-                                    className="py-3 px-4 rounded-lg bg-blue-main text-white font-semibold hover:shadow-lg hover:shadow-blue-main"
+                                    className="py-3 px-4 rounded-lg bg-primary-color text-white font-semibold hover:shadow-lg hover:shadow-primary-color"
                                     onClick={() => setIsOpenAddressBook(true)}
                                  >
                                     Choose other address in address book
@@ -753,7 +753,7 @@ const Payment = () => {
                            <>
                               <div className="flex justify-center my-6">
                                  <button
-                                    className="py-3 px-4 rounded-lg bg-blue-main text-white font-semibold hover:shadow-lg hover:shadow-blue-main"
+                                    className="py-3 px-4 rounded-lg bg-primary-color text-white font-semibold hover:shadow-lg hover:shadow-primary-color"
                                     onClick={() => setIsOpenAddressBook(true)}
                                  >
                                     Please add an new address!
@@ -862,7 +862,7 @@ const Payment = () => {
                            }
                         />
                         <div
-                           className={`rounded-lg p-2 ring-4 transition-all hover:shadow ring-transparent peer-checked:ring-blue-main `}
+                           className={`rounded-lg p-2 ring-4 transition-all hover:shadow ring-transparent peer-checked:ring-primary-color `}
                         >
                            <div className="relative overflow-hidden rounded-lg w-20 h-20">
                               <Image
@@ -909,7 +909,7 @@ const Payment = () => {
                               // });
                            }}
                         />
-                        <div className=" rounded-lg p-2 ring-4 ring-transparent transition-all hover:shadow peer-checked:ring-blue-main">
+                        <div className=" rounded-lg p-2 ring-4 ring-transparent transition-all hover:shadow peer-checked:ring-primary-color">
                            <div className="relative overflow-hidden w-20 h-20 rounded-lg">
                               <Image
                                  src={
@@ -932,7 +932,7 @@ const Payment = () => {
                      <></>
                   ) : (
                      <button
-                        className={`py-4 px-10 mx-8 h-fit bg-blue-main rounded-lg font-semibold text-white hover:shadow-blue-main hover:shadow-lg w-fit disabled:bg-gray-400 disabled:hover:shadow-none disabled:cursor-not-allowed `}
+                        className={`py-4 px-10 mx-8 h-fit bg-primary-color rounded-lg font-semibold text-white hover:shadow-primary-color hover:shadow-lg w-fit disabled:bg-gray-400 disabled:hover:shadow-none disabled:cursor-not-allowed `}
                         disabled={
                            address.id &&
                            isDisablePaymentMethod !== 3 &&

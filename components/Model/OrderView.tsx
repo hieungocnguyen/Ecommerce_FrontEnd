@@ -136,7 +136,7 @@ const OrderView = ({
                               )}
                            </div>
                            <div className="col-span-1">x{order.quantity}</div>
-                           <div className="col-span-3 text-blue-main font-semibold text-lg">
+                           <div className="col-span-3 text-primary-color font-semibold text-lg">
                               {(
                                  order.quantity * order.itemPost.unitPrice
                               ).toLocaleString("it-IT", {
@@ -173,7 +173,7 @@ const OrderView = ({
                   </div>
                   <div className="">
                      <div className="text-right">
-                        <div className="text-blue-main text-xl font-semibold">
+                        <div className="text-primary-color text-xl font-semibold">
                            {orderInfo.totalPrice.toLocaleString("it-IT", {
                               style: "currency",
                               currency: "VND",
@@ -181,7 +181,7 @@ const OrderView = ({
                         </div>
                         {orderInfo.shipFee ? (
                            <>
-                              <div className="text-primary-color font-semibold">
+                              <div className="text-secondary-color font-semibold">
                                  {" + (ship fee) "}
                                  {orderInfo.shipFee.toLocaleString("it-IT", {
                                     style: "currency",

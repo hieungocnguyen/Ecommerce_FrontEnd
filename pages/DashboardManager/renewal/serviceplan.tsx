@@ -76,7 +76,7 @@ const ServicePlan = () => {
                         {plan.id != 1 && (
                            <span className="font-medium">Renewal: </span>
                         )}
-                        <span className="font-bold text-lg text-blue-main">
+                        <span className="font-bold text-lg text-primary-color">
                            {plan.numberOfDaysAvailable} Days
                         </span>
                      </div>
@@ -85,7 +85,7 @@ const ServicePlan = () => {
                      </div>
                      {plan.id > 1 && (
                         <button
-                           className="mt-4 px-6 py-3 bg-blue-main rounded-xl text-white font-semibold hover:shadow-lg hover:shadow-blue-main transition-all"
+                           className="mt-4 px-6 py-3 bg-primary-color rounded-xl text-white font-semibold hover:shadow-lg hover:shadow-primary-color transition-all"
                            onClick={() => {
                               setPlanID(plan.id);
                               setIsOpenConfirm(true);

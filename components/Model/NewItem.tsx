@@ -95,7 +95,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
          <div className="flex justify-between mb-4">
             <div className="font-semibold text-xl">Create a new item</div>
             <div
-               className="p-3 bg-blue-main rounded-lg font-semibold cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all text-white"
+               className="p-3 bg-primary-color rounded-lg font-semibold cursor-pointer hover:shadow-lg hover:shadow-primary-color transition-all text-white"
                onClick={() => {
                   setIsOpenNewItem(false);
                   setValues({
@@ -197,7 +197,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                </div>
                <div className="flex justify-end mt-4">
                   <button
-                     className="py-3 px-6 bg-blue-main hover:shadow-lg hover:shadow-blue-main transition-all rounded-lg font-semibold text-white"
+                     className="py-3 px-6 bg-primary-color hover:shadow-lg hover:shadow-primary-color transition-all rounded-lg font-semibold text-white"
                      type="submit"
                   >
                      Add new item

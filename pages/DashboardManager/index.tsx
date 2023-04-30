@@ -55,7 +55,7 @@ const AgencyHome = () => {
                         )}
                      </div>
                   </div>
-                  <div className="col-span-5 bg-blue-main rounded-lg"></div>
+                  <div className="col-span-5 bg-primary-color rounded-lg"></div>
                </div>
 
                <div className=""></div>

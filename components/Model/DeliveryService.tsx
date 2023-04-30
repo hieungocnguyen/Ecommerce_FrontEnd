@@ -26,11 +26,11 @@ const DeliveryService = ({
    };
 
    return (
-      <div className="dark:bg-neutral-800 bg-light-primary rounded-lg w-full h-full relative p-8 shadow-lg border-2 border-blue-main">
+      <div className="dark:bg-neutral-800 bg-light-primary rounded-lg w-full h-full relative p-8 shadow-lg border-2 border-primary-color">
          <div className="flex justify-between items-center mb-4">
             <div className="font-semibold text-xl">Select service delivery</div>
             <div
-               className="px-4 py-2 cursor-pointer bg-blue-main text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-main"
+               className="px-4 py-2 cursor-pointer bg-primary-color text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-primary-color"
                onClick={handleCloseModel}
             >
                Close
@@ -38,13 +38,13 @@ const DeliveryService = ({
          </div>
          {address ? (
             <div className="my-7">
-               <span className="text-sm font-medium bg-primary-color rounded-full p-2 text-white">
+               <span className="text-sm font-medium bg-secondary-color rounded-full p-2 text-white">
                   {agencyServices.fromWardName},{" "}
                   {agencyServices.fromDistrictName},{" "}
                   {agencyServices.fromProvinceName}
                </span>
                <span className="font-bold mx-2">-{">"}</span>
-               <span className="text-sm font-medium bg-blue-main rounded-full p-2 text-white">
+               <span className="text-sm font-medium bg-primary-color rounded-full p-2 text-white">
                   {address.toWardName}, {address.toDistrictName},{" "}
                   {address.toProvinceName}
                </span>
@@ -64,7 +64,7 @@ const DeliveryService = ({
                               name="pricing"
                               onChange={() => handleSelectService(service)}
                            />
-                           <div className="rounded-lg ring-2 bg-light-spot dark:bg-dark-bg ring-light-spot dark:ring-dark-bg mb-4 p-3 transition-all hover:shadow peer-checked:ring-primary-color text-left font-medium">
+                           <div className="rounded-lg ring-2 bg-light-spot dark:bg-dark-bg ring-light-spot dark:ring-dark-bg mb-4 p-3 transition-all hover:shadow peer-checked:ring-secondary-color text-left font-medium">
                               <div className="text-sm mb-2">
                                  <span className="font-semibold">
                                     Devilery service:
@@ -125,7 +125,7 @@ const DeliveryService = ({
          </div>
          <div className="flex justify-center mt-2">
             <button
-               className="px-5 py-3 bg-blue-main rounded-lg hover:shadow-lg hover:shadow-blue-main font-semibold text-white"
+               className="px-5 py-3 bg-primary-color rounded-lg hover:shadow-lg hover:shadow-primary-color font-semibold text-white"
                title="choose service"
                onClick={handleChooseServiceButton}
             >

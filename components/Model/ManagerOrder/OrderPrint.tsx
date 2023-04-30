@@ -213,7 +213,7 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
          <div className="mt-4 text-center">
             <button
                title="yes"
-               className="px-5 py-3 text-lg font-semibold rounded-lg bg-blue-main text-white shadow-lg shadow-blue-main disabled:bg-gray-400 disabled:shadow-none transition-all"
+               className="px-5 py-3 text-lg font-semibold rounded-lg bg-primary-color text-white shadow-lg shadow-primary-color disabled:bg-gray-400 disabled:shadow-none transition-all"
                onClick={printOrder}
                disabled={sizeSelected == 0 ? true : false}
             >

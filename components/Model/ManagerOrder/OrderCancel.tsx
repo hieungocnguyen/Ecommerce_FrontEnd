@@ -21,7 +21,7 @@ const CancelOrder = ({ setIDOpenOrderCancelModel, IDOpenOrderCancelModel }) => {
          <div className="flex justify-center gap-4">
             <button
                title="yes"
-               className="px-5 py-3 text-lg font-semibold rounded-lg bg-blue-main text-white"
+               className="px-5 py-3 text-lg font-semibold rounded-lg bg-primary-color text-white"
                onClick={CancelOrderHandle}
             >
                Yes

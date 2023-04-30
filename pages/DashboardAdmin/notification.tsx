@@ -47,7 +47,7 @@ const Notification = () => {
                <div className="font-semibold text-2xl">Notification</div>
                <div className="">
                   <button
-                     className={`px-4 py-3 bg-blue-main rounded-lg text-white font-semibold flex items-center gap-1 hover:shadow-lg hover:shadow-blue-main transition-all`}
+                     className={`px-4 py-3 bg-primary-color rounded-lg text-white font-semibold flex items-center gap-1 hover:shadow-lg hover:shadow-primary-color transition-all`}
                      onClick={() => fetchChangeSeenNoti()}
                   >
                      <BiListCheck className="text-3xl" />
@@ -90,7 +90,7 @@ const Notification = () => {
                               </div>
                               <div className=" mb-1">{noti.data.details}</div>
                               <div>
-                                 <span className="text-sm text-blue-main font-semibold">
+                                 <span className="text-sm text-primary-color font-semibold">
                                     {noti.data.type}
                                  </span>
                                  <span className="text-sm italic">

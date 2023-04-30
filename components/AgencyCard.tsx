@@ -67,7 +67,7 @@ const AgencyCard = ({ agency, likeNumber }) => {
                         </div>
                      )}
                   </div>
-                  <div className="text-center font-bold text-xl uppercase mt-4 line-clamp-2 text-blue-main">
+                  <div className="text-center font-bold text-xl uppercase mt-4 line-clamp-2 text-primary-color">
                      {agency.name}
                   </div>
                   <div className="text-center font-semibold">

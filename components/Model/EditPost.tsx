@@ -124,13 +124,13 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
    };
 
    return (
-      <div className=" dark:bg-neutral-800 bg-light-primary rounded-lg p-6 border-2 border-blue-main shadow-lg">
+      <div className=" dark:bg-neutral-800 bg-light-primary rounded-lg p-6 border-2 border-primary-color shadow-lg">
          {post ? (
             <div>
                <div className="font-semibold mb-6 flex justify-between items-center">
                   <div className="text-2xl ml-4">Edit Post </div>
                   <div
-                     className="p-3 bg-primary-color hover:shadow-primary-color hover:shadow-lg cursor-pointer rounded-lg text-white text-lg"
+                     className="p-3 bg-secondary-color hover:shadow-secondary-color hover:shadow-lg cursor-pointer rounded-lg text-white text-lg"
                      onClick={() => {
                         setPostID(0);
                         setPost(undefined);
@@ -354,7 +354,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                         </div>
                         <div className=" col-span-12 flex justify-end">
                            <button
-                              className="py-3 px-6 bg-blue-main hover:shadow-lg hover:shadow-blue-main rounded-lg font-semibold text-white"
+                              className="py-3 px-6 bg-primary-color hover:shadow-lg hover:shadow-primary-color rounded-lg font-semibold text-white"
                               type="submit"
                               title="Save changes"
                            >

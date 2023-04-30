@@ -54,7 +54,7 @@ export default function Home({ categories }) {
                   <HotAgency />
                </div>
                <div className="grid grid-cols-4 gap-10 h-fit">
-                  <div className="border-[3px] border-blue-main p-4 rounded-lg flex gap-4 items-center">
+                  <div className="border-[3px] border-primary-color p-4 rounded-lg flex gap-4 items-center">
                      <div className="relative w-16 aspect-square  overflow-hidden">
                         <Image
                            src={f1}
@@ -68,7 +68,7 @@ export default function Home({ categories }) {
                         <br /> products
                      </div>
                   </div>
-                  <div className="border-[3px] border-blue-main p-4 rounded-lg  flex gap-4 items-center">
+                  <div className="border-[3px] border-primary-color p-4 rounded-lg  flex gap-4 items-center">
                      <div className="relative w-16 aspect-square">
                         <Image
                            src={f2}
@@ -81,7 +81,7 @@ export default function Home({ categories }) {
                         Best quality guarantee
                      </div>
                   </div>
-                  <div className="border-[3px] border-blue-main p-4 rounded-lg flex gap-4 items-center">
+                  <div className="border-[3px] border-primary-color p-4 rounded-lg flex gap-4 items-center">
                      <div className="relative w-16 aspect-square  overflow-hidden">
                         <Image
                            src={f3}
@@ -95,7 +95,7 @@ export default function Home({ categories }) {
                         <br /> your order
                      </div>
                   </div>
-                  <div className="border-[3px] border-blue-main p-4 rounded-lg flex gap-4 items-center">
+                  <div className="border-[3px] border-primary-color p-4 rounded-lg flex gap-4 items-center">
                      <div className="relative w-20 h-16 overflow-hidden">
                         <Image
                            src={f4}
@@ -129,9 +129,9 @@ export default function Home({ categories }) {
                            return (
                               <div
                                  key={i}
-                                 className={`w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold ${
+                                 className={`w-8 h-8 rounded-lg border-2 border-primary-color flex justify-center items-center cursor-pointer paginator font-semibold ${
                                     numberPage === i + 1
-                                       ? "bg-blue-main text-white"
+                                       ? "bg-primary-color text-white"
                                        : ""
                                  } `}
                                  onClick={(e) => {

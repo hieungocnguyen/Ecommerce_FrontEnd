@@ -90,8 +90,8 @@ const OrderPickShift = ({
                <div className="flex justify-center mt-4">
                   <button
                      title="Save"
-                     className="px-5 py-3 rounded-lg bg-blue-main text-white font-semibold
-                hover:shadow-lg hover:shadow-blue-main"
+                     className="px-5 py-3 rounded-lg bg-primary-color text-white font-semibold
+                hover:shadow-lg hover:shadow-primary-color"
                      onClick={handleSelectShift}
                   >
                      Save

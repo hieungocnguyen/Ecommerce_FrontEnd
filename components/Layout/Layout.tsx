@@ -51,7 +51,7 @@ const Layout = ({ title, children }) => {
             {children}
          </main>
          <div
-            className={`fixed bottom-10 right-10 w-14 h-14 z-20 rounded-full bg-blue-main flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-blue-main ${
+            className={`fixed bottom-10 right-10 w-14 h-14 z-20 rounded-full bg-primary-color flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-primary-color ${
                lengthCompare === 0 && !openCompare ? "scale-0" : "scale-100"
             } ${openCompare ? "scale-125" : ""}`}
             onClick={() => setOpenCompare(!openCompare)}
@@ -64,7 +64,7 @@ const Layout = ({ title, children }) => {
             ></div>
          </div>
          <div
-            className={`fixed  right-10 w-14 h-14 z-20 rounded-full bg-blue-main flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-blue-main ${
+            className={`fixed  right-10 w-14 h-14 z-20 rounded-full bg-primary-color flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-primary-color ${
                visible ? "scale-100" : "scale-0"
             } ${
                lengthCompare === 0 && !openCompare ? "bottom-10" : "bottom-28"

@@ -95,7 +95,7 @@ const AddressSelectAgency = ({
                      <select
                         id="province"
                         required
-                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                         onChange={(e) => {
                            handleSelectProvince(e.target.value);
                            setAddressFull({
@@ -135,7 +135,7 @@ const AddressSelectAgency = ({
                      <select
                         id="district"
                         required
-                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                         onChange={(e) => {
                            handleSelectDistrict(e.target.value);
                            setAddressFull({
@@ -172,7 +172,7 @@ const AddressSelectAgency = ({
                      <select
                         id="ward"
                         required
-                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                         disabled={wards.length > 0 ? false : true}
                         onChange={(e) => {
                            setIsDisableStreet(false);
@@ -211,7 +211,7 @@ const AddressSelectAgency = ({
                            required
                            type="text"
                            placeholder="Street"
-                           className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                           className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                            disabled={isDisableStreet}
                            onChange={(e) => {
                               setAddressFull({
@@ -225,7 +225,7 @@ const AddressSelectAgency = ({
                   <div className="col-span-12">
                      <button
                         type="submit"
-                        className="px-4 py-3 bg-blue-main rounded-lg text-white font-semibold hover:shadow-lg transition-all hover:shadow-blue-main"
+                        className="px-4 py-3 bg-primary-color rounded-lg text-white font-semibold hover:shadow-lg transition-all hover:shadow-primary-color"
                      >
                         Submit this address
                      </button>

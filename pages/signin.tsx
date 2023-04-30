@@ -81,7 +81,7 @@ const Signin = () => {
          <div>
             <div className="flex gap-4 items-center m-6">
                <div
-                  className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+                  className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                   onClick={() => router.push("/")}
                >
                   <BiHomeAlt />
@@ -119,14 +119,14 @@ const Signin = () => {
                   />
                </div>
                <button
-                  className="bg-blue-main py-3 px-5 my-4 cursor-pointer hover:opacity-80 rounded-lg font-semibold text-white "
+                  className="bg-primary-color py-3 px-5 my-4 cursor-pointer hover:opacity-80 rounded-lg font-semibold text-white "
                   title="Sign in"
                >
                   Sign in with Mallity
                </button>
                <Link href="/forgotPassword">
                   <div
-                     className="text-blue-main cursor-pointer mb-10 font-semibold"
+                     className="text-primary-color cursor-pointer mb-10 font-semibold"
                      title="Reset password"
                   >
                      Forgot password?
@@ -154,7 +154,7 @@ const Signin = () => {
             <div className="my-4">
                Don&apos;t have an account?{" "}
                <Link href={`/register`}>
-                  <span className="text-blue-main cursor-pointer font-semibold">
+                  <span className="text-primary-color cursor-pointer font-semibold">
                      Register
                   </span>
                </Link>

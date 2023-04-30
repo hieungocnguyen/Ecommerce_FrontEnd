@@ -171,7 +171,7 @@ const Header = () => {
                      setIsNotiOpen(!isNotiOpen);
                   }}
                >
-                  <BiBell className="w-6 h-6 hover:text-blue-main" />
+                  <BiBell className="w-6 h-6 hover:text-primary-color" />
                   {unSeen ? (
                      <div className="absolute top-1 right-1 w-2 h-2 bg-red-600 rounded-full"></div>
                   ) : (
@@ -224,7 +224,7 @@ const Header = () => {
                                  {noti.data.details}
                               </div>
                               <div className="flex justify-between items-center w-full">
-                                 <div className="font-semibold text-xs bg-blue-main rounded-md py-0.5 px-1 text-white inline-block">
+                                 <div className="font-semibold text-xs bg-primary-color rounded-md py-0.5 px-1 text-white inline-block">
                                     {noti.data.type}
                                  </div>
                                  <div className="text-sm italic">
@@ -239,8 +239,8 @@ const Header = () => {
                         </div>
                      ))
                   ) : (
-                     <div className="whitespace-nowrap">
-                        Do not have any notification!
+                     <div className="whitespace-nowrap p-6 font-semibold">
+                        You not have any notification!
                      </div>
                   )}
                </div>
@@ -248,7 +248,7 @@ const Header = () => {
             <ThemeToggler />
             <div className="relative">
                <div
-                  className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center gap-1 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main max-w-[86px]"
+                  className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center gap-1 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-primary-color max-w-[86px]"
                   onClick={() => {
                      setIsOpenLangOption(!isOpenLangOption);
                   }}
@@ -356,7 +356,7 @@ const Header = () => {
                   }`}
                >
                   <div
-                     className="py-2 px-3 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main rounded-xl flex items-center gap-2"
+                     className="py-2 px-3 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-primary-color rounded-xl flex items-center gap-2"
                      onClick={() => {
                         router.replace({ pathname, query }, asPath, {
                            locale: "vi",
@@ -380,7 +380,7 @@ const Header = () => {
                      <span>Vietnamese</span>
                   </div>
                   <div
-                     className="py-2 px-3 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-blue-main rounded-xl flex items-center gap-2"
+                     className="py-2 px-3 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-primary-color rounded-xl flex items-center gap-2"
                      onClick={() => {
                         router.replace({ pathname, query }, asPath, {
                            locale: "en",
@@ -474,7 +474,7 @@ const Header = () => {
                         agencyInfo.isActive === 0 &&
                         userInfo.role.name === "ROLE_MANAGER"
                            ? "text-red-600 border-red-600"
-                           : "text-blue-main border-blue-main "
+                           : "text-primary-color border-primary-color "
                      }`}
                   >
                      {userInfo ? (
@@ -503,7 +503,7 @@ const Header = () => {
                >
                   <HiOutlineShoppingCart className="w-6 h-6" />
                   {numberItem > 0 ? (
-                     <div className="absolute bg-blue-main rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
+                     <div className="absolute bg-primary-color rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
                         {numberItem}
                         {/* {cart.cartItems.length} */}
                      </div>
@@ -514,7 +514,7 @@ const Header = () => {
                {userInfo ? (
                   <>
                      <div className="relative">
-                        <div className="w-10 h-10 relative overflow-hidden border-[3px] border-blue-main rounded-full">
+                        <div className="w-10 h-10 relative overflow-hidden border-[3px] border-primary-color rounded-full">
                            <Image
                               src={userInfo.avatar}
                               className="cursor-pointer object-cover"
@@ -531,7 +531,7 @@ const Header = () => {
                            }`}
                         >
                            <Link href="/profile">
-                              <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
+                              <div className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all">
                                  Profile
                               </div>
                            </Link>
@@ -540,7 +540,7 @@ const Header = () => {
                                  <></>
                               ) : (
                                  <div
-                                    className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all whitespace-nowrap"
+                                    className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all whitespace-nowrap"
                                     onClick={forwardManagerDashboard}
                                  >
                                     {userInfo.role.name === "ROLE_ADMIN" ? (
@@ -566,22 +566,22 @@ const Header = () => {
                            )}
 
                            <Link href="/orders">
-                              <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
+                              <div className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all">
                                  Orders
                               </div>
                            </Link>
                            <Link href={"/wishlist"}>
-                              <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
+                              <div className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all">
                                  Wishlist
                               </div>
                            </Link>
                            <Link href={"/followed"}>
-                              <div className="p-3 px-4 cursor-pointer  hover:text-blue-main transition-all">
+                              <div className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all">
                                  Followed
                               </div>
                            </Link>
                            <div
-                              className="p-3 px-4 cursor-pointer hover:text-blue-main transition-all whitespace-nowrap"
+                              className="p-3 px-4 cursor-pointer hover:text-primary-color transition-all whitespace-nowrap"
                               onClick={logoutClickHandler}
                            >
                               Sign out
@@ -593,7 +593,7 @@ const Header = () => {
                   <>
                      <div>
                         <Link href="/signin">
-                           <button className="py-2 px-3 bg-[#525EC1] text-light-bg rounded-lg mr-4 text-sm font-semibold hover:shadow-md hover:shadow-blue-main">
+                           <button className="py-2 px-3 bg-[#525EC1] text-light-bg rounded-lg mr-4 text-sm font-semibold hover:shadow-md hover:shadow-primary-color">
                               Sign in
                            </button>
                         </Link>

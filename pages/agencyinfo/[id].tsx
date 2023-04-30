@@ -52,7 +52,7 @@ const AgencyPage = ({ agencyInfo, posts }) => {
          <div className="my-6">
             <div className="flex gap-4 items-center m-6">
                <div
-                  className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+                  className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                   onClick={() => router.back()}
                >
                   <BiArrowBack />
@@ -61,7 +61,7 @@ const AgencyPage = ({ agencyInfo, posts }) => {
                   / {trans.agencyPage.title}
                </div>
             </div>
-            <div className="bg-blue-main rounded-lg h-32 relative">
+            <div className="bg-primary-color rounded-lg h-32 relative">
                <div className="relative -bottom-10 left-1/2 -translate-x-1/2 overflow-hidden w-40 h-40 ">
                   <Image
                      src={agencyInfo ? agencyInfo.avatar : ""}
@@ -75,8 +75,8 @@ const AgencyPage = ({ agencyInfo, posts }) => {
                </div>
             </div>
             <div
-               className={`mt-36 px-4 py-3 border-blue-main border-2 inline-block mx-auto cursor-pointer rounded-lg font-semibold ${
-                  stateFollow ? "" : "bg-blue-main text-white"
+               className={`mt-36 px-4 py-3 border-primary-color border-2 inline-block mx-auto cursor-pointer rounded-lg font-semibold ${
+                  stateFollow ? "" : "bg-primary-color text-white"
                }`}
                onClick={() => handleFollowAgency()}
             >

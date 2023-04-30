@@ -39,7 +39,7 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
    }, [postID, setIsOpenQuickViewModal, wrapperRef]);
    return (
       <div
-         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 w-full h-full relative shadow-lg shadow-blue-main"
+         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 w-full h-full relative shadow-lg shadow-primary-color"
          ref={wrapperRef}
       >
          {post.picturePostSet ? (
@@ -85,7 +85,7 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
                         {post.title}
                      </div>
                      <div className="flex items-center gap-2 my-2 text-lg">
-                        <div className="rounded-lg border-2 border-blue-main p-2 text-blue-main font-semibold">
+                        <div className="rounded-lg border-2 border-primary-color p-2 text-primary-color font-semibold">
                            {post.sellStatus.name}
                         </div>
                         <div>
@@ -105,7 +105,7 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
                         </div>
                      </div>
                      <div className="text-left mb-4 mt-2">
-                        <div className=" text-4xl text-blue-main font-bold">
+                        <div className=" text-4xl text-primary-color font-bold">
                            {post.finalPrice.toLocaleString("it-IT", {
                               style: "currency",
                               currency: "VND",

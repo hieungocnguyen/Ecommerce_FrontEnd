@@ -38,7 +38,7 @@ const CompareProduct = ({ openCompare }) => {
          }`}
       >
          <div
-            className={`w-[90%] h-5/6 dark:bg-dark-spot bg-light-spot rounded-lg p-6 overflow-auto shadow-lg transition-all border-2 border-blue-main`}
+            className={`w-[90%] h-5/6 dark:bg-dark-spot bg-light-spot rounded-lg p-6 overflow-auto shadow-lg transition-all border-2 border-primary-color`}
          >
             <div className="text-left font-semibold text-xl dark:text-dark-text">
                Comparing Product

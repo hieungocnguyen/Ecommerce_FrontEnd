@@ -14,9 +14,9 @@ const ThemeToggler = () => {
          aria-label="Toggle Dark Mode"
       >
          {theme === "light" ? (
-            <BiSun className=" w-6 h-6 hover:text-blue-main" />
+            <BiSun className=" w-6 h-6 hover:text-primary-color" />
          ) : (
-            <BiMoon className="w-6 h-6 hover:text-blue-main" />
+            <BiMoon className="w-6 h-6 hover:text-primary-color" />
          )}
       </button>
    );

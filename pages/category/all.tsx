@@ -114,7 +114,7 @@ const CategoryAll = ({ categories }) => {
                </div>
                <div className="flex justify-center">
                   <button
-                     className="p-4 bg-blue-main text-white rounded-lg font-semibold my-4 hover:opacity-80"
+                     className="p-4 bg-primary-color text-white rounded-lg font-semibold my-4 hover:opacity-80"
                      type="submit"
                   >
                      Apply filter
@@ -155,8 +155,10 @@ const CategoryAll = ({ categories }) => {
                   return (
                      <div
                         key={i}
-                        className={`w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold ${
-                           numberPage === i + 1 ? "bg-blue-main text-white" : ""
+                        className={`w-8 h-8 rounded-lg border-2 border-primary-color flex justify-center items-center cursor-pointer paginator font-semibold ${
+                           numberPage === i + 1
+                              ? "bg-primary-color text-white"
+                              : ""
                         } `}
                         onClick={(e) => {
                            setNumberPage(i + 1);

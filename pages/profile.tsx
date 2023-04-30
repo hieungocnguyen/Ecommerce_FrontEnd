@@ -60,7 +60,7 @@ const Profile = () => {
       <Layout title="Profile User">
          <div className="flex gap-4 items-center m-6">
             <div
-               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                onClick={() => router.push("/")}
             >
                <BiArrowBack />
@@ -68,7 +68,7 @@ const Profile = () => {
             <div className="font-semibold text-2xl">/ Profile</div>
          </div>
          <div className="">
-            <div className="relative bg-blue-main h-36 rounded-lg">
+            <div className="relative bg-primary-color h-36 rounded-lg">
                <div className="relative overflow-hidden h-48 aspect-square rounded-full left-24 -bottom-12 border-8 border-dark-text dark:border-dark-bg">
                   <Image
                      src={user.avatar}
@@ -94,7 +94,7 @@ const Profile = () => {
                      <button
                         title="Edit your information"
                         type="button"
-                        className="px-4 py-3 border-dark-text border-2 rounded-lg text-white font-semibold hover:bg-dark-text hover:text-blue-main transition-all flex items-center"
+                        className="px-4 py-3 border-dark-text border-2 rounded-lg text-white font-semibold hover:bg-dark-text hover:text-primary-color transition-all flex items-center"
                      >
                         <BiEditAlt className="text-2xl inline-block mr-2" />
                         <span>Change information</span>
@@ -106,7 +106,7 @@ const Profile = () => {
                            <button
                               title="Change Password"
                               type="button"
-                              className="px-4 py-3 border-dark-text border-2 rounded-lg text-white font-semibold hover:bg-dark-text hover:text-blue-main transition-all flex items-center"
+                              className="px-4 py-3 border-dark-text border-2 rounded-lg text-white font-semibold hover:bg-dark-text hover:text-primary-color transition-all flex items-center"
                            >
                               <BiLockAlt className="text-2xl inline-block mr-2" />
                               <span>Change Password</span>
@@ -119,7 +119,7 @@ const Profile = () => {
                </div>
             </div>
             <div className="grid grid-cols-12 gap-4 mt-32 mx-8">
-               <div className="col-span-6 rounded-lg border-blue-main border-2 text-left p-4 items-center">
+               <div className="col-span-6 rounded-lg border-primary-color border-2 text-left p-4 items-center">
                   <div className="flex items-center gap-4 mb-1">
                      <BiPhone className="text-2xl" />
                      <div
@@ -142,7 +142,7 @@ const Profile = () => {
                   </div>
                </div>
                {user && (
-                  <div className="col-span-6 border-blue-main border-2 rounded-lg p-4 items-center flex justify-center ">
+                  <div className="col-span-6 border-primary-color border-2 rounded-lg p-4 items-center flex justify-center ">
                      {user.role && user.role.id === 3 ? (
                         waitAccept ? (
                            <div className="font-medium">
@@ -155,7 +155,7 @@ const Profile = () => {
                                  <button
                                     title="Register Agency"
                                     type="button"
-                                    className="rounded-xl px-4 py-3 bg-blue-main text-white font-semibold hover:shadow-lg hover:shadow-blue-main"
+                                    className="rounded-xl px-4 py-3 bg-primary-color text-white font-semibold hover:shadow-lg hover:shadow-primary-color"
                                  >
                                     Register to become an agency
                                  </button>

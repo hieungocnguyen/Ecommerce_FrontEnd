@@ -101,7 +101,7 @@ const LayoutDashboard = ({ title, children }) => {
                   </div>
                   <div className="mt-2">
                      <button
-                        className="bg-blue-main text-white font-semibold w-full py-2 rounded-lg"
+                        className="bg-primary-color text-white font-semibold w-full py-2 rounded-lg"
                         onClick={() =>
                            router.push("/DashboardManager/editinfo")
                         }
@@ -113,17 +113,17 @@ const LayoutDashboard = ({ title, children }) => {
                {/* navigate */}
                <div className="mt-6 mx-4">
                   <Link href="/DashboardManager">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                         <BiHomeAlt className="text-lg" />
                         General
                      </div>
                   </Link>
                   <Link href="/DashboardManager/notification">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                         <BiBell className="text-lg" />
                         Notification{" "}
                         {unSeen ? (
-                           <span className="w-3 h-3 bg-blue-main rounded-full"></span>
+                           <span className="w-3 h-3 bg-primary-color rounded-full"></span>
                         ) : (
                            <></>
                         )}
@@ -131,7 +131,7 @@ const LayoutDashboard = ({ title, children }) => {
                   </Link>
                   <div>
                      <div
-                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3"
+                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3"
                         onClick={() => setOpenPost(!openPost)}
                      >
                         <BiReceipt className="text-lg" />
@@ -160,14 +160,14 @@ const LayoutDashboard = ({ title, children }) => {
                      </div>
                   </div>
                   <Link href="/DashboardManager/orders">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                         <BiPackage className="text-lg" />
                         Order Tracking
                      </div>
                   </Link>
                   <div>
                      <div
-                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3"
+                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3"
                         onClick={() => setOpenStatisticle(!openStatisticle)}
                      >
                         <BiBarChartAlt2 className="text-lg" />
@@ -196,7 +196,7 @@ const LayoutDashboard = ({ title, children }) => {
                      </div>
                   </div>
                   <Link href="/DashboardManager/renewal">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                         <BiRocket className="text-lg" />
                         Renewal
                      </div>
@@ -205,14 +205,14 @@ const LayoutDashboard = ({ title, children }) => {
                <div className="absolute bottom-4 flex justify-center items-center gap-2 w-full">
                   <Link href="/">
                      <button
-                        className="rounded-lg bg-blue-main hover:bg-opacity-80 h-10 w-fit px-3 font-semibold text-sm text-dark-text"
+                        className="rounded-lg bg-primary-color hover:bg-opacity-80 h-10 w-fit px-3 font-semibold text-sm text-dark-text"
                         title="Back to Homepage"
                      >
                         Back to Homepage
                      </button>
                   </Link>
                   <button
-                     className=" bg-blue-main hover:bg-opacity-80 rounded-lg text-xl h-10 w-fit px-3 text-dark-text"
+                     className=" bg-primary-color hover:bg-opacity-80 rounded-lg text-xl h-10 w-fit px-3 text-dark-text"
                      title="logout"
                      onClick={logoutClickHandler}
                   >

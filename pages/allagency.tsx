@@ -39,7 +39,7 @@ const AllAgency = () => {
          <div className="my-6">
             <div className="flex gap-4 items-center m-6">
                <div
-                  className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+                  className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                   onClick={() => router.back()}
                >
                   <BiArrowBack />
@@ -55,7 +55,7 @@ const AllAgency = () => {
                />
                <button
                   onClick={() => fetchAgencies()}
-                  className="ml-4 px-5 py-4 bg-blue-main text-white font-medium rounded-lg hover:shadow-lg hover:shadow-blue-main transition-all"
+                  className="ml-4 px-5 py-4 bg-primary-color text-white font-medium rounded-lg hover:shadow-lg hover:shadow-primary-color transition-all"
                >
                   Search
                </button>
@@ -98,9 +98,9 @@ const AllAgency = () => {
                      return (
                         <div
                            key={i}
-                           className={`w-8 h-8 rounded-lg border-2 border-blue-main flex justify-center items-center cursor-pointer paginator font-semibold ${
+                           className={`w-8 h-8 rounded-lg border-2 border-primary-color flex justify-center items-center cursor-pointer paginator font-semibold ${
                               numberPage === i + 1
-                                 ? "bg-blue-main text-white"
+                                 ? "bg-primary-color text-white"
                                  : ""
                            } `}
                            onClick={(e) => {

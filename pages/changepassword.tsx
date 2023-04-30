@@ -40,7 +40,7 @@ const Changepassword = () => {
       <Layout title="Change Password">
          <div className="flex gap-4 items-center m-6">
             <div
-               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                onClick={() => router.push("/profile")}
             >
                <BiArrowBack />
@@ -83,7 +83,7 @@ const Changepassword = () => {
             </div>
             <div className="col-span-12">
                <button
-                  className="px-4 py-3 bg-blue-main text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-main transition-all"
+                  className="px-4 py-3 bg-primary-color text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-primary-color transition-all"
                   type="submit"
                >
                   Change password

@@ -108,7 +108,7 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
 
    return (
       <div
-         className="dark:bg-neutral-800 bg-light-bg rounded-lg p-8 w-full h-full relative shadow-lg border-2 border-blue-main"
+         className="dark:bg-neutral-800 bg-light-bg rounded-lg p-8 w-full h-full relative shadow-lg border-2 border-primary-color"
          ref={wrapperRef}
       >
          <div className="mb-8 font-semibold text-2xl text-center">
@@ -194,7 +194,7 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
                                     : 0
                               }
                               disabled
-                              className="p-4 rounded-lg font-semibold resetvalue bg-light-spot dark:bg-dark-primary w-16 text-center text-lg text-blue-main"
+                              className="p-4 rounded-lg font-semibold resetvalue bg-light-spot dark:bg-dark-primary w-16 text-center text-lg text-primary-color"
                               // onKeyDown={(e) => {
                               //    ["e", "E", "+", "-", ".", ","].includes(e.key) &&
                               //       e.preventDefault();
@@ -251,7 +251,7 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
             )}
          </div>
          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-8 items-center">
-            <div className="text-blue-main text-2xl font-semibold">
+            <div className="text-primary-color text-2xl font-semibold">
                <span className="text-dark-text text-lg">Subtotal: </span>
                {subTotal.toLocaleString("it-IT", {
                   style: "currency",
@@ -259,7 +259,7 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
                })}
             </div>
             <button
-               className="bg-blue-main py-4 px-6 text-dark-text font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-main"
+               className="bg-primary-color py-4 px-6 text-dark-text font-semibold rounded-lg hover:shadow-lg hover:shadow-primary-color"
                onClick={handleAddToCart}
             >
                Add to your cart

@@ -48,7 +48,7 @@ const Renewal = () => {
             <div className="grid grid-cols-2 gap-10">
                <div
                   className={`rounded-lg p-6 h-[210px] ${
-                     countDown > 0 ? "bg-blue-main" : "bg-red-500"
+                     countDown > 0 ? "bg-primary-color" : "bg-red-500"
                   }`}
                >
                   {countDown > 0 ? (
@@ -150,7 +150,7 @@ const Renewal = () => {
                                     currency: "VND",
                                  })}
                               </div>
-                              <div className="col-span-3 text-blue-main font-bold">
+                              <div className="col-span-3 text-primary-color font-bold">
                                  + {item.numberOfDaysAvailable} days
                               </div>
                            </div>

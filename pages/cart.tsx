@@ -143,7 +143,7 @@ const Cart = () => {
             <div className="flex justify-between my-6">
                <div className="flex gap-4 items-center">
                   <div
-                     className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+                     className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                      onClick={() => router.back()}
                   >
                      <BiArrowBack />
@@ -154,7 +154,7 @@ const Cart = () => {
                   {itemsInCart.length > 0 ? (
                      <div>
                         <button
-                           className="bg-blue-main px-8 py-3 rounded-lg font-semibold hover:shadow-md hover:shadow-blue-main transition-all flex items-center gap-1 text-white"
+                           className="bg-primary-color px-8 py-3 rounded-lg font-semibold hover:shadow-md hover:shadow-primary-color transition-all flex items-center gap-1 text-white"
                            onClick={() => setIsOpenConfirmRemove(true)}
                         >
                            <AiOutlineClear className="text-xl" />
@@ -214,7 +214,7 @@ const Cart = () => {
                         </div>
                         <input
                            type="number"
-                           className="rounded-lg w-12 text-center text-lg font-semibold text-blue-main bg-light-primary dark:bg-dark-primary"
+                           className="rounded-lg w-12 text-center text-lg font-semibold text-primary-color bg-light-primary dark:bg-dark-primary"
                            value={i.quantity}
                            min={1}
                            max={i.itemPost.inventory}
@@ -252,7 +252,7 @@ const Cart = () => {
                            currency: "VND",
                         })}
                      </div>
-                     <div className="col-span-2 text-blue-main font-semibold text-lg">
+                     <div className="col-span-2 text-primary-color font-semibold text-lg">
                         {(i.quantity * i.itemPost.unitPrice).toLocaleString(
                            "it-IT",
                            {
@@ -267,7 +267,7 @@ const Cart = () => {
                            handleDelete(i);
                         }}
                      >
-                        <div className="w-10 h-10 bg-blue-main text-white p-2 flex justify-center items-center text-xl rounded-lg hover:shadow-md hover:shadow-blue-main transition-all">
+                        <div className="w-10 h-10 bg-primary-color text-white p-2 flex justify-center items-center text-xl rounded-lg hover:shadow-md hover:shadow-primary-color transition-all">
                            <BiTrashAlt />
                         </div>
                      </button>
@@ -300,7 +300,7 @@ const Cart = () => {
                         <div className="text-left">
                            <div className="text-2xl">
                               Total:{" "}
-                              <span className="text-blue-main font-bold text-3xl">
+                              <span className="text-primary-color font-bold text-3xl">
                                  {totalPrice.toLocaleString("it-IT", {
                                     style: "currency",
                                     currency: "VND",
@@ -313,7 +313,7 @@ const Cart = () => {
                         </div>
                         {/* <div className="flex flex-col my-4 w-1/3">
                   <button
-                     className="w-full bg-blue-main font-semibold text-white my-2 h-[60px] rounded-lg hover:opacity-80"
+                     className="w-full bg-primary-color font-semibold text-white my-2 h-[60px] rounded-lg hover:opacity-80"
                      onClick={handlePaymentbyCash}
                   >
                      Payment by cash
@@ -323,7 +323,7 @@ const Cart = () => {
                   </button>
                </div> */}
                         <button
-                           className="py-4 px-12 bg-blue-main font-semibold rounded-lg text-lg hover:shadow-md hover:shadow-blue-main transition-all text-white"
+                           className="py-4 px-12 bg-primary-color font-semibold rounded-lg text-lg hover:shadow-md hover:shadow-primary-color transition-all text-white"
                            onClick={handleRouteCheckout}
                         >
                            Checkout

@@ -57,7 +57,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
       <div>
          <div className="flex justify-center gap-4 my-4">
             <button
-               className="px-4 py-3 bg-blue-main rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-blue-main"
+               className="px-4 py-3 bg-primary-color rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-primary-color"
                onClick={() => setIsOpen(!isOpen)}
                type="button"
             >
@@ -81,7 +81,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
                      <div
                         key={i}
                         onClick={() => (searchInput.current.value = i)}
-                        className="cursor-pointer bg-blue-main py-[1px] px-2 rounded-full text-white font-medium"
+                        className="cursor-pointer bg-primary-color py-[1px] px-2 rounded-full text-white font-medium"
                      >
                         {i}
                      </div>
@@ -97,7 +97,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
                                  searchInput.current.value = text;
                                  searchByKeyWord();
                               }}
-                              className="p-2 cursor-pointer hover:text-blue-main font-medium rounded-lg"
+                              className="p-2 cursor-pointer hover:text-primary-color font-medium rounded-lg"
                            >
                               {text}
                            </div>
@@ -110,7 +110,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
             </div>
             <button
                onClick={searchByKeyWord}
-               className="px-4 py-3 bg-blue-main rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-blue-main"
+               className="px-4 py-3 bg-primary-color rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-primary-color"
             >
                <BiSearch className="text-2xl" />
                <div className="font-semibold">{trans.home.search}</div>
@@ -124,7 +124,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
          >
             <Link href={`/category/all`}>
                <div
-                  className="bg-primary-color rounded-lg h-10 hover:opacity-80 cursor-pointer flex items-center justify-center"
+                  className="bg-secondary-color rounded-lg h-10 hover:opacity-80 cursor-pointer flex items-center justify-center"
                   onClick={() => {
                      setIsOpen(false);
                   }}
@@ -135,7 +135,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
             {categories.map((i) => (
                <Link href={`/category/${i.id}`} key={i.id}>
                   <div
-                     className="bg-blue-main text-white font-semibold text-sm rounded-lg h-10 flex items-center justify-center hover:opacity-80 cursor-pointer"
+                     className="bg-primary-color text-white font-semibold text-sm rounded-lg h-10 flex items-center justify-center hover:opacity-80 cursor-pointer"
                      onClick={() => {
                         setIsOpen(false);
                      }}

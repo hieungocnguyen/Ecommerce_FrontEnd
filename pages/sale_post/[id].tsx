@@ -117,7 +117,7 @@ const ProductPage = ({ salePost }) => {
                      {salePost.title}
                   </div>
                   <div className="flex items-center gap-2 my-4 text-lg">
-                     <div className="rounded-lg border-2 border-primary-color p-2 text-primary-color font-semibold">
+                     <div className="rounded-lg border-2 border-secondary-color p-2 text-secondary-color font-semibold">
                         {salePost.sellStatus.name}
                      </div>
                      <div>
@@ -135,7 +135,7 @@ const ProductPage = ({ salePost }) => {
                            readOnly
                         />
                      </div>
-                     <div className="font-semibold hover:text-blue-main transition-all">
+                     <div className="font-semibold hover:text-primary-color transition-all">
                         <a
                            href="#section_comment"
                            title="Go to comment section"
@@ -145,7 +145,7 @@ const ProductPage = ({ salePost }) => {
                      </div>
                   </div>
                   <div className="text-left mb-4 mt-8">
-                     <div className=" text-4xl text-blue-main font-bold">
+                     <div className=" text-4xl text-primary-color font-bold">
                         {salePost.finalPrice.toLocaleString("it-IT", {
                            style: "currency",
                            currency: "VND",
@@ -177,7 +177,7 @@ const ProductPage = ({ salePost }) => {
                </div>
                <div className="grid grid-cols-12 gap-8 mt-8 ">
                   <button
-                     className={`col-span-6 bg-blue-main text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all disabled:bg-gray-400 disabled:hover:shadow-gray-400`}
+                     className={`col-span-6 bg-primary-color text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-primary-color transition-all disabled:bg-gray-400 disabled:hover:shadow-gray-400`}
                      onClick={() => setIsOpenItemsModal(true)}
                      disabled={salePost.agency.isActive === 0 ? true : false}
                   >
@@ -239,7 +239,7 @@ const ProductPage = ({ salePost }) => {
             </div>
             <div className="">
                <button
-                  className="px-4 py-2 rounded-lg border-2 border-blue-main text-blue-main font-semibold"
+                  className="px-4 py-2 rounded-lg border-2 border-primary-color text-primary-color font-semibold"
                   onClick={() => setIsShowMore(!isShowMore)}
                >
                   {isShowMore ? "Show less" : "Show more"}
@@ -273,7 +273,7 @@ const ProductPage = ({ salePost }) => {
                               />
                            </div>
                            <div className="flex flex-col items-start ml-6">
-                              <div className="font-semibold text-blue-main">
+                              <div className="font-semibold text-primary-color">
                                  {c.author.lastName} {c.author.firstName}
                               </div>
 
@@ -353,6 +353,13 @@ const CommentForm = ({
                });
             } catch (error) {
                console.log(error);
+               toast.error("Something wrong, try again!");
+               // if (error.response.data.data.content) {
+               //    toast.error(error.response.data.data.content);
+               // }
+               // if (error.response.data.data.star) {
+               //    toast.error(error.response.data.data.star);
+               // }
             }
          }
       } else {
@@ -391,7 +398,7 @@ const CommentForm = ({
             </div>
             <button
                type="submit"
-               className="p-4 bg-blue-main rounded-lg font-semibold text-white hover:opacity-80 disabled:bg-slate-600 disabled:cursor-not-allowed"
+               className="p-4 bg-primary-color rounded-lg font-semibold text-white hover:opacity-80 disabled:bg-slate-600 disabled:cursor-not-allowed"
             >
                Send your feedback
             </button>

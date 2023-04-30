@@ -57,7 +57,7 @@ const Wishlist = () => {
       <Layout title="Wishlist">
          <div className="flex gap-4 items-center m-6">
             <div
-               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                onClick={() => router.back()}
             >
                <BiArrowBack />
@@ -95,7 +95,7 @@ const Wishlist = () => {
                                  </div>
 
                                  <div className="col-span-2">
-                                    <div className="text-blue-main text-lg font-semibold">
+                                    <div className="text-primary-color text-lg font-semibold">
                                        {w.finalPrice.toLocaleString("it-IT", {
                                           style: "currency",
                                           currency: "VND",

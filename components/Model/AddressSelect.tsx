@@ -116,7 +116,7 @@ const AddressSelect = ({
                }}
             >
                <div>
-                  <BiCaretLeft className="text-xl text-blue-main" />
+                  <BiCaretLeft className="text-xl text-primary-color" />
                </div>
                <div className="font-medium">Switch to input by GPS</div>
             </div>
@@ -136,7 +136,7 @@ const AddressSelect = ({
                      </label>
                      <select
                         id="province"
-                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                        className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                         onChange={(e) => {
                            handleSelectProvince(e.target.value);
                         }}
@@ -164,7 +164,7 @@ const AddressSelect = ({
                      </label>
                      <select
                         id="district"
-                        className="bg-light-bg dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                        className="bg-light-bg dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                         onChange={(e) => handleSelectDistrict(e.target.value)}
                         disabled={district.length > 0 ? false : true}
                      >
@@ -184,7 +184,7 @@ const AddressSelect = ({
                      </label>
                      <select
                         id="ward"
-                        className="bg-light-bg dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                        className="bg-light-bg dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                         disabled={ward.length > 0 ? false : true}
                         onChange={(e) => {
                            setStreet("");
@@ -216,7 +216,7 @@ const AddressSelect = ({
                            required
                            type="text"
                            placeholder="Street"
-                           className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:bg-light-bg disabled:cursor-not-allowed"
+                           className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:bg-light-bg disabled:cursor-not-allowed"
                            disabled={street == "empty" ? true : false}
                         />
                      </div>
@@ -224,7 +224,7 @@ const AddressSelect = ({
                   <div className="col-span-12">
                      <button
                         type="submit"
-                        className="px-4 py-3 bg-blue-main rounded-lg text-white font-semibold hover:shadow-lg transition-all hover:shadow-blue-main"
+                        className="px-4 py-3 bg-primary-color rounded-lg text-white font-semibold hover:shadow-lg transition-all hover:shadow-primary-color"
                      >
                         Submit this address
                      </button>

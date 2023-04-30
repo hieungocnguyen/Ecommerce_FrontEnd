@@ -89,11 +89,11 @@ const AgenciesAdminDashboard = () => {
                         <li className="col-span-2">{agency.agency.hotline}</li>
                         <li className="col-span-3">{agency.agency.address}</li>
                         <li className="flex gap-5 text-3xl absolute right-5">
-                           {/* <div className="p-2 rounded-lg bg-blue-main text-white shadow-lg hover:shadow-blue-main transition-all">
+                           {/* <div className="p-2 rounded-lg bg-primary-color text-white shadow-lg hover:shadow-primary-color transition-all">
                               <BiShowAlt />
                            </div> */}
                            <div
-                              className="p-2 rounded-lg bg-blue-main text-white shadow-lg hover:shadow-blue-main transition-all"
+                              className="p-2 rounded-lg bg-primary-color text-white shadow-lg hover:shadow-primary-color transition-all"
                               onClick={() => {
                                  setIsOpenConfirmCensor(true);
                                  setModelID(agency.id);
@@ -102,7 +102,7 @@ const AgenciesAdminDashboard = () => {
                               <BiCheck />
                            </div>
                            <div
-                              className="p-2 rounded-lg bg-primary-color text-white shadow-lg hover:shadow-primary-color transition-all"
+                              className="p-2 rounded-lg bg-secondary-color text-white shadow-lg hover:shadow-secondary-color transition-all"
                               onClick={() => {
                                  setIsOpenConfirmUnCensor(true);
                                  setModelID(agency.id);

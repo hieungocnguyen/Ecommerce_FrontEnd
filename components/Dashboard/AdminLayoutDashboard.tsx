@@ -117,17 +117,17 @@ const AdminLayoutDashboard = ({ title, children }) => {
                      </div>
                      <div className="mt-10 mx-4">
                         <Link href="/DashboardAdmin">
-                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                               <BiHomeAlt className="text-lg" />
                               General
                            </div>
                         </Link>
                         <Link href="/DashboardAdmin/notification">
-                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                               <BiBell className="text-lg" />
                               Notification{" "}
                               {unSeen ? (
-                                 <span className="w-3 h-3 bg-blue-main rounded-full"></span>
+                                 <span className="w-3 h-3 bg-primary-color rounded-full"></span>
                               ) : (
                                  <></>
                               )}
@@ -135,7 +135,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                         </Link>
                         <div className="transition-all duration-1000">
                            <div
-                              className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3"
+                              className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3"
                               onClick={(e) =>
                                  openMenu
                                     ? setOpenMenu(false)
@@ -166,7 +166,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                                  >
                                     Uncensored Agency
                                     <span
-                                       className={`bg-blue-main rounded-full w-3 h-3 font-semibold ml-4 ${
+                                       className={`bg-primary-color rounded-full w-3 h-3 font-semibold ml-4 ${
                                           numberUncensored ? "" : "hidden"
                                        }`}
                                     ></span>
@@ -176,7 +176,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                         </div>
                         <div className="transition-all duration-1000">
                            <div
-                              className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3"
+                              className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3"
                               onClick={(e) =>
                                  openStatisticle
                                     ? setOpenStatisticle(false)
@@ -211,7 +211,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                            </div>
                         </div>
                         <Link href="/DashboardAdmin/users">
-                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-blue-main flex items-center gap-3">
+                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                               <BiUser className="text-lg" />
                               User List
                            </div>
@@ -219,12 +219,12 @@ const AdminLayoutDashboard = ({ title, children }) => {
                      </div>
                      <div className="absolute bottom-4 flex justify-center items-center gap-2 w-full">
                         <Link href="/">
-                           <button className="rounded-lg  bg-blue-main hover:bg-opacity-80 h-10 w-fit px-3 font-semibold text-sm text-white">
+                           <button className="rounded-lg  bg-primary-color hover:bg-opacity-80 h-10 w-fit px-3 font-semibold text-sm text-white">
                               Back to Homepage
                            </button>
                         </Link>
                         <button
-                           className=" bg-blue-main hover:bg-opacity-80 rounded-lg text-xl h-10 w-fit px-3 text-white"
+                           className=" bg-primary-color hover:bg-opacity-80 rounded-lg text-xl h-10 w-fit px-3 text-white"
                            onClick={logoutClickHandler}
                         >
                            <BiLogIn />

@@ -69,7 +69,7 @@ const GeoLocationAddress = ({
                }}
             >
                <div>
-                  <BiCaretLeft className="text-xl text-blue-main" />
+                  <BiCaretLeft className="text-xl text-primary-color" />
                </div>
                <div className="font-medium">Switch to input manually</div>
             </div>
@@ -102,14 +102,14 @@ const GeoLocationAddress = ({
                               required
                               type="text"
                               placeholder="Street"
-                              className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:bg-light-bg disabled:cursor-not-allowed"
+                              className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:bg-light-bg disabled:cursor-not-allowed"
                               onChange={(e) => setStreet(e.target.value)}
                            />
                         </div>
                      </div>
                      <div className="w-full flex justify-center">
                         <button
-                           className="px-4 py-3 bg-blue-main rounded-lg text-white font-semibold hover:shadow-lg transition-all hover:shadow-blue-main"
+                           className="px-4 py-3 bg-primary-color rounded-lg text-white font-semibold hover:shadow-lg transition-all hover:shadow-primary-color"
                            onClick={() => {
                               setAddress(`${street}, ${location} `);
                               setIsOpenModelGeoLocation(false);
@@ -119,7 +119,7 @@ const GeoLocationAddress = ({
                         </button>
                      </div>
 
-                     <div className="text-primary-color text-sm font-medium mt-4">
+                     <div className="text-secondary-color text-sm font-medium mt-4">
                         If the returned address is incorrect please check the
                         location service and try again
                      </div>

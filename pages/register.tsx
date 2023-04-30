@@ -144,7 +144,7 @@ const Register = () => {
       <Layout title="Register">
          <div className="flex gap-4 items-center m-6">
             <div
-               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                onClick={() => router.back()}
             >
                <BiArrowBack />
@@ -273,7 +273,7 @@ const Register = () => {
             </div>
             <div className="col-span-12">
                <button
-                  className="bg-blue-main p-3 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-main transition-all"
+                  className="bg-primary-color p-3 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-primary-color transition-all"
                   type="submit"
                >
                   Register a new account
@@ -393,7 +393,7 @@ const Register = () => {
                         </label>
                         <select
                            id="province"
-                           className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                           className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                            onChange={(e) => {
                               handleSelectProvince(e.target.value);
                            }}
@@ -418,7 +418,7 @@ const Register = () => {
                         </label>
                         <select
                            id="district"
-                           className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                           className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                            onChange={(e) =>
                               handleSelectDistrict(e.target.value)
                            }
@@ -440,7 +440,7 @@ const Register = () => {
                         </label>
                         <select
                            id="ward"
-                           className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                           className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                            disabled={ward.length > 0 ? false : true}
                            onChange={(e) => {
                               setStreet("");
@@ -468,7 +468,7 @@ const Register = () => {
                            required
                            type="text"
                            placeholder="Street"
-                           className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-blue-main disabled:cursor-not-allowed"
+                           className="bg-light-primary dark:bg-dark-primary p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                            disabled={street == "" ? false : true}
                         />
                      </div>
@@ -477,7 +477,7 @@ const Register = () => {
             </div>
             <div className="col-span-12">
                <button
-                  className="bg-blue-main p-3 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-blue-main transition-all"
+                  className="bg-primary-color p-3 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-primary-color transition-all"
                   type="submit"
                >
                   Register a new account

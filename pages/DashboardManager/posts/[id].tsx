@@ -125,7 +125,7 @@ const ItemsOfPost = () => {
                <div className="flex justify-between mb-4">
                   <div className="font-semibold text-2xl">Items</div>
                   <div
-                     className="p-3 bg-blue-main rounded-lg font-semibold  cursor-pointer shadow-sm shadow-blue-main hover:shadow-lg hover:shadow-blue-main text-white"
+                     className="p-3 bg-primary-color rounded-lg font-semibold  cursor-pointer shadow-sm shadow-primary-color hover:shadow-lg hover:shadow-primary-color text-white"
                      onClick={() => setIsOpenNewItem(true)}
                   >
                      Create new items

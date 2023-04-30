@@ -87,7 +87,7 @@ const PaymentSuccess = () => {
             </div>
             <div className="mb-4">Check detail about order in your mail</div>
             <Link href={`/orders`}>
-               <button className="px-12 py-4 bg-blue-main rounded-lg text-white font-semibold hover:shadow-lg hover:shadow-blue-main mb-12">
+               <button className="px-12 py-4 bg-primary-color rounded-lg text-white font-semibold hover:shadow-lg hover:shadow-primary-color mb-12">
                   My order
                </button>
             </Link>

@@ -83,7 +83,7 @@ const Orders = () => {
                                  key={order.id}
                                  className="grid grid-cols-12 gap-4 items-center  dark:bg-dark-primary bg-light-spot rounded-lg mb-4 p-6 font-medium text-center"
                               >
-                                 <div className="col-span-1 font-bold text-primary-color whitespace-nowrap">
+                                 <div className="col-span-1 font-bold text-secondary-color whitespace-nowrap">
                                     {order.orderExpressID ? (
                                        `# ${order.orderExpressID}`
                                     ) : (
@@ -94,7 +94,7 @@ const Orders = () => {
                                  </div>
                                  <div className="col-span-1">
                                     <button
-                                       className={`text-2xl p-3 bg-blue-main text-white rounded-lg hover:shadow-lg hover:shadow-blue-main disabled:bg-gray-300 disabled:shadow-none  `}
+                                       className={`text-2xl p-3 bg-primary-color text-white rounded-lg hover:shadow-lg hover:shadow-primary-color disabled:bg-gray-300 disabled:shadow-none  `}
                                        onClick={() => {
                                           setIDOpenModelOrderItems(order.id);
                                        }}
@@ -151,7 +151,7 @@ const Orders = () => {
                                  </div>
                                  <div className="col-span-4 flex justify-center gap-4">
                                     <button
-                                       className="text-2xl p-3 bg-blue-main text-white rounded-lg hover:shadow-lg hover:shadow-blue-main disabled:bg-gray-300 disabled:shadow-none "
+                                       className="text-2xl p-3 bg-primary-color text-white rounded-lg hover:shadow-lg hover:shadow-primary-color disabled:bg-gray-300 disabled:shadow-none "
                                        title="Review information of order"
                                        disabled={
                                           order.orderExpressID ? false : true
@@ -164,7 +164,7 @@ const Orders = () => {
                                        <BiReceipt />
                                     </button>
                                     <button
-                                       className={`text-2xl p-3  text-white rounded-lg disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none bg-blue-main hover:shadow-lg hover:shadow-blue-main
+                                       className={`text-2xl p-3  text-white rounded-lg disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none bg-primary-color hover:shadow-lg hover:shadow-primary-color
                                  `}
                                        onClick={() => {
                                           setIDOpenModelChangeState(order.id);
@@ -185,7 +185,7 @@ const Orders = () => {
 
                                     <button
                                        className={`text-2xl p-3  text-white rounded-lg
-                                       disabled:bg-gray-300 bg-blue-main hover:shadow-lg hover:shadow-blue-main disabled:cursor-not-allowed disabled:shadow-none
+                                       disabled:bg-gray-300 bg-primary-color hover:shadow-lg hover:shadow-primary-color disabled:cursor-not-allowed disabled:shadow-none
                                  `}
                                        disabled={
                                           order.orderState.id === 6 ||
@@ -205,7 +205,7 @@ const Orders = () => {
                                     </button>
                                     <button
                                        className={`text-2xl p-3 text-white rounded-lg 
-                                       disabled:bg-gray-300 bg-blue-main hover:shadow-lg hover:shadow-blue-main disabled:cursor-not-allowed disabled:shadow-none
+                                       disabled:bg-gray-300 bg-primary-color hover:shadow-lg hover:shadow-primary-color disabled:cursor-not-allowed disabled:shadow-none
                                  `}
                                        onClick={() => {
                                           setIDOpenOrderPrintModel(order.id);
@@ -221,7 +221,7 @@ const Orders = () => {
                                     </button>
                                     {order.orderState.id === 7 ? (
                                        <button
-                                          className={`text-2xl p-3 text-white rounded-lg disabled:cursor-not-allowed disabled:shadow-none disabled:bg-gray-300 bg-primary-color hover:shadow-lg hover:shadow-primary-color`}
+                                          className={`text-2xl p-3 text-white rounded-lg disabled:cursor-not-allowed disabled:shadow-none disabled:bg-gray-300 bg-secondary-color hover:shadow-lg hover:shadow-secondary-color`}
                                           onClick={() => {
                                              setIDOpenAcceptCancelModel(
                                                 order.id

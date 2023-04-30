@@ -199,7 +199,7 @@ const EditInfo = () => {
                                     value={address}
                                  />
                                  <button
-                                    className="col-span-2 border-2 border-blue-main rounded-lg text-2xl text-blue-main flex justify-center items-center hover:bg-blue-main hover:text-white"
+                                    className="col-span-2 border-2 border-primary-color rounded-lg text-2xl text-primary-color flex justify-center items-center hover:bg-primary-color hover:text-white"
                                     type="button"
                                     onClick={() => setIsOpenAddressSelect(true)}
                                  >
@@ -211,7 +211,7 @@ const EditInfo = () => {
                      </div>
                      <div className="col-span-12 my-8 text-right">
                         <button
-                           className="px-4 py-3 bg-blue-main text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-main transition-all"
+                           className="px-4 py-3 bg-primary-color text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-primary-color transition-all"
                            type="submit"
                         >
                            Update information

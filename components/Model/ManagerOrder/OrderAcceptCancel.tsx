@@ -87,7 +87,7 @@ const OrderAcceptCancel = ({
                   onClick={() => {
                      handleAcceptRequest();
                   }}
-                  className="py-2 w-full bg-blue-main rounded-lg hover:shadow-lg hover:shadow-blue-main text-white font-semibold"
+                  className="py-2 w-full bg-primary-color rounded-lg hover:shadow-lg hover:shadow-primary-color text-white font-semibold"
                >
                   <div>Accept</div>
                   <div className=" text-sm font-medium">

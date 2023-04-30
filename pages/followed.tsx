@@ -55,7 +55,7 @@ const Followed = () => {
       <Layout title="Followed">
          <div className="flex gap-4 items-center m-6">
             <div
-               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                onClick={() => router.back()}
             >
                <BiArrowBack />
@@ -83,7 +83,7 @@ const Followed = () => {
                                        />
                                     </div>
                                  </div>
-                                 <div className="text-center font-bold text-xl uppercase mt-4 line-clamp-2 text-blue-main">
+                                 <div className="text-center font-bold text-xl uppercase mt-4 line-clamp-2 text-primary-color">
                                     {agency.name}
                                  </div>
                                  <div className="text-center font-semibold">

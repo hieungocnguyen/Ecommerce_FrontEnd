@@ -78,7 +78,7 @@ const Renewal = () => {
                                  className={
                                     "font-semibold p-3 shadow-lg rounded block leading-normal " +
                                     (openTab === 1
-                                       ? "text-white bg-blue-main"
+                                       ? "text-white bg-primary-color"
                                        : "dark:bg-dark-primary bg-light-primary")
                                  }
                                  onClick={(e) => {
@@ -97,7 +97,7 @@ const Renewal = () => {
                                  className={
                                     "font-semibold p-3 shadow-lg rounded block leading-normal " +
                                     (openTab === 2
-                                       ? "text-white bg-blue-main"
+                                       ? "text-white bg-primary-color"
                                        : "dark:bg-dark-primary bg-light-primary")
                                  }
                                  onClick={(e) => {
@@ -116,7 +116,7 @@ const Renewal = () => {
                                  className={
                                     "font-semibold p-3 shadow-lg rounded block leading-normal " +
                                     (openTab === 3
-                                       ? "text-white bg-blue-main"
+                                       ? "text-white bg-primary-color"
                                        : "dark:bg-dark-primary bg-light-primary")
                                  }
                                  onClick={(e) => {
@@ -223,7 +223,7 @@ const Renewal = () => {
                                        currency: "VND",
                                     })}
                                  </div>
-                                 <div className="col-span-2 text-blue-main font-bold">
+                                 <div className="col-span-2 text-primary-color font-bold">
                                     + {item.numberOfDaysAvailable} days
                                  </div>
                               </div>
@@ -326,7 +326,7 @@ const RevenueByMonth = () => {
                   </select>
                   <div className="">
                      <button
-                        className="bg-blue-main text-white font-semibold py-4 px-6 rounded-lg"
+                        className="bg-primary-color text-white font-semibold py-4 px-6 rounded-lg"
                         onClick={() => {
                            loadRevenueByMonth();
                         }}
@@ -439,7 +439,7 @@ const RevenueByQuarter = () => {
                   </select>
                   <div className="">
                      <button
-                        className="bg-blue-main text-white font-semibold py-4 px-6 rounded-lg"
+                        className="bg-primary-color text-white font-semibold py-4 px-6 rounded-lg"
                         onClick={() => loadRevenueByQuarter()}
                      >
                         Apply selected year

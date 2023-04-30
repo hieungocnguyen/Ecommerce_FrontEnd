@@ -134,7 +134,7 @@ const EditProfile = () => {
       <Layout title="Edit Profile">
          <div className="flex gap-4 items-center m-6">
             <div
-               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main transition-all"
+               className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color transition-all"
                onClick={() => {
                   if (isChange) {
                      setIsOpenConfirm(true);
@@ -251,7 +251,7 @@ const EditProfile = () => {
                               }}
                            />
                            <button
-                              className="col-span-1 border-2 border-blue-main rounded-lg text-2xl text-blue-main flex justify-center items-center hover:bg-blue-main hover:text-white"
+                              className="col-span-1 border-2 border-primary-color rounded-lg text-2xl text-primary-color flex justify-center items-center hover:bg-primary-color hover:text-white"
                               type="button"
                               onClick={() =>
                                  setIsOpenModelWaySelectAddress(true)
@@ -266,7 +266,7 @@ const EditProfile = () => {
             </div>
             <div className="col-span-12">
                <button
-                  className="px-6 py-3 bg-blue-main rounded-lg font-semibold text-white hover:shadow-lg transition-all hover:shadow-blue-main my-8"
+                  className="px-6 py-3 bg-primary-color rounded-lg font-semibold text-white hover:shadow-lg transition-all hover:shadow-primary-color my-8"
                   type="submit"
                >
                   Save the changes

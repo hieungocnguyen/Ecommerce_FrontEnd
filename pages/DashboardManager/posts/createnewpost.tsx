@@ -328,7 +328,7 @@ const CreateNewPost = () => {
                      </div>
                      <div className=" col-span-12 flex justify-end">
                         <button
-                           className="py-3 px-6 bg-blue-main hover:shadow-lg hover:shadow-blue-main rounded-lg font-semibold text-white"
+                           className="py-3 px-6 bg-primary-color hover:shadow-lg hover:shadow-primary-color rounded-lg font-semibold text-white"
                            type="submit"
                            title="Create a new sale post"
                         >

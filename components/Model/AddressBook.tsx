@@ -69,13 +69,13 @@ const AddressBook = ({
 
    return (
       <div
-         className="dark:bg-neutral-800 bg-light-primary rounded-lg w-full h-full relative p-8 shadow-lg shadow-light-primary dark:shadow-dark-primary border-2 border-blue-main"
+         className="dark:bg-neutral-800 bg-light-primary rounded-lg w-full h-full relative p-8 shadow-lg shadow-light-primary dark:shadow-dark-primary border-2 border-primary-color"
          ref={wrapperRef}
       >
          <div className="flex justify-between items-center mb-2 mx-8">
             <div className="text-lg font-semibold">Address Book</div>
             <button
-               className="px-3 py-2 text-white bg-blue-main rounded-lg hover:shadow-blue-main hover:shadow-lg font-semibold"
+               className="px-3 py-2 text-white bg-primary-color rounded-lg hover:shadow-primary-color hover:shadow-lg font-semibold"
                onClick={() => setIsOpenAddAddress(true)}
             >
                Add new address
@@ -94,7 +94,7 @@ const AddressBook = ({
                                  name="pricing"
                                  onChange={() => setAddressSelected(address)}
                               />
-                              <div className="rounded-lg ring-2 bg-light-spot ring-slate-200 mb-4 p-3  transition-all hover:shadow peer-checked:ring-primary-color text-left  font-medium">
+                              <div className="rounded-lg ring-2 bg-light-spot ring-slate-200 mb-4 p-3  transition-all hover:shadow peer-checked:ring-secondary-color text-left  font-medium">
                                  <div>
                                     <span className="font-semibold">
                                        Name:{" "}
@@ -150,7 +150,7 @@ const AddressBook = ({
                         Delete this address
                      </button>
                      <button
-                        className="bg-primary-color rounded-lg px-7 py-3 transition-all text-white font-semibold mt-4 hover:shadow-lg hover:shadow-primary-color disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:shadow-gray-400"
+                        className="bg-secondary-color rounded-lg px-7 py-3 transition-all text-white font-semibold mt-4 hover:shadow-lg hover:shadow-secondary-color disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:shadow-gray-400"
                         disabled={addressSelected.id ? false : true}
                         onClick={() => {
                            setAddress(addressSelected);

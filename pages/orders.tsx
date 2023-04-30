@@ -118,7 +118,7 @@ const Orders = () => {
       <Layout title="Your Order">
          <div className="flex gap-4 items-center m-6">
             <div
-               className="bg-blue-main text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-blue-main"
+               className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                onClick={() => router.back()}
             >
                <BiArrowBack />
@@ -149,7 +149,7 @@ const Orders = () => {
                            key={order.id}
                            className={`grid grid-cols-12 gap-4 p-5 items-center dark:hover:bg-dark-spot hover:bg-light-spot font-medium `}
                         >
-                           <div className="col-span-1 text-primary-color font-semibold text-center">
+                           <div className="col-span-1 text-secondary-color font-semibold text-center">
                               {order.orderExpressID ? (
                                  `# ${order.orderExpressID}`
                               ) : (
@@ -177,13 +177,13 @@ const Orders = () => {
                               ).toLocaleDateString("en-GB")}
                            </div>
 
-                           <div className="col-span-2 text-right text-blue-main font-semibold">
+                           <div className="col-span-2 text-right text-primary-color font-semibold">
                               {order.totalPrice.toLocaleString("it-IT", {
                                  style: "currency",
                                  currency: "VND",
                               })}
                               <br />
-                              <span className="text-primary-color text-sm">
+                              <span className="text-secondary-color text-sm">
                                  {order.shipFee
                                     ? `+ ${order.shipFee.toLocaleString(
                                          "it-IT",
@@ -229,7 +229,7 @@ const Orders = () => {
                                  className={`p-3 text-2xl  hover:shadow-lg text-white rounded-lg ${
                                     order.orderState.id === 5
                                        ? "bg-green-500 hover:shadow-green-500"
-                                       : "bg-blue-main hover:shadow-blue-main"
+                                       : "bg-primary-color hover:shadow-primary-color"
                                  }`}
                                  title="View detail order"
                                  onClick={() => {

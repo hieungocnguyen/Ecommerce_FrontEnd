@@ -104,7 +104,7 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
          <div className="flex justify-between mb-4">
             <div className="font-semibold text-xl">Edit item</div>
             <div
-               className="p-3 bg-blue-main rounded-lg font-semibold cursor-pointer shadow-sm shadow-blue-main hover:shadow-lg hover:shadow-blue-main text-white"
+               className="p-3 bg-primary-color rounded-lg font-semibold cursor-pointer shadow-sm shadow-primary-color hover:shadow-lg hover:shadow-primary-color text-white"
                onClick={() => {
                   setItemID(-1);
                   setImportImage(false);
@@ -204,7 +204,7 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
                   </div>
                   <div className="flex justify-end mt-4">
                      <button
-                        className="py-3 px-6 bg-blue-main hover:shadow-lg hover:shadow-blue-main transition-all rounded-lg font-semibold text-white"
+                        className="py-3 px-6 bg-primary-color hover:shadow-lg hover:shadow-primary-color transition-all rounded-lg font-semibold text-white"
                         type="submit"
                      >
                         Save
