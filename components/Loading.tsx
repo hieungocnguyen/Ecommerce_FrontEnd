@@ -35,7 +35,7 @@ const Loading = () => {
       loading && (
          <div className="fixed top-0 right-0 w-screen h-screen flex items-center justify-center bg-opacity-20 bg-primary-color z-50">
             <div className="flex justify-center my-8">
-               <SyncLoader size={20} color="#525EC1" />
+               <SyncLoader size={20} color="#2065d1" />
             </div>
          </div>
       )

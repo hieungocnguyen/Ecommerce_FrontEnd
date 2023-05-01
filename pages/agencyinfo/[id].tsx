@@ -38,15 +38,18 @@ const AgencyPage = ({ agencyInfo, posts }) => {
    }, [agencyInfo]);
 
    const handleFollowAgency = async () => {
-      try {
-         const res = await authAxios().get(
-            endpoints["follow_agency"](agencyInfo.id)
-         );
-         setStateFollow(res.data.data.state === 1 ? true : false);
-      } catch (error) {
-         console.log(error);
-         toast.error("Something wrong, please try again!");
-
+      if (agencyInfo) {
+         try {
+            const res = await authAxios().get(
+               endpoints["follow_agency"](agencyInfo.id)
+            );
+            setStateFollow(res.data.data.state === 1 ? true : false);
+         } catch (error) {
+            console.log(error);
+            toast.error("Something wrong, please try again!");
+         }
+      } else {
+         toast.error("Sign in to follow agency!");
       }
    };
 

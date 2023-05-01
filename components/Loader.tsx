@@ -11,7 +11,7 @@ const Loader = () => {
       <>
          <div className="fixed top-0 right-0 w-screen h-screen flex items-center justify-center bg-opacity-20 bg-gray-900 z-50">
             <SyncLoader
-               color="#525EC1"
+               color="#2065d1"
                loading={true}
                cssOverride={override}
                size={20}

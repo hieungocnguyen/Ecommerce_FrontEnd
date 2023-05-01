@@ -20,6 +20,7 @@ const ProductItem = ({ product, inCompare }) => {
    const [stateLike, setStateLike] = useState(false);
    const router = useRouter();
    const { state, dispatch } = useContext(Store);
+   const { compare } = state;
    const [isOpenQuickViewModal, setIsOpenQuickViewModal] = useState(false);
    const [isOpenItemsModal, setIsOpenItemsModal] = useState(false);
 
@@ -61,21 +62,26 @@ const ProductItem = ({ product, inCompare }) => {
       }
    };
    const handleAddCompare = () => {
-      dispatch({
-         type: "COMPARE_ADD_PRODUCT",
-         payload: {
-            id: product.id,
-            avatar: product.avatar,
-            title: product.title,
-            finalPrice: product.finalPrice,
-            initialPrice: product.initialPrice,
-            category: product.category,
-            sellStatus: product.sellStatus,
-         },
-      });
-      toast.success(`Add to compare successful!`, {
-         position: "top-center",
-      });
+      if (compare.products.length == 8) {
+         toast.error("Can only compare 8 posts at a time!");
+      } else {
+         dispatch({
+            type: "COMPARE_ADD_PRODUCT",
+            payload: {
+               id: product.id,
+               avatar: product.avatar,
+               title: product.title,
+               finalPrice: product.finalPrice,
+               initialPrice: product.initialPrice,
+               sellStatus: product.sellStatus,
+               agency: { isActive: product.agency.isActive },
+            },
+         });
+         toast.success(`Add to compare successful!`, {
+            position: "top-center",
+         });
+      }
+      console.log(compare.products.length);
    };
    const handleRemoveCompare = () => {
       dispatch({
@@ -148,6 +154,7 @@ const ProductItem = ({ product, inCompare }) => {
                   })}
                </div>
             </div>
+
             <div className="flex gap-4 mt-4">
                <button
                   className="w-24 h-14 rounded-2xl flex justify-center items-center text-light-text bg-secondary-color hover:shadow-secondary-color hover:shadow-lg hover:brightness-90 text-3xl disabled:bg-gray-500 disabled:shadow-none disabled:cursor-not-allowed"
@@ -156,7 +163,11 @@ const ProductItem = ({ product, inCompare }) => {
                      event.stopPropagation();
                      setIsOpenItemsModal(true);
                   }}
-                  disabled={product.agency.isActive == 1 ? false : true}
+                  disabled={
+                     product.agency && product.agency.isActive == 1
+                        ? false
+                        : true
+                  }
                >
                   <BiCartAlt />
                </button>
