@@ -309,7 +309,6 @@ const Payment = () => {
          console.log(error);
          setLoading(false);
          toast.error("Something wrong, please try again!");
-
       }
    };
 
@@ -418,6 +417,8 @@ const Payment = () => {
                                                          </span>
                                                          <span className="">
                                                             {i.selectedService
+                                                               .serviceInfoWithCOD &&
+                                                            i.selectedService
                                                                .serviceInfoWithCOD
                                                                .isSuccess === 1
                                                                ? `
@@ -430,6 +431,8 @@ const Payment = () => {
                                                          )} [COD]`
                                                                : ""}
                                                             {i.selectedService
+                                                               .serviceInfoWithCOD &&
+                                                            i.selectedService
                                                                .serviceInfoWithCOD
                                                                .isSuccess ===
                                                                1 &&
@@ -439,6 +442,8 @@ const Payment = () => {
                                                                ? " | "
                                                                : ""}
                                                             {i.selectedService
+                                                               .serviceInfoWithCOD &&
+                                                            i.selectedService
                                                                .serviceInfoWithPrePayment
                                                                .isSuccess === 1
                                                                ? `${i.selectedService.serviceInfoWithPrePayment.shipFee.toLocaleString(
@@ -456,6 +461,8 @@ const Payment = () => {
                                                          Expected Delivery Time:{" "}
                                                          <span className="font-bold">
                                                             {i.selectedService
+                                                               .serviceInfoWithCOD &&
+                                                            i.selectedService
                                                                .serviceInfoWithPrePayment
                                                                .isSuccess === 1
                                                                ? new Date(
@@ -546,6 +553,8 @@ const Payment = () => {
                                                 <>
                                                    <span>
                                                       {i.selectedService
+                                                         .serviceInfoWithCOD &&
+                                                      i.selectedService
                                                          .serviceInfoWithCOD
                                                          .isSuccess === 1 ? (
                                                          <span>
@@ -568,6 +577,8 @@ const Payment = () => {
                                                    </span>
                                                    <span>
                                                       {i.selectedService
+                                                         .serviceInfoWithCOD &&
+                                                      i.selectedService
                                                          .serviceInfoWithCOD
                                                          .isSuccess === 1 &&
                                                       i.selectedService
@@ -580,6 +591,8 @@ const Payment = () => {
                                                    </span>
                                                    <span>
                                                       {i.selectedService
+                                                         .serviceInfoWithPrePayment &&
+                                                      i.selectedService
                                                          .serviceInfoWithPrePayment
                                                          .isSuccess === 1 ? (
                                                          <span>

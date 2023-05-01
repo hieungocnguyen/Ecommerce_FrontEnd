@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 
 const DeliveryService = ({
    agencyServices,
@@ -18,11 +19,15 @@ const DeliveryService = ({
       setService(service);
    };
    const handleChooseServiceButton = () => {
-      itemsInCart.find(
-         (service) => service.id === agencyServices.id
-      ).selectedService = service;
-      setItemsInCart(itemsInCart);
-      setIdOpenDeliveryServices(0);
+      if (service.service_id) {
+         itemsInCart.find(
+            (service) => service.id === agencyServices.id
+         ).selectedService = service;
+         setItemsInCart(itemsInCart);
+         setIdOpenDeliveryServices(0);
+      } else {
+         toast.error("Please choose a service delivery");
+      }
    };
 
    return (
@@ -120,7 +125,7 @@ const DeliveryService = ({
                   ))}
                </>
             ) : (
-               <>123</>
+               <></>
             )}
          </div>
          <div className="flex justify-center mt-2">

@@ -114,7 +114,7 @@ const Wishlist = () => {
                                  </div>
                                  <div className="flex justify-end items-center mr-8">
                                     <div
-                                       className="w-10 h-10 bg-red-600 text-white p-2 text-2xl rounded-lg items-center flex justify-center hover:bg-opacity-80 cursor-pointer"
+                                       className="w-10 h-10 bg-red-500 text-white p-2 text-2xl rounded-lg items-center flex justify-center hover:shadow-lg hover:shadow-red-500 cursor-pointer"
                                        onClick={() => handleDeletePost(w.id)}
                                     >
                                        <BiX />
