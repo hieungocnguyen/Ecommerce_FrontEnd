@@ -23,12 +23,20 @@ const Search = ({ categories }) => {
    const [numberPage, setNumberPage] = useState(1);
    const [totalPage, setTotalPage] = useState(1);
    const [loading, setLoading] = useState(false);
+   const [categoryID, setCategoryID] = useState(0);
+   const [agencyNameSearch, setAgencyNameSearch] = useState("");
 
    const loadPosts = async () => {
       try {
          const resPosts = await API.post(endpoints["search_salePost"], {
             kw: router.query.input,
             page: numberPage,
+            fromDate: router.query.fromDate,
+            fromPrice: Number(router.query.fromPrice),
+            toDate: router.query.toDate,
+            toPrice: Number(router.query.toPrice),
+            categoryID: Number(router.query.categoryID),
+            nameOfAgency: router.query.nameOfAgency,
          });
          setSalePosts(resPosts.data.data.listResult);
          setTotalPage(resPosts.data.data.totalPage);
@@ -39,25 +47,22 @@ const Search = ({ categories }) => {
    };
    useEffect(() => {
       loadPosts();
-   }, [router.query.input, numberPage]);
+   }, [router.query, numberPage]);
 
    const handleSubmitFilter = async (e) => {
       e.preventDefault();
-      try {
-         const resPosts = await API.post(endpoints["search_salePost"], {
-            kw: router.query.input,
-            page: numberPage,
-            fromDate: new Date(datePost[0]).toLocaleDateString("en-GB"),
-            fromPrice: value[0],
-            toDate: new Date(datePost[1]).toLocaleDateString("en-GB"),
-            toPrice: value[1],
-         });
-         setSalePosts(resPosts.data.data.listResult);
-         console.log(resPosts.data.data.listResult);
-      } catch (error) {
-         console.log(error);
-         toast.error("Something wrong, please try again!");
-      }
+      router.push(
+         `/search?input=${kw}&fromPrice=${value[0]}&toPrice=${value[1]}${
+            categoryID > 0 ? `&categoryID=${categoryID}` : ""
+         } ${
+            agencyNameSearch != "" ? `&nameOfAgency=${agencyNameSearch}` : ""
+         } &fromDate=${new Date(datePost[0]).toLocaleDateString(
+            "en-GB"
+         )}&toDate=${new Date(datePost[1]).toLocaleDateString("en-GB")}`
+      );
+      setNumberPage(1);
+      loadPosts();
+      toast.success("Apply filter successful");
    };
 
    const handleChange = (event: Event, newValue: number | number[]) => {
@@ -123,6 +128,41 @@ const Search = ({ categories }) => {
                         sx={{
                            color: "#525EC1",
                         }}
+                     />
+                  </div>
+                  <div className="font-semibold mb-4">Category:</div>
+                  <select
+                     id="category"
+                     name="categoryID"
+                     onChange={(e) => {
+                        setCategoryID(Number(e.target.value));
+                     }}
+                     className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
+                     title="category"
+                  >
+                     <option value={0}>--All category--</option>
+                     <option value={1}>Moms, Kids & Babies</option>
+                     <option value={2}>Consumer Electronics</option>
+                     <option value={3}>Fashion</option>
+                     <option value={4}>Home & Living</option>
+                     <option value={5}>Shoes</option>
+                     <option value={6}>Grocery</option>
+                     <option value={7}>Computer & Accessories</option>
+                     <option value={8}>Mobile & Gadgets</option>
+                     <option value={9}>Sport & Outdoor</option>
+                     <option value={10}>Books & Stationery</option>
+                     <option value={11}>Home Appliances</option>
+                     <option value={12}>Cameras</option>
+                     <option value={13}>Watches</option>
+                     <option value={14}>Automotive</option>
+                  </select>
+                  <div className="font-semibold mb-4">Agency Name:</div>
+                  <div className="">
+                     <input
+                        type="text"
+                        className="p-3 w-full"
+                        placeholder="Agency name"
+                        onChange={(e) => setAgencyNameSearch(e.target.value)}
                      />
                   </div>
                   <div className="flex justify-center">
