@@ -41,6 +41,7 @@ const AgencyCard = ({ agency, likeNumber }) => {
                : toast.success("Follow agency successful!");
          } catch (error) {
             console.log(error);
+            toast.error("Something wrong, please try again!");
          }
       } else {
          toast.error("Please log in to follow agency!");

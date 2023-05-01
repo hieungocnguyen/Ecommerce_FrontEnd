@@ -170,6 +170,10 @@ const Profile = () => {
                               Now, you can manage your agency in manager page
                            </div>
                         </>
+                     ) : user.role && user.role.id === 1 ? (
+                        <div className="flex items-center justify-center font-semibold text-primary-color text-xl">
+                           You are administrator
+                        </div>
                      ) : (
                         <div
                            className={`flex items-center justify-center font-semibold text-red-600 text-xl`}

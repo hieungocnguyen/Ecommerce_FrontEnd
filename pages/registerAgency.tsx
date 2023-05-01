@@ -134,6 +134,7 @@ const RegisterAgency = () => {
       } catch (error) {
          setLoading(false);
          console.log(error);
+         toast.error("Something wrong, please try again!");
       }
    };
    return (

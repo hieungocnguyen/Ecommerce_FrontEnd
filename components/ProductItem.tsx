@@ -57,6 +57,7 @@ const ProductItem = ({ product, inCompare }) => {
          loadLikeStatus();
       } catch (error) {
          console.log(error);
+         toast.error("Something wrong, please try again!");
       }
    };
    const handleAddCompare = () => {
@@ -149,7 +150,7 @@ const ProductItem = ({ product, inCompare }) => {
             </div>
             <div className="flex gap-4 mt-4">
                <button
-                  className="w-24 h-14 rounded-2xl flex justify-center items-center text-white bg-secondary-color hover:shadow-secondary-color hover:shadow-lg text-3xl disabled:bg-gray-500 disabled:shadow-none disabled:cursor-not-allowed"
+                  className="w-24 h-14 rounded-2xl flex justify-center items-center text-light-text bg-secondary-color hover:shadow-secondary-color hover:shadow-lg hover:brightness-90 text-3xl disabled:bg-gray-500 disabled:shadow-none disabled:cursor-not-allowed"
                   title="Show items"
                   onClick={(event) => {
                      event.stopPropagation();

@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { BiListUl, BiSearch } from "react-icons/bi";
 import API, { endpoints } from "../API";
 import useTrans from "../pages/hook/useTrans";
+import toast from "react-hot-toast";
 
 const quickSearch = ["airpod", "gaming desk", "blaze"];
 
@@ -35,6 +36,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
          }
       } catch (error) {
          console.log(error);
+         toast.error("Something wrong, please try again!");
       }
    };
 

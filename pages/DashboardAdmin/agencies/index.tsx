@@ -38,6 +38,7 @@ const AgenciesAdminDashboard = () => {
          toast.success("Ban agency successful", { position: "top-center" });
       } catch (error) {
          console.log(error);
+         toast.error("Something wrong, please try again!");
       }
    };
 
@@ -48,6 +49,7 @@ const AgenciesAdminDashboard = () => {
          toast.success("Ban agency unsuccessful", { position: "top-center" });
       } catch (error) {
          console.log(error);
+         toast.error("Something wrong, please try again!");
       }
    };
 

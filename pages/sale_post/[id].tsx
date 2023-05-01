@@ -37,6 +37,7 @@ const ProductPage = ({ salePost }) => {
       try {
          const resComments = await API.get(endpoints["comment_all_post"](id));
          setComments(resComments.data.data);
+         console.log(resComments.data.data);
       } catch (error) {
          console.log(error);
       }
@@ -125,10 +126,10 @@ const ProductPage = ({ salePost }) => {
                            size="large"
                            sx={{
                               "& .MuiRating-iconFilled": {
-                                 color: "#525EC1",
+                                 color: "#2065d1",
                               },
                               "& .MuiRating-iconEmpty": {
-                                 color: "#656b99",
+                                 color: "#2065d1",
                               },
                            }}
                            value={starAvg}
@@ -263,33 +264,42 @@ const ProductPage = ({ salePost }) => {
                   {comments
                      .sort((a, b) => (a.id < b.id ? 1 : -1))
                      .map((c) => (
-                        <div key={c.id} className="flex mb-8 ml-20">
-                           <div className="overflow-hidden relative h-16 w-16 ">
+                        <div
+                           key={c.id}
+                           className="grid grid-cols-12 mx-14 mb-8"
+                        >
+                           <div className="overflow-hidden relative h-16 w-16">
                               <Image
-                                 src={c.author.avatar}
+                                 src={c.author ? c.author.avatar : ""}
                                  alt="avatar"
                                  layout="fill"
-                                 className="rounded-full object-cover "
+                                 className="rounded-full object-cover"
                               />
                            </div>
-                           <div className="flex flex-col items-start ml-6">
-                              <div className="font-semibold text-primary-color">
-                                 {c.author.lastName} {c.author.firstName}
-                              </div>
+                           <div className="col-span-11 text-left">
+                              {c.author && (
+                                 <div className="font-semibold text-primary-color ">
+                                    {c.author.lastName} {c.author.firstName}
+                                 </div>
+                              )}
 
-                              <div>{c.content}</div>
-                              <Rating
-                                 sx={{
-                                    "& .MuiRating-iconFilled": {
-                                       color: "#525EC1",
-                                    },
-                                    "& .MuiRating-iconEmpty": {
-                                       color: "#656b99",
-                                    },
-                                 }}
-                                 value={c.starRate}
-                                 readOnly
-                              />
+                              <div className="my-1">
+                                 {c.content ? c.content : ""}
+                              </div>
+                              <div className="">
+                                 <Rating
+                                    sx={{
+                                       "& .MuiRating-iconFilled": {
+                                          color: "#2065d1",
+                                       },
+                                       "& .MuiRating-iconEmpty": {
+                                          color: "#2065d1",
+                                       },
+                                    }}
+                                    value={c.starRate ? c.starRate : 1}
+                                    readOnly
+                                 />
+                              </div>
                            </div>
                         </div>
                      ))}
@@ -324,7 +334,7 @@ const CommentForm = ({
       event.preventDefault();
       if (userInfo) {
          if (content == "" || value == 0) {
-            toast.error("Please comment anh rating before send feedback!", {
+            toast.error("You must comment and rating before send feedback!", {
                position: "top-center",
             });
          } else {
@@ -353,13 +363,23 @@ const CommentForm = ({
                });
             } catch (error) {
                console.log(error);
-               toast.error("Something wrong, try again!");
-               // if (error.response.data.data.content) {
-               //    toast.error(error.response.data.data.content);
+               //    if (error.response.data.data.content) {
+               //       toast.error(error.response.data.data.content);
+               //    }else{
+               //    if (error.response.data.data.star) {
+               //       toast.error(error.response.data.data.star);
+               //    }
+               // else{
+               //    toast.error("Something wrong, try again!");
                // }
-               // if (error.response.data.data.star) {
-               //    toast.error(error.response.data.data.star);
                // }
+               if (error.response.data.data.content) {
+                  toast.error(error.response.data.data.content);
+               } else if (error.response.data.data.star) {
+                  toast.error(error.response.data.data.starRate);
+               } else {
+                  toast.error("Something wrong, try again!");
+               }
             }
          }
       } else {

@@ -47,24 +47,10 @@ const Header = () => {
       });
    };
    const forwardManagerDashboard = async () => {
-      try {
-         // const resAllAgency = await API.get(endpoints["all_agency"]);
-         // resAllAgency.data.data.map(async (agency) => {
-         //    if (agency.manager.id === userInfo.id) {
-         //       const resInfoAngency = await API.get(
-         //          endpoints["agency_info"](agency.id)
-         //       );
-         //       Cookies.set("agencyInfo", JSON.stringify(agency));
-         //       dispatch({ type: "AGENCY_INFO_SET", payload: agency });
-         //    }
-         // });
-         if (userInfo.role.name === "ROLE_ADMIN") {
-            router.push("/DashboardAdmin");
-         } else {
-            router.push("/DashboardManager");
-         }
-      } catch (error) {
-         console.log(error);
+      if (userInfo.role.name === "ROLE_ADMIN") {
+         router.push("/DashboardAdmin");
+      } else {
+         router.push("/DashboardManager");
       }
    };
    const handleCartRoute = () => {
@@ -155,6 +141,7 @@ const Header = () => {
          }
       } catch (error) {
          console.log(error);
+         toast.error("Something wrong, please try again!");
       }
    };
 
@@ -593,7 +580,7 @@ const Header = () => {
                   <>
                      <div>
                         <Link href="/signin">
-                           <button className="py-2 px-3 bg-[#525EC1] text-light-bg rounded-lg mr-4 text-sm font-semibold hover:shadow-md hover:shadow-primary-color">
+                           <button className="py-2 px-3 bg-primary-color text-light-bg rounded-lg mr-4 text-sm font-semibold hover:shadow-lg hover:shadow-primary-color hover:brightness-90">
                               Sign in
                            </button>
                         </Link>

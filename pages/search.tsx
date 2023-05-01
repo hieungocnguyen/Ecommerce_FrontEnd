@@ -9,6 +9,7 @@ import ProductItem from "../components/ProductItem";
 import SearchBar from "../components/SearchBar";
 import Image from "next/image";
 import emptyBox from "../public/empty-box.png";
+import toast from "react-hot-toast";
 
 function valuetext(value: number) {
    return `${value}VND`;
@@ -33,6 +34,7 @@ const Search = ({ categories }) => {
          setTotalPage(resPosts.data.data.totalPage);
       } catch (error) {
          console.log(error);
+         toast.error("Something wrong, please try again!");
       }
    };
    useEffect(() => {
@@ -41,16 +43,21 @@ const Search = ({ categories }) => {
 
    const handleSubmitFilter = async (e) => {
       e.preventDefault();
-      const resPosts = await API.post(endpoints["search_salePost"], {
-         kw: router.query.input,
-         page: numberPage,
-         fromDate: new Date(datePost[0]).toLocaleDateString("en-GB"),
-         fromPrice: value[0],
-         toDate: new Date(datePost[1]).toLocaleDateString("en-GB"),
-         toPrice: value[1],
-      });
-      setSalePosts(resPosts.data.data.listResult);
-      console.log(resPosts.data.data.listResult);
+      try {
+         const resPosts = await API.post(endpoints["search_salePost"], {
+            kw: router.query.input,
+            page: numberPage,
+            fromDate: new Date(datePost[0]).toLocaleDateString("en-GB"),
+            fromPrice: value[0],
+            toDate: new Date(datePost[1]).toLocaleDateString("en-GB"),
+            toPrice: value[1],
+         });
+         setSalePosts(resPosts.data.data.listResult);
+         console.log(resPosts.data.data.listResult);
+      } catch (error) {
+         console.log(error);
+         toast.error("Something wrong, please try again!");
+      }
    };
 
    const handleChange = (event: Event, newValue: number | number[]) => {

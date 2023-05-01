@@ -8,6 +8,7 @@ import API, { endpoints } from "../../API";
 import { Slider } from "@mui/material";
 import Image from "next/image";
 import emptyBox from "../../public/empty-box.png";
+import toast from "react-hot-toast";
 
 function valuetext(value: number) {
    return `${value}°C`;
@@ -54,6 +55,7 @@ const CategoryPage = ({ categories, category }) => {
          setSalePosts(resPosts.data.data.listResult);
       } catch (error) {
          console.log(error);
+         toast.error("Something wrong, please try again!");
       }
    };
 

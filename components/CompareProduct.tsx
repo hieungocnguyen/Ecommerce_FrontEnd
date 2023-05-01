@@ -6,6 +6,7 @@ import Image from "next/image";
 import emptyBox from "../public/empty-box.png";
 import { Store } from "../utils/Store";
 import API, { endpoints } from "../API";
+import toast from "react-hot-toast";
 
 const CompareProduct = ({ openCompare }) => {
    const [posts, setPosts] = useState([]);
@@ -24,7 +25,9 @@ const CompareProduct = ({ openCompare }) => {
             });
          }
          setPosts(tempPosts);
-      } catch (error) {}
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {

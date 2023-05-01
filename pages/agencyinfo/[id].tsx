@@ -10,6 +10,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { BiArrowBack } from "react-icons/bi";
 import useTrans from "../hook/useTrans";
+import toast from "react-hot-toast";
 
 const ProductItem = dynamic(import("../../components/ProductItem"));
 
@@ -44,6 +45,8 @@ const AgencyPage = ({ agencyInfo, posts }) => {
          setStateFollow(res.data.data.state === 1 ? true : false);
       } catch (error) {
          console.log(error);
+         toast.error("Something wrong, please try again!");
+
       }
    };
 
@@ -67,7 +70,7 @@ const AgencyPage = ({ agencyInfo, posts }) => {
                      src={agencyInfo ? agencyInfo.avatar : ""}
                      alt=""
                      layout="fill"
-                     className="rounded-xl"
+                     className="rounded-xl object-cover"
                   />
                </div>
                <div className="text-3xl font-semibold text-center mt-14">

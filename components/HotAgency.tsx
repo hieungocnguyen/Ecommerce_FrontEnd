@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { AiFillFire, AiFillHeart } from "react-icons/ai";
 import API, { endpoints } from "../API";
 import dynamic from "next/dynamic";
+import toast from "react-hot-toast";
 
 // import AgencyCard from "./AgencyCard";
 const AgencyCard = dynamic(import("./AgencyCard"));

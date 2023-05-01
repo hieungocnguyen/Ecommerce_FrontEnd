@@ -273,6 +273,7 @@ const Payment = () => {
       } catch (error) {
          console.log(error);
          setLoading(false);
+         toast.error("Something wrong, please try again!");
       }
    };
 
@@ -307,6 +308,8 @@ const Payment = () => {
       } catch (error) {
          console.log(error);
          setLoading(false);
+         toast.error("Something wrong, please try again!");
+
       }
    };
 

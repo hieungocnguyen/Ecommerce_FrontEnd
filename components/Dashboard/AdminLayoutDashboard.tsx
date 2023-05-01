@@ -50,6 +50,8 @@ const AdminLayoutDashboard = ({ title, children }) => {
          setNumberUncensored(resUncensored.data.data.length);
       } catch (error) {
          console.log(error);
+         toast.error("Something wrong, please try again!");
+
       }
    };
    useEffect(() => {

@@ -1,4 +1,4 @@
-const viLang = {
+const enLang = {
    home: {
       category: "Category",
       search: "Search",
@@ -8,4 +8,4 @@ const viLang = {
    },
 };
 
-export default viLang;
+export default enLang;
