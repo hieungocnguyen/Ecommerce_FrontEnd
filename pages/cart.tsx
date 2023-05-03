@@ -154,7 +154,7 @@ const Cart = () => {
                   {itemsInCart.length > 0 ? (
                      <div>
                         <button
-                           className="bg-primary-color px-8 py-3 rounded-lg font-semibold hover:shadow-md hover:shadow-primary-color transition-all flex items-center gap-1 text-white"
+                           className="bg-red-500 px-8 py-3 rounded-lg font-semibold hover:shadow-md hover:shadow-red-500 transition-all flex items-center gap-1 text-white"
                            onClick={() => setIsOpenConfirmRemove(true)}
                         >
                            <AiOutlineClear className="text-xl" />
@@ -267,7 +267,7 @@ const Cart = () => {
                            handleDelete(i);
                         }}
                      >
-                        <div className="w-10 h-10 bg-primary-color text-white p-2 flex justify-center items-center text-xl rounded-lg hover:shadow-md hover:shadow-primary-color transition-all">
+                        <div className="w-10 h-10 bg-red-500 text-white p-2 flex justify-center items-center text-xl rounded-lg hover:shadow-md hover:shadow-red-500 transition-all">
                            <BiTrashAlt />
                         </div>
                      </button>

@@ -122,7 +122,7 @@ const Signin = () => {
                   className="bg-primary-color py-3 px-5 my-4 cursor-pointer hover:opacity-80 rounded-lg font-semibold text-white "
                   title="Sign in"
                >
-                  Sign in with Mallity
+                  Sign in with Open Market
                </button>
                <Link href="/forgotPassword">
                   <div

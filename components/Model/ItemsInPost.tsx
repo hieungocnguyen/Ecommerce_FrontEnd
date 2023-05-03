@@ -243,12 +243,14 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
             )}
          </div>
          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-8 items-center">
-            <div className="text-primary-color text-2xl font-semibold">
-               <span className="text-dark-text text-lg">Subtotal: </span>
-               {subTotal.toLocaleString("it-IT", {
-                  style: "currency",
-                  currency: "VND",
-               })}
+            <div className="text-2xl font-semibold">
+               <span className="">Subtotal: </span>
+               <span className="text-primary-color">
+                  {subTotal.toLocaleString("it-IT", {
+                     style: "currency",
+                     currency: "VND",
+                  })}
+               </span>
             </div>
             <button
                className="bg-primary-color py-4 px-6 text-dark-text font-semibold rounded-lg hover:shadow-lg hover:shadow-primary-color"
