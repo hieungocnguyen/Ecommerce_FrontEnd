@@ -80,15 +80,11 @@ const Register = () => {
          formData.append("genderID", genderID);
          formData.append("email", email);
 
-         const resRegister = await authAxios().post(
-            endpoints["register"],
-            formData,
-            {
-               headers: {
-                  "Content-Type": "application/json",
-               },
-            }
-         );
+         const resRegister = await API.post(endpoints["register"], formData, {
+            headers: {
+               "Content-Type": "application/json",
+            },
+         });
 
          if (resRegister) {
             setLoading(false);
@@ -100,31 +96,37 @@ const Register = () => {
          }
       } catch (error) {
          console.log(error);
-
-         if (error.response.data.data.username) {
-            toast.error(`Username:${error.response.data.data.username}`, {
-               position: "top-center",
-            });
-         }
-         if (error.response.data.data.email) {
-            toast.error(`Email:${error.response.data.data.email}`, {
-               position: "top-center",
-            });
-         }
-         if (error.response.data.data.password) {
-            toast.error(`Password:${error.response.data.data.password}`, {
-               position: "top-center",
-            });
-         }
-         if (error.response.data.data.rePassword) {
-            toast.error(`Repassword: ${error.response.data.data.rePassword}`, {
-               position: "top-center",
-            });
-         }
-         if (error.response.data.data.avatar) {
-            toast.error(`Avatar: ${error.response.data.data.avatar}`, {
-               position: "top-center",
-            });
+         if (error.response) {
+            if (error.response.data.data.username) {
+               toast.error(`Username:${error.response.data.data.username}`, {
+                  position: "top-center",
+               });
+            }
+            if (error.response.data.data.email) {
+               toast.error(`Email:${error.response.data.data.email}`, {
+                  position: "top-center",
+               });
+            }
+            if (error.response.data.data.password) {
+               toast.error(`Password:${error.response.data.data.password}`, {
+                  position: "top-center",
+               });
+            }
+            if (error.response.data.data.rePassword) {
+               toast.error(
+                  `Repassword: ${error.response.data.data.rePassword}`,
+                  {
+                     position: "top-center",
+                  }
+               );
+            }
+            if (error.response.data.data.avatar) {
+               toast.error(`Avatar: ${error.response.data.data.avatar}`, {
+                  position: "top-center",
+               });
+            }
+         } else {
+            toast.error("Something wrong,try again!");
          }
 
          setLoading(false);
