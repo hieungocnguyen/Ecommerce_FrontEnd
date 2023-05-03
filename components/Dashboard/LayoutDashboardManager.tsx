@@ -79,7 +79,7 @@ const LayoutDashboard = ({ title, children }) => {
          <div className="grid grid-cols-6">
             {/* Side Bar */}
             <div className="col-span-1 dark:bg-dark-primary bg-light-primary h-screen sticky top-0">
-               <div className="flex justify-center my-2">
+               <div className="flex justify-center my-3">
                   <Link href="/">
                      <Logo width="125" />
                   </Link>
