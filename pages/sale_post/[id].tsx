@@ -15,6 +15,7 @@ import "swiper/css";
 // import ItemsInPost from "../../components/Model/ItemsInPost";
 import Loader from "../../components/Loader";
 import dynamic from "next/dynamic";
+import moment from "moment";
 // import RelativePost from "../../components/RelativePost";
 
 const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
@@ -278,8 +279,16 @@ const ProductPage = ({ salePost }) => {
                            </div>
                            <div className="col-span-11 text-left">
                               {c.author && (
-                                 <div className="font-semibold text-primary-color ">
-                                    {c.author.lastName} {c.author.firstName}
+                                 <div className="flex gap-2 items-center">
+                                    <div className="font-semibold text-primary-color ">
+                                       {c.author.lastName} {c.author.firstName}
+                                    </div>
+                                    <span className="text-sm italic">
+                                       {" - "}
+                                       {moment(c.createdDate)
+                                          .startOf("m")
+                                          .fromNow()}
+                                    </span>
                                  </div>
                               )}
 

@@ -139,7 +139,12 @@ const AgencyPage = ({ agencyInfo }) => {
                <div className="grid grid-cols-12 gap-10">
                   <div className="col-span-6 dark:bg-dark-primary bg-light-primary p-6 flex items-end gap-4 rounded-lg">
                      <div className=" relative overflow-hidden w-40 h-40 rounded-2xl ">
-                        <Image src={agency.avatar} alt="" layout="fill" />
+                        <Image
+                           src={agency.avatar}
+                           alt=""
+                           layout="fill"
+                           className="object-cover"
+                        />
                      </div>
                      <div className="mb-2">
                         <div className="font-semibold text-2xl">

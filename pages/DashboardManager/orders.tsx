@@ -54,13 +54,39 @@ const Orders = () => {
             endpoints["order_agency"](agencyInfo.id)
          );
          setOrders(resOrders.data.data);
-      } catch (error) {}
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {
       loadOrders();
    }, [stateCurrentID, IDOpenOrderCancelModel, IDOpenAcceptCancelModel]);
 
+   const handleChangeStateOrder = async (order) => {
+      try {
+         const resOrders = await API.get(
+            endpoints["order_agency"](agencyInfo.id)
+         );
+         setOrders(resOrders.data.data);
+
+         if (
+            resOrders.data.data.find((o) => o.id === order.id).orderState.id ==
+               7 ||
+            resOrders.data.data.find((o) => o.id === order.id).orderState.id ==
+               6
+         ) {
+            toast.error(
+               "The status of this order has just been changed by user, please try again!"
+            );
+         } else {
+            setIDOpenModelChangeState(order.id);
+            setStateCurrentID(order.orderState.id);
+         }
+      } catch (error) {
+         console.log(error);
+      }
+   };
    return (
       <>
          <LayoutDashboard title="Orders">
@@ -167,10 +193,11 @@ const Orders = () => {
                                        className={`text-2xl p-3  text-white rounded-lg disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none bg-primary-color hover:shadow-lg hover:shadow-primary-color
                                  `}
                                        onClick={() => {
-                                          setIDOpenModelChangeState(order.id);
-                                          setStateCurrentID(
-                                             order.orderState.id
-                                          );
+                                          // setIDOpenModelChangeState(order.id);
+                                          // setStateCurrentID(
+                                          //    order.orderState.id
+                                          // );
+                                          handleChangeStateOrder(order);
                                        }}
                                        disabled={
                                           order.orderState.id === 6 ||
