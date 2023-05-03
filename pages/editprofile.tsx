@@ -110,7 +110,7 @@ const EditProfile = () => {
          );
          //get info current user
          const dataCurrentUser = await authAxios().get(
-            "http://localhost:8080/ou-ecommerce/api/user/current-user"
+            endpoints["user_current_user"]
          );
 
          Cookies.set("userInfo", JSON.stringify(dataCurrentUser.data.data));

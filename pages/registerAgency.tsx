@@ -31,7 +31,7 @@ const RegisterAgency = () => {
    const [addressFull, setAddressFull] = useState<any>({});
 
    const fetchProvinceAll = async () => {
-      const res = await API.get(endpoints["get_providers"]);
+      const res = await API.get(endpoints["get_provinces"]);
       setProvinces(res.data.data.provinces);
    };
 
@@ -111,13 +111,8 @@ const RegisterAgency = () => {
                name: name,
             }
          );
-         const dataCurrentUser = await axios.get(
-            "http://localhost:8080/ou-ecommerce/api/user/current-user",
-            {
-               headers: {
-                  Authorization: `Bearer ${Cookies.get("accessToken")}`,
-               },
-            }
+         const dataCurrentUser = await authAxios().get(
+            endpoints["user_current_user"]
          );
 
          Cookies.set("userInfo", JSON.stringify(dataCurrentUser.data.data));

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useGeolocated } from "react-geolocated";
-import API from "../../API";
+import API, { endpoints } from "../../API";
 import { ClipLoader } from "react-spinners";
 import { BiCaretLeft, BiRotateLeft } from "react-icons/bi";
 import { toast } from "react-hot-toast";
@@ -38,7 +38,7 @@ const GeoLocationAddress = ({
    const fetchLocation = async () => {
       try {
          const res = await API.get(
-            `http://localhost:8080/ou-ecommerce/api/location/get-nearest-location?latitude=${coords.latitude}&longitude=${coords.longitude}`
+            endpoints["get_nearest_location"](coords.latitude, coords.longitude)
          );
          setLocation(res.data.data);
       } catch (error) {

@@ -441,9 +441,7 @@ export default ProductPage;
 export const getServerSideProps = async (context) => {
    // request salepost detail
    const id = context.params.id;
-   const resSalePost = await axios.get(
-      "http://localhost:8080/ou-ecommerce/api/sale-post/" + id
-   );
+   const resSalePost = await API.get(endpoints["salePost"](id));
    const salePost = await resSalePost.data.data;
 
    return { props: { salePost } };

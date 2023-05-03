@@ -183,15 +183,13 @@ const CategoryPage = ({ categories, category }) => {
 
 export default CategoryPage;
 export const getServerSideProps = async (context) => {
-   const res = await axios.get(
-      "http://localhost:8080/ou-ecommerce/api/category/all"
-   );
+   const res = await API.get(endpoints["category_all"]);
    const categories = await res.data.data;
 
    // request category detail
    const id = context.params.slug;
-   const resCategory = await axios.get(
-      "http://localhost:8080/ou-ecommerce/api/category/" + id
+   const resCategory = await API.get(
+      endpoints["get_category_by_categoryID"](id)
    );
    const category = await resCategory.data.data;
 

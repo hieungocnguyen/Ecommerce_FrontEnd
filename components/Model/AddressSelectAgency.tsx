@@ -19,7 +19,7 @@ const AddressSelectAgency = ({
    const [isDisableStreet, setIsDisableStreet] = useState<boolean>(true);
 
    const fetchProvinceAll = async () => {
-      const res = await API.get(endpoints["get_providers"]);
+      const res = await API.get(endpoints["get_provinces"]);
       setProvinces(res.data.data.provinces);
    };
 

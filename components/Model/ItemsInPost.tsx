@@ -1,4 +1,3 @@
-import axios from "axios";
 import Image from "next/image";
 import router from "next/router";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -7,6 +6,7 @@ import Cookies from "js-cookie";
 import { Store } from "../../utils/Store";
 import { BiMinus, BiPlus } from "react-icons/bi";
 import dynamic from "next/dynamic";
+import { authAxios, endpoints } from "../../API";
 
 const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
    const wrapperRef = useRef(null);
@@ -59,18 +59,10 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
    const handleAddToCart = () => {
       const addtoCart = async (i) => {
          try {
-            const res = await axios.post(
-               "http://localhost:8080/ou-ecommerce/api/cart/add-to-cart",
-               {
-                  itemID: Number(i.id),
-                  quantity: i.quantity,
-               },
-               {
-                  headers: {
-                     Authorization: `Bearer ${Cookies.get("accessToken")}`,
-                  },
-               }
-            );
+            const res = await authAxios().post(endpoints["add_to_cart"], {
+               itemID: Number(i.id),
+               quantity: i.quantity,
+            });
             dispatch({
                type: "CART_ADD_ITEM",
                payload: { id: i.id, quantity: i.quantity },

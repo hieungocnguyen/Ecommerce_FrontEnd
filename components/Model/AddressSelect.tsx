@@ -25,9 +25,7 @@ const AddressSelect = ({
 
    const fetchProvinceAll = async () => {
       try {
-         const res = await API.get(
-            "http://localhost:8080/ou-ecommerce/api/location/provinces/all"
-         );
+         const res = await API.get(endpoints["get_location_all_provinces"]);
          setProvince(res.data.data);
       } catch (error) {
          console.log(error);
@@ -37,7 +35,7 @@ const AddressSelect = ({
       try {
          const fetchDistrictByProvinceID = async (provinceID) => {
             const res = await API.get(
-               `http://localhost:8080/ou-ecommerce/api/location/districts/get-districts-by-province-id/${provinceID}`
+               endpoints["get_location_district_by_provinceID"](provinceID)
             );
             setDistrict(res.data.data);
             setWard([]);
@@ -52,7 +50,7 @@ const AddressSelect = ({
       try {
          const fetchWardByDistrictID = async (districtID) => {
             const res = await API.get(
-               `http://localhost:8080/ou-ecommerce/api/location/wards/get-wards-by-district-id/${districtID}`
+               endpoints["get_location_ward_by_districtID"](districtID)
             );
             setWard(res.data.data);
             setStreet("empty");

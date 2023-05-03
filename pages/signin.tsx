@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../components/Loader";
 import { BiHomeAlt } from "react-icons/bi";
+import API, { authAxios, endpoints } from "../API";
 
 const Signin = () => {
    const {
@@ -33,14 +34,11 @@ const Signin = () => {
                password,
             }
          );
+
          Cookies.set("accessToken", dataToken.data.data.token);
-         const dataCurrentUser = await axios.get(
-            "http://localhost:8080/ou-ecommerce/api/user/current-user",
-            {
-               headers: {
-                  Authorization: `Bearer ${dataToken.data.data.token}`,
-               },
-            }
+
+         const dataCurrentUser = await authAxios().get(
+            endpoints["user_current_user"]
          );
 
          Cookies.set("userInfo", JSON.stringify(dataCurrentUser.data.data));
@@ -62,17 +60,19 @@ const Signin = () => {
       } catch (error) {
          console.log(error);
          setLoading(false);
-         if (
-            error.response.data.code === "401" ||
-            error.response.data.code === "400"
-         ) {
-            toast.error("Username or password incorrect!", {
-               position: "top-center",
-            });
-         } else {
-            toast.error(error.response.data.message, {
-               position: "top-center",
-            });
+         if (error.response) {
+            if (
+               error.response.data.code === "401" ||
+               error.response.data.code === "400"
+            ) {
+               toast.error("Username or password incorrect!", {
+                  position: "top-center",
+               });
+            } else {
+               toast.error(error.response.data.message, {
+                  position: "top-center",
+               });
+            }
          }
       }
    };

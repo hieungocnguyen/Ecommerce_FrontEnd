@@ -21,7 +21,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
 
    const fetchProvinceAll = async () => {
       try {
-         const res = await API.get(endpoints["get_providers"]);
+         const res = await API.get(endpoints["get_provinces"]);
          setProvinces(res.data.data.provinces);
       } catch (error) {
          console.log(error);

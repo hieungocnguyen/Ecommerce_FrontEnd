@@ -1,17 +1,22 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+
 export let endpoints = {
    //upload cloudinary
    upload_cloudinary: "/upload/cloudinary",
+
    // user API
    register: "/user/register",
    user: (userID) => `/user/${userID}`,
+   user_current_user: `/user/current-user`,
    change_password: (userID) => `/user/change-password/${userID}`,
    user_all: `/user/all`,
    reset_password: `/user/reset-password`,
    confirm_code: `/user/send-confirm`,
+   authenticate: `/authenticate`,
+
    // sale post API
-   get_all_salePost: "sale-post/all",
+   get_all_salePost: "/sale-post/all",
    search_salePost: "/sale-post/search",
    publish_salePost: (postID) => `/sale-post/published/${postID}`,
    unpublish_salePost: (postID) => `/sale-post/un-published/${postID}`,
@@ -58,6 +63,7 @@ export let endpoints = {
       `/order/orders-agency/cancel-order/${orderAgencyID}`,
    get_order_detail: (orderAgencyID) =>
       `/order/order-detail/get-orders-detail-by-order-agency/${orderAgencyID}`,
+
    //comment
    comment_post: (postID) => `/action/comment/create/${postID}`,
    comment_all: `action/comment/all`,
@@ -86,16 +92,21 @@ export let endpoints = {
 
    //category
    category_all: `/category/all`,
+   get_category_by_categoryID: (categoryID) => `/category/${categoryID}`,
+
    //stat
    stat_post_category: `/sale-post/stats-by-category`,
    stat_category_by_agency: (agencyID) =>
       `/sale-post/stats-by-category/${agencyID}`,
+
    //item
    item: (itemID) => `/item/${itemID}`,
+
    //payment
    momo_payment_info: `/cart/get-momo-payment-info`,
    payment_cart: (paymentTypeID, addressID) =>
       `/cart/payment-cart/${paymentTypeID}/${addressID}`,
+
    //loation
    create_address: `/location/address-book/create`,
    get_address_book: (userID) =>
@@ -103,8 +114,15 @@ export let endpoints = {
    get_full_address: (wardID) => `/location/get-full-address/${wardID}`,
    delete_address: (addressID) =>
       `/location/address-book/delete-by-id/${addressID}`,
+   get_location_all_provinces: `/location/provinces/all`,
+   get_location_district_by_provinceID: (provinceID) =>
+      `/location/districts/get-districts-by-province-id/${provinceID}`,
+   get_location_ward_by_districtID: (districtID) =>
+      `/location/wards/get-wards-by-district-id/${districtID}`,
+   get_nearest_location: (latitude, longitude) =>
+      `/location/get-nearest-location?latitude=${latitude}&longitude=${longitude}`,
    //order-tracking
-   get_providers: `/order-tracking/ghn/location/get-provinces`,
+   get_provinces: `/order-tracking/ghn/location/get-provinces`,
    get_districts: `/order-tracking/ghn/location/get-districts`,
    get_wards: `/order-tracking/ghn/location/get-wards`,
    get_service_package: `/order-tracking/ghn/order/get-service-package-of-ghn-express`,
@@ -113,11 +131,9 @@ export let endpoints = {
    get_review_info_order: (orderAgentID) =>
       `/order-tracking/ghn/order/review-order-info/${orderAgentID}`,
    get_pick_shift_order: `/order-tracking/ghn/order/get-pick-shift`,
-   set_pick_shift_order: (
-      orderAgencyID,
-      pickShiftID
-   ) => `/order-tracking/ghn/order/set-pick-shift/${orderAgencyID}/${pickShiftID}
-   `,
+   set_pick_shift_order: (orderAgencyID, pickShiftID) =>
+      `/order-tracking/ghn/order/set-pick-shift/${orderAgencyID}/${pickShiftID}`,
+
    //notification
    update_seen_status: (recipientID) =>
       `/notify/update-seen-status/${recipientID}`,
@@ -138,6 +154,7 @@ export let endpoints = {
       `/renewal/stats-revenue-month-by-year/${year}`,
    get_all_renewal: `/renewal/get-all-orders-renewal`,
 };
+
 export const authAxios = () =>
    axios.create({
       baseURL: "http://localhost:8080/ou-ecommerce/api",

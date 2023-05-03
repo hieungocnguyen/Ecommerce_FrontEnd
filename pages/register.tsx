@@ -4,14 +4,12 @@ import Layout from "../components/Layout/Layout";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import axios from "axios";
-import API, { endpoints } from "../API";
+import API, { authAxios, endpoints } from "../API";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../components/Loader";
 import { BiArrowBack, BiCloudUpload } from "react-icons/bi";
 import Image from "next/image";
-import { log } from "console";
-import { ClipLoader } from "react-spinners";
 
 const Register = () => {
    const {
@@ -82,8 +80,8 @@ const Register = () => {
          formData.append("genderID", genderID);
          formData.append("email", email);
 
-         const resRegister = await axios.post(
-            "http://localhost:8080/ou-ecommerce/api/user/register",
+         const resRegister = await authAxios().post(
+            endpoints["register"],
             formData,
             {
                headers: {
@@ -102,38 +100,31 @@ const Register = () => {
          }
       } catch (error) {
          console.log(error);
-         if (
-            error.request.responseURL ===
-            "http://localhost:8080/ou-ecommerce/api/user/register"
-         ) {
-            if (error.response.data.data.username) {
-               toast.error(`Username:${error.response.data.data.username}`, {
-                  position: "top-center",
-               });
-            }
-            if (error.response.data.data.email) {
-               toast.error(`Email:${error.response.data.data.email}`, {
-                  position: "top-center",
-               });
-            }
-            if (error.response.data.data.password) {
-               toast.error(`Password:${error.response.data.data.password}`, {
-                  position: "top-center",
-               });
-            }
-            if (error.response.data.data.rePassword) {
-               toast.error(
-                  `Repassword: ${error.response.data.data.rePassword}`,
-                  {
-                     position: "top-center",
-                  }
-               );
-            }
-            if (error.response.data.data.avatar) {
-               toast.error(`Avatar: ${error.response.data.data.avatar}`, {
-                  position: "top-center",
-               });
-            }
+
+         if (error.response.data.data.username) {
+            toast.error(`Username:${error.response.data.data.username}`, {
+               position: "top-center",
+            });
+         }
+         if (error.response.data.data.email) {
+            toast.error(`Email:${error.response.data.data.email}`, {
+               position: "top-center",
+            });
+         }
+         if (error.response.data.data.password) {
+            toast.error(`Password:${error.response.data.data.password}`, {
+               position: "top-center",
+            });
+         }
+         if (error.response.data.data.rePassword) {
+            toast.error(`Repassword: ${error.response.data.data.rePassword}`, {
+               position: "top-center",
+            });
+         }
+         if (error.response.data.data.avatar) {
+            toast.error(`Avatar: ${error.response.data.data.avatar}`, {
+               position: "top-center",
+            });
          }
 
          setLoading(false);
