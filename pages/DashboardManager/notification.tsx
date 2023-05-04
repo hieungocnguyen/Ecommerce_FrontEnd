@@ -2,7 +2,7 @@ import { Suspense, useContext, useEffect, useState } from "react";
 import LayoutDashboardManager from "../../components/Dashboard/LayoutDashboardManager";
 import { Store } from "../../utils/Store";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../lib/firebase-config";
+import { db } from "../../lib/firebase-config";
 import { ClipLoader } from "react-spinners";
 import { BiListCheck } from "react-icons/bi";
 import Image from "next/image";

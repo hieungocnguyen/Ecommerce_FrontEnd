@@ -200,7 +200,7 @@ const ProductPage = ({ salePost }) => {
                         <div className="font-semibold text-lg">
                            State of post:{" "}
                            <span className="font-medium">
-                              {salePost.isActive ? "Active" : "Unavailable"}
+                              {salePost.isActive ? "Availabble" : "Unavailable"}
                            </span>
                         </div>
                      </div>

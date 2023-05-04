@@ -22,7 +22,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../../pages/lib/firebase-config";
+import { db } from "../../lib/firebase-config";
 
 const AdminLayoutDashboard = ({ title, children }) => {
    const { state, dispatch } = useContext(Store);
@@ -51,7 +51,6 @@ const AdminLayoutDashboard = ({ title, children }) => {
       } catch (error) {
          console.log(error);
          toast.error("Something wrong, please try again!");
-
       }
    };
    useEffect(() => {

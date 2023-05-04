@@ -9,7 +9,7 @@ import { ClipLoader } from "react-spinners";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { BiArrowBack } from "react-icons/bi";
-import useTrans from "../hook/useTrans";
+import useTrans from "../../hook/useTrans";
 import toast from "react-hot-toast";
 
 const ProductItem = dynamic(import("../../components/ProductItem"));

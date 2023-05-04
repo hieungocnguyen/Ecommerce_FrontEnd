@@ -22,7 +22,7 @@ import dynamic from "next/dynamic";
 import Loader from "../Loader";
 import Head from "next/head";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../../pages/lib/firebase-config";
+import { db } from "../../lib/firebase-config";
 
 const LayoutDashboard = ({ title, children }) => {
    const { state, dispatch } = useContext(Store);

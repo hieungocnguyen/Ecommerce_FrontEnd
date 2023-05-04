@@ -19,7 +19,7 @@ import API, { endpoints } from "../../API";
 import Image from "next/image";
 import { BiBell, BiChevronDown } from "react-icons/bi";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../../pages/lib/firebase-config";
+import { db } from "../../lib/firebase-config";
 import moment from "moment";
 
 const Header = () => {
