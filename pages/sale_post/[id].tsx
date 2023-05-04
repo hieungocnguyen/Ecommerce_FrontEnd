@@ -294,6 +294,7 @@ const ProductPage = ({ salePost }) => {
                   setComments={setComments}
                   setStarAvg={setStarAvg}
                   setCommentCount={setCommentCount}
+                  setLoading={setLoading}
                />
                <Suspense fallback={<p>Loading...</p>}>
                   {comments
@@ -367,6 +368,7 @@ const CommentForm = ({
    setComments,
    setStarAvg,
    setCommentCount,
+   setLoading,
 }) => {
    const { state, dispatch } = useContext(Store);
    const { cart, userInfo } = state;
@@ -380,10 +382,12 @@ const CommentForm = ({
    const addComment = async (event) => {
       event.preventDefault();
       if (userInfo) {
+         setLoading(true);
          if (content == "" || value == 0) {
             toast.error("You must comment and rating before send feedback!", {
                position: "top-center",
             });
+            setLoading(false);
          } else {
             try {
                const res = await authAxios().post(
@@ -408,7 +412,9 @@ const CommentForm = ({
                toast.success("Comment successful!", {
                   position: "top-center",
                });
+               setLoading(false);
             } catch (error) {
+               setLoading(false);
                console.log(error);
                //    if (error.response.data.data.content) {
                //       toast.error(error.response.data.data.content);
