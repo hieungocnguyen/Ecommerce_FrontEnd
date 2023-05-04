@@ -38,7 +38,6 @@ const ProductPage = ({ salePost }) => {
       try {
          const resComments = await API.get(endpoints["comment_all_post"](id));
          setComments(resComments.data.data);
-         console.log(resComments.data.data);
       } catch (error) {
          console.log(error);
       }
@@ -65,6 +64,8 @@ const ProductPage = ({ salePost }) => {
       loadStarAvg();
       loadCommentCount();
       setMainPic(salePost.avatar);
+
+      console.log(salePost);
    }, [id]);
 
    const handleRouteAgency = () => {
@@ -160,31 +161,64 @@ const ProductPage = ({ salePost }) => {
                         })}
                      </div>
                   </div>
-                  <div className="mb-4 mt-8">
-                     <div className="font-semibold mb-2 text-lg">
-                        Brand:{" "}
-                        <span className="font-medium">{salePost.brand}</span>
+                  <div className="mb-4 mt-8 grid grid-cols-2">
+                     <div>
+                        <div className="font-semibold mb-2 text-lg">
+                           Brand:{" "}
+                           <span className="font-medium">{salePost.brand}</span>
+                        </div>
+                        <div className="font-semibold mb-2 text-lg">
+                           Origin:{" "}
+                           <span className="font-medium">
+                              {salePost.origin}
+                           </span>
+                        </div>
+                        <div className="font-semibold text-lg">
+                           Manufacturer:{" "}
+                           <span className="font-medium">
+                              {salePost.manufacturer}
+                           </span>
+                        </div>
                      </div>
-                     <div className="font-semibold mb-2 text-lg">
-                        Origin:{" "}
-                        <span className="font-medium">{salePost.origin}</span>
-                     </div>
-                     <div className="font-semibold text-lg">
-                        Manufacturer:{" "}
-                        <span className="font-medium">
-                           {salePost.manufacturer}
-                        </span>
+                     <div>
+                        <Link href={`/category/${salePost.category.id}`}>
+                           <div className="font-semibold mb-2 text-lg cursor-pointer hover:text-primary-color">
+                              Category:{" "}
+                              <span className="font-medium">
+                                 {salePost.category.name}
+                              </span>
+                           </div>
+                        </Link>
+                        <div className="font-semibold mb-2 text-lg">
+                           Date of sale:{" "}
+                           <span className="font-medium">
+                              {new Date(
+                                 salePost.createdDate
+                              ).toLocaleDateString("en-GB")}
+                           </span>
+                        </div>
+                        <div className="font-semibold text-lg">
+                           State of post:{" "}
+                           <span className="font-medium">
+                              {salePost.isActive ? "Active" : "Unavailable"}
+                           </span>
+                        </div>
                      </div>
                   </div>
                </div>
                <div className="grid grid-cols-12 gap-8 mt-8 ">
                   <button
-                     className={`col-span-6 bg-primary-color text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-primary-color transition-all disabled:bg-gray-400 disabled:hover:shadow-gray-400`}
+                     className={`col-span-6 bg-primary-color text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-primary-color transition-all disabled:bg-gray-400 disabled:hover:shadow-gray-400 disabled:cursor-not-allowed`}
                      onClick={() => setIsOpenItemsModal(true)}
-                     disabled={salePost.agency.isActive === 0 ? true : false}
+                     disabled={
+                        salePost.agency.isActive === 0 ||
+                        salePost.isActive === 0
+                           ? true
+                           : false
+                     }
                   >
-                     {salePost.agency.isActive === 0
-                        ? "This agency has banned"
+                     {salePost.agency.isActive === 0 || salePost.isActive === 0
+                        ? "This sale post is unvailable"
                         : "Choose item to add to cart"}
                   </button>
                   <div
@@ -281,7 +315,10 @@ const ProductPage = ({ salePost }) => {
                               {c.author && (
                                  <div className="flex gap-2 items-center">
                                     <div className="font-semibold text-primary-color ">
-                                       {c.author.lastName} {c.author.firstName}
+                                       {!c.author.lastName &&
+                                       !c.author.firstName
+                                          ? "Unnamed"
+                                          : `${c.author.lastName} ${c.author.firstName}`}
                                     </div>
                                     <span className="text-sm italic">
                                        {" - "}
@@ -336,6 +373,7 @@ const CommentForm = ({
    const [content, setContent] = useState("");
    const router = useRouter();
    const [value, setValue] = React.useState<number | null>(0);
+
    const onChangeContent = (e) => {
       setContent(e.target.value);
    };

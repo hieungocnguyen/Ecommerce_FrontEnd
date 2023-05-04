@@ -95,7 +95,7 @@ const EditProfile = () => {
 
          formData.append("firstName", firstName ? firstName : "");
          formData.append("lastName", lastName ? lastName : "");
-         formData.append("address", address);
+         formData.append("address", address ? address : "");
          formData.append("phone", phone ? phone : "");
 
          //update info user
