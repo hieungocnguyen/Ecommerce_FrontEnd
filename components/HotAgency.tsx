@@ -6,12 +6,15 @@ import { AiFillFire, AiFillHeart } from "react-icons/ai";
 import API, { endpoints } from "../API";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
+import useTrans from "../hook/useTrans";
 
 // import AgencyCard from "./AgencyCard";
 const AgencyCard = dynamic(import("./AgencyCard"));
 
 const HotAgency = () => {
    const [hotAgency, setHotAgency] = useState([]);
+
+   const trans = useTrans();
 
    const fetchHotAgencies = async () => {
       try {
@@ -35,7 +38,7 @@ const HotAgency = () => {
                      <span>
                         <AiFillFire className="text-xl" />
                      </span>
-                     Hot Agency
+                     {trans.home.hotAgency}
                   </div>
                   <div className="grid grid-cols-4 gap-10">
                      {hotAgency.map((agency) => (
@@ -48,7 +51,7 @@ const HotAgency = () => {
                   </div>
                   <Link href="/allagency">
                      <div className="mt-10 text-lg px-5 py-3 rounded-lg border-2 border-primary-color inline-block hover:bg-primary-color hover:text-white font-semibold cursor-pointer hover:shadow-lg hover:shadow-primary-color">
-                        See all agency
+                        {trans.home.seeAllAgency}
                      </div>
                   </Link>
                </div>

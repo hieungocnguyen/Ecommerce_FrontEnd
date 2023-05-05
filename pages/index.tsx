@@ -15,6 +15,7 @@ import f2 from "../public/2feature.png";
 import f3 from "../public/3feature.png";
 import f4 from "../public/4feature.png";
 import Image from "next/image";
+import useTrans from "../hook/useTrans";
 
 //lazy loading
 const ProductItem = dynamic(import("../components/ProductItem"));
@@ -27,6 +28,8 @@ export default function Home({ categories }) {
    const [totalPage, setTotalPage] = useState(1);
    const [openCompare, setOpenCompare] = useState(false);
    const [loading, setLoading] = useState(false);
+
+   const trans = useTrans();
 
    const loadPosts = async () => {
       try {
@@ -111,7 +114,7 @@ export default function Home({ categories }) {
                </div>
                <div className="my-8">
                   <h1 className="text-center font-bold text-2xl my-5">
-                     All Posts
+                     {trans.home.allPost}
                   </h1>
                   <div className="grid lg:grid-cols-4 grid-cols-2 gap-10">
                      {salePosts.map((i) => (

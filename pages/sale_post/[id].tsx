@@ -315,12 +315,27 @@ const ProductPage = ({ salePost }) => {
                            <div className="col-span-11 text-left">
                               {c.author && (
                                  <div className="flex gap-2 items-center">
-                                    <div className="font-semibold text-primary-color ">
-                                       {!c.author.lastName &&
-                                       !c.author.firstName
-                                          ? "Unnamed"
-                                          : `${c.author.lastName} ${c.author.firstName}`}
-                                    </div>
+                                    {!c.author.firstName &&
+                                    !c.author.lastName ? (
+                                       <div>
+                                          <span className="italic opacity-70">
+                                             Unnamed -
+                                          </span>
+                                          <span className="font-semibold text-primary-color">
+                                             {" ["}
+                                             {c.author.username}
+                                             {"]"}
+                                          </span>
+                                       </div>
+                                    ) : (
+                                       <div className="font-semibold text-primary-color">
+                                          {c.author.firstName}{" "}
+                                          {c.author.lastName}
+                                          {" - ["}
+                                          {c.author.username}
+                                          {"]"}
+                                       </div>
+                                    )}
                                     <span className="text-sm italic">
                                        {" - "}
                                        {moment(c.createdDate)

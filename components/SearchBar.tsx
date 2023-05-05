@@ -69,7 +69,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
             <div className="text-left relative" ref={searchContainer}>
                <input
                   type="text"
-                  placeholder="Search post..."
+                  placeholder={trans.home.searchPlaceholder}
                   defaultValue=""
                   ref={searchInput}
                   onChange={(e) => {
