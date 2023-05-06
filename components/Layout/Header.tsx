@@ -148,7 +148,7 @@ const Header = () => {
    };
 
    return (
-      <div className="bg-light-primary dark:bg-dark-primary grid grid-cols-3 items-center sm:w-[90%] w-full mx-auto rounded-b-lg py-3 px-3">
+      <div className="bg-light-primary dark:bg-dark-primary grid grid-cols-3 items-center sm:w-[90%] w-full mx-auto rounded-b-lg py-3 px-3 sm:px-6">
          <div className="relative flex items-center justify-start gap-2">
             <div
                className="bg-light-primary rounded-lg dark:bg-dark-primary w-10 h-10 sm:hidden flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer"
@@ -388,7 +388,7 @@ const Header = () => {
                   <BiArrowBack className="w-6 h-6 hover:text-primary-color" />
                </div>
             </div>
-
+            {/* notify */}
             <div
                className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer"
                onClick={() => {
@@ -468,8 +468,12 @@ const Header = () => {
                   </div>
                )}
             </div>
-            <div className="sm:flex hidden ">
+            {/* theme */}
+            <div className="sm:flex hidden">
                <ThemeToggler />
+            </div>
+
+            <div className="sm:flex hidden ">
                <div className="relative">
                   <div
                      className="p-2 font-semibold bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center gap-1 hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer hover:text-primary-color max-w-[86px]"
@@ -688,6 +692,7 @@ const Header = () => {
                </div>
             </div>
          </div>
+         {/* logo */}
          <div className="flex justify-center ">
             <Link href="/" title="Home">
                <div className="cursor-pointer">
@@ -696,37 +701,34 @@ const Header = () => {
             </Link>
          </div>
          <Suspense fallback={<p></p>}>
-            <div className="flex items-center justify-end">
-               {userInfo != null && (
+            <div className="flex items-center justify-end gap-4">
+               {/* role label */}
+               {userInfo ? (
                   <div
-                     className={`sm:visible invisible font-extrabold p-1 border-2 uppercase text-xs rounded-md ${
+                     className={` font-extrabold p-1 border-2 uppercase text-xs rounded-md ${
                         agencyInfo.isActive === 0 &&
                         userInfo.role.name === "ROLE_MANAGER"
                            ? "text-red-600 border-red-600"
                            : "text-primary-color border-primary-color "
                      }`}
                   >
-                     {userInfo ? (
-                        userInfo.role.id === 1 ? (
-                           <>admin</>
-                        ) : userInfo.role.id === 2 ? (
-                           <>manager</>
-                        ) : (
-                           <>user</>
-                        )
+                     {userInfo && userInfo.role.id === 1 ? (
+                        <>admin</>
+                     ) : userInfo.role.id == 2 ? (
+                        <>manager</>
                      ) : (
-                        <>guest</>
+                        <>user</>
                      )}
-                     {/* {userInfo.role.name === "ROLE_ADMIN" ? (
-                           <>admin</>
-                        ) : (
-                           <>manager</>
-                        )} */}
+                  </div>
+               ) : (
+                  <div className="font-extrabold p-1 border-2 uppercase text-xs rounded-md text-primary-color border-primary-color">
+                     guest
                   </div>
                )}
+               {/* cart button */}
                {userInfo && (
                   <button
-                     className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mx-4 relative"
+                     className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg relative"
                      title="cart"
                      onClick={handleCartRoute}
                   >
@@ -741,6 +743,8 @@ const Header = () => {
                      )}
                   </button>
                )}
+
+               {/* user */}
 
                {userInfo ? (
                   <>
