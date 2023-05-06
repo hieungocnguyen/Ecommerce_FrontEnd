@@ -39,12 +39,16 @@ const Layout = ({ title, children }) => {
    };
 
    return (
-      <div>
+      <div className="">
          <Head>
-            <title>{title ? title + " - Mallity" : "Mallity"}</title>
+            <title>{title ? title + " - Open Market" : "Open Market"}</title>
             <meta name="description" content="Ecommerce Website" />
+            <meta
+               name="viewport"
+               content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+            />
          </Head>
-         <header>
+         <header className="">
             <Header />
          </header>
          <main className="w-[90%] mx-auto text-center min-h-[calc(100vh-60px-178px)]">

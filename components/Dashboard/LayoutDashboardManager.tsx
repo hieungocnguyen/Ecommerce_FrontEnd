@@ -75,6 +75,10 @@ const LayoutDashboard = ({ title, children }) => {
          <Head>
             <title>{title ? title + " - Manager Page" : "Manager Page"}</title>
             <meta name="description" content="Ecommerce Website" />
+            <meta
+               name="viewport"
+               content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+            />
          </Head>
          <div className="grid grid-cols-6">
             {/* Side Bar */}
