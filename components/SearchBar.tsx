@@ -57,14 +57,16 @@ const SearchBar = ({ categories, setNumberPage }) => {
 
    return (
       <div>
-         <div className="flex justify-center gap-4 my-4">
+         <div className="flex justify-center gap-4 my-4 mx-auto sm:w-[1000px] w-full">
             <button
                className="px-4 py-3 bg-primary-color rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-primary-color"
                onClick={() => setIsOpen(!isOpen)}
                type="button"
             >
                <BiListUl className="text-2xl" />
-               <div className="font-semibold">{trans.home.category}</div>
+               <div className="font-semibold hidden sm:flex">
+                  {trans.home.category}
+               </div>
             </button>
             <div className="text-left relative" ref={searchContainer}>
                <input
@@ -76,9 +78,9 @@ const SearchBar = ({ categories, setNumberPage }) => {
                      FetchSuggest(e.target.value);
                   }}
                   onClick={() => setIsOpenSearch(true)}
-                  className="rounded-lg px-4 py-3 font-semibold outline-none w-[500px] bg-light-primary dark:bg-dark-primary"
+                  className="rounded-lg px-4 py-3 font-semibold outline-none sm:w-[500px] w-[210px] bg-light-primary dark:bg-dark-primary"
                />
-               <div className="text-sm flex gap-3 pl-2 pt-2 ">
+               <div className="text-sm sm:flex gap-3 pl-2 pt-2 hidden">
                   {quickSearch.map((i) => (
                      <div
                         key={i}
@@ -91,7 +93,11 @@ const SearchBar = ({ categories, setNumberPage }) => {
                </div>
                {suggestText.length > 0 && isOpenSearch ? (
                   <>
-                     <div className="absolute rounded-lg z-30 left-0 top-14 w-full h-fit bg-light-primary p-2">
+                     <div
+                        className={`overflow-auto absolute rounded-lg z-30 left-0 top-14 w-full h-fit bg-light-primary p-2 ${
+                           suggestText.length > 5 ? "h-52" : "h-fit"
+                        }`}
+                     >
                         {suggestText.map((text) => (
                            <div
                               key={text}
@@ -115,7 +121,9 @@ const SearchBar = ({ categories, setNumberPage }) => {
                className="px-4 py-3 bg-primary-color rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-primary-color"
             >
                <BiSearch className="text-2xl" />
-               <div className="font-semibold">{trans.home.search}</div>
+               <div className="font-semibold sm:flex hidden">
+                  {trans.home.search}
+               </div>
             </button>
          </div>
          <div
