@@ -14,8 +14,8 @@ import momoLogo from "../../public/momologo.png";
 
 const Footer = () => {
    return (
-      <div className="bg-light-primary dark:bg-dark-primary w-[90%] mx-auto rounded-t-lg py-10 px-20 grid grid-cols-3">
-         <div className="pt-5">
+      <div className="bg-light-primary dark:bg-dark-primary w-[90%] mx-auto rounded-t-lg py-10 sm:px-20 flex flex-wrap">
+         <div className="flex-1 pt-5 text-center sm:text-left">
             <div>
                <div className="font-semibold text-2xl mb-3">About</div>
                <div className=" font-semibold">
@@ -27,7 +27,7 @@ const Footer = () => {
                </div>
             </div>
             <div className="font-semibold text-2xl mt-5">Linked services</div>
-            <div className="flex gap-4 mt-3">
+            <div className="flex gap-4 mt-3 sm:justify-start justify-center">
                <div className="relative overflow-hidden w-14 aspect-square">
                   <Image
                      src={ghnLogo}
@@ -46,7 +46,7 @@ const Footer = () => {
                </div>
             </div>
          </div>
-         <div className="text-center flex flex-col justify-between">
+         <div className="flex-1 text-center flex flex-col justify-between order-first">
             <div className="flex flex-col items-center gap-6">
                <div>
                   <Link href="/" title="Home">
@@ -71,7 +71,7 @@ const Footer = () => {
                </div>
             </div>
          </div>
-         <div className=" flex flex-col justify-between pt-5 text-right">
+         <div className="flex-1 flex flex-col justify-between pt-5 sm:text-right text-center">
             <div>
                <div className="font-semibold text-2xl mb-3">Contact</div>
                <div className="">
@@ -95,41 +95,6 @@ const Footer = () => {
             </div>
             <div className="italic text-sm">@Copyright OpenMarket</div>
          </div>
-         {/* <div className="flex flex-col items-center mb-5">
-            <Link href="/" title="Home">
-               <div className="cursor-pointer">
-                  <Logo width="125" />
-               </div>
-            </Link>
-            <div className="text-sm font-medium">Leading in quality</div>
-         </div>
-         <div className="grid grid-cols-3 mx-10">
-            <div className="text-center">
-               <div className="font-semibold text-sm">Customer Support:</div>
-               <div className="text-sm">Hotline: 18001234</div>
-               <div className="text-sm">Email: mallity@gmail.com</div>
-            </div>
-            <div className="text-center">
-               <div className="font-semibold text-sm">Social</div>
-               <div className="flex text-[28px] justify-center mt-[10px] gap-2">
-                  <Link href="/">
-                     <div className="cursor-pointer">
-                        <AiFillFacebook />
-                     </div>
-                  </Link>
-                  <Link href="/">
-                     <div className="cursor-pointer">
-                        <AiFillInstagram />
-                     </div>
-                  </Link>
-               </div>
-            </div>
-            <div className="text-center">
-               <div className="font-semibold text-sm">About Malltity</div>
-               <div className="text-sm">Introduce</div>
-               <div className="text-sm">Career</div>
-            </div>
-         </div> */}
       </div>
    );
 };
