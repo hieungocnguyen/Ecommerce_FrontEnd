@@ -406,7 +406,7 @@ const Header = () => {
                )}
             </div>
             <div
-               className={`absolute -left-5 top-14 z-20 rounded-lg bg-light-primary dark:bg-dark-primary overflow-auto w-[34rem] transition-all ease-out ${
+               className={`absolute -left-5 top-14 z-20 rounded-lg bg-light-primary dark:bg-dark-primary overflow-auto sm:w-[34rem] w-screen transition-all ease-out ${
                   notiList.length > 5 ? "h-[26rem]" : "h-fit"
                } ${
                   isNotiOpen
@@ -422,7 +422,7 @@ const Header = () => {
                   notiList.map((noti) => (
                      <div
                         key={noti.id}
-                        className={`flex gap-4 items-center p-3 hover:bg-[#bdbec5] dark:hover:bg-[#191919] ${
+                        className={`flex gap-4 sm:items-center items-start p-3 hover:bg-[#bdbec5] dark:hover:bg-[#191919] ${
                            noti.data.seen === true
                               ? "bg-light-primary dark:bg-dark-primary"
                               : "bg-[#d3d4dc] dark:bg-dark-spot"
@@ -439,7 +439,7 @@ const Header = () => {
                            </div>
                         </div>
                         <div className="w-full">
-                           <div className="whitespace-nowrap font-semibold mb-1 flex items-center gap-2">
+                           <div className="sm:whitespace-nowrap font-semibold mb-1 flex items-center gap-2">
                               {!noti.data.seen && (
                                  <div className="w-3 h-3 rounded-full bg-red-600"></div>
                               )}
@@ -724,22 +724,24 @@ const Header = () => {
                         )} */}
                   </div>
                )}
+               {userInfo && (
+                  <button
+                     className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mx-4 relative"
+                     title="cart"
+                     onClick={handleCartRoute}
+                  >
+                     <HiOutlineShoppingCart className="w-6 h-6" />
+                     {numberItem > 0 ? (
+                        <div className="absolute bg-primary-color rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
+                           {numberItem}
+                           {/* {cart.cartItems.length} */}
+                        </div>
+                     ) : (
+                        <></>
+                     )}
+                  </button>
+               )}
 
-               <button
-                  className="w-10 h-10 hover:bg-slate-300 dark:hover:bg-neutral-800 flex items-center justify-center hover: rounded-lg mx-4 relative"
-                  title="cart"
-                  onClick={handleCartRoute}
-               >
-                  <HiOutlineShoppingCart className="w-6 h-6" />
-                  {numberItem > 0 ? (
-                     <div className="absolute bg-primary-color rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
-                        {numberItem}
-                        {/* {cart.cartItems.length} */}
-                     </div>
-                  ) : (
-                     <></>
-                  )}
-               </button>
                {userInfo ? (
                   <>
                      <div className="relative">
@@ -822,7 +824,7 @@ const Header = () => {
                   <>
                      <div>
                         <Link href="/signin">
-                           <button className="py-2 px-3 bg-primary-color text-light-bg rounded-lg mr-4 text-sm font-semibold hover:shadow-lg hover:shadow-primary-color hover:brightness-90">
+                           <button className="py-2 px-3 bg-primary-color text-light-bg rounded-lg  text-sm font-semibold hover:shadow-lg hover:shadow-primary-color hover:brightness-90">
                               Sign in
                            </button>
                         </Link>
