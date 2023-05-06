@@ -390,7 +390,7 @@ const Header = () => {
             </div>
             {/* notify */}
             <div
-               className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer"
+               className="w-10 h-10 bg-light-primary rounded-lg dark:bg-dark-primary flex items-center justify-center hover:bg-slate-300 dark:hover:bg-neutral-800 cursor-pointer relative"
                onClick={() => {
                   if (isNotiOpen === true) {
                      fetchChangeSeenNoti();

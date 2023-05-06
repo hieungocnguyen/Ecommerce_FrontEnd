@@ -53,10 +53,10 @@ export default function Home({ categories }) {
             <SearchBar categories={categories} setNumberPage={setNumberPage} />
             <div>
                <Advertise />
-               <div className="my-16">
+               <div className="sm:my-16 my-6">
                   <HotAgency />
                </div>
-               <div className="grid grid-cols-4 gap-10 h-fit">
+               <div className="sm:grid hidden grid-cols-4 gap-10 h-fit">
                   <div className="border-[3px] border-primary-color p-4 rounded-lg flex gap-4 items-center">
                      <div className="relative w-16 aspect-square  overflow-hidden">
                         <Image
@@ -72,7 +72,7 @@ export default function Home({ categories }) {
                      </div>
                   </div>
                   <div className="border-[3px] border-primary-color p-4 rounded-lg  flex gap-4 items-center">
-                     <div className="relative w-16 aspect-square">
+                     <div className="relative w-16 aspect-square overflow-hidden">
                         <Image
                            src={f2}
                            alt="img"
@@ -85,7 +85,7 @@ export default function Home({ categories }) {
                      </div>
                   </div>
                   <div className="border-[3px] border-primary-color p-4 rounded-lg flex gap-4 items-center">
-                     <div className="relative w-16 aspect-square  overflow-hidden">
+                     <div className="relative w-16 aspect-square">
                         <Image
                            src={f3}
                            alt="img"
@@ -116,7 +116,7 @@ export default function Home({ categories }) {
                   <h1 className="text-center font-bold text-2xl my-5">
                      {trans.home.allPost}
                   </h1>
-                  <div className="grid lg:grid-cols-4 grid-cols-2 gap-10">
+                  <div className="grid sm:grid-cols-4 grid-cols-1 gap-10">
                      {salePosts.map((i) => (
                         <ProductItem key={i.id} product={i} inCompare={false} />
                      ))}

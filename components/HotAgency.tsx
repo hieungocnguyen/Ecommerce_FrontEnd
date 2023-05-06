@@ -40,7 +40,7 @@ const HotAgency = () => {
                      </span>
                      {trans.home.hotAgency}
                   </div>
-                  <div className="grid grid-cols-4 gap-10">
+                  <div className="grid sm:grid-cols-4 grid-cols-2 sm:gap-10 gap-4">
                      {hotAgency.map((agency) => (
                         <AgencyCard
                            agency={agency[0]}
@@ -50,7 +50,7 @@ const HotAgency = () => {
                      ))}
                   </div>
                   <Link href="/allagency">
-                     <div className="mt-10 text-lg px-5 py-3 rounded-lg border-2 border-primary-color inline-block hover:bg-primary-color hover:text-white font-semibold cursor-pointer hover:shadow-lg hover:shadow-primary-color">
+                     <div className="sm:mt-10 mt-6 text-lg px-5 py-3 rounded-lg border-2 border-primary-color inline-block hover:bg-primary-color hover:text-white font-semibold cursor-pointer hover:shadow-lg hover:shadow-primary-color">
                         {trans.home.seeAllAgency}
                      </div>
                   </Link>
