@@ -14,7 +14,7 @@ import momoLogo from "../../public/momologo.png";
 
 const Footer = () => {
    return (
-      <div className="bg-light-primary dark:bg-dark-primary w-[90%] mx-auto rounded-t-lg py-10 sm:px-20 flex flex-wrap">
+      <div className="bg-light-primary dark:bg-dark-primary sm:w-[90%] w-full mx-auto rounded-t-lg py-10 sm:px-20 px-10 flex flex-wrap">
          <div className="flex-1 pt-5 text-center sm:text-left">
             <div>
                <div className="font-semibold text-2xl mb-3">About</div>
