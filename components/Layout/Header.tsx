@@ -705,7 +705,7 @@ const Header = () => {
                {/* role label */}
                {userInfo ? (
                   <div
-                     className={` font-extrabold p-1 border-2 uppercase text-xs rounded-md ${
+                     className={`sm:inline-block hidden font-extrabold p-1 border-2 uppercase text-xs rounded-md ${
                         agencyInfo.isActive === 0 &&
                         userInfo.role.name === "ROLE_MANAGER"
                            ? "text-red-600 border-red-600"
@@ -721,7 +721,7 @@ const Header = () => {
                      )}
                   </div>
                ) : (
-                  <div className="font-extrabold p-1 border-2 uppercase text-xs rounded-md text-primary-color border-primary-color">
+                  <div className="sm:inline-block hidden font-extrabold p-1 border-2 uppercase text-xs rounded-md text-primary-color border-primary-color">
                      guest
                   </div>
                )}
@@ -734,7 +734,7 @@ const Header = () => {
                   >
                      <HiOutlineShoppingCart className="w-6 h-6" />
                      {numberItem > 0 ? (
-                        <div className="absolute bg-primary-color rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white">
+                        <div className="absolute bg-primary-color rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white whitespace-nowrap">
                            {numberItem}
                            {/* {cart.cartItems.length} */}
                         </div>
