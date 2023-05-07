@@ -75,7 +75,7 @@ const AgencyCard = ({ agency, likeNumber }) => {
                      {agency.field.name}
                   </div>
                </div>
-               <div className="absolute top-0 right-0 bg-light-primary rounded-bl-lg">
+               <div className="absolute top-0 right-0 bg-light-primary dark:bg-dark-primary rounded-bl-lg">
                   <div className="w-14 h-14 flex justify-center items-center">
                      {stateFollow ? (
                         <button

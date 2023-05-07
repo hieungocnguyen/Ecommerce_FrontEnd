@@ -56,7 +56,7 @@ export default function Home({ categories }) {
                <div className="sm:my-16 my-6">
                   <HotAgency />
                </div>
-               <div className="sm:grid hidden grid-cols-4 gap-10 h-fit">
+               <div className="grid sm:grid-cols-4 grid-cols-1 gap-10 h-fit">
                   <div className="border-[3px] border-primary-color p-4 rounded-lg flex gap-4 items-center">
                      <div className="relative w-16 aspect-square  overflow-hidden">
                         <Image
