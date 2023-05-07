@@ -127,7 +127,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
             </button>
          </div>
          <div
-            className={`grid sm:grid-cols-5 grid-cols-2 gap-8 absolute z-40 top-[160px] dark:bg-dark-primary bg-light-primary rounded-lg p-8 w-[90%] transition-all ease-out duration-200 ${
+            className={`grid sm:grid-cols-5 grid-cols-2 gap-8 absolute z-40 sm:top-[160px] top-[140px] dark:bg-dark-primary bg-light-primary rounded-lg p-8 w-[90%] transition-all ease-out duration-200 ${
                isOpen ? "scale-100" : "scale-0 -translate-y-40 -translate-x-80"
             }`}
             id="container-category"
