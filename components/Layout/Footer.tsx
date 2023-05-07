@@ -15,7 +15,7 @@ import momoLogo from "../../public/momologo.png";
 const Footer = () => {
    return (
       <div className="bg-light-primary dark:bg-dark-primary sm:w-[90%] w-full mx-auto rounded-t-lg py-10 sm:px-20 px-10 flex flex-wrap">
-         <div className="flex-1 pt-5 text-center sm:text-left">
+         <div className="flex-1 pt-5 text-center sm:text-left order-1">
             <div>
                <div className="font-semibold text-2xl mb-3">About</div>
                <div className=" font-semibold">
@@ -46,7 +46,7 @@ const Footer = () => {
                </div>
             </div>
          </div>
-         <div className="flex-1 text-center flex flex-col justify-between order-first">
+         <div className="flex-1 text-center flex flex-col justify-between sm:order-2 order-first">
             <div className="flex flex-col items-center gap-6">
                <div>
                   <Link href="/" title="Home">
@@ -71,7 +71,7 @@ const Footer = () => {
                </div>
             </div>
          </div>
-         <div className="flex-1 flex flex-col justify-between pt-5 sm:text-right text-center">
+         <div className="flex-1 flex flex-col justify-between pt-5 sm:text-right text-center order-3">
             <div>
                <div className="font-semibold text-2xl mb-3">Contact</div>
                <div className="">
