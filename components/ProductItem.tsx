@@ -234,12 +234,12 @@ const ProductItem = ({ product, inCompare }) => {
          </div>
 
          <div
-            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-30 ${
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center sm:justify-center justify-start z-30 ${
                isOpenQuickViewModal ? "flex" : "hidden"
             }`}
          >
             {isOpenQuickViewModal && (
-               <div className="w-1/2 h-fit">
+               <div className="sm:w-1/2 w-full h-fit overflow-x-auto">
                   <QuickView
                      postID={product.id}
                      setIsOpenQuickViewModal={setIsOpenQuickViewModal}
@@ -248,12 +248,12 @@ const ProductItem = ({ product, inCompare }) => {
             )}
          </div>
          <div
-            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-30 ${
+            className={`fixed top-0 left-0 w-full h-screen backdrop-blur-sm items-center sm:justify-center justify-start z-30 ${
                isOpenItemsModal ? "flex" : "hidden"
             }`}
          >
             {isOpenItemsModal && (
-               <div className="w-3/4 h-[34rem]">
+               <div className="sm:w-3/4 w-full h-[34rem] overflow-x-auto">
                   <ItemsInPost
                      items={product.itemPostSet}
                      setIsOpenItemsModal={setIsOpenItemsModal}

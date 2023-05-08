@@ -39,7 +39,7 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
    }, [postID, setIsOpenQuickViewModal, wrapperRef]);
    return (
       <div
-         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 w-full h-full relative shadow-lg shadow-primary-color"
+         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 sm:w-full w-[700px] h-full relative shadow-lg shadow-primary-color"
          ref={wrapperRef}
       >
          {post.picturePostSet ? (

@@ -57,7 +57,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
 
    return (
       <div>
-         <div className="flex justify-center gap-4 my-4 mx-auto sm:w-[1000px] w-full">
+         <div className="flex justify-center gap-4 my-4 mx-auto sm:w-[90%] w-full">
             <button
                className="px-4 py-3 bg-primary-color rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-primary-color"
                onClick={() => setIsOpen(!isOpen)}

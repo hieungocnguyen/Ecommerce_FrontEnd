@@ -100,13 +100,13 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
 
    return (
       <div
-         className="dark:bg-neutral-800 bg-light-bg rounded-lg p-8 w-full h-full relative shadow-lg border-2 border-primary-color"
+         className="dark:bg-neutral-800 bg-light-bg rounded-lg p-8 h-full relative shadow-lg border-2 border-primary-color sm:w-full w-[1000px]"
          ref={wrapperRef}
       >
          <div className="mb-8 font-semibold text-2xl text-center">
             Choose item
          </div>
-         <div className="overflow-auto p-4 h-[340px]  rounded-lg dark:bg-dark-primary bg-light-spot">
+         <div className="p-4 h-[340px] rounded-lg dark:bg-dark-primary bg-light-spot">
             <div className="grid grid-cols-12 gap-4 items-center font-semibold mb-4">
                <div className="col-span-5">Item</div>
                <div className="col-span-2">Unit price</div>
