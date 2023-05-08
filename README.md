@@ -1,4 +1,4 @@
-# OpenMarket - E-Commerce Project
+# OpenMarket - E-Commerce Project - 2023
 
 A granduate project at Ho Chi Minh City Open University
 
