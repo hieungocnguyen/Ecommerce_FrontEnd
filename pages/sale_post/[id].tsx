@@ -300,7 +300,7 @@ const ProductPage = ({ salePost }) => {
                      setLoading={setLoading}
                   />
                ) : (
-                  <div>
+                  <div className="my-8">
                      <div className="relative overflow-hidden mx-auto w-40 aspect-square">
                         <Image
                            src={loginImg}
