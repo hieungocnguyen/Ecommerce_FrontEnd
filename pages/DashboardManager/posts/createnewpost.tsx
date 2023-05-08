@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 // import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { title } from "process";
 
 const QuillNoSSRWrapper = dynamic(import("react-quill"), {
    ssr: false,
@@ -24,6 +25,8 @@ const CreateNewPost = () => {
       handleSubmit,
       watch,
       setValue,
+      setError,
+      clearErrors,
       formState: { errors },
    } = useForm();
    const [selectedImage, setSelectedImage] = useState();
@@ -35,6 +38,7 @@ const CreateNewPost = () => {
    const [finalPrice, setFinalPrice] = useState("");
    const [description, setDescription] = useState("");
    const router = useRouter();
+   const WatchErrorTitle = watch("title");
 
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
@@ -80,6 +84,7 @@ const CreateNewPost = () => {
          });
          return;
       }
+
       try {
          setLoading(true);
          if (importImage) {
@@ -155,7 +160,7 @@ const CreateNewPost = () => {
                         className="object-cover"
                      />
                      <label
-                        className={`absolute w-full h-full top-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0  z-20 cursor-pointer `}
+                        className={`absolute w-full h-full top-0 dark:hover:bg-dark-primary hover:bg-light-primary hover:opacity-90 opacity-0 z-20 cursor-pointer `}
                         htmlFor="upload-photo"
                      >
                         <div className="w-full h-full text-5xl flex justify-center items-center">
@@ -189,7 +194,21 @@ const CreateNewPost = () => {
                            required
                            placeholder="Title"
                            className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
+                           onBlur={(e) => {
+                              if (e.target.value.length < 20) {
+                                 setError("title", { type: "focus" });
+                              } else {
+                                 clearErrors("title");
+                              }
+                           }}
                         />
+                        {errors.title &&
+                           WatchErrorTitle.length < 20 &&
+                           WatchErrorTitle.length > 0 && (
+                              <p className="text-sm text-red-500 pl-2">
+                                 Title must be at least 20 characters
+                              </p>
+                           )}
                      </div>
                      <div className="col-span-6">
                         <label htmlFor="category" className="pl-2 text-sm">
