@@ -82,6 +82,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
             });
             setImportImage(false);
             setSelectedImage(undefined);
+            setUnitPrice("");
          }
       } catch (error) {
          console.log(error);

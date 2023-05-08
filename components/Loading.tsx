@@ -11,7 +11,9 @@ const Loading = () => {
          url !== router.asPath && setLoading(true);
       };
       const handleComplete = (url) => {
-         // console.log(router);
+         if (router.asPath.slice(0, 15) == "/signinprogress") {
+            setLoading(false);
+         }
 
          if (router.locale != "en") {
             (url.slice(3).length == 0 ? "/" : url.slice(3)) === router.asPath &&
@@ -20,6 +22,7 @@ const Loading = () => {
             url === router.asPath && setLoading(false);
          }
       };
+
       router.events.on("routeChangeStart", handleStart);
       router.events.on("routeChangeComplete", handleComplete);
       router.events.on("routeChangeError", handleComplete);

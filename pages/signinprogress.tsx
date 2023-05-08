@@ -23,12 +23,10 @@ const SignGG = () => {
          Cookies.set("accessToken", jwt);
          Cookies.set("userInfo", JSON.stringify(resUser.data.data));
          dispatch({ type: "USER_LOGIN", payload: resUser.data.data });
-         if (resUser) {
-            router.push("/");
-            toast.success("Sign in successful!", {
-               position: "top-center",
-            });
-         }
+         router.push("/");
+         toast.success("Sign in successful!", {
+            position: "top-center",
+         });
       } catch (error) {
          console.log(error);
       }
