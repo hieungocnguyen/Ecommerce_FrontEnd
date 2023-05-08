@@ -65,10 +65,12 @@ const LayoutDashboard = ({ title, children }) => {
    };
 
    useEffect(() => {
-      if (agencyInfo) {
+      if (agencyInfo && userInfo.role.id === 2) {
          SnapFirestore();
+      } else {
+         router.push("/403");
       }
-   }, [agencyInfo]);
+   }, []);
 
    return (
       <div>

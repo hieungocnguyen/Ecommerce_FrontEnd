@@ -459,12 +459,13 @@ const CommentForm = ({
       <>
          <form onSubmit={addComment} className=" my-6 rounded-lg">
             <div className="">
-               <input
-                  type="text"
+               <textarea
+                  // type="text"
                   placeholder="Comment..."
                   className=" rounded-lg h-18 w-[90%] mx-auto my-4 p-4"
                   onChange={onChangeContent}
                   value={content}
+                  rows={4}
                />
             </div>
             <div className="my-4">

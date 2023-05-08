@@ -47,7 +47,7 @@ const CompareProduct = ({ openCompare }) => {
                Comparing Product
             </div>
             <div className="mt-4">
-               <div className={`grid grid-cols-4 gap-4 `}>
+               <div className={`grid sm:grid-cols-4 grid-cols-1 gap-4 `}>
                   {posts.length > 0 ? (
                      <>
                         {posts.map((product) => (
