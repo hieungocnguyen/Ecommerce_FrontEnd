@@ -16,13 +16,15 @@ import "swiper/css";
 import Loader from "../../components/Loader";
 import dynamic from "next/dynamic";
 import moment from "moment";
+import loginImg from "../../public/login.png";
 // import RelativePost from "../../components/RelativePost";
 
 const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
 const RelativePost = dynamic(() => import("../../components/RelativePost"));
 
 const ProductPage = ({ salePost }) => {
-   // const { state, dispatch } = useContext(Store);
+   const { state, dispatch } = useContext(Store);
+   const { userInfo } = state;
    // const [quantityItems, setQuantityItems] = useState([]);
    const [comments, setComments] = useState([]);
    const [mainPic, setMainPic] = useState();
@@ -288,14 +290,31 @@ const ProductPage = ({ salePost }) => {
                <div className="font-semibold text-left ml-12 text-xl">
                   Feedback
                </div>
-               <CommentForm
-                  postID={id}
-                  comments={comments}
-                  setComments={setComments}
-                  setStarAvg={setStarAvg}
-                  setCommentCount={setCommentCount}
-                  setLoading={setLoading}
-               />
+               {userInfo ? (
+                  <CommentForm
+                     postID={id}
+                     comments={comments}
+                     setComments={setComments}
+                     setStarAvg={setStarAvg}
+                     setCommentCount={setCommentCount}
+                     setLoading={setLoading}
+                  />
+               ) : (
+                  <div>
+                     <div className="relative overflow-hidden mx-auto w-40 aspect-square">
+                        <Image
+                           src={loginImg}
+                           alt="login"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                     </div>
+                     <div className="uppercase mt-4 font-semibold">
+                        Log in to comment
+                     </div>
+                  </div>
+               )}
+
                <Suspense fallback={<p>Loading...</p>}>
                   {comments
                      .sort((a, b) => (a.id < b.id ? 1 : -1))
@@ -451,7 +470,8 @@ const CommentForm = ({
             }
          }
       } else {
-         router.push("/signin");
+         // router.push("/signin");
+         toast.error("Please sign in to comment!");
       }
    };
 
