@@ -119,7 +119,7 @@ const Signin = () => {
                   />
                </div>
                <button
-                  className="bg-primary-color py-3 px-5 my-4 cursor-pointer hover:opacity-80 rounded-lg font-semibold text-white "
+                  className="bg-primary-color py-3 px-5 my-4 cursor-pointer hover:shadow-lg hover:shadow-primary-color transition-all rounded-lg font-semibold text-white "
                   title="Sign in"
                >
                   Sign in with Open Market
@@ -136,7 +136,7 @@ const Signin = () => {
             <div className="flex flex-col max-w-sm mx-auto">
                <Link href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/ou-ecommerce/login-google&response_type=code&client_id=405256729803-ldem34qntvtuhmtenig599itet2489ga.apps.googleusercontent.com&approval_prompt=force">
                   <button
-                     className="p-2 bg-[#EA4335] rounded-lg hover:opacity-80 mb-4 font-semibold text-white"
+                     className="p-2 bg-[#EA4335] rounded-lg hover:shadow-lg hover:shadow-[#EA4335] transition-all mb-4 font-semibold text-white"
                      title="Google account"
                   >
                      Sign in with Google
@@ -144,7 +144,7 @@ const Signin = () => {
                </Link>
                <Link href="https://www.facebook.com/dialog/oauth?scope=email&client_id=555265043013184&redirect_uri=http://localhost:8080/ou-ecommerce/login-facebook">
                   <button
-                     className="p-2 bg-[#1877f2] rounded-lg hover:opacity-80 mb-4 font-semibold text-white"
+                     className="p-2 bg-[#1877f2] rounded-lg mb-4 font-semibold text-white hover:shadow-lg hover:shadow-primary-color transition-all"
                      title="Facebook account"
                   >
                      Sign in with Facebook

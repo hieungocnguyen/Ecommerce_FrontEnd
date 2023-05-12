@@ -5,11 +5,15 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import API, { endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
-import ProductItem from "../components/ProductItem";
+// import ProductItem from "../components/ProductItem";
 import SearchBar from "../components/SearchBar";
 import Image from "next/image";
 import emptyBox from "../public/empty-box.png";
 import toast from "react-hot-toast";
+import dynamic from "next/dynamic";
+import { ClipLoader } from "react-spinners";
+
+const ProductItem = dynamic(import("../components/ProductItem"));
 
 function valuetext(value: number) {
    return `${value}VND`;
@@ -25,8 +29,10 @@ const Search = ({ categories }) => {
    const [loading, setLoading] = useState(false);
    const [categoryID, setCategoryID] = useState(0);
    const [agencyNameSearch, setAgencyNameSearch] = useState("");
+   const [isFetching, setIsFetching] = useState(false);
 
    const loadPosts = async () => {
+      setIsFetching(true);
       try {
          const resPosts = await API.post(endpoints["search_salePost"], {
             kw: router.query.input,
@@ -40,8 +46,10 @@ const Search = ({ categories }) => {
          });
          setSalePosts(resPosts.data.data.listResult);
          setTotalPage(resPosts.data.data.totalPage);
+         setIsFetching(false);
       } catch (error) {
          console.log(error);
+         setIsFetching(false);
          toast.error("Something wrong, please try again!");
       }
    };
@@ -121,12 +129,12 @@ const Search = ({ categories }) => {
                         onChange={handleChange}
                         valueLabelDisplay="auto"
                         getAriaValueText={valuetext}
-                        step={200000}
+                        step={100000}
                         // marks
                         max={10000000}
-                        min={100000}
+                        min={10000}
                         sx={{
-                           color: "#525EC1",
+                           color: "#2065d1",
                         }}
                      />
                   </div>
@@ -160,7 +168,7 @@ const Search = ({ categories }) => {
                   <div className="">
                      <input
                         type="text"
-                        className="p-3 w-full"
+                        className="p-3 w-full rounded-lg"
                         placeholder="Agency name"
                         onChange={(e) => setAgencyNameSearch(e.target.value)}
                      />
@@ -175,7 +183,37 @@ const Search = ({ categories }) => {
                   </div>
                </form>
                {/* posts side */}
-               {salePosts.length > 0 ? (
+               {!isFetching ? (
+                  salePosts.length > 0 ? (
+                     <div className="col-span-6 grid grid-cols-3 gap-8">
+                        {salePosts.map((post) => (
+                           <ProductItem
+                              key={post.id}
+                              product={post}
+                              inCompare={false}
+                           />
+                        ))}
+                     </div>
+                  ) : (
+                     <div className="col-span-6 flex justify-center items-center">
+                        <div className="relative overflow-hidden aspect-square w-1/3 mx-auto">
+                           <Image
+                              src={emptyBox}
+                              alt="empty"
+                              layout="fill"
+                              className="object-cover"
+                           />
+                        </div>
+                     </div>
+                  )
+               ) : (
+                  <div className="col-span-8">
+                     <div className="flex justify-center items-center">
+                        <ClipLoader size={50} color="#FF8500" />
+                     </div>
+                  </div>
+               )}
+               {/* {salePosts.length > 0 ? (
                   <div className="col-span-6 grid grid-cols-3 gap-8">
                      {salePosts.map((post) => (
                         <ProductItem
@@ -196,7 +234,7 @@ const Search = ({ categories }) => {
                         />
                      </div>
                   </div>
-               )}
+               )} */}
             </div>
             {/* paginate */}
             <div

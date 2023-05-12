@@ -121,7 +121,7 @@ const Payment = () => {
             //make sure to render the items correctly
             if (temp.length === resCart.data.data.length) {
                setIsLoadComplete(true);
-               console.log(temp);
+               // console.log(temp);
                setItemsInCart(temp);
                if (currentAddress) {
                   CheckDisablePaymentType(temp);

@@ -18,7 +18,7 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
             }
             setIDOpenOrderPrintModel(-1);
          } catch (error) {
-            toast.error(`${error.response.data.message}`, {
+            toast.error("Something wrong!", {
                position: "top-center",
             });
             setIDOpenOrderPrintModel(-1);
@@ -51,7 +51,7 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
                   className="hidden orderstate"
                   id="print-size-1"
                   type="radio"
-                  name="shiftradio"
+                  name="printradio"
                />
                <label
                   className="grid grid-rows-1 gap-1 p-4 border-[3px] border-gray-400 transition-all cursor-pointer rounded-lg"
@@ -105,7 +105,7 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
                   className="hidden orderstate"
                   id="print-size-2"
                   type="radio"
-                  name="shiftradio"
+                  name="printradio"
                   // checked=
                />
                <label
@@ -160,7 +160,7 @@ const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
                   className="hidden orderstate"
                   id="print-size-3"
                   type="radio"
-                  name="shiftradio"
+                  name="printradio"
                   // checked=
                />
                <label

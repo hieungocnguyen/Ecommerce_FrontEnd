@@ -169,8 +169,9 @@ const Orders = () => {
                            </div>
                            <div className="col-span-2">
                               {new Date(order.orders.createdDate).getHours()}
-                              {":"}
+                              {"h"}
                               {new Date(order.orders.createdDate).getMinutes()}
+                              {"p"}
                               <br />
                               {new Date(
                                  order.orders.createdDate
@@ -264,9 +265,6 @@ const Orders = () => {
                               layout="fill"
                               className="object-cover"
                            />
-                        </div>
-                        <div className="uppercase text-2xl font-semibold mb-4">
-                           You have not followed any agencies yet
                         </div>
                      </div>
                   )}

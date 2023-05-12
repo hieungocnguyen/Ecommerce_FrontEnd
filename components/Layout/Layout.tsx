@@ -68,7 +68,7 @@ const Layout = ({ title, children }) => {
             ></div>
          </div>
          <div
-            className={`fixed  right-10 w-14 h-14 z-20 rounded-full bg-primary-color flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-primary-color ${
+            className={`fixed right-10 w-14 h-14 z-20 rounded-full bg-primary-color flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-primary-color ${
                visible ? "scale-100" : "scale-0"
             } ${
                lengthCompare === 0 && !openCompare ? "bottom-10" : "bottom-28"

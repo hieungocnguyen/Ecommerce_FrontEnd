@@ -759,7 +759,7 @@ const Header = () => {
                            />
                         </div>
                         <div
-                           className={`absolute top-14 right-0 dark:bg-dark-primary bg-light-primary rounded-lg z-20 font-semibold transition-all ease-out duration-200 ${
+                           className={`absolute top-14 right-0 dark:bg-dark-primary bg-light-primary rounded-lg z-40 font-semibold transition-all ease-out duration-200 ${
                               isOpen
                                  ? "scale-100"
                                  : "scale-0 translate-x-16 -translate-y-36"

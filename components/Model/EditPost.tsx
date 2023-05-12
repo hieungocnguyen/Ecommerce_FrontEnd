@@ -24,7 +24,6 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
    const [post, setPost] = useState<any>();
    const [selectedImage, setSelectedImage] = useState();
    const [importImage, setImportImage] = useState(false);
-   const [titleVali, setTitleVali] = useState(false);
    const [initialPrice, setInitialPrice] = useState("");
    const [finalPrice, setFinalPrice] = useState("");
    const [description, setDescription] = useState("");
@@ -59,7 +58,8 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
       setLoading(true);
       let imageURL = post.avatar;
       if (post.title.length <= 20) {
-         setTitleVali(true);
+         toast.error("Title is at least 20 characters");
+         setLoading(false);
       } else {
          try {
             if (importImage) {
@@ -192,7 +192,6 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               defaultValue={post.title}
                               placeholder="Title"
                               className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
-                              accept="image/png, image/jpeg"
                            />
                         </div>
                         <div className="col-span-6">

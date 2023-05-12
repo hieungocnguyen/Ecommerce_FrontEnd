@@ -27,23 +27,27 @@ const OrderState = ({
    }, [wrapperRef]);
 
    const handleSubmitState = async () => {
-      try {
-         const res = await API.patch(
-            endpoints["change_state"](IDOpenModelChangeState, stateOrder)
-         );
-         if (res.data.code == "200") {
-            setIDOpenModelChangeState(-1);
-            setStateCurrentID(-1);
+      if (stateOrder > -1) {
+         try {
+            const res = await API.patch(
+               endpoints["change_state"](IDOpenModelChangeState, stateOrder)
+            );
+            if (res.data.code == "200") {
+               setIDOpenModelChangeState(-1);
+               setStateCurrentID(-1);
 
-            toast.success("Change state successful", {
+               toast.success("Change state successful", {
+                  position: "top-center",
+               });
+            }
+         } catch (error) {
+            toast.error("Something wrong, try again!", {
                position: "top-center",
             });
+            console.log(error);
          }
-      } catch (error) {
-         toast.error("something wrong, try again!", {
-            position: "top-center",
-         });
-         console.log(error);
+      } else {
+         toast.error("Please select a state!");
       }
    };
 

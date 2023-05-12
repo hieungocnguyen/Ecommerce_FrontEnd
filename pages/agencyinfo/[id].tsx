@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
 import { useRouter } from "next/router";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useContext, useState } from "react";
 import API, { authAxios, endpoints } from "../../API";
 import Layout from "../../components/Layout/Layout";
 // import ProductItem from "../../components/ProductItem";
@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import { BiArrowBack } from "react-icons/bi";
 import useTrans from "../../hook/useTrans";
 import toast from "react-hot-toast";
+import { Store } from "../../utils/Store";
 
 const ProductItem = dynamic(import("../../components/ProductItem"));
 
@@ -18,6 +19,8 @@ const AgencyPage = ({ agencyInfo, posts }) => {
    const router = useRouter();
    const [numberPage, setnumberPage] = useState(1);
    const [stateFollow, setStateFollow] = useState<boolean>(false);
+   const { state, dispatch } = useContext(Store);
+   const { userInfo } = state;
 
    const trans = useTrans();
    const fetchFollowAgencyState = async () => {
@@ -38,7 +41,7 @@ const AgencyPage = ({ agencyInfo, posts }) => {
    }, [agencyInfo]);
 
    const handleFollowAgency = async () => {
-      if (agencyInfo) {
+      if (userInfo) {
          try {
             const res = await authAxios().get(
                endpoints["follow_agency"](agencyInfo.id)
@@ -81,7 +84,7 @@ const AgencyPage = ({ agencyInfo, posts }) => {
                </div>
             </div>
             <div
-               className={`mt-36 px-4 py-3 border-primary-color border-2 inline-block mx-auto cursor-pointer rounded-lg font-semibold ${
+               className={`mt-36 px-4 py-3 border-primary-color border-2 inline-block mx-auto cursor-pointer rounded-lg font-semibold hover:shadow-lg hover:shadow-primary-color ${
                   stateFollow ? "" : "bg-primary-color text-white"
                }`}
                onClick={() => handleFollowAgency()}

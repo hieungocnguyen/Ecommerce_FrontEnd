@@ -20,7 +20,7 @@ const ProductItem = ({ product, inCompare }) => {
    const [stateLike, setStateLike] = useState(false);
    const router = useRouter();
    const { state, dispatch } = useContext(Store);
-   const { compare } = state;
+   const { compare, userInfo } = state;
    const [isOpenQuickViewModal, setIsOpenQuickViewModal] = useState(false);
    const [isOpenItemsModal, setIsOpenItemsModal] = useState(false);
 
@@ -161,7 +161,11 @@ const ProductItem = ({ product, inCompare }) => {
                   title="Show items"
                   onClick={(event) => {
                      event.stopPropagation();
-                     setIsOpenItemsModal(true);
+                     if (userInfo) {
+                        setIsOpenItemsModal(true);
+                     } else {
+                        toast.error("You must sign in to continue!");
+                     }
                   }}
                   disabled={
                      product.agency && product.agency.isActive == 1
@@ -239,7 +243,7 @@ const ProductItem = ({ product, inCompare }) => {
             }`}
          >
             {isOpenQuickViewModal && (
-               <div className="sm:w-1/2 w-full h-fit overflow-x-auto">
+               <div className="sm:w-3/5 w-full h-fit overflow-x-auto">
                   <QuickView
                      postID={product.id}
                      setIsOpenQuickViewModal={setIsOpenQuickViewModal}

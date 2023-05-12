@@ -15,7 +15,13 @@ import {
 } from "@mui/material";
 import Loader from "../../../components/Loader";
 import toast, { Toaster } from "react-hot-toast";
-import { BiEditAlt, BiSave, BiTrashAlt, BiUpload } from "react-icons/bi";
+import {
+   BiArrowBack,
+   BiEditAlt,
+   BiSave,
+   BiTrashAlt,
+   BiUpload,
+} from "react-icons/bi";
 import EditItem from "../../../components/Model/EditItem";
 import NewItem from "../../../components/Model/NewItem";
 import dynamic from "next/dynamic";
@@ -123,7 +129,17 @@ const ItemsOfPost = () => {
          <div className="relative p-8">
             <div>
                <div className="flex justify-between mb-4">
-                  <div className="font-semibold text-2xl">Items</div>
+                  <div className="flex gap-4 items-center">
+                     <div
+                        className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
+                        onClick={() => router.back()}
+                     >
+                        <BiArrowBack />
+                     </div>
+                     <div className="font-semibold text-2xl">
+                        / Items in sale post
+                     </div>
+                  </div>
                   <div
                      className="p-3 bg-primary-color rounded-lg font-semibold  cursor-pointer shadow-sm shadow-primary-color hover:shadow-lg hover:shadow-primary-color text-white"
                      onClick={() => setIsOpenNewItem(true)}

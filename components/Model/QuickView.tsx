@@ -39,12 +39,12 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
    }, [postID, setIsOpenQuickViewModal, wrapperRef]);
    return (
       <div
-         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 sm:w-full w-[700px] h-full relative shadow-lg shadow-primary-color"
+         className="dark:bg-neutral-800 bg-light-primary rounded-lg p-8 sm:w-full w-[700px] h-full relative border-2 border-primary-color"
          ref={wrapperRef}
       >
          {post.picturePostSet ? (
             <div className="grid grid-cols-12 gap-6">
-               <div className="col-span-5">
+               <div className="col-span-4">
                   <div className="overflow-hidden aspect-square relative mx-auto">
                      <Image
                         src={mainPic}
@@ -79,7 +79,7 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
                         ))}
                   </Swiper>
                </div>
-               <div className="col-span-7">
+               <div className="col-span-8">
                   <div className="dark:bg-dark-primary bg-light-primary rounded-lg text-left">
                      <div className="font-semibold text-2xl text-left h-20 leading-10">
                         {post.title}
