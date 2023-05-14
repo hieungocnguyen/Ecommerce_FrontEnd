@@ -39,6 +39,7 @@ const CreateNewPost = () => {
    const [description, setDescription] = useState("");
    const router = useRouter();
    const WatchErrorTitle = watch("title");
+   const [categoryList, setCategoryList] = useState<any>([]);
 
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
@@ -55,7 +56,13 @@ const CreateNewPost = () => {
       }
    };
 
-   useEffect(() => {}, []);
+   const fetchCategory = async () => {
+      const res = await API.get(endpoints["category_all"]);
+      setCategoryList(res.data.data);
+   };
+   useEffect(() => {
+      fetchCategory();
+   }, []);
 
    const currencyFormat = (e) => {
       let value = e.target.value;
@@ -214,6 +221,7 @@ const CreateNewPost = () => {
                         <label htmlFor="category" className="pl-2 text-sm">
                            Category
                         </label>
+
                         <select
                            id="category"
                            name="categoryID"
@@ -221,20 +229,11 @@ const CreateNewPost = () => {
                            className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                            title="category"
                         >
-                           <option value={1}>Moms, Kids & Babies</option>
-                           <option value={2}>Consumer Electronics</option>
-                           <option value={3}>Fashion</option>
-                           <option value={4}>Home & Living</option>
-                           <option value={5}>Shoes</option>
-                           <option value={6}>Grocery</option>
-                           <option value={7}>Computer & Accessories</option>
-                           <option value={8}>Mobile & Gadgets</option>
-                           <option value={9}>Sport & Outdoor</option>
-                           <option value={10}>Books & Stationery</option>
-                           <option value={11}>Home Appliances</option>
-                           <option value={12}>Cameras</option>
-                           <option value={13}>Watches</option>
-                           <option value={14}>Automotive</option>
+                           {categoryList.map((category) => (
+                              <option value={category.id} key={category.id}>
+                                 {category.name}
+                              </option>
+                           ))}
                         </select>
                      </div>
                      <div className="col-span-6">

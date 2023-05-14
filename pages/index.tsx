@@ -16,6 +16,7 @@ import f3 from "../public/3feature.png";
 import f4 from "../public/4feature.png";
 import Image from "next/image";
 import useTrans from "../hook/useTrans";
+import HotCategory from "../components/HotCategory";
 
 //lazy loading
 const ProductItem = dynamic(import("../components/ProductItem"));
@@ -55,6 +56,9 @@ export default function Home({ categories }) {
                <Advertise />
                <div className="sm:my-16 my-6">
                   <HotAgency />
+               </div>
+               <div className="my-8">
+                  <HotCategory categoryList={categories.slice(0, 5)} />
                </div>
                <div className="grid sm:grid-cols-4 grid-cols-1 gap-10 h-fit">
                   <div className="border-[3px] border-primary-color p-4 rounded-lg flex gap-4 items-center">

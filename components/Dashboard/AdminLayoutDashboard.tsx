@@ -10,6 +10,7 @@ import {
    BiLogIn,
    BiPackage,
    BiReceipt,
+   BiSpreadsheet,
    BiStore,
    BiUser,
 } from "react-icons/bi";
@@ -136,6 +137,12 @@ const AdminLayoutDashboard = ({ title, children }) => {
                               ) : (
                                  <></>
                               )}
+                           </div>
+                        </Link>
+                        <Link href="/DashboardAdmin/category">
+                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                              <BiSpreadsheet className="text-lg" />
+                              Category
                            </div>
                         </Link>
                         <div className="transition-all duration-1000">

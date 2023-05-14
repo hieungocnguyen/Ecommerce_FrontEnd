@@ -93,7 +93,9 @@ export let endpoints = {
    //category
    category_all: `/category/all`,
    get_category_by_categoryID: (categoryID) => `/category/${categoryID}`,
-
+   get_all_category_by_admin: `/admin/get-all-categories`,
+   update_category: (cateID) => `/admin/update-category/${cateID}`,
+   create_category: `/admin/add-new-category`,
    //stat
    stat_post_category: `/sale-post/stats-by-category`,
    stat_category_by_agency: (agencyID) =>
