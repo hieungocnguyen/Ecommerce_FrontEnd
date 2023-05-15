@@ -54,10 +54,10 @@ export default function Home({ categories }) {
             <SearchBar categories={categories} setNumberPage={setNumberPage} />
             <div>
                <Advertise />
-               <div className="sm:my-16 my-6">
+               <div className="sm:my-10 my-6">
                   <HotAgency />
                </div>
-               <div className="my-8">
+               <div className="mb-6">
                   <HotCategory categoryList={categories.slice(0, 5)} />
                </div>
                <div className="grid sm:grid-cols-4 grid-cols-1 gap-10 h-fit">

@@ -6,6 +6,7 @@ const viLang = {
       hotAgency: "Đại lý nổi bật",
       seeAllAgency: "Xem tất cả đại lý",
       allPost: "Tất cả bài đăng",
+      trendingCategory: "Danh mục xu hướng",
    },
    agencyPage: {
       title: "Đại lý bán hàng",

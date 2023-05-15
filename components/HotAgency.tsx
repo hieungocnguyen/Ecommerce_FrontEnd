@@ -34,7 +34,7 @@ const HotAgency = () => {
          {hotAgency.length > 0 ? (
             <>
                <div>
-                  <div className="flex justify-center items-center gap-1 font-bold text-2xl my-5">
+                  <div className="flex justify-center items-center gap-1 font-bold text-2xl my-4">
                      <span>
                         <AiFillFire className="text-xl" />
                      </span>
@@ -50,7 +50,7 @@ const HotAgency = () => {
                      ))}
                   </div>
                   <Link href="/allagency">
-                     <div className="sm:mt-10 mt-6 text-lg px-5 py-3 rounded-lg border-2 border-primary-color inline-block hover:bg-primary-color hover:text-white font-semibold cursor-pointer hover:shadow-lg hover:shadow-primary-color">
+                     <div className="sm:mt-6 mt-4 text-lg px-5 py-3 rounded-lg border-2 border-primary-color inline-block hover:bg-primary-color hover:text-white font-semibold cursor-pointer hover:shadow-lg hover:shadow-primary-color">
                         {trans.home.seeAllAgency}
                      </div>
                   </Link>

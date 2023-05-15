@@ -163,7 +163,7 @@ const ItemsOfPost = () => {
                            .sort((a, b) => (a.id < b.id ? 1 : -1))
                            .map((i) => (
                               <div key={i.id}>
-                                 <ul className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-bg hover:bg-light-spot">
+                                 <ul className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-bg hover:bg-light-spot font-medium">
                                     <li className="col-span-1">
                                        <Image
                                           src={i.avatar}

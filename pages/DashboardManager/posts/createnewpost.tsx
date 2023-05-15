@@ -225,10 +225,12 @@ const CreateNewPost = () => {
                         <select
                            id="category"
                            name="categoryID"
+                           required
                            {...register("categoryID")}
                            className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                            title="category"
                         >
+                           <option value="">--Select category--</option>
                            {categoryList.map((category) => (
                               <option value={category.id} key={category.id}>
                                  {category.name}
@@ -247,6 +249,7 @@ const CreateNewPost = () => {
                            className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                            title="Sell Status"
                         >
+                           <option value="">--Select status--</option>
                            <option value={1}>IN STOCK</option>
                            <option value={2}>BEST SELLER</option>
                            <option value={3}>PROMOTION</option>

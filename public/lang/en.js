@@ -6,6 +6,7 @@ const enLang = {
       hotAgency: "Hot Agency",
       seeAllAgency: "See all agency",
       allPost: "All sale post",
+      trendingCategory:"Trending Category"
    },
    agencyPage: {
       title: "Agency Page",
