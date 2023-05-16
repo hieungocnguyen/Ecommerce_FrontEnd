@@ -132,7 +132,9 @@ const Payment = () => {
          });
       } catch (error) {
          console.log(error);
-         toast.error("something wrong, try it later!", {
+         setIsLoadComplete(true);
+         setIsDisblePaymentMethod(3);
+         toast.error(error.response.data.message, {
             position: "top-center",
          });
       }
@@ -966,7 +968,7 @@ const Payment = () => {
                               : paymentType === 2
                               ? " Payment by Momo"
                               : isDisablePaymentMethod === 3
-                              ? "Have some problems with delivery service, please try it again later!"
+                              ? "Have some problems, please try it again later!"
                               : "Please choice your payment method"
                            : "Please choose address before payment!"}
                      </button>

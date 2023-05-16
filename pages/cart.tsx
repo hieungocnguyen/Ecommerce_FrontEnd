@@ -124,9 +124,7 @@ const Cart = () => {
       fetchUpdateCart();
    };
    const handleRouteCheckout = () => {
-      setTimeout(() => setLoading(true));
       router.push("/checkout/payment");
-      setLoading(false);
    };
 
    if (!initialRenderComplete) {
@@ -202,7 +200,9 @@ const Cart = () => {
                      <div className="col-span-2 font-semibold flex gap-3 ">
                         <div
                            className={`p-3 rounded-lg bg-light-bg dark:bg-dark-bg text-2xl font-semibold hover:shadow-lg transition-all ${
-                              i.quantity > 1 ? "cursor-pointer" : "opacity-20"
+                              i.quantity > 1
+                                 ? "cursor-pointer"
+                                 : "opacity-20 cursor-not-allowed"
                            }`}
                            onClick={() => {
                               if (i.quantity > 1) {
@@ -224,24 +224,18 @@ const Cart = () => {
                               ["e", "E", "+", "-"].includes(e.key) &&
                                  e.preventDefault();
                            }}
-                           // onChange={(e) => {
-                           //    if (e.target.value > i.itemPost.inventory) {
-                           //       e.target.value = i.itemPost.inventory;
-                           //       e.preventDefault();
-                           //    }
-                           //    if (Number(e.target.value) > 0) {
-                           //       handleChangeQuantity(
-                           //          i,
-                           //          Number(e.target.value)
-                           //       );
-                           //    } else {
-                           //       handleDelete(i);
-                           //    }
-                           // }}
                         />
                         <div
-                           className="p-3 rounded-lg bg-light-bg dark:bg-dark-bg text-2xl font-semibold cursor-pointer hover:shadow-lg"
-                           onClick={() => handleChangeQuantity(i, 1)}
+                           className={`p-3 rounded-lg bg-light-bg dark:bg-dark-bg text-2xl font-semibold cursor-pointer hover:shadow-lg ${
+                              i.quantity < i.itemPost.inventory
+                                 ? "cursor-pointer"
+                                 : "opacity-20 cursor-not-allowed"
+                           }`}
+                           onClick={() => {
+                              if (i.quantity < i.itemPost.inventory) {
+                                 handleChangeQuantity(i, 1);
+                              }
+                           }}
                         >
                            <BiPlus />
                         </div>
