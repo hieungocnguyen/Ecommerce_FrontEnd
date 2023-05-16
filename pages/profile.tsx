@@ -153,11 +153,11 @@ const Profile = () => {
                            <div>
                               <Link href="/registerAgency">
                                  <button
-                                    title="Register Agency"
+                                    title="Register Merchant"
                                     type="button"
                                     className="rounded-xl px-4 py-3 bg-primary-color text-white font-semibold hover:shadow-lg hover:shadow-primary-color"
                                  >
-                                    Register to become an agency
+                                    Register to become an merchant
                                  </button>
                               </Link>
                            </div>
@@ -178,7 +178,7 @@ const Profile = () => {
                         <div
                            className={`flex items-center justify-center font-semibold text-red-600 text-xl`}
                         >
-                           Your agency has banned!
+                           Your merchant has banned!
                         </div>
                      )}
                   </div>

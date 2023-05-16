@@ -37,14 +37,14 @@ const AgencyCard = ({ agency, likeNumber }) => {
             );
             fetchFollowState();
             stateFollow
-               ? toast.success("Unfollow agency successful!")
-               : toast.success("Follow agency successful!");
+               ? toast.success("Unfollow merchant successful!")
+               : toast.success("Follow merchant successful!");
          } catch (error) {
             console.log(error);
             toast.error("Something wrong, please try again!");
          }
       } else {
-         toast.error("Please log in to follow agency!");
+         toast.error("Please log in to follow merchant!");
       }
    };
    return (
@@ -79,7 +79,7 @@ const AgencyCard = ({ agency, likeNumber }) => {
                   <div className="w-14 h-14 flex justify-center items-center">
                      {stateFollow ? (
                         <button
-                           title="Unfollow this agency"
+                           title="Unfollow this merchant"
                            onClick={(event) => {
                               event.stopPropagation();
                               handleFollowAgency();
@@ -89,7 +89,7 @@ const AgencyCard = ({ agency, likeNumber }) => {
                         </button>
                      ) : (
                         <button
-                           title="Follow this agency"
+                           title="Follow this merchant"
                            onClick={(event) => {
                               event.stopPropagation();
                               handleFollowAgency();

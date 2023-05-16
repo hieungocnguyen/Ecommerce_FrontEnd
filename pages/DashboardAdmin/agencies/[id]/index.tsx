@@ -232,7 +232,7 @@ const AgencyPage = ({ agencyInfo }) => {
             {/* tabs reveane */}
             <div>
                <div className="font-semibold text-lg">
-                  Revenue of this agency
+                  Revenue of this merchant
                </div>
                <div className="">
                   <div className="flex flex-wrap">
@@ -441,14 +441,14 @@ const AgencyPage = ({ agencyInfo }) => {
                      className=" bg-red-500 text-white p-4 w-full rounded-lg font-bold text-lg text-center cursor-pointer hover:shadow-lg hover:shadow-red-500"
                      onClick={() => setIsOpenConfirmBan(true)}
                   >
-                     Ban this agency
+                     Ban this merchant
                   </div>
                ) : (
                   <div
                      className=" bg-primary-color text-white p-4 w-full rounded-lg font-bold text-lg text-center cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                      onClick={() => setIsOpenConfirmUnBan(true)}
                   >
-                     Unban this agency
+                     Unban this merchant
                   </div>
                )}
             </div>

@@ -47,7 +47,7 @@ const AgencyHome = () => {
                         {agencyInfo && agencyInfo.isActive === 0 ? (
                            <>
                               <div className="text-xl font-semibold text-red-600">
-                                 Your agency has banned!
+                                 Your merchant has banned!
                               </div>
                            </>
                         ) : (

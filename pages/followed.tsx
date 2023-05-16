@@ -92,7 +92,7 @@ const Followed = () => {
                                  <div className="mt-4">
                                     <button
                                        className="p-2 rounded-xl text-white bg-red-600 cursor-pointer hover:shadow-lg hover:shadow-red-600"
-                                       title="Unfollow this agency"
+                                       title="Unfollow this merchant"
                                        onClick={(event) => {
                                           event.stopPropagation();
                                           setIsOpenConfirm(true);

@@ -169,7 +169,7 @@ const Search = ({ categories }) => {
                      <input
                         type="text"
                         className="p-3 w-full rounded-lg"
-                        placeholder="Agency name"
+                        placeholder="Merchant name"
                         onChange={(e) => setAgencyNameSearch(e.target.value)}
                      />
                   </div>

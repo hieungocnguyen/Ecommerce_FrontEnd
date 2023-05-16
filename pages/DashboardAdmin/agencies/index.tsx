@@ -47,7 +47,7 @@ const AgenciesAdminDashboard = () => {
       try {
          const res = await API.patch(endpoints["unban_agency"](modelID));
          fetchAgencies();
-         toast.success("Ban agency unsuccessful", { position: "top-center" });
+         toast.success("Ban merchant unsuccessful", { position: "top-center" });
       } catch (error) {
          console.log(error);
          toast.error("Something wrong, please try again!");
@@ -55,10 +55,10 @@ const AgenciesAdminDashboard = () => {
    };
 
    return (
-      <AdminLayoutDashboard title={"List Agency"}>
+      <AdminLayoutDashboard title={"Merchant List"}>
          <div className="w-[90%] mx-auto">
             <div className="flex justify-between my-10">
-               <div className="font-semibold text-2xl">Agency List</div>
+               <div className="font-semibold text-2xl">Merchant List</div>
             </div>
 
             {agencies.length > 0 ? (
@@ -174,7 +174,7 @@ const AgenciesAdminDashboard = () => {
                      />
                   </div>
                   <div className="uppercase text-xl font-semibold text-center">
-                     agency list is empty
+                     merchant list is empty
                   </div>
                </>
             )}

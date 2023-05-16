@@ -396,7 +396,7 @@ const RegisterAgency = () => {
                   className="px-4 py-3 bg-primary-color text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-primary-color transition-all"
                   type="submit"
                >
-                  Register to become an agency
+                  Register to become an merchant
                </button>
             </div>
             {loading ? <Loader /> : <></>}
