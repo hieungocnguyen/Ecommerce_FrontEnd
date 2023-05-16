@@ -155,7 +155,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                               }
                            >
                               <BiStore className="text-lg" />
-                              Agency
+                              Merchant 
                               <BiChevronRight
                                  className={`absolute right-6 font-semibold text-2xl transition-all ${
                                     openMenu ? "rotate-90" : ""
@@ -169,14 +169,14 @@ const AdminLayoutDashboard = ({ title, children }) => {
                            >
                               <Link href="/DashboardAdmin/agencies">
                                  <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
-                                    Agency List
+                                 Merchant List
                                  </div>
                               </Link>
                               <Link href="/DashboardAdmin/agencies/uncensoredAgency">
                                  <div
                                     className={`p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer items-center flex `}
                                  >
-                                    Uncensored Agency
+                                    Uncensored Merchant
                                     <span
                                        className={`bg-primary-color rounded-full w-3 h-3 font-semibold ml-4 ${
                                           numberUncensored ? "" : "hidden"

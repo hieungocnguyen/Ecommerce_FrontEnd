@@ -32,10 +32,10 @@ const OrderAcceptCancel = ({
          if (res.data.code === "200") {
             toast.success("Cancel order successful!");
             const resNotify = await API.post(endpoints["send_notify"], {
-               details: `Your request to cancel order has been accepted by agency`,
+               details: `Your request to cancel order has been accepted by merchant`,
                image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682768680/istockphoto-690051340-612x612_bp1xyy.jpg",
                recipientID: `user-${IDUserRequest}`,
-               title: "Your order has accepted to cancel by agency",
+               title: "Your order has accepted to cancel by merchant",
                type: "Order Processing",
             });
          } else {
@@ -57,10 +57,10 @@ const OrderAcceptCancel = ({
                "Denied successful! This order is changed to accept state"
             );
             const resNotify = await API.post(endpoints["send_notify"], {
-               details: `Your request to cancel order has been denied by agency`,
+               details: `Your request to cancel order has been denied by merchant`,
                image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682768635/access-denied_illustration_fkvevm.jpg",
                recipientID: `user-${IDUserRequest}`,
-               title: "Your order has denied to cancel by agency",
+               title: "Your order has denied to cancel by merchant",
                type: "Order Processing",
             });
          } else {

@@ -131,7 +131,7 @@ const Followed = () => {
                <div className="w-1/3  h-fit">
                   <ConfirmModel
                      functionConfirm={() => handleUnFollowAgency(confirmID)}
-                     content={"Are you sure to unfollow this agency?"}
+                     content={"Are you sure to unfollow this merchant?"}
                      isOpenConfirm={isOpenConfirm}
                      setIsOpenConfirm={setIsOpenConfirm}
                   />

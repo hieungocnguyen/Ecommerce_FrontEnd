@@ -35,7 +35,7 @@ const AllAgency = () => {
    };
 
    return (
-      <Layout title="All agency">
+      <Layout title="All merchant">
          <div className="my-6">
             <div className="flex gap-4 items-center m-6">
                <div
@@ -44,13 +44,13 @@ const AllAgency = () => {
                >
                   <BiArrowBack />
                </div>
-               <div className="font-semibold text-2xl">/ All agency</div>
+               <div className="font-semibold text-2xl">/ All merchant</div>
             </div>
             <div className="mx-auto mb-8">
                <input
                   type="text"
                   onChange={(e) => setKeyWord(e.target.value)}
-                  placeholder="Name agency..."
+                  placeholder="Name merchant..."
                   className="p-4 w-2/3 bg-light-primary dark:bg-dark-primary rounded-lg font-medium"
                />
                <button

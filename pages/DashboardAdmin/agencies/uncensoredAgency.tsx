@@ -29,7 +29,7 @@ const AgenciesAdminDashboard = () => {
             endpoints["accept_agency"](id)
          );
          loadUncensoredNumber();
-         toast.success("Accepted agency successful!", {
+         toast.success("Accepted merchant successful!", {
             position: "top-center",
          });
       } catch (error) {
@@ -44,7 +44,9 @@ const AgenciesAdminDashboard = () => {
       try {
          const resDeny = await authAxios().patch(endpoints["deny_agency"](id));
          loadUncensoredNumber();
-         toast.success("Denied agency successful!", { position: "top-center" });
+         toast.success("Denied merchant successful!", {
+            position: "top-center",
+         });
       } catch (error) {
          toast.error("Something wrong, try it later!", {
             position: "top-center",
@@ -137,7 +139,7 @@ const AgenciesAdminDashboard = () => {
                <div className="w-1/3  h-fit">
                   <ConfirmModel
                      functionConfirm={() => handleAccept(modelID)}
-                     content={"You will accept this agency!"}
+                     content={"You will accept this merchant!"}
                      isOpenConfirm={isOpenConfirmCensor}
                      setIsOpenConfirm={setIsOpenConfirmCensor}
                   />
@@ -151,7 +153,7 @@ const AgenciesAdminDashboard = () => {
                <div className="w-1/3  h-fit">
                   <ConfirmModel
                      functionConfirm={() => handleDeny(modelID)}
-                     content={"You will deny this agency!"}
+                     content={"You will deny this merchant!"}
                      isOpenConfirm={isOpenConfirmUnCensor}
                      setIsOpenConfirm={setIsOpenConfirmUnCensor}
                   />

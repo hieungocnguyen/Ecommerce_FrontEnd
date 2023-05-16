@@ -57,7 +57,7 @@ const OrderView = ({
                      </div>
                      <div className="p-4 rounded-xl bg-dark-text dark:bg-dark-spot">
                         <div>
-                           <span className="font-semibold">Agency:</span>{" "}
+                           <span className="font-semibold">Merchant:</span>{" "}
                            {orderInfo.agency.name}
                         </div>
                         <div>

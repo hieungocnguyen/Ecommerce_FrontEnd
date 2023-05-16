@@ -3,13 +3,13 @@ const enLang = {
       category: "Category",
       search: "Search",
       searchPlaceholder: "Search post...",
-      hotAgency: "Hot Agency",
-      seeAllAgency: "See all agency",
-      allPost: "All sale post",
-      trendingCategory:"Trending Category"
+      hotAgency: "Featured Merchants",
+      seeAllAgency: "See all merchants",
+      allPost: "All Products",
+      trendingCategory: "Featured Categories",
    },
    agencyPage: {
-      title: "Agency Page",
+      title: "Merchant Page",
    },
 };
 

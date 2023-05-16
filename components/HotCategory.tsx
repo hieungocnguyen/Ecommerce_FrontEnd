@@ -5,7 +5,7 @@ import useTrans from "../hook/useTrans";
 const HotCategory = ({ categoryList }) => {
    const trans = useTrans();
    return (
-      <div className="mb-4">
+      <div className="mb-4 hidden sm:block">
          <div className="text-2xl font-bold mb-4">
             {trans.home.trendingCategory}
          </div>

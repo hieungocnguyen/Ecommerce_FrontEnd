@@ -103,7 +103,7 @@ const LayoutDashboard = ({ title, children }) => {
                      <div className="font-semibold">
                         {agencyInfo ? agencyInfo.name : ""}
                      </div>
-                     <div className="text-sm">Manager Agency</div>
+                     <div className="text-sm">Manager Merchant</div>
                   </div>
                   <div className="mt-2">
                      <button

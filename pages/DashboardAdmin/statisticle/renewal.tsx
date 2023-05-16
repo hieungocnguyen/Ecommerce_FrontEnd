@@ -175,7 +175,7 @@ const Renewal = () => {
                <div className="font-semibold text-xl my-6">History renewal</div>
                <div className="grid grid-cols-12 px-6 py-2 font-bold">
                   <div className="col-span-2">Order date</div>
-                  <div className="col-span-3">Agency</div>
+                  <div className="col-span-3">Merchant</div>
                   <div className="col-span-3">Package name</div>
                   <div className="col-span-2">Price</div>
                   <div className="col-span-2">Number day available</div>

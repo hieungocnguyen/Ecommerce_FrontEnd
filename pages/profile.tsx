@@ -167,7 +167,7 @@ const Profile = () => {
                            <div
                               className={`flex items-center justify-center font-medium`}
                            >
-                              Now, you can manage your agency in manager page
+                              Now, you can manage your merchant in manager page
                            </div>
                         </>
                      ) : user.role && user.role.id === 1 ? (

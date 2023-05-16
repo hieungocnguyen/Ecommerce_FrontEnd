@@ -142,7 +142,7 @@ const AgenciesAdminDashboard = () => {
                      <div className="w-1/3  h-fit">
                         <ConfirmModel
                            functionConfirm={() => handleBanAgency(modelID)}
-                           content={"You will ban this agency!"}
+                           content={"You will ban this merchant!"}
                            isOpenConfirm={isOpenConfirmBan}
                            setIsOpenConfirm={setIsOpenConfirmBan}
                         />
@@ -156,7 +156,7 @@ const AgenciesAdminDashboard = () => {
                      <div className="w-1/3  h-fit">
                         <ConfirmModel
                            functionConfirm={() => handleUnbanAgency(modelID)}
-                           content={"You will unban this agency!"}
+                           content={"You will unban this merchant!"}
                            isOpenConfirm={isOpenConfirmUnBan}
                            setIsOpenConfirm={setIsOpenConfirmUnBan}
                         />

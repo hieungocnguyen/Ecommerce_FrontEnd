@@ -164,7 +164,7 @@ const Search = ({ categories }) => {
                      <option value={13}>Watches</option>
                      <option value={14}>Automotive</option>
                   </select>
-                  <div className="font-semibold mb-4">Agency Name:</div>
+                  <div className="font-semibold mb-4">Merchant Name:</div>
                   <div className="">
                      <input
                         type="text"

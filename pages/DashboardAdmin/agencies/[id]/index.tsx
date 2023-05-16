@@ -104,7 +104,7 @@ const AgencyPage = ({ agencyInfo }) => {
       try {
          const res = await API.patch(endpoints["ban_agency"](id));
          fetchAgency();
-         toast.success("Ban agency successful", { position: "top-center" });
+         toast.success("Ban merchant successful", { position: "top-center" });
       } catch (error) {
          console.log(error);
       }
@@ -114,7 +114,7 @@ const AgencyPage = ({ agencyInfo }) => {
       try {
          const res = await API.patch(endpoints["unban_agency"](id));
          fetchAgency();
-         toast.success("Ban agency unsuccessful", { position: "top-center" });
+         toast.success("Ban merchant unsuccessful", { position: "top-center" });
       } catch (error) {
          console.log(error);
       }
@@ -124,7 +124,7 @@ const AgencyPage = ({ agencyInfo }) => {
       <AdminLayoutDashboard title="Detail">
          <div className="w-[90%] mx-auto my-10">
             <div className="">
-               <div className="font-semibold text-2xl">Agency</div>
+               <div className="font-semibold text-2xl">Merchant</div>
                <div className="flex gap-2 mt-2 items-center text-sm font-medium">
                   <div className="opacity-60">Admin Dashboard</div>
                   <BiRadioCircle />
@@ -132,7 +132,7 @@ const AgencyPage = ({ agencyInfo }) => {
                      <div className="cursor-pointer">List</div>
                   </Link>
                   <BiRadioCircle />
-                  <div className="opacity-60">Agency</div>
+                  <div className="opacity-60">Merchant</div>
                </div>
             </div>
             <div className="mb-10">
@@ -221,7 +221,7 @@ const AgencyPage = ({ agencyInfo }) => {
                               </div>
                            ) : (
                               <div className="text-white font-semibold text-lg ">
-                                 Service plan of this agency has expired
+                                 Service plan of this merchant has expired
                               </div>
                            )}
                         </div>
@@ -352,7 +352,7 @@ const AgencyPage = ({ agencyInfo }) => {
                   <div className="w-1/3  h-fit">
                      <ConfirmModel
                         functionConfirm={() => handleBanAgency()}
-                        content={"You will ban this agency!"}
+                        content={"You will ban this merchant!"}
                         isOpenConfirm={isOpenConfirmBan}
                         setIsOpenConfirm={setIsOpenConfirmBan}
                      />
@@ -366,7 +366,7 @@ const AgencyPage = ({ agencyInfo }) => {
                   <div className="w-1/3  h-fit">
                      <ConfirmModel
                         functionConfirm={() => handleUnbanAgency()}
-                        content={"You will unban this agency!"}
+                        content={"You will unban this merchant!"}
                         isOpenConfirm={isOpenConfirmUnBan}
                         setIsOpenConfirm={setIsOpenConfirmUnBan}
                      />

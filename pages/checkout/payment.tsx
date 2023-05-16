@@ -818,7 +818,7 @@ const Payment = () => {
                            <BiError className="text-2xl" />
                         </div>
                         <div className="text-sm">
-                           The agency&apos;s order value is more than 50 million
+                           The merchant&apos;s order value is more than 50 million
                            VND cannot be paid COD
                         </div>
                      </div>

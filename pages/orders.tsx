@@ -54,7 +54,7 @@ const Orders = () => {
             order.orderState.id
          ) {
             toast.error(
-               "The status of this order has just been changed by agency, please try again!"
+               "The status of this order has just been changed by merchant, please try again!"
             );
          } else {
             setOrderIDCancel(order.id);
@@ -97,7 +97,7 @@ const Orders = () => {
             endpoints["change_state"](orderIDCancel, 7)
          );
          if (res.data.code === "200") {
-            toast.success("Successful! Please waiting for agency accept");
+            toast.success("Successful! Please waiting for merchant accept");
             const resNotify = await API.post(endpoints["send_notify"], {
                details: `User requested to cancel the order #${orderInfo.orderExpressID}`,
                image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682708935/cancel_rtlc2h.webp",
@@ -318,7 +318,7 @@ const Orders = () => {
                            setOrderIDCancel(0);
                         }}
                         content={
-                           "Your order will have to wait for the agency accept to cancel"
+                           "Your order will have to wait for the merchant accept to cancel"
                         }
                         isOpenConfirm={isOpenConfirmModelChangeState}
                         setIsOpenConfirm={setIsOpenConfirmModelChangeState}

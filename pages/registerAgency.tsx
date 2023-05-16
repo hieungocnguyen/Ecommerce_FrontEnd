@@ -78,7 +78,7 @@ const RegisterAgency = () => {
    const handleRegister = async (e) => {
       e.preventDefault();
       if (!importImage) {
-         toast.error("Please select avatar for your agency!");
+         toast.error("Please select avatar for your merchant!");
          return;
       }
       try {
@@ -121,7 +121,7 @@ const RegisterAgency = () => {
          if (resRegister.data.code === "201") {
             setLoading(false);
             router.push("/profile");
-            toast.success("Register agency successfully!");
+            toast.success("Register merchant successfully!");
          } else {
             setLoading(false);
             toast.error(resRegister.data.message);
@@ -133,7 +133,7 @@ const RegisterAgency = () => {
       }
    };
    return (
-      <Layout title="Register Agency">
+      <Layout title="Register Merchant">
          <div className="flex gap-4 items-center m-6">
             <div
                className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
@@ -142,7 +142,7 @@ const RegisterAgency = () => {
                <BiArrowBack />
             </div>
             <div className="font-semibold text-2xl">
-               / Register to become an agency
+               / Register to become an merchant
             </div>
          </div>
          <form

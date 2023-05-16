@@ -52,12 +52,12 @@ const AgencyPage = ({ agencyInfo, posts }) => {
             toast.error("Something wrong, please try again!");
          }
       } else {
-         toast.error("Sign in to follow agency!");
+         toast.error("Sign in to follow merchant!");
       }
    };
 
    return (
-      <Layout title="Agency">
+      <Layout title="Merchant">
          <div className="my-6">
             <div className="flex gap-4 items-center m-6">
                <div
