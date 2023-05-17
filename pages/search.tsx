@@ -149,7 +149,7 @@ const Search = ({ categories }) => {
                      className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                      title="category"
                   >
-                     <option value="">--Select Category--</option>
+                     <option value={0}>--Select Category--</option>
                      {categories.map((category) => (
                         <option value={category.id} key={category.id}>
                            {locale == "vi" ? category.nameVi : category.name}
