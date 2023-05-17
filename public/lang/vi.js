@@ -44,6 +44,13 @@ const viLang = {
       dont_have_account: "Bạn chưa có tài khoản à?",
       register: "Đăng ký ở đây nè!",
    },
+   forgot_password: {
+      reset_password: "Cấp lại mật khẩu",
+      send_to_email: "Gửi mã xác thực đến mail này",
+      confirm_code: "Mã xác thực",
+      submit_code: "Gửi mã xác thực",
+      send_to_other_mail: "Gửi mã đến email khác",
+   },
    signUp: {
       title: "Đăng ký tài khoản mới",
       username: "Tên tài khoản",

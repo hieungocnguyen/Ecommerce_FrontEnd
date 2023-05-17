@@ -5,6 +5,7 @@ import { BiArrowBack } from "react-icons/bi";
 import API, { endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import Loader from "../components/Loader";
+import useTrans from "../hook/useTrans";
 
 const ForgotPassword = () => {
    const [email, setEmail] = useState<string>("");
@@ -12,6 +13,7 @@ const ForgotPassword = () => {
    const [hasSent, setHasSent] = useState<boolean>(false);
    const [loading, setLoading] = useState<boolean>(false);
    const router = useRouter();
+   const trans = useTrans();
 
    const handleSendMail = async (e) => {
       e.preventDefault();
@@ -87,14 +89,16 @@ const ForgotPassword = () => {
             >
                <BiArrowBack />
             </div>
-            <div className="font-semibold text-2xl">/ Reset Password</div>
+            <div className="font-semibold text-2xl">
+               / {trans.forgot_password.reset_password}
+            </div>
          </div>
          <div>
             {hasSent ? (
                <div>
                   <div className="my-10">
                      <label htmlFor="code" className="font-semibold">
-                        Confirm Code
+                        {trans.forgot_password.confirm_code}
                      </label>
                      <input
                         type="text"
@@ -109,13 +113,13 @@ const ForgotPassword = () => {
                         onClick={handleConfirm}
                         className="p-3 bg-primary-color hover:bg-opacity-80 text-white rounded-lg font-semibold w-fit mb-4"
                      >
-                        Confirm this code
+                        {trans.forgot_password.submit_code}
                      </button>
                      <button
                         onClick={() => setHasSent(!hasSent)}
                         className="hover:bg-opacity-80 text-primary-color rounded-lg font-semibold"
                      >
-                        Send code to other mail
+                        {trans.forgot_password.send_to_other_mail}
                      </button>
                   </div>
                </div>
@@ -137,7 +141,7 @@ const ForgotPassword = () => {
                      type="submit"
                      className="p-3 bg-primary-color hover:bg-opacity-80 text-white rounded-lg font-semibold"
                   >
-                     Send to this mail
+                     {trans.forgot_password.send_to_email}
                   </button>
                </form>
             )}
