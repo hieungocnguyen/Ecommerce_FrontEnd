@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import useTrans from "../hook/useTrans";
+import { useRouter } from "next/router";
 
 const HotCategory = ({ categoryList }) => {
    const trans = useTrans();
@@ -21,6 +22,7 @@ const HotCategory = ({ categoryList }) => {
 };
 
 export const CardCategory = ({ category }) => {
+   const { locale } = useRouter();
    return (
       <Link href={`/category/${category.id}`}>
          <div className="bg-light-primary dark:bg-dark-primary rounded-lg p-4 cursor-pointer hover:shadow-lg">
@@ -33,7 +35,7 @@ export const CardCategory = ({ category }) => {
                />
             </div>
             <div className="text-center font-bold mt-4 uppercase h-12 text-primary-color line-clamp-2">
-               {category.name}
+               {locale == "vi" ? category.nameVi : category.name}
             </div>
          </div>
       </Link>

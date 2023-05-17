@@ -10,6 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "../components/Loader";
 import { BiHomeAlt } from "react-icons/bi";
 import API, { authAxios, endpoints } from "../API";
+import useTrans from "../hook/useTrans";
 
 const Signin = () => {
    const {
@@ -23,6 +24,7 @@ const Signin = () => {
    const router = useRouter();
    const { redirect } = router.query;
    const [loading, setLoading] = useState(false);
+   const trans = useTrans();
 
    const submitHandler = async ({ username, password }) => {
       try {
@@ -86,7 +88,9 @@ const Signin = () => {
                >
                   <BiHomeAlt />
                </div>
-               <div className="font-semibold text-2xl">/ Sign in</div>
+               <div className="font-semibold text-2xl">
+                  / {trans.signIn.sign_in}
+               </div>
             </div>
             <form onSubmit={handleSubmit(submitHandler)}>
                <div className="flex flex-col max-w-md mx-auto font-medium">
@@ -94,7 +98,7 @@ const Signin = () => {
                      htmlFor="username"
                      className="mr-3 font-semibold text-left pt-5 pb-2"
                   >
-                     Username
+                     {trans.signIn.username}
                   </label>
                   <input
                      type="text"
@@ -107,7 +111,7 @@ const Signin = () => {
                      htmlFor="password"
                      className="mr-3 font-semibold text-left py-5 pb-2"
                   >
-                     Password
+                     {trans.signIn.password}
                   </label>
                   <input
                      type="password"
@@ -122,14 +126,14 @@ const Signin = () => {
                   className="bg-primary-color py-3 px-5 my-4 cursor-pointer hover:shadow-lg hover:shadow-primary-color transition-all rounded-lg font-semibold text-white "
                   title="Sign in"
                >
-                  Sign in with Open Market
+                  {trans.signIn.sign_in_with_OM}
                </button>
                <Link href="/forgotPassword">
                   <div
-                     className="text-primary-color cursor-pointer mb-10 font-semibold"
+                     className="text-primary-color cursor-pointer mb-10 font-semibold w-fit mx-auto"
                      title="Reset password"
                   >
-                     Forgot password?
+                     {trans.signIn.forgot_password}
                   </div>
                </Link>
             </form>
@@ -139,7 +143,7 @@ const Signin = () => {
                      className="p-2 bg-[#EA4335] rounded-lg hover:shadow-lg hover:shadow-[#EA4335] transition-all mb-4 font-semibold text-white"
                      title="Google account"
                   >
-                     Sign in with Google
+                     {trans.signIn.sign_in_with_GG}
                   </button>
                </Link>
                <Link href="https://www.facebook.com/dialog/oauth?scope=email&client_id=555265043013184&redirect_uri=http://localhost:8080/ou-ecommerce/login-facebook">
@@ -147,15 +151,15 @@ const Signin = () => {
                      className="p-2 bg-[#1877f2] rounded-lg mb-4 font-semibold text-white hover:shadow-lg hover:shadow-primary-color transition-all"
                      title="Facebook account"
                   >
-                     Sign in with Facebook
+                     {trans.signIn.sign_in_with_FB}
                   </button>
                </Link>
             </div>
             <div className="my-4">
-               Don&apos;t have an account?{" "}
+               {trans.signIn.dont_have_account}{" "}
                <Link href={`/register`}>
                   <span className="text-primary-color cursor-pointer font-semibold">
-                     Register
+                     {trans.signIn.register}
                   </span>
                </Link>
             </div>

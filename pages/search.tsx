@@ -30,6 +30,7 @@ const Search = ({ categories }) => {
    const [categoryID, setCategoryID] = useState(0);
    const [agencyNameSearch, setAgencyNameSearch] = useState("");
    const [isFetching, setIsFetching] = useState(false);
+   const { locale } = useRouter();
 
    const loadPosts = async () => {
       setIsFetching(true);
@@ -121,7 +122,7 @@ const Search = ({ categories }) => {
                         }}
                      />
                   </div>
-                  <div className="font-semibold mb-4">Price:</div>
+                  <div className="font-semibold mb-2">Price:</div>
                   <div className="w-full">
                      <Slider
                         getAriaLabel={() => "Temperature range"}
@@ -138,7 +139,7 @@ const Search = ({ categories }) => {
                         }}
                      />
                   </div>
-                  <div className="font-semibold mb-4">Category:</div>
+                  <div className="font-semibold mb-2">Category:</div>
                   <select
                      id="category"
                      name="categoryID"
@@ -148,23 +149,14 @@ const Search = ({ categories }) => {
                      className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                      title="category"
                   >
-                     <option value={0}>--All category--</option>
-                     <option value={1}>Moms, Kids & Babies</option>
-                     <option value={2}>Consumer Electronics</option>
-                     <option value={3}>Fashion</option>
-                     <option value={4}>Home & Living</option>
-                     <option value={5}>Shoes</option>
-                     <option value={6}>Grocery</option>
-                     <option value={7}>Computer & Accessories</option>
-                     <option value={8}>Mobile & Gadgets</option>
-                     <option value={9}>Sport & Outdoor</option>
-                     <option value={10}>Books & Stationery</option>
-                     <option value={11}>Home Appliances</option>
-                     <option value={12}>Cameras</option>
-                     <option value={13}>Watches</option>
-                     <option value={14}>Automotive</option>
+                     <option value="">--Select Category--</option>
+                     {categories.map((category) => (
+                        <option value={category.id} key={category.id}>
+                           {locale == "vi" ? category.nameVi : category.name}
+                        </option>
+                     ))}
                   </select>
-                  <div className="font-semibold mb-4">Merchant Name:</div>
+                  <div className="font-semibold my-2">Merchant Name:</div>
                   <div className="">
                      <input
                         type="text"
@@ -213,28 +205,6 @@ const Search = ({ categories }) => {
                      </div>
                   </div>
                )}
-               {/* {salePosts.length > 0 ? (
-                  <div className="col-span-6 grid grid-cols-3 gap-8">
-                     {salePosts.map((post) => (
-                        <ProductItem
-                           key={post.id}
-                           product={post}
-                           inCompare={false}
-                        />
-                     ))}
-                  </div>
-               ) : (
-                  <div className="col-span-6 flex justify-center items-center">
-                     <div className="relative overflow-hidden aspect-square w-1/3 mx-auto">
-                        <Image
-                           src={emptyBox}
-                           alt="empty"
-                           layout="fill"
-                           className="object-cover"
-                        />
-                     </div>
-                  </div>
-               )} */}
             </div>
             {/* paginate */}
             <div

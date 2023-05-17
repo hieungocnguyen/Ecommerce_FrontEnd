@@ -70,9 +70,8 @@ export default function Home({ categories }) {
                            className="object-cover"
                         />
                      </div>
-                     <div className=" font-bold text-xl text-left ">
-                        Variety of
-                        <br /> products
+                     <div className=" font-bold text-xl text-left w-28">
+                        {trans.home.featured.variety}
                      </div>
                   </div>
                   <div className="border-[3px] border-primary-color p-4 rounded-lg  flex gap-4 items-center">
@@ -84,8 +83,8 @@ export default function Home({ categories }) {
                            className="object-contain"
                         />
                      </div>
-                     <div className="font-bold text-xl text-left ">
-                        Best quality guarantee
+                     <div className="font-bold text-xl text-left w-32">
+                        {trans.home.featured.quality}
                      </div>
                   </div>
                   <div className="border-[3px] border-primary-color p-4 rounded-lg flex gap-4 items-center">
@@ -97,9 +96,8 @@ export default function Home({ categories }) {
                            className="object-cover"
                         />
                      </div>
-                     <div className=" font-bold text-xl text-left ">
-                        Easy tracking
-                        <br /> your order
+                     <div className=" font-bold text-xl text-left w-36">
+                        {trans.home.featured.tracking}
                      </div>
                   </div>
                   <div className="border-[3px] border-primary-color p-4 rounded-lg flex gap-4 items-center">
@@ -111,13 +109,13 @@ export default function Home({ categories }) {
                            className="object-contain"
                         />
                      </div>
-                     <div className=" font-bold text-xl text-left ">
-                        Fast & low cost shipping
+                     <div className=" font-bold text-xl text-left w-40">
+                        {trans.home.featured.shipping}
                      </div>
                   </div>
                </div>
                <div className="my-8">
-                  <h1 className="text-center font-bold text-2xl my-5">
+                  <h1 className="text-center font-bold text-2xl my-5 ">
                      {trans.home.allPost}
                   </h1>
                   <div className="grid sm:grid-cols-4 grid-cols-1 gap-10">

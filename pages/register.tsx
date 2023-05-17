@@ -10,6 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "../components/Loader";
 import { BiArrowBack, BiCloudUpload } from "react-icons/bi";
 import Image from "next/image";
+import useTrans from "../hook/useTrans";
 
 const Register = () => {
    const {
@@ -22,6 +23,8 @@ const Register = () => {
    const router = useRouter();
    const [loading, setLoading] = useState(false);
    const [importImage, setImportImage] = useState(false);
+   const trans = useTrans();
+   const { locale } = useRouter();
 
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
@@ -142,9 +145,7 @@ const Register = () => {
             >
                <BiArrowBack />
             </div>
-            <div className="font-semibold text-2xl">
-               / Register a new account
-            </div>
+            <div className="font-semibold text-2xl">/ {trans.signUp.title}</div>
          </div>
 
          <form
@@ -180,7 +181,7 @@ const Register = () => {
                   </label>
                </div>
                <div className="mt-2 text-gray-500 font-medium text-sm italic">
-                  *Maximum image size 2MB
+                  *{trans.signUp.maximum_upload}
                </div>
             </div>
             <div className="col-span-9 font-semibold">
@@ -188,7 +189,7 @@ const Register = () => {
                   <div className="grid grid-cols-12 gap-4">
                      <div className="col-span-12">
                         <label htmlFor="username" className="font-semibold">
-                           Username*
+                           {trans.signUp.username}*
                         </label>
                         <input
                            type="text"
@@ -201,12 +202,12 @@ const Register = () => {
                      </div>
                      <div className="col-span-6">
                         <label htmlFor="password" className="font-semibold">
-                           Password*
+                           {trans.signUp.password}*
                         </label>
                         <input
                            type="password"
                            id="password"
-                           placeholder="Password*"
+                           placeholder={trans.signUp.password}
                            required
                            {...register("password")}
                            className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full"
@@ -217,12 +218,12 @@ const Register = () => {
                            htmlFor="confirmPassword"
                            className="font-semibold"
                         >
-                           Confirm Password*
+                           {trans.signUp.confirm_password}*
                         </label>
                         <input
                            type="password"
                            id=" confirmPassword"
-                           placeholder="Confirm Password*"
+                           placeholder={trans.signUp.confirm_password}
                            required
                            {...register("confirmPassword")}
                            className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full "
@@ -243,22 +244,27 @@ const Register = () => {
                      </div>
                      <div className="col-span-6 mb-4">
                         <label htmlFor="genderID" className="font-semibold">
-                           Gender*
+                           {trans.signUp.gender}*
                         </label>
                         <select
                            name="cars"
                            id="cars"
-                           placeholder="Gender*"
                            required
                            {...register("genderID")}
                            className="p-4 rounded-lg bg-light-primary dark:bg-dark-primary w-full font-semibold"
                         >
                            <option value="" className="hidden">
-                              -Choose your gender-
+                              --{trans.signUp.choose_gender}--
                            </option>
-                           <option value={1}>Male</option>
-                           <option value={2}>Female</option>
-                           <option value={3}>Other</option>
+                           <option value={1}>
+                              {locale == "vi" ? "Nam" : "Male"}
+                           </option>
+                           <option value={2}>
+                              {locale == "vi" ? "Nữ" : "Female"}
+                           </option>
+                           <option value={3}>
+                              {locale == "vi" ? "Khác" : "Other"}
+                           </option>
                         </select>
                      </div>
                   </div>
@@ -269,7 +275,7 @@ const Register = () => {
                   className="bg-primary-color p-3 rounded-lg font-semibold text-white hover:shadow-lg hover:shadow-primary-color transition-all"
                   type="submit"
                >
-                  Register a new account
+                  {trans.signUp.submit}
                </button>
             </div>
          </form>

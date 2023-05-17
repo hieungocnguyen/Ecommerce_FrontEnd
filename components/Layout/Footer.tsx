@@ -11,22 +11,29 @@ import {
 import Image from "next/image";
 import ghnLogo from "../../public/ghnlogo.png";
 import momoLogo from "../../public/momologo.png";
+import useTrans from "../../hook/useTrans";
 
 const Footer = () => {
+   const trans = useTrans();
+
    return (
       <div className="bg-light-primary dark:bg-dark-primary sm:w-[90%] w-full mx-auto rounded-t-lg py-10 sm:px-20 px-10 flex flex-wrap">
          <div className="flex-1 pt-5 text-center sm:text-left order-1">
             <div>
-               <div className="font-semibold text-2xl mb-3">About</div>
+               <div className="font-semibold text-2xl mb-3">
+                  {trans.footer.about}
+               </div>
                <div className=" font-semibold">
-                  <div className="mb-2">Introduction</div>
-                  <div className="mb-2">Career</div>
-                  <div className="mb-2">Privacy Policy</div>
-                  <div className="mb-2">Terms</div>
-                  <div className="mb-2">Genuine</div>
+                  <div className="mb-2">{trans.footer.introduction}</div>
+                  <div className="mb-2">{trans.footer.career}</div>
+                  <div className="mb-2">{trans.footer.privacyPolicy}</div>
+                  <div className="mb-2">{trans.footer.terms}</div>
+                  <div className="mb-2">{trans.footer.genuine}</div>
                </div>
             </div>
-            <div className="font-semibold text-2xl mt-5">Linked services</div>
+            <div className="font-semibold text-2xl mt-5">
+               {trans.footer.linked_services}
+            </div>
             <div className="flex gap-4 mt-3 sm:justify-start justify-center">
                <div className="relative overflow-hidden w-14 aspect-square">
                   <Image
@@ -55,13 +62,12 @@ const Footer = () => {
                      </div>
                   </Link>
                </div>
-               <div className="text-center">
-                  Lorem ipsum dolor sit amet consectetur. Praesent phasellus est
-                  sapien nibh. Semper nam dignissim amet risus ac dictumst.
-               </div>
+               <div className="text-center">{trans.footer.slogan}</div>
             </div>
             <div className="flex flex-col gap-3">
-               <div className="font-semibold text-2xl mb-3">Follow us</div>
+               <div className="font-semibold text-2xl mb-3">
+                  {trans.footer.about}
+               </div>
                <div className="flex gap-3 justify-center text-4xl">
                   <AiFillGithub className="hover:text-primary-color hover:cursor-pointer" />
                   <AiFillFacebook className="hover:text-primary-color hover:cursor-pointer" />
@@ -73,22 +79,24 @@ const Footer = () => {
          </div>
          <div className="flex-1 flex flex-col justify-between pt-5 sm:text-right text-center order-3">
             <div>
-               <div className="font-semibold text-2xl mb-3">Contact</div>
+               <div className="font-semibold text-2xl mb-3">
+                  {trans.footer.contact}
+               </div>
                <div className="">
                   <div className="mb-2">
                      <div className="font-semibold">Email</div>
                      <div className="">ou.ecommerce.manager@gmail.com</div>
                   </div>
                   <div className="mb-2">
-                     <div className="font-semibold">Hotline</div>
+                     <div className="font-semibold">{trans.footer.hotline}</div>
                      <div className="">094540746</div>
                   </div>
                   <div className="mb-2">
-                     <div className="font-semibold">Address</div>
+                     <div className="font-semibold">{trans.footer.address}</div>
                      <div className="">317 Nguyen Kiem, Go Vap</div>
                   </div>
                   <div className="mb-2">
-                     <div className="font-semibold">Hours</div>
+                     <div className="font-semibold">{trans.footer.hours}</div>
                      <div className="">Monday - Friday, 8AM- 7PM</div>
                   </div>
                </div>

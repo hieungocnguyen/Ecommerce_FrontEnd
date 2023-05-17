@@ -19,6 +19,7 @@ import Loading from "./Loading";
 const ProductItem = ({ product, inCompare }) => {
    const [stateLike, setStateLike] = useState(false);
    const router = useRouter();
+   const { locale } = useRouter();
    const { state, dispatch } = useContext(Store);
    const { compare, userInfo } = state;
    const [isOpenQuickViewModal, setIsOpenQuickViewModal] = useState(false);
@@ -134,7 +135,9 @@ const ProductItem = ({ product, inCompare }) => {
                   />
                </div>
                <div className="absolute -left-4 -bottom-4 rounded-tr-xl pt-2 pb-4 pr-4 pl-6 font-bold uppercase bg-light-primary dark:bg-dark-primary text-primary-color text-lg z-10">
-                  {product.sellStatus.name}
+                  {locale == "vi"
+                     ? product.sellStatus.nameVi
+                     : product.sellStatus.name}
                </div>
             </div>
             <div className="text-left font-bold text-xl uppercase mt-4 mb-2 line-clamp-2 h-14">

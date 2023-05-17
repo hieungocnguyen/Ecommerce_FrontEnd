@@ -21,6 +21,7 @@ import { BiArrowBack, BiBell, BiChevronDown, BiMenu } from "react-icons/bi";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase-config";
 import moment from "moment";
+import useTrans from "../../hook/useTrans";
 
 const Header = () => {
    const { state, dispatch } = useContext(Store);
@@ -36,6 +37,7 @@ const Header = () => {
    const [unSeen, setUnSeen] = useState(false);
 
    const [isOpenMenuMobile, setIsOpenMenuMobile] = useState(false);
+   const trans = useTrans();
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -464,7 +466,7 @@ const Header = () => {
                   ))
                ) : (
                   <div className="whitespace-nowrap p-6 font-semibold">
-                     You not have any notification!
+                     {trans.header.notifyEmpty}
                   </div>
                )}
             </div>
@@ -715,14 +717,14 @@ const Header = () => {
                      {userInfo && userInfo.role.id === 1 ? (
                         <>admin</>
                      ) : userInfo.role.id == 2 ? (
-                        <>manager</>
+                        <>{trans.header.label_role.manager}</>
                      ) : (
-                        <>user</>
+                        <>{trans.header.label_role.user}</>
                      )}
                   </div>
                ) : (
                   <div className="sm:inline-block hidden font-extrabold p-1 border-2 uppercase text-xs rounded-md text-primary-color border-primary-color">
-                     guest
+                     {trans.header.label_role.guest}
                   </div>
                )}
                {/* cart button */}
@@ -736,7 +738,6 @@ const Header = () => {
                      {numberItem > 0 ? (
                         <div className="absolute bg-primary-color rounded-full top-[-4px] right-[-8px] font-semibold w-6 h-6 flex justify-center items-center text-sm text-white whitespace-nowrap">
                            {numberItem}
-                           {/* {cart.cartItems.length} */}
                         </div>
                      ) : (
                         <></>
@@ -767,7 +768,7 @@ const Header = () => {
                         >
                            <Link href="/profile">
                               <div className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all">
-                                 Profile
+                                 {trans.header.popUpUser.profile}
                               </div>
                            </Link>
                            {userInfo ? (
@@ -780,14 +781,21 @@ const Header = () => {
                                  >
                                     {userInfo.role.name === "ROLE_ADMIN" ? (
                                        <>
-                                          <div>Admin Page</div>
+                                          <div>
+                                             {trans.header.popUpUser.adminPage}
+                                          </div>
                                        </>
                                     ) : (
                                        <>
                                           {userInfo.role.name ===
                                           "ROLE_MANAGER" ? (
                                              <>
-                                                <div>Manage Page</div>
+                                                <div>
+                                                   {
+                                                      trans.header.popUpUser
+                                                         .managerPage
+                                                   }
+                                                </div>
                                              </>
                                           ) : (
                                              <></>
@@ -802,24 +810,24 @@ const Header = () => {
 
                            <Link href="/orders">
                               <div className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all">
-                                 Orders
+                                 {trans.header.popUpUser.orders}
                               </div>
                            </Link>
                            <Link href={"/wishlist"}>
-                              <div className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all">
-                                 Wishlist
+                              <div className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all whitespace-nowrap">
+                                 {trans.header.popUpUser.wishlist}
                               </div>
                            </Link>
                            <Link href={"/followed"}>
-                              <div className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all">
-                                 Followed
+                              <div className="p-3 px-4 cursor-pointer  hover:text-primary-color transition-all whitespace-nowrap">
+                                 {trans.header.popUpUser.followed}
                               </div>
                            </Link>
                            <div
                               className="p-3 px-4 cursor-pointer hover:text-primary-color transition-all whitespace-nowrap"
                               onClick={logoutClickHandler}
                            >
-                              Sign out
+                              {trans.header.popUpUser.signOut}
                            </div>
                         </div>
                      </div>
@@ -829,7 +837,7 @@ const Header = () => {
                      <div>
                         <Link href="/signin">
                            <button className="py-2 px-3 bg-primary-color text-light-bg rounded-lg  text-sm font-semibold hover:shadow-lg hover:shadow-primary-color hover:brightness-90">
-                              Sign in
+                              {trans.header.signIn}
                            </button>
                         </Link>
                      </div>

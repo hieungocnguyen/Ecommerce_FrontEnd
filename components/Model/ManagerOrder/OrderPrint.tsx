@@ -1,9 +1,11 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import API, { endpoints } from "../../../API";
+import { useRouter } from "next/router";
 
 const OrderPrint = ({ setIDOpenOrderPrintModel, IDOpenOrderPrintModel }) => {
    const [sizeSelected, setSizeSelected] = useState(0);
+   const { locale } = useRouter();
 
    const printOrder = async () => {
       if (IDOpenOrderPrintModel > -1 && sizeSelected > 0) {

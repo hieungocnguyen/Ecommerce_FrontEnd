@@ -16,6 +16,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
    const [isOpen, setIsOpen] = useState(false);
    const [suggestText, setSuggestText] = useState([]);
    const [isOpenSearch, setIsOpenSearch] = useState(false);
+   const { locale } = useRouter();
 
    const trans = useTrans();
 
@@ -150,7 +151,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
                         setIsOpen(false);
                      }}
                   >
-                     {i.name}
+                     {locale == "vi" ? i.nameVi : i.name}
                   </div>
                </Link>
             ))}

@@ -6,11 +6,13 @@ import { authAxios, endpoints } from "../API";
 import { Store } from "../utils/Store";
 import { BiUserPlus, BiUserX } from "react-icons/bi";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const AgencyCard = ({ agency, likeNumber }) => {
    const [stateFollow, setStateFollow] = useState(false);
    const { state } = useContext(Store);
    const { userInfo } = state;
+   const { locale } = useRouter();
 
    const fetchFollowState = async () => {
       try {
@@ -68,11 +70,11 @@ const AgencyCard = ({ agency, likeNumber }) => {
                         </div>
                      )}
                   </div>
-                  <div className="text-center font-bold text-xl uppercase mt-4 line-clamp-2 text-primary-color">
+                  <div className="text-center font-bold text-xl uppercase mt-4 text-primary-color h-14 flex items-center justify-center">
                      {agency.name}
                   </div>
                   <div className="text-center font-semibold">
-                     {agency.field.name}
+                     {locale == "vi" ? agency.field.name : agency.field.nameEn}
                   </div>
                </div>
                <div className="absolute top-0 right-0 bg-light-primary dark:bg-dark-primary rounded-bl-lg">

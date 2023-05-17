@@ -13,6 +13,7 @@ const AgencyCard = dynamic(import("./AgencyCard"));
 
 const HotAgency = () => {
    const [hotAgency, setHotAgency] = useState([]);
+   const { locale } = useRouter();
 
    const trans = useTrans();
 

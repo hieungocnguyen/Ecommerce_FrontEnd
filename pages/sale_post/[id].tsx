@@ -25,10 +25,10 @@ const RelativePost = dynamic(() => import("../../components/RelativePost"));
 const ProductPage = ({ salePost }) => {
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
-   // const [quantityItems, setQuantityItems] = useState([]);
    const [comments, setComments] = useState([]);
    const [mainPic, setMainPic] = useState();
    const router = useRouter();
+   const { locale } = useRouter();
    const { id } = router.query;
    const [starAvg, setStarAvg] = useState(0);
    const [commentCount, setCommentCount] = useState(0);
@@ -123,7 +123,9 @@ const ProductPage = ({ salePost }) => {
                   </div>
                   <div className="flex items-center gap-2 my-4 text-lg">
                      <div className="rounded-lg border-2 border-secondary-color p-2 text-secondary-color font-semibold">
-                        {salePost.sellStatus.name}
+                        {locale == "vi"
+                           ? salePost.sellStatus.nameVi
+                           : salePost.sellStatus.name}
                      </div>
                      <div>
                         <Rating
@@ -187,7 +189,9 @@ const ProductPage = ({ salePost }) => {
                            <div className="font-semibold mb-2 text-lg cursor-pointer hover:text-primary-color">
                               Category:{" "}
                               <span className="font-medium">
-                                 {salePost.category.name}
+                                 {locale == "vi"
+                                    ? salePost.category.nameVi
+                                    : salePost.category.name}
                               </span>
                            </div>
                         </Link>
@@ -239,7 +243,11 @@ const ProductPage = ({ salePost }) => {
                         <div className="font-semibold text-lg">
                            {salePost.agency.name}
                         </div>
-                        <div>{salePost.agency.field.name}</div>
+                        <div>
+                           {locale == "vi"
+                              ? salePost.agency.field.name
+                              : salePost.agency.field.nameEn}
+                        </div>
                      </div>
                   </div>
                </div>
