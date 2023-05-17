@@ -50,7 +50,7 @@ const enLang = {
       send_to_email: "Send code to this email",
       confirm_code: "Confirm Code",
       submit_code: "Submit this code",
-      send_to_other_mail: "Send code to other mail",
+      send_to_other_mail: "Send code to other email",
    },
    signUp: {
       title: "Register a new account",
