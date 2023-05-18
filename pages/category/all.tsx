@@ -53,7 +53,7 @@ const CategoryAll = ({ categories }) => {
                      />
                   ))
                ) : (
-                  <div className="col-span-6">
+                  <div className="">
                      <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
                         <Image
                            src={emptyBox}
@@ -61,6 +61,9 @@ const CategoryAll = ({ categories }) => {
                            layout="fill"
                            className="object-cover"
                         />
+                     </div>
+                     <div className="text-center uppercase font-semibold text-xl">
+                        {trans.category.empty_text}
                      </div>
                   </div>
                )}

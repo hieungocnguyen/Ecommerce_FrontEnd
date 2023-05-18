@@ -102,6 +102,7 @@ const viLang = {
       all: {
          title: "Tất cả sản phẩm",
       },
+      empty_text: "Không có bất kỳ sản phẩm nào ở đây",
    },
 };
 

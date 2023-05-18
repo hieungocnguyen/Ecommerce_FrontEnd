@@ -103,6 +103,7 @@ const enLang = {
       all: {
          title: "All products",
       },
+      empty_text: "There are no products here",
    },
    profile: {},
    detailProduct: {},

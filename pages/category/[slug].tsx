@@ -9,6 +9,7 @@ import { Slider } from "@mui/material";
 import Image from "next/image";
 import emptyBox from "../../public/empty-box.png";
 import toast from "react-hot-toast";
+import useTrans from "../../hook/useTrans";
 
 const CategoryPage = ({ categories, category }) => {
    const [salePosts, setSalePosts] = useState([]);
@@ -17,6 +18,7 @@ const CategoryPage = ({ categories, category }) => {
    const [totalPage, setTotalPage] = useState(1);
    const { slug } = router.query;
    const { locale } = useRouter();
+   const trans = useTrans();
 
    const loadPosts = async () => {
       try {
@@ -53,7 +55,7 @@ const CategoryPage = ({ categories, category }) => {
                   ))}
                </div>
             ) : (
-               <div className="col-span-6">
+               <div className="">
                   <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
                      <Image
                         src={emptyBox}
@@ -61,6 +63,9 @@ const CategoryPage = ({ categories, category }) => {
                         layout="fill"
                         className="object-cover"
                      />
+                  </div>
+                  <div className="text-center uppercase font-semibold text-xl">
+                     {trans.category.empty_text}
                   </div>
                </div>
             )}
