@@ -15,6 +15,7 @@ import API, { endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
+import useTrans from "../hook/useTrans";
 
 const Profile = () => {
    const { state, dispatch } = useContext(Store);
@@ -23,6 +24,7 @@ const Profile = () => {
    const [waitAccept, setWaitAccept] = useState<boolean>(false);
    const [authProvider, setAuthProvider] = useState<number>(0);
    const router = useRouter();
+   const trans = useTrans();
 
    const loadUser = async () => {
       try {
@@ -56,6 +58,7 @@ const Profile = () => {
          loadInfoAgency();
       }
    }, [userInfo]);
+
    return (
       <Layout title="Profile User">
          <div className="flex gap-4 items-center m-6">
@@ -157,7 +160,7 @@ const Profile = () => {
                                     type="button"
                                     className="rounded-xl px-4 py-3 bg-primary-color text-white font-semibold hover:shadow-lg hover:shadow-primary-color"
                                  >
-                                    Register to become an merchant
+                                    Register to become a merchant
                                  </button>
                               </Link>
                            </div>

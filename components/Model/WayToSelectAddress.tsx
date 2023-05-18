@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { BiCurrentLocation, BiPen } from "react-icons/bi";
+import useTrans from "../../hook/useTrans";
 
 const WayToSelectAddress = ({
    setIsOpenModelWaySelectAddress,
@@ -7,6 +8,7 @@ const WayToSelectAddress = ({
    setIsOpenModelGeoLocation,
 }) => {
    const wrapperRef = useRef(null);
+   const trans = useTrans();
 
    useEffect(() => {
       function handleClickOutside(event) {
@@ -26,7 +28,7 @@ const WayToSelectAddress = ({
          ref={wrapperRef}
       >
          <div className="text-xl font-semibold mb-4">
-            What method do you use to select the address?
+            {trans.profile.edit_profile.address_model.what_method}
          </div>
          <div className="flex justify-center gap-8">
             <div
@@ -39,7 +41,9 @@ const WayToSelectAddress = ({
                <div>
                   <BiPen className="text-2xl" />
                </div>
-               <div>Select address manual</div>
+               <div>
+                  {trans.profile.edit_profile.address_model.select_manual}
+               </div>
             </div>
             <div
                className="px-4 py-3 rounded-xl bg-primary-color text-white font-semibold cursor-pointer flex items-center gap-1"
@@ -51,7 +55,7 @@ const WayToSelectAddress = ({
                <div>
                   <BiCurrentLocation className="text-2xl" />
                </div>
-               <div>Use GPS to get current location</div>
+               <div>{trans.profile.edit_profile.address_model.auto_by_GPS}</div>
             </div>
          </div>
       </div>

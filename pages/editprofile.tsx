@@ -15,6 +15,7 @@ import AddressSelect from "../components/Model/AddressSelect";
 import ConfirmModel from "../components/Model/ConfirmModel";
 import WayToSelectAddress from "../components/Model/WayToSelectAddress";
 import GeoLocationAddress from "../components/Model/GeoLocationAddress";
+import useTrans from "../hook/useTrans";
 
 const EditProfile = () => {
    const { state, dispatch } = useContext(Store);
@@ -39,6 +40,7 @@ const EditProfile = () => {
    const [isOpenModelWaySelectAddress, setIsOpenModelWaySelectAddress] =
       useState(false);
    const [isOpenModelGeoLocation, setIsOpenModelGeoLocation] = useState(false);
+   const trans = useTrans();
 
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
@@ -146,7 +148,9 @@ const EditProfile = () => {
                <BiArrowBack />
             </div>
 
-            <div className="font-semibold text-2xl">/ Edit profile</div>
+            <div className="font-semibold text-2xl">
+               / {trans.profile.edit_profile.title}
+            </div>
          </div>
          <form
             onSubmit={handleSubmit(submitHandler)}
@@ -184,18 +188,18 @@ const EditProfile = () => {
                   </label>
                </div>
                <div className="mt-2 text-gray-500 font-medium text-sm italic">
-                  *Maximum image size 2MB
+                  *{trans.profile.edit_profile.maximum_upload}
                </div>
             </div>
             <div className="col-span-9">
                <div className="grid grid-cols-12 gap-4 text-left font-medium">
                   <div className="col-span-6">
                      <label htmlFor="username" className="">
-                        FirstName
+                        {trans.profile.edit_profile.firstname}
                      </label>
                      <input
                         name="firstName"
-                        placeholder="FirstName"
+                        placeholder={trans.profile.edit_profile.firstname}
                         className="p-4 rounded-lg w-full"
                         {...register("firstName")}
                         onChange={() => {
@@ -205,12 +209,12 @@ const EditProfile = () => {
                   </div>
                   <div className="col-span-6">
                      <label htmlFor="lastname" className="">
-                        Lastname
+                        {trans.profile.edit_profile.lastname}
                      </label>
                      <input
                         id="lastname"
                         name="lastName"
-                        placeholder="Lastname"
+                        placeholder={trans.profile.edit_profile.lastname}
                         className="p-4 rounded-lg w-full"
                         {...register("lastName")}
                         onChange={() => {
@@ -220,12 +224,12 @@ const EditProfile = () => {
                   </div>
                   <div className="col-span-12">
                      <label htmlFor="phone" className="">
-                        Phone
+                        {trans.profile.edit_profile.phone}
                      </label>
                      <input
                         name="phone"
                         id="phone"
-                        placeholder="Phone"
+                        placeholder={trans.profile.edit_profile.phone}
                         className="p-4 rounded-lg w-full"
                         {...register("phone")}
                         onChange={() => {
@@ -236,13 +240,13 @@ const EditProfile = () => {
                   <div className="col-span-12">
                      <div className="">
                         <label htmlFor="address" className="">
-                           Address
+                           {trans.profile.edit_profile.address}
                         </label>
                         <div className="grid grid-cols-12 gap-4">
                            <input
                               name="address"
                               id="address"
-                              placeholder="Address"
+                              placeholder={trans.profile.edit_profile.address}
                               disabled
                               className="col-span-11 p-4 rounded-lg w-full "
                               {...register("address")}
@@ -269,7 +273,7 @@ const EditProfile = () => {
                   className="px-6 py-3 bg-primary-color rounded-lg font-semibold text-white hover:shadow-lg transition-all hover:shadow-primary-color my-8"
                   type="submit"
                >
-                  Save the changes
+                  {trans.profile.edit_profile.submit}
                </button>
             </div>
          </form>
@@ -330,7 +334,7 @@ const EditProfile = () => {
             <div className="w-1/3  h-fit">
                <ConfirmModel
                   functionConfirm={() => router.push("/profile")}
-                  content={"Your changes will not be save!"}
+                  content={trans.profile.edit_profile.confirm}
                   isOpenConfirm={isOpenConfirm}
                   setIsOpenConfirm={setIsOpenConfirm}
                />

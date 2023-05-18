@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { BiCaretLeft, BiPencil } from "react-icons/bi";
 import API, { endpoints } from "../../API";
+import useTrans from "../../hook/useTrans";
 
 const AddressSelect = ({
    setAddress,
@@ -22,6 +23,8 @@ const AddressSelect = ({
       handleSubmit,
       formState: { errors },
    } = useForm();
+
+   const trans = useTrans();
 
    const fetchProvinceAll = async () => {
       try {
@@ -105,7 +108,9 @@ const AddressSelect = ({
          ref={wrapperRef}
       >
          <div className="flex justify-between items-center mb-6">
-            <div className="font-semibold text-xl">Select new address</div>
+            <div className="font-semibold text-xl">
+               {trans.profile.edit_profile.address_model.select_new_address}
+            </div>
             <div
                className="flex gap-1 cursor-pointer"
                onClick={() => {
@@ -116,7 +121,9 @@ const AddressSelect = ({
                <div>
                   <BiCaretLeft className="text-xl text-primary-color" />
                </div>
-               <div className="font-medium">Switch to input by GPS</div>
+               <div className="font-medium">
+                  {trans.profile.edit_profile.address_model.switch_to_auto}
+               </div>
             </div>
          </div>
          {isOpenAddressSelect ? (
@@ -130,7 +137,7 @@ const AddressSelect = ({
                         htmlFor="province"
                         className="font-semibold text-sm"
                      >
-                        Province
+                        {trans.profile.edit_profile.address_model.province}
                      </label>
                      <select
                         id="province"
@@ -140,7 +147,8 @@ const AddressSelect = ({
                         }}
                      >
                         <option value={0} className="hidden">
-                           Select Province
+                           {trans.profile.edit_profile.address_model.select}
+                           {trans.profile.edit_profile.address_model.province}
                         </option>
                         {province.map((p) => (
                            <option
@@ -158,7 +166,7 @@ const AddressSelect = ({
                         htmlFor="district"
                         className="font-semibold text-sm"
                      >
-                        District
+                        {trans.profile.edit_profile.address_model.district}
                      </label>
                      <select
                         id="district"
@@ -167,7 +175,8 @@ const AddressSelect = ({
                         disabled={district.length > 0 ? false : true}
                      >
                         <option value={0} className="hidden">
-                           Select District
+                           {trans.profile.edit_profile.address_model.select}
+                           {trans.profile.edit_profile.address_model.district}
                         </option>
                         {district.map((p) => (
                            <option key={p.districtID} value={p.districtID}>
@@ -178,7 +187,7 @@ const AddressSelect = ({
                   </div>
                   <div className="col-span-4 text-left">
                      <label htmlFor="ward" className="font-semibold text-sm">
-                        Ward
+                        {trans.profile.edit_profile.address_model.ward}
                      </label>
                      <select
                         id="ward"
@@ -190,7 +199,8 @@ const AddressSelect = ({
                         }}
                      >
                         <option value={0} className="hidden">
-                           Select Ward
+                           {trans.profile.edit_profile.address_model.select}
+                           {trans.profile.edit_profile.address_model.ward}
                         </option>
                         {ward.map((p) => (
                            <option key={p.wardID} value={p.wardID}>
@@ -205,7 +215,7 @@ const AddressSelect = ({
                            htmlFor="street"
                            className="font-semibold text-sm"
                         >
-                           Street
+                           {trans.profile.edit_profile.address_model.street}
                         </label>
                         <input
                            {...register("street")}
@@ -213,7 +223,9 @@ const AddressSelect = ({
                            name="street"
                            required
                            type="text"
-                           placeholder="Street"
+                           placeholder={
+                              trans.profile.edit_profile.address_model.street
+                           }
                            className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:bg-light-bg disabled:cursor-not-allowed"
                            disabled={street == "empty" ? true : false}
                         />
@@ -224,7 +236,7 @@ const AddressSelect = ({
                         type="submit"
                         className="px-4 py-3 bg-primary-color rounded-lg text-white font-semibold hover:shadow-lg transition-all hover:shadow-primary-color"
                      >
-                        Submit this address
+                        {trans.profile.edit_profile.address_model.submit}
                      </button>
                   </div>
                </form>

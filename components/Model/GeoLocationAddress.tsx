@@ -4,6 +4,7 @@ import API, { endpoints } from "../../API";
 import { ClipLoader } from "react-spinners";
 import { BiCaretLeft, BiRotateLeft } from "react-icons/bi";
 import { toast } from "react-hot-toast";
+import useTrans from "../../hook/useTrans";
 
 const GeoLocationAddress = ({
    setIsOpenModelGeoLocation,
@@ -22,6 +23,7 @@ const GeoLocationAddress = ({
       });
    const [location, setLocation] = useState<string>("");
    const [street, setStreet] = useState<string>("");
+   const trans = useTrans();
 
    useEffect(() => {
       function handleClickOutside(event) {
@@ -59,7 +61,7 @@ const GeoLocationAddress = ({
       >
          <div className="flex justify-between items-center mb-6">
             <div className="text-xl font-semibold">
-               Get your current location by GPS
+               {trans.profile.edit_profile.address_model.select_auto}
             </div>
             <div
                className="flex gap-1 cursor-pointer"
@@ -71,18 +73,20 @@ const GeoLocationAddress = ({
                <div>
                   <BiCaretLeft className="text-xl text-primary-color" />
                </div>
-               <div className="font-medium">Switch to input manually</div>
+               <div className="font-medium">
+                  {trans.profile.edit_profile.address_model.switch_manual}
+               </div>
             </div>
          </div>
          <div>
             {!isGeolocationAvailable ? (
-               <div>Your browser does not support Geolocation.</div>
+               <div>{trans.profile.edit_profile.address_model.not_support}</div>
             ) : isGeolocationEnabled ? (
                coords ? (
                   <div className="">
                      <div className="text-left mb-1">
                         <div className="font-semibold text-sm pl-1">
-                           Your current location
+                           {trans.profile.edit_profile.address_model.current}
                         </div>
                         <div className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium">
                            {location}
@@ -94,14 +98,16 @@ const GeoLocationAddress = ({
                               htmlFor="street"
                               className="font-semibold text-sm pl-1"
                            >
-                              Street
+                              {trans.profile.edit_profile.address_model.street}
                            </label>
                            <input
                               id="street"
                               name="street"
                               required
                               type="text"
-                              placeholder="Street"
+                              placeholder={
+                                 trans.profile.edit_profile.address_model.street
+                              }
                               className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:bg-light-bg disabled:cursor-not-allowed"
                               onChange={(e) => setStreet(e.target.value)}
                            />
@@ -115,13 +121,12 @@ const GeoLocationAddress = ({
                               setIsOpenModelGeoLocation(false);
                            }}
                         >
-                           Submit this address
+                           {trans.profile.edit_profile.address_model.submit}
                         </button>
                      </div>
 
                      <div className="text-secondary-color text-sm font-medium mt-4">
-                        If the returned address is incorrect please check the
-                        location service and try again
+                        {trans.profile.edit_profile.address_model.if}
                      </div>
                   </div>
                ) : (
@@ -129,13 +134,15 @@ const GeoLocationAddress = ({
                      <div className="flex justify-center my-8">
                         <ClipLoader size={35} color="#FF8500" />
                      </div>
-                     <div>Getting the location data&hellip;</div>
+                     <div>
+                        {trans.profile.edit_profile.address_model.getting}
+                     </div>
                   </div>
                )
             ) : (
                <div>
                   <div className="font-medium text-lg text-red-600">
-                     Geolocation is not enabled.
+                     {trans.profile.edit_profile.address_model.uneabled}
                   </div>
                </div>
             )}
