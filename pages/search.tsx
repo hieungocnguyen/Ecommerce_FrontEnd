@@ -12,6 +12,7 @@ import emptyBox from "../public/empty-box.png";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 import { ClipLoader } from "react-spinners";
+import useTrans from "../hook/useTrans";
 
 const ProductItem = dynamic(import("../components/ProductItem"));
 
@@ -31,6 +32,7 @@ const Search = ({ categories }) => {
    const [agencyNameSearch, setAgencyNameSearch] = useState("");
    const [isFetching, setIsFetching] = useState(false);
    const { locale } = useRouter();
+   const trans = useTrans();
 
    const loadPosts = async () => {
       setIsFetching(true);
@@ -83,7 +85,7 @@ const Search = ({ categories }) => {
             <SearchBar categories={categories} setNumberPage={setNumberPage} />
             {router.query.input ? (
                <div className="text-2xl my-8 italic">
-                  Results for &quot;{router.query.input}&quot;
+                  {trans.search.result_for} &quot;{router.query.input}&quot;
                </div>
             ) : (
                <div> </div>
@@ -96,7 +98,7 @@ const Search = ({ categories }) => {
                >
                   <div className="flex justify-between mb-4 items-center">
                      <label htmlFor="fromDate" className="font-semibold">
-                        From Date:
+                        {trans.search.filter.from_date}:
                      </label>
                      <input
                         type="date"
@@ -110,7 +112,7 @@ const Search = ({ categories }) => {
                   </div>
                   <div className="flex justify-between mb-4 items-center">
                      <label htmlFor="toDate" className="font-semibold">
-                        To Date:
+                        {trans.search.filter.to_date}:
                      </label>
                      <input
                         type="date"
@@ -122,7 +124,9 @@ const Search = ({ categories }) => {
                         }}
                      />
                   </div>
-                  <div className="font-semibold mb-2">Price:</div>
+                  <div className="font-semibold mb-2">
+                     {trans.search.filter.price}:
+                  </div>
                   <div className="w-full">
                      <Slider
                         getAriaLabel={() => "Temperature range"}
@@ -139,7 +143,9 @@ const Search = ({ categories }) => {
                         }}
                      />
                   </div>
-                  <div className="font-semibold mb-2">Category:</div>
+                  <div className="font-semibold mb-2">
+                     {trans.search.filter.category}:
+                  </div>
                   <select
                      id="category"
                      name="categoryID"
@@ -149,28 +155,32 @@ const Search = ({ categories }) => {
                      className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                      title="category"
                   >
-                     <option value={0}>--Select Category--</option>
+                     <option value={0}>
+                        --{trans.search.filter.select_category}--
+                     </option>
                      {categories.map((category) => (
                         <option value={category.id} key={category.id}>
                            {locale == "vi" ? category.nameVi : category.name}
                         </option>
                      ))}
                   </select>
-                  <div className="font-semibold my-2">Merchant Name:</div>
+                  <div className="font-semibold mt-4 mb-2">
+                     {trans.search.filter.merchant_name}:
+                  </div>
                   <div className="">
                      <input
                         type="text"
                         className="p-3 w-full rounded-lg"
-                        placeholder="Merchant name"
+                        placeholder={trans.search.filter.merchant_name}
                         onChange={(e) => setAgencyNameSearch(e.target.value)}
                      />
                   </div>
-                  <div className="flex justify-center">
+                  <div className="flex justify-center mt-6">
                      <button
                         className="p-4 bg-primary-color text-white rounded-lg font-semibold my-4 hover:opacity-80"
                         type="submit"
                      >
-                        Apply filter
+                        {trans.search.filter.submit}
                      </button>
                   </div>
                </form>

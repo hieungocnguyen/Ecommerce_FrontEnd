@@ -77,15 +77,33 @@ const enLang = {
          shipping: "Fast & low cost shipping",
       },
    },
+   search: {
+      result_for: "Results for",
+      filter: {
+         from_date: "From Date",
+         to_date: "To Date",
+         price: "Price",
+         category: "Category",
+         select_category: "Select Category",
+         merchant_name: "Merchant Name",
+         submit: "Submit",
+      },
+   },
+   all_agency: {
+      title: "All Merchant",
+      search_bar_placeholder: "Type merchant name",
+      search: "Search",
+   },
+   agencyPage: {
+      title: "Merchant Page",
+      follow: "Follow",
+      unfollow: "Unfollow",
+   },
    profile: {},
    detailProduct: {},
    order: {},
    wishlist: {},
    followed: {},
-   search: {},
-   agencyPage: {
-      title: "Merchant Page",
-   },
 };
 
 export default enLang;

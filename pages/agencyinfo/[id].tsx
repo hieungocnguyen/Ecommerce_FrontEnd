@@ -89,7 +89,9 @@ const AgencyPage = ({ agencyInfo, posts }) => {
                }`}
                onClick={() => handleFollowAgency()}
             >
-               {stateFollow ? "Unfollow" : "Follow"}
+               {stateFollow
+                  ? trans.agencyPage.unfollow
+                  : trans.agencyPage.follow}
             </div>
             <div className="grid grid-cols-4 gap-8 mt-8">
                <Suspense

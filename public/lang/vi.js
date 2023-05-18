@@ -76,8 +76,27 @@ const viLang = {
          shipping: "Vận chuyển nhanh và rẻ",
       },
    },
+   search: {
+      result_for: "Kết quả tìm kiếm cho",
+      filter: {
+         from_date: "Từ ngày",
+         to_date: "Đến ngày",
+         price: "Giá tiền",
+         category: "Danh mục",
+         select_category: "Chọn danh mục",
+         merchant_name: "Tên đại lý",
+         submit: "Áp dụng bộ lọc",
+      },
+   },
+   all_agency: {
+      title: "Tất cả đại lý bán hàng",
+      search_bar_placeholder: "Nhập tên đại lý cần tìm",
+      search: "Tìm kiếm",
+   },
    agencyPage: {
       title: "Đại lý bán hàng",
+      follow: "Theo dõi",
+      unfollow: "Bỏ theo dõi",
    },
 };
 

@@ -6,12 +6,14 @@ import router from "next/router";
 import { BiArrowBack } from "react-icons/bi";
 import emptyBox from "../public/empty-box.png";
 import AgencyCard from "../components/AgencyCard";
+import useTrans from "../hook/useTrans";
 
 const AllAgency = () => {
    const [keyword, setKeyWord] = useState("");
    const [agencyList, setAgencyList] = useState([]);
    const [numberPage, setNumberPage] = useState(1);
    const [totalPage, setTotalPage] = useState(1);
+   const trans = useTrans();
 
    const fetchAgencies = async () => {
       try {
@@ -44,20 +46,22 @@ const AllAgency = () => {
                >
                   <BiArrowBack />
                </div>
-               <div className="font-semibold text-2xl">/ All merchant</div>
+               <div className="font-semibold text-2xl">
+                  / {trans.all_agency.title}
+               </div>
             </div>
             <div className="mx-auto mb-8">
                <input
                   type="text"
                   onChange={(e) => setKeyWord(e.target.value)}
-                  placeholder="Name merchant..."
+                  placeholder={trans.all_agency.search_bar_placeholder}
                   className="p-4 w-2/3 bg-light-primary dark:bg-dark-primary rounded-lg font-medium"
                />
                <button
                   onClick={() => fetchAgencies()}
-                  className="ml-4 px-5 py-4 bg-primary-color text-white font-medium rounded-lg hover:shadow-lg hover:shadow-primary-color transition-all"
+                  className="ml-4 px-5 py-4 bg-primary-color text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-primary-color transition-all"
                >
-                  Search
+                  {trans.all_agency.search}
                </button>
             </div>
             <div className="grid grid-cols-4 gap-8">
