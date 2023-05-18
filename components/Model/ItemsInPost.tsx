@@ -7,12 +7,14 @@ import { Store } from "../../utils/Store";
 import { BiMinus, BiPlus } from "react-icons/bi";
 import dynamic from "next/dynamic";
 import { authAxios, endpoints } from "../../API";
+import useTrans from "../../hook/useTrans";
 
 const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
    const wrapperRef = useRef(null);
    const [subTotal, setSubTotal] = useState(0);
    const [quantityItems, setQuantityItems] = useState<any>([]);
    const { state, dispatch } = useContext(Store);
+   const trans = useTrans();
 
    const handleChangeQuantity = (item: any, type: number) => {
       var updatedList = quantityItems;
@@ -104,14 +106,14 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
          ref={wrapperRef}
       >
          <div className="mb-8 font-semibold text-2xl text-center">
-            Choose item
+            {trans.detailProduct.choose_item}
          </div>
          <div className="p-4 h-[340px] rounded-lg dark:bg-dark-primary bg-light-spot">
             <div className="grid grid-cols-12 gap-4 items-center font-semibold mb-4">
-               <div className="col-span-5">Item</div>
-               <div className="col-span-2">Unit price</div>
-               <div className="col-span-2">In stock</div>
-               <div className="col-span-3">Quantity</div>
+               <div className="col-span-5">{trans.detailProduct.item}</div>
+               <div className="col-span-2">{trans.detailProduct.unitprice}</div>
+               <div className="col-span-2">{trans.detailProduct.instock}</div>
+               <div className="col-span-3">{trans.detailProduct.quantity}</div>
             </div>
             {items ? (
                <>
@@ -244,7 +246,7 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
          </div>
          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-8 items-center">
             <div className="text-2xl font-semibold">
-               <span className="">Subtotal: </span>
+               <span className="">{trans.detailProduct.subtototal}: </span>
                <span className="text-primary-color">
                   {subTotal.toLocaleString("it-IT", {
                      style: "currency",
@@ -256,7 +258,7 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
                className="bg-primary-color py-4 px-6 text-dark-text font-semibold rounded-lg hover:shadow-lg hover:shadow-primary-color"
                onClick={handleAddToCart}
             >
-               Add to your cart
+               {trans.detailProduct.add_to_your_cart}
             </button>
          </div>
       </div>

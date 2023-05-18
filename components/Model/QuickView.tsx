@@ -5,12 +5,14 @@ import API, { endpoints } from "../../API";
 import Image from "next/image";
 import { Rating } from "@mui/material";
 import Moment from "react-moment";
+import useTrans from "../../hook/useTrans";
 
 const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
    const wrapperRef = useRef(null);
    const [post, setPost] = useState<any>({});
    const [mainPic, setMainPic] = useState("");
    const [starAvg, setStarAvg] = useState(0);
+   const trans = useTrans();
 
    const fetchPost = async () => {
       const res = await API.get(endpoints["salePost"](postID));
@@ -81,7 +83,7 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
                </div>
                <div className="col-span-8">
                   <div className="dark:bg-dark-primary bg-light-primary rounded-lg text-left">
-                     <div className="font-semibold text-2xl text-left h-20 leading-10">
+                     <div className="font-semibold text-2xl text-left max-h-20 ">
                         {post.title}
                      </div>
                      <div className="flex items-center gap-2 my-2 text-lg">
@@ -121,15 +123,15 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
                      <div className="mb-4 mt-8 grid grid-cols-12">
                         <div className="col-span-6">
                            <div className="font-semibold mb-2">
-                              Brand:{" "}
+                              {trans.detailProduct.brand}:{" "}
                               <span className="font-medium">{post.brand}</span>
                            </div>
                            <div className="font-semibold mb-2">
-                              Origin:{" "}
+                              {trans.detailProduct.origin}:{" "}
                               <span className="font-medium">{post.origin}</span>
                            </div>
                            <div className="font-semibold">
-                              Manufacturer:{" "}
+                              {trans.detailProduct.manufacturer}:{" "}
                               <span className="font-medium">
                                  {post.manufacturer}
                               </span>
@@ -137,17 +139,23 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
                         </div>
                         <div className="col-span-6">
                            <div className="font-semibold mb-2">
-                              Category:{" "}
+                              {trans.detailProduct.category}:{" "}
                               <span className="font-medium">
                                  {post.category.name}
                               </span>
                            </div>
-                           <div className="font-semibold">
-                              Created date:{" "}
+                           <div className="font-semibold mb-2">
+                              {trans.detailProduct.date_of_sale}:{" "}
                               <span className="font-medium">
                                  {new Date(post.createdDate).toLocaleDateString(
                                     "en-GB"
                                  )}
+                              </span>
+                           </div>
+                           <div className="font-semibold">
+                              {trans.detailProduct.merchant}:{" "}
+                              <span className="font-medium">
+                                 {post.agency.name}
                               </span>
                            </div>
                         </div>

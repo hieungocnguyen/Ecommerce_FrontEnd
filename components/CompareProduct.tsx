@@ -7,11 +7,14 @@ import emptyBox from "../public/empty-box.png";
 import { Store } from "../utils/Store";
 import API, { endpoints } from "../API";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import useTrans from "../hook/useTrans";
 
 const CompareProduct = ({ openCompare }) => {
    const [posts, setPosts] = useState([]);
    const { state, dispatch } = useContext(Store);
    const { compare } = state;
+   const trans = useTrans();
 
    const fetchProducts = () => {
       let tempPosts = Cookies.get("compare")
@@ -44,7 +47,7 @@ const CompareProduct = ({ openCompare }) => {
             className={`w-[90%] h-6/7 dark:bg-dark-spot bg-light-spot rounded-lg p-6 overflow-auto shadow-lg transition-all border-2 border-primary-color`}
          >
             <div className="text-left font-semibold text-xl dark:text-dark-text">
-               Comparing Product
+               {trans.detailProduct.compare_product}
             </div>
             <div className="mt-4">
                <div className={`grid sm:grid-cols-4 grid-cols-1 gap-4 `}>

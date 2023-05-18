@@ -17,6 +17,7 @@ import Loader from "../../components/Loader";
 import dynamic from "next/dynamic";
 import moment from "moment";
 import loginImg from "../../public/login.png";
+import useTrans from "../../hook/useTrans";
 // import RelativePost from "../../components/RelativePost";
 
 const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
@@ -35,6 +36,7 @@ const ProductPage = ({ salePost }) => {
    const [isOpenItemsModal, setIsOpenItemsModal] = useState(false);
    const [loading, setLoading] = useState(false);
    const [isShowMore, setIsShowMore] = useState(false);
+   const trans = useTrans();
 
    const loadComment = async () => {
       try {
@@ -147,7 +149,7 @@ const ProductPage = ({ salePost }) => {
                            href="#section_comment"
                            title="Go to comment section"
                         >
-                           {commentCount} Comment(s)
+                           {commentCount} {trans.detailProduct.comment}
                         </a>
                      </div>
                   </div>
@@ -168,17 +170,17 @@ const ProductPage = ({ salePost }) => {
                   <div className="mb-4 mt-8 grid grid-cols-2">
                      <div>
                         <div className="font-semibold mb-2 text-lg">
-                           Brand:{" "}
+                           {trans.detailProduct.brand}:{" "}
                            <span className="font-medium">{salePost.brand}</span>
                         </div>
                         <div className="font-semibold mb-2 text-lg">
-                           Origin:{" "}
+                           {trans.detailProduct.origin}:{" "}
                            <span className="font-medium">
                               {salePost.origin}
                            </span>
                         </div>
                         <div className="font-semibold text-lg">
-                           Manufacturer:{" "}
+                           {trans.detailProduct.manufacturer}:{" "}
                            <span className="font-medium">
                               {salePost.manufacturer}
                            </span>
@@ -187,7 +189,7 @@ const ProductPage = ({ salePost }) => {
                      <div>
                         <Link href={`/category/${salePost.category.id}`}>
                            <div className="font-semibold mb-2 text-lg cursor-pointer hover:text-primary-color">
-                              Category:{" "}
+                              {trans.detailProduct.category}:{" "}
                               <span className="font-medium">
                                  {locale == "vi"
                                     ? salePost.category.nameVi
@@ -196,7 +198,7 @@ const ProductPage = ({ salePost }) => {
                            </div>
                         </Link>
                         <div className="font-semibold mb-2 text-lg">
-                           Date of sale:{" "}
+                           {trans.detailProduct.date_of_sale}:{" "}
                            <span className="font-medium">
                               {new Date(
                                  salePost.createdDate
@@ -204,9 +206,11 @@ const ProductPage = ({ salePost }) => {
                            </span>
                         </div>
                         <div className="font-semibold text-lg">
-                           State of post:{" "}
+                           {trans.detailProduct.state_of_post}:{" "}
                            <span className="font-medium">
-                              {salePost.isActive ? "Availabble" : "Unavailable"}
+                              {salePost.isActive
+                                 ? trans.detailProduct.avaiable
+                                 : trans.detailProduct.unavailable}
                            </span>
                         </div>
                      </div>
@@ -224,8 +228,8 @@ const ProductPage = ({ salePost }) => {
                      }
                   >
                      {salePost.agency.isActive === 0 || salePost.isActive === 0
-                        ? "This sale post is unvailable"
-                        : "Choose item to add to cart"}
+                        ? trans.detailProduct.this_product_is_unavailable
+                        : trans.detailProduct.choose_items}
                   </button>
                   <div
                      className="col-span-6 dark:bg-dark-primary bg-light-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-md dark:hover:shadow-dark-primary hover:shadow-light-primary transition-all"
@@ -269,7 +273,7 @@ const ProductPage = ({ salePost }) => {
          </div>
          <div className="my-8 mx-16 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
             <div className="font-semibold text-left ml-12 text-xl">
-               Description
+               {trans.detailProduct.description}
             </div>
             <div
                className={`my-6 mx-16 text-left overflow-hidden relative ${
@@ -288,7 +292,9 @@ const ProductPage = ({ salePost }) => {
                   className="px-4 py-2 rounded-lg border-2 border-primary-color text-primary-color font-semibold"
                   onClick={() => setIsShowMore(!isShowMore)}
                >
-                  {isShowMore ? "Show less" : "Show more"}
+                  {isShowMore
+                     ? trans.detailProduct.show_less
+                     : trans.detailProduct.show_more}
                </button>
             </div>
          </div>
@@ -296,7 +302,7 @@ const ProductPage = ({ salePost }) => {
          <div className="grid grid-cols-1 my-8 mx-16" id="section_comment">
             <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
                <div className="font-semibold text-left ml-12 text-xl">
-                  Feedback
+                  {trans.detailProduct.comment}
                </div>
                {userInfo ? (
                   <CommentForm
@@ -318,7 +324,7 @@ const ProductPage = ({ salePost }) => {
                         />
                      </div>
                      <div className="uppercase mt-4 font-semibold">
-                        Log in to comment
+                        {trans.detailProduct.login_to_comment}
                      </div>
                   </div>
                )}
@@ -417,6 +423,7 @@ const CommentForm = ({
    const [content, setContent] = useState("");
    const router = useRouter();
    const [value, setValue] = React.useState<number | null>(0);
+   const trans = useTrans();
 
    const onChangeContent = (e) => {
       setContent(e.target.value);
@@ -489,7 +496,7 @@ const CommentForm = ({
             <div className="">
                <textarea
                   // type="text"
-                  placeholder="Comment..."
+                  placeholder={trans.detailProduct.comment}
                   className=" rounded-lg h-18 w-[90%] mx-auto my-4 p-4"
                   onChange={onChangeContent}
                   value={content}
@@ -517,7 +524,7 @@ const CommentForm = ({
                type="submit"
                className="p-4 bg-primary-color rounded-lg font-semibold text-white hover:opacity-80 disabled:bg-slate-600 disabled:cursor-not-allowed"
             >
-               Send your feedback
+               {trans.detailProduct.submit_comment}
             </button>
          </form>
       </>
