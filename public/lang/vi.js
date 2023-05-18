@@ -98,6 +98,11 @@ const viLang = {
       follow: "Theo dõi",
       unfollow: "Bỏ theo dõi",
    },
+   category: {
+      all: {
+         title: "Tất cả sản phẩm",
+      },
+   },
 };
 
 export default viLang;

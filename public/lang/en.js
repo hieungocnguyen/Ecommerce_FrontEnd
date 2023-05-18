@@ -99,6 +99,11 @@ const enLang = {
       follow: "Follow",
       unfollow: "Unfollow",
    },
+   category: {
+      all: {
+         title: "All products",
+      },
+   },
    profile: {},
    detailProduct: {},
    order: {},
