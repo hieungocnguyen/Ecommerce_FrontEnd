@@ -5,12 +5,14 @@ import { BiArrowBack } from "react-icons/bi";
 import { authAxios, endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import { Store } from "../utils/Store";
+import useTrans from "../hook/useTrans";
 
 const Changepassword = () => {
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
    const [password, setPassword] = useState(["", ""]);
    const router = useRouter();
+   const trans = useTrans();
 
    const handleSumbit = async (e) => {
       e.preventDefault();
@@ -45,7 +47,9 @@ const Changepassword = () => {
             >
                <BiArrowBack />
             </div>
-            <div className="font-semibold text-2xl">/ Change password</div>
+            <div className="font-semibold text-2xl">
+               / {trans.profile.password.title}
+            </div>
          </div>
          <form
             className="grid grid-cols-12 gap-4 mx-[24rem] text-left font-medium"
@@ -53,7 +57,7 @@ const Changepassword = () => {
          >
             <div className="col-span-12">
                <label htmlFor="newPassword" className="">
-                  New Password
+                  {trans.profile.password.new_password}
                </label>
                <input
                   type="password"
@@ -68,7 +72,7 @@ const Changepassword = () => {
             </div>
             <div className="col-span-12">
                <label htmlFor="ConfirmNewPassword" className="">
-                  Confirm New Password
+                  {trans.profile.password.confirm_new_password}
                </label>
                <input
                   type="password"
@@ -86,7 +90,7 @@ const Changepassword = () => {
                   className="px-4 py-3 bg-primary-color text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-primary-color transition-all"
                   type="submit"
                >
-                  Change password
+                  {trans.profile.password.submit}
                </button>
             </div>
          </form>

@@ -176,6 +176,12 @@ const enLang = {
          },
          confirm: "Your changes will not be save!",
       },
+      password: {
+         title: "Change password",
+         new_password: "New password",
+         confirm_new_password: "Confirm new password",
+         submit: "Change Password",
+      },
    },
    order: {
       title: "Your Order",

@@ -90,7 +90,7 @@ const Profile = () => {
                   >
                      {user.firstName || user.lastName
                         ? `${user.firstName} ${user.lastName}`
-                        : "Unnamed"}
+                        : trans.profile.unnamed}
                   </div>
                   <div className="font-medium opacity-80">{user.email}</div>
                </div>

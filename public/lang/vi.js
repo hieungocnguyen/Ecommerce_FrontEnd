@@ -175,6 +175,12 @@ const viLang = {
          },
          confirm: "Những thay đổi của bạn sẽ không được lưu",
       },
+      password: {
+         title: "Đổi mật khẩu",
+         new_password: "Mật khẩu mới",
+         confirm_new_password: "Nhập lại mật khẩu mới",
+         submit: "Xác nhận đổi mật khẩu",
+      },
    },
    order: {
       title: "Đơn hàng của bạn",
