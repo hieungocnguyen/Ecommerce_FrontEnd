@@ -114,11 +114,16 @@ const ItemsOfPost = () => {
 
    const handleDeleteItem = async (i) => {
       try {
-         const resDelete = await API.delete(endpoints["item"](i.id));
-         loadItems();
-         toast.success("Delete item successful!", {
-            position: "bottom-center",
+         // const resDelete = await API.delete(endpoints["item"](i.id));
+         // loadItems();
+         // toast.success("Delete item successful!", {
+         //    position: "bottom-center",
+         // });
+         const resUpdate = await API.put(endpoints["item"](i.id), {
+            inventory: 0,
          });
+         toast.success("Inventory's item change to 0");
+         loadItems();
       } catch (error) {
          console.log(error);
       }
@@ -163,7 +168,11 @@ const ItemsOfPost = () => {
                            .sort((a, b) => (a.id < b.id ? 1 : -1))
                            .map((i) => (
                               <div key={i.id}>
-                                 <ul className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-bg hover:bg-light-spot font-medium">
+                                 <ul
+                                    className={`grid grid-cols-12 p-5 items-center dark:hover:bg-dark-bg hover:bg-light-spot font-medium ${
+                                       i.inventory == 0 && "text-red-500"
+                                    }`}
+                                 >
                                     <li className="col-span-1">
                                        <Image
                                           src={i.avatar}

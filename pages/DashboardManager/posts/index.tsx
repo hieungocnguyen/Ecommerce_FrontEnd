@@ -199,8 +199,28 @@ const Posts = () => {
                                        </div>
                                        <div
                                           className="p-3 rounded-lg dark:bg-dark-spot bg-red-500 hover:shadow-lg hover:shadow-red-500 text-white"
+                                          // onClick={() => {
+                                          //    handleDeletePost(post.id);
+                                          // }}
                                           onClick={() => {
-                                             handleDeletePost(post.id);
+                                             if (post.itemPostSet.length > 0) {
+                                             }
+                                             if (post.isActive) {
+                                                handleUnpublishPost(post.id);
+                                             } else {
+                                                if (
+                                                   post.itemPostSet.length > 0
+                                                ) {
+                                                   handlePublishPost(post.id);
+                                                } else {
+                                                   toast.error(
+                                                      "Can't publish when don't have any item in post!",
+                                                      {
+                                                         position: "top-center",
+                                                      }
+                                                   );
+                                                }
+                                             }
                                           }}
                                        >
                                           <BiTrashAlt />
