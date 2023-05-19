@@ -19,6 +19,7 @@ import emptyBox from "../public/empty-box.png";
 import Image from "next/image";
 import router from "next/router";
 import ConfirmModel from "../components/Model/ConfirmModel";
+import useTrans from "../hook/useTrans";
 
 const Orders = () => {
    const { state } = useContext(Store);
@@ -31,6 +32,7 @@ const Orders = () => {
    const [orderIDCancel, setOrderIDCancel] = useState(-1);
    const [isOpenConfirmModelChangeState, setIsOpenConfirmModelChangeState] =
       useState(false);
+   const trans = useTrans();
 
    const loadOrder = async () => {
       try {
@@ -123,16 +125,18 @@ const Orders = () => {
             >
                <BiArrowBack />
             </div>
-            <div className="font-semibold text-2xl">/ Your Orders</div>
+            <div className="font-semibold text-2xl">/ {trans.order.title}</div>
          </div>
 
          <div className="rounded-lg overflow-hidden">
             <div className="grid grid-cols-12 gap-4 p-5 dark:bg-dark-primary bg-light-primary items-center font-semibold">
-               <div className="col-span-1">Order code</div>
-               <div className="col-span-2">Order date</div>
-               <div className="col-span-2 text-right">Price + Ship fee</div>
-               <div className="col-span-2">Agency</div>
-               <div className="col-span-3">State</div>
+               <div className="col-span-1">{trans.order.code}</div>
+               <div className="col-span-2">{trans.order.date}</div>
+               <div className="col-span-2 text-right">
+                  {trans.order.price_ship}
+               </div>
+               <div className="col-span-2">{trans.order.merchant}</div>
+               <div className="col-span-3">{trans.order.state}</div>
                <div className="col-span-2"></div>
             </div>
             <div className="mb-8">
@@ -298,7 +302,7 @@ const Orders = () => {
                            handleCancelOrder();
                            setOrderIDCancel(0);
                         }}
-                        content={"Your order will be canceled immediately!"}
+                        content={trans.order.cancel}
                         isOpenConfirm={isOpenConfirmModelCancel}
                         setIsOpenConfirm={setIsOpenConfirmModelCancel}
                      />
@@ -317,9 +321,7 @@ const Orders = () => {
                            handleChangeState();
                            setOrderIDCancel(0);
                         }}
-                        content={
-                           "Your order will have to wait for the merchant accept to cancel"
-                        }
+                        content={trans.order.confirm}
                         isOpenConfirm={isOpenConfirmModelChangeState}
                         setIsOpenConfirm={setIsOpenConfirmModelChangeState}
                      />

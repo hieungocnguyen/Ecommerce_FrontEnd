@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import API, { endpoints } from "../../API";
 import { ClipLoader } from "react-spinners";
+import useTrans from "../../hook/useTrans";
 
 const OrderView = ({
    orderInfo,
@@ -12,6 +13,7 @@ const OrderView = ({
 }) => {
    const wrapperRef = useRef(null);
    const [detailOrders, setDetailOrders] = useState<any>();
+   const trans = useTrans();
 
    const fetchDetailOrder = async () => {
       try {
@@ -48,53 +50,67 @@ const OrderView = ({
          {detailOrders ? (
             <>
                <div className="text-center font-bold text-xl mb-2">
-                  Detail Order
+                  {trans.order.detail_order.title}
                </div>
                <div className="grid grid-cols-2 gap-6 mb-2">
                   <div className="text-left">
                      <div className="text-lg text-center font-semibold mb-2">
-                        From agency
+                        {trans.order.detail_order.from_merchant}
                      </div>
                      <div className="p-4 rounded-xl bg-dark-text dark:bg-dark-spot">
                         <div>
-                           <span className="font-semibold">Merchant:</span>{" "}
+                           <span className="font-semibold">
+                              {trans.order.detail_order.merchant}:
+                           </span>{" "}
                            {orderInfo.agency.name}
                         </div>
                         <div>
-                           <span className="font-semibold">Field:</span>{" "}
+                           <span className="font-semibold">
+                              {trans.order.detail_order.field}:
+                           </span>{" "}
                            {orderInfo.agency.field.name}
                         </div>
                         <div>
-                           <span className="font-semibold">Hotline:</span>{" "}
+                           <span className="font-semibold">
+                              {trans.order.detail_order.hotline}:
+                           </span>{" "}
                            {orderInfo.agency.hotline}
                         </div>
                         <div>
-                           <span className="font-semibold">Address:</span>{" "}
+                           <span className="font-semibold">
+                              {trans.order.detail_order.address}:
+                           </span>{" "}
                            {orderInfo.agency.fromAddress}
                         </div>
                      </div>
                   </div>
                   <div className="text-left">
                      <div className="text-lg text-center font-semibold mb-2">
-                        To customer
+                        {trans.order.detail_order.to_customer}
                      </div>
                      <div className="p-4 rounded-xl bg-dark-text dark:bg-dark-spot">
                         <div>
                            <span className="font-semibold">
-                              Customer&apos;s Name:
+                              {trans.order.detail_order.customer_name}
                            </span>{" "}
                            {orderInfo.deliveryInfo.customerName}
                         </div>
                         <div>
-                           <span className="font-semibold">Phone:</span>{" "}
+                           <span className="font-semibold">
+                              {trans.order.detail_order.phone}:
+                           </span>{" "}
                            {orderInfo.deliveryInfo.deliveryPhone}
                         </div>
                         <div>
-                           <span className="font-semibold">Type address:</span>{" "}
+                           <span className="font-semibold">
+                              {trans.order.detail_order.type_address}:
+                           </span>{" "}
                            {orderInfo.deliveryInfo.addressType}
                         </div>
                         <div>
-                           <span className="font-semibold">Address:</span>{" "}
+                           <span className="font-semibold">
+                              {trans.order.detail_order.address}:
+                           </span>{" "}
                            {orderInfo.deliveryInfo.fullAddress}
                         </div>
                      </div>
@@ -102,7 +118,7 @@ const OrderView = ({
                </div>
                <div className="">
                   <div className="text-lg font-semibold text-center">
-                     Item(s) in order
+                     {trans.order.detail_order.items_in_order}
                   </div>
                   <div
                      className={`overflow-auto ${
@@ -155,7 +171,7 @@ const OrderView = ({
                            <>
                               <div className="">
                                  <span className="font-semibold">
-                                    Delivery Time Expected:
+                                    {trans.order.detail_order.delivery_expeted}:
                                  </span>{" "}
                                  {new Date(
                                     orderInfo.expectedDeliveryTime
@@ -167,7 +183,9 @@ const OrderView = ({
                         )}
                      </div>
                      <div className="">
-                        <span className="font-semibold">Payment Type: </span>
+                        <span className="font-semibold">
+                           {trans.order.detail_order.payment_type}:{" "}
+                        </span>
                         {orderInfo.orders.paymentType.name}
                      </div>
                   </div>
@@ -182,7 +200,8 @@ const OrderView = ({
                         {orderInfo.shipFee ? (
                            <>
                               <div className="text-secondary-color font-semibold">
-                                 {" + (ship fee) "}
+                                 {trans.order.detail_order.ship_fee}
+                                 {": "}
                                  {orderInfo.shipFee.toLocaleString("it-IT", {
                                     style: "currency",
                                     currency: "VND",

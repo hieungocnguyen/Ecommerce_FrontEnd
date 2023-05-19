@@ -11,6 +11,7 @@ import emptyBox from "../public/empty-box.png";
 import Image from "next/image";
 import Link from "next/link";
 import { ClipLoader } from "react-spinners";
+import useTrans from "../hook/useTrans";
 
 const Wishlist = () => {
    const { state, dispatch } = useContext(Store);
@@ -18,6 +19,8 @@ const Wishlist = () => {
    const router = useRouter();
    const [wishList, setWishList] = useState([]);
    const [isFetching, setIsFetching] = useState(false);
+   const { locale } = useRouter();
+   const trans = useTrans();
 
    const loadWishList = async () => {
       try {
@@ -62,17 +65,19 @@ const Wishlist = () => {
             >
                <BiArrowBack />
             </div>
-            <div className="font-semibold text-2xl">/ Wishlist</div>
+            <div className="font-semibold text-2xl">
+               / {trans.wishlist.title}
+            </div>
          </div>
          {!isFetching ? (
             <>
                <div className="grid grid-cols-12 dark:bg-dark-primary bg-light-primary rounded-lg font-semibold p-4 mb-4 text-left">
-                  <div className="col-span-1">Avatar</div>
-                  <div className="col-span-3">Name</div>
-                  <div className="col-span-2">Category</div>
-                  <div className="col-span-2">Price</div>
-                  <div className="col-span-2">Brand</div>
-                  <div className="col-span-1">SellStatus</div>
+                  <div className="col-span-1">{trans.wishlist.avatar}</div>
+                  <div className="col-span-3">{trans.wishlist.name}</div>
+                  <div className="col-span-2">{trans.wishlist.category}</div>
+                  <div className="col-span-2">{trans.wishlist.price}</div>
+                  <div className="col-span-2">{trans.wishlist.brand}</div>
+                  <div className="col-span-1">{trans.wishlist.status}</div>
                   <div></div>
                </div>
                {wishList.length > 0 ? (
@@ -109,8 +114,10 @@ const Wishlist = () => {
                                     </div>
                                  </div>
                                  <div className="col-span-2">{w.brand}</div>
-                                 <div className="col-span-1">
-                                    {w.sellStatus.name}
+                                 <div className="col-span-1 font-semibold">
+                                    {locale == "vi"
+                                       ? w.sellStatus.nameVi
+                                       : w.sellStatus.name}
                                  </div>
                                  <div className="flex justify-end items-center mr-8">
                                     <div
@@ -139,7 +146,7 @@ const Wishlist = () => {
                         />
                      </div>
                      <div className="uppercase text-2xl font-semibold mb-4">
-                        your wishlist is empty
+                        {trans.wishlist.empty}
                      </div>
                   </>
                )}

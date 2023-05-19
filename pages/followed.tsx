@@ -9,6 +9,7 @@ import Image from "next/image";
 import emptyBox from "../public/empty-box.png";
 import { AiFillHeart } from "react-icons/ai";
 import ConfirmModel from "../components/Model/ConfirmModel";
+import useTrans from "../hook/useTrans";
 
 const Followed = () => {
    const { state, dispatch } = useContext(Store);
@@ -16,6 +17,7 @@ const Followed = () => {
    const [listAgencyFollowed, setListAgencyFollowed] = useState([]);
    const [isOpenConfirm, setIsOpenConfirm] = useState(false);
    const [confirmID, setConfirmID] = useState(-1);
+   const trans = useTrans();
 
    const FetchListFollowAgency = async () => {
       try {
@@ -60,7 +62,9 @@ const Followed = () => {
             >
                <BiArrowBack />
             </div>
-            <div className="font-semibold text-2xl">/ Followed List</div>
+            <div className="font-semibold text-2xl">
+               / {trans.followed.title}
+            </div>
          </div>
          <div className=" mb-8">
             {listAgencyFollowed.length > 0 ? (
@@ -119,7 +123,7 @@ const Followed = () => {
                      />
                   </div>
                   <div className="uppercase text-2xl font-semibold mb-4">
-                     You have not followed any agencies yet
+                     {trans.followed.empty}
                   </div>
                </div>
             )}

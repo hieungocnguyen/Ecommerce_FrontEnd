@@ -68,7 +68,9 @@ const Profile = () => {
             >
                <BiArrowBack />
             </div>
-            <div className="font-semibold text-2xl">/ Profile</div>
+            <div className="font-semibold text-2xl">
+               / {trans.profile.title}
+            </div>
          </div>
          <div className="">
             <div className="relative bg-primary-color h-36 rounded-lg">
@@ -100,7 +102,7 @@ const Profile = () => {
                         className="px-4 py-3 border-dark-text border-2 rounded-lg text-white font-semibold hover:bg-dark-text hover:text-primary-color transition-all flex items-center"
                      >
                         <BiEditAlt className="text-2xl inline-block mr-2" />
-                        <span>Change information</span>
+                        <span>{trans.profile.change_info}</span>
                      </button>
                   </Link>
                   {authProvider == 1 ? (
@@ -112,7 +114,7 @@ const Profile = () => {
                               className="px-4 py-3 border-dark-text border-2 rounded-lg text-white font-semibold hover:bg-dark-text hover:text-primary-color transition-all flex items-center"
                            >
                               <BiLockAlt className="text-2xl inline-block mr-2" />
-                              <span>Change Password</span>
+                              <span>{trans.profile.change_password}</span>
                            </button>
                         </Link>
                      </>
@@ -130,7 +132,7 @@ const Profile = () => {
                            user.phone ? "" : "text-orange-500"
                         }`}
                      >
-                        {user.phone ? user.phone : "Undeclare number phone"}
+                        {user.phone ? user.phone : trans.profile.not_provided}
                      </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -140,7 +142,9 @@ const Profile = () => {
                            user.address ? "" : "text-orange-500"
                         }`}
                      >
-                        {user.address ? user.address : "Undeclare address"}
+                        {user.address
+                           ? user.address
+                           : trans.profile.not_provided}
                      </div>
                   </div>
                </div>
@@ -149,8 +153,7 @@ const Profile = () => {
                      {user.role && user.role.id === 3 ? (
                         waitAccept ? (
                            <div className="font-medium">
-                              Waiting administrator accept your register
-                              application
+                              {trans.profile.wait_accept}
                            </div>
                         ) : (
                            <div>
@@ -160,7 +163,7 @@ const Profile = () => {
                                     type="button"
                                     className="rounded-xl px-4 py-3 bg-primary-color text-white font-semibold hover:shadow-lg hover:shadow-primary-color"
                                  >
-                                    Register to become a merchant
+                                    {trans.profile.register_merchant}
                                  </button>
                               </Link>
                            </div>
@@ -170,18 +173,18 @@ const Profile = () => {
                            <div
                               className={`flex items-center justify-center font-medium`}
                            >
-                              Now, you can manage your merchant in manager page
+                              {trans.profile.can_manage}
                            </div>
                         </>
                      ) : user.role && user.role.id === 1 ? (
                         <div className="flex items-center justify-center font-semibold text-primary-color text-xl">
-                           You are administrator
+                           {trans.profile.admin}
                         </div>
                      ) : (
                         <div
                            className={`flex items-center justify-center font-semibold text-red-600 text-xl`}
                         >
-                           Your merchant has banned!
+                           {trans.profile.has_banned}
                         </div>
                      )}
                   </div>
