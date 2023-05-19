@@ -4,6 +4,7 @@ import { Store } from "../../utils/Store";
 import emptyBox from "../../public/empty-box.png";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
+import useTrans from "../../hook/useTrans";
 
 const AddressBook = ({
    setIsOpenAddressBook,
@@ -16,6 +17,7 @@ const AddressBook = ({
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
    const [addressSelected, setAddressSelected] = useState<any>({});
+   const trans = useTrans();
 
    const fetchAddressList = async () => {
       try {
@@ -73,12 +75,14 @@ const AddressBook = ({
          ref={wrapperRef}
       >
          <div className="flex justify-between items-center mb-2 mx-8">
-            <div className="text-lg font-semibold">Address Book</div>
+            <div className="text-lg font-semibold">
+               {trans.checkout.address_book.title}
+            </div>
             <button
                className="px-3 py-2 text-white bg-primary-color rounded-lg hover:shadow-primary-color hover:shadow-lg font-semibold"
                onClick={() => setIsOpenAddAddress(true)}
             >
-               Add new address
+               {trans.checkout.address_book.add_new_address}
             </button>
          </div>
          <div className=" absolute bottom-8 left-1/2 -translate-x-1/2 w-[90%] h-[32rem]">
@@ -97,29 +101,31 @@ const AddressBook = ({
                               <div className="rounded-lg ring-2 bg-light-spot ring-slate-200 mb-4 p-3  transition-all hover:shadow peer-checked:ring-secondary-color text-left  font-medium">
                                  <div>
                                     <span className="font-semibold">
-                                       Name:{" "}
+                                       {trans.checkout.address_book.name}:{" "}
                                     </span>
                                     {address.customerName}
                                  </div>
                                  <div>
                                     <span className="font-semibold">
-                                       Delivery Phone:
+                                       {trans.checkout.address_book.phone}:
                                     </span>{" "}
                                     {address.deliveryPhone}
                                  </div>
                                  <div>
-                                    <span className="font-semibold">Type:</span>{" "}
+                                    <span className="font-semibold">
+                                       {trans.checkout.address_book.type}:
+                                    </span>{" "}
                                     {address.addressType}
                                  </div>
                                  <div>
                                     <span className="font-semibold">
-                                       Address:
+                                       {trans.checkout.address_book.address}:
                                     </span>{" "}
                                     {address.fullAddress}
                                  </div>
                                  <div>
                                     <span className="font-semibold">
-                                       Description:
+                                       {trans.checkout.address_book.note}:
                                     </span>{" "}
                                     {address.description}
                                  </div>
@@ -147,7 +153,7 @@ const AddressBook = ({
                         disabled={addressSelected.id ? false : true}
                         onClick={handleDeleteAddress}
                      >
-                        Delete this address
+                        {trans.checkout.address_book.delete_this_address}
                      </button>
                      <button
                         className="bg-secondary-color rounded-lg px-7 py-3 transition-all text-white font-semibold mt-4 hover:shadow-lg hover:shadow-secondary-color disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:shadow-gray-400"
@@ -157,7 +163,7 @@ const AddressBook = ({
                            setIsOpenAddressBook(false);
                         }}
                      >
-                        Choose this address
+                        {trans.checkout.address_book.choose_this_address}
                      </button>
                   </div>
                ) : (

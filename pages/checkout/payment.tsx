@@ -26,6 +26,7 @@ import {
 import { ClipLoader } from "react-spinners";
 import DeliveryService from "../../components/Model/DeliveryService";
 import ConfirmModel from "../../components/Model/ConfirmModel";
+import useTrans from "../../hook/useTrans";
 
 const Payment = () => {
    const { state, dispatch } = useContext(Store);
@@ -49,6 +50,7 @@ const Payment = () => {
    const [isDisableCODPayment, setIsDisableCODPayment] = useState(false);
    const refTotalBill = useRef(null);
    const [isOpenConfirmPayment, setIsOpenConfirmPayment] = useState(false);
+   const trans = useTrans();
 
    const fetchCartData = async () => {
       const temp = [];
@@ -323,7 +325,9 @@ const Payment = () => {
             >
                <BiArrowBack />
             </div>
-            <div className="font-semibold text-2xl">/ Checkout</div>
+            <div className="font-semibold text-2xl">
+               / {trans.checkout.title}
+            </div>
          </div>
          <div className="grid grid-cols-12 gap-8 my-8">
             <div className="col-span-6 dark:bg-dark-primary bg-light-primary rounded-lg p-4 h-fit">
@@ -382,8 +386,7 @@ const Payment = () => {
                                  {isErrorGHNThirdParty ? (
                                     <>
                                        <div className="py-8 m-6 bg-red-600 bg-opacity-20 border-2 rounded-xl border-red-600 font-semibold">
-                                          Something wrong from delivery service,
-                                          please try it later!
+                                          {trans.checkout.title}
                                        </div>
                                     </>
                                  ) : (
@@ -406,7 +409,11 @@ const Payment = () => {
                                                    >
                                                       <div className="font-medium text-sm mb-1">
                                                          <span className="font-semibold">
-                                                            Devilery service:
+                                                            {
+                                                               trans.checkout
+                                                                  .delivery
+                                                            }
+                                                            :
                                                          </span>{" "}
                                                          {
                                                             i.selectedService
@@ -415,7 +422,11 @@ const Payment = () => {
                                                       </div>
                                                       <div className="font-bold text-sm mb-1 ">
                                                          <span className="font-semibold">
-                                                            Ship fee:{" "}
+                                                            {
+                                                               trans.checkout
+                                                                  .ship_fee
+                                                            }
+                                                            :{" "}
                                                          </span>
                                                          <span className="">
                                                             {i.selectedService
@@ -460,7 +471,11 @@ const Payment = () => {
                                                          </span>
                                                       </div>
                                                       <div className="text-sm font-medium">
-                                                         Expected Delivery Time:{" "}
+                                                         {
+                                                            trans.checkout
+                                                               .expect_time
+                                                         }
+                                                         :{" "}
                                                          <span className="font-bold">
                                                             {i.selectedService
                                                                .serviceInfoWithCOD &&
@@ -483,7 +498,10 @@ const Payment = () => {
                                              </div>
                                           ) : (
                                              <div className="col-span-12 bg-light-primary py-4 rounded-lg dark:bg-dark-primary font-semibold ">
-                                                No address selected
+                                                {
+                                                   trans.checkout
+                                                      .no_address_selected
+                                                }
                                              </div>
                                           )}
                                           <div
@@ -516,7 +534,7 @@ const Payment = () => {
                                     <div className="mx-8 mb-4">
                                        <div className="flex justify-between items-center">
                                           <div className="font-medium">
-                                             Ship fee:{" "}
+                                             {trans.checkout.ship_fee}:{" "}
                                           </div>
                                           <div className="text-right text-secondary-color font-semibold text-lg">
                                              {paymentType === 1 &&
@@ -621,7 +639,11 @@ const Payment = () => {
                                        </div>
                                        <div className="flex justify-between items-center">
                                           <div className="font-medium">
-                                             Subtotal without ship fee:
+                                             {
+                                                trans.checkout
+                                                   .sub_total_wthout_ship
+                                             }
+                                             :
                                           </div>
                                           <div className="font-bold text-2xl text-primary-color">
                                              {i.calculatorPrice.toLocaleString(
@@ -643,13 +665,12 @@ const Payment = () => {
                      <div ref={refTotalBill}>
                         {!address.id ? (
                            <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-xl font-semibold border-2 border-secondary-color shadow-lg">
-                              No Selected address, please create a new address!
+                              {trans.checkout.please_add_an_address}
                            </div>
                         ) : paymentType === 1 ? (
                            <div className="p-6 bg-dark-text dark:bg-dark-bg rounded-xl border-2 border-secondary-color shadow-lg">
                               <div className="font-semibold mb-2">
-                                 Total bill when payment by cash on delivery
-                                 (COD)
+                                 {trans.checkout.total_COD}
                               </div>
                               <div className="text-4xl font-bold text-primary-color">
                                  {totalOrder.toLocaleString("it-IT", {
@@ -661,7 +682,7 @@ const Payment = () => {
                         ) : paymentType === 2 ? (
                            <div className="p-6 bg-dark-text dark:bg-dark-bg rounded-xl border-2 border-secondary-color shadow-lg">
                               <div className="font-semibold mb-2">
-                                 Total bill when payment by MOMO Wallet
+                                 {trans.checkout.total_MoMo}
                               </div>
                               <div className="text-4xl font-bold text-primary-color">
                                  {totalOrder.toLocaleString("it-IT", {
@@ -672,8 +693,7 @@ const Payment = () => {
                            </div>
                         ) : (
                            <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-lg font-semibold border-2 border-secondary-color shadow-lg">
-                              Total bill will display when selected payment
-                              method
+                              {trans.checkout.display_total_bill}
                            </div>
                         )}
                      </div>
@@ -688,7 +708,7 @@ const Payment = () => {
             <div className="col-span-6">
                <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-4 mb-8">
                   <div className="text-lg font-semibold mb-4">
-                     Information Delivery
+                     {trans.checkout.information_delivery}
                   </div>
                   {userInfo ? (
                      <>
@@ -699,7 +719,7 @@ const Payment = () => {
                                     htmlFor="name"
                                     className="font-medium text-sm pl-2"
                                  >
-                                    Name of Recipient
+                                    {trans.checkout.recripient_name}
                                  </label>
                                  <input
                                     id="name"
@@ -715,7 +735,7 @@ const Payment = () => {
                                     htmlFor="address"
                                     className="font-medium text-sm pl-2"
                                  >
-                                    Full Address
+                                    {trans.checkout.full_address}
                                  </label>
                                  <input
                                     type="text"
@@ -731,7 +751,7 @@ const Payment = () => {
                                     htmlFor="phone"
                                     className="font-medium text-sm pl-2"
                                  >
-                                    Phone Number
+                                    {trans.checkout.phone_number}
                                  </label>
                                  <input
                                     type="number"
@@ -747,7 +767,7 @@ const Payment = () => {
                                     htmlFor="description"
                                     className="font-medium text-sm pl-2"
                                  >
-                                    Note
+                                    {trans.checkout.note}
                                  </label>
                                  <input
                                     type="text"
@@ -763,7 +783,7 @@ const Payment = () => {
                                     className="py-3 px-4 rounded-lg bg-primary-color text-white font-semibold hover:shadow-lg hover:shadow-primary-color"
                                     onClick={() => setIsOpenAddressBook(true)}
                                  >
-                                    Choose other address in address book
+                                    {trans.checkout.choose_another_address}
                                  </button>
                               </div>
                            </>
@@ -774,7 +794,7 @@ const Payment = () => {
                                     className="py-3 px-4 rounded-lg bg-primary-color text-white font-semibold hover:shadow-lg hover:shadow-primary-color"
                                     onClick={() => setIsOpenAddressBook(true)}
                                  >
-                                    Please add an new address!
+                                    {trans.checkout.add_new_address}
                                  </button>
                               </div>
                            </>
@@ -811,15 +831,16 @@ const Payment = () => {
                </div>
                {/* Payment type? */}
                <div className=" dark:bg-dark-primary bg-light-primary rounded-lg py-6 px-8">
-                  <div className="text-lg font-semibold mb-4">Payment Type</div>
+                  <div className="text-lg font-semibold mb-4">
+                     {trans.checkout.payment_type}
+                  </div>
                   {isDisableCODPayment ? (
                      <div className="bg-yellow-400 bg-opacity-30 border-2 border-yellow-500 rounded-lg px-3 py-4 font-semibold text-yellow-700 dark:text-yellow-200 flex justify-start gap-4 items-center mb-2">
                         <div>
                            <BiError className="text-2xl" />
                         </div>
                         <div className="text-sm">
-                           The merchant&apos;s order value is more than 50 million
-                           VND cannot be paid COD
+                           {trans.checkout.over_50m_COD}
                         </div>
                      </div>
                   ) : (
@@ -831,8 +852,7 @@ const Payment = () => {
                            <BiError className="text-2xl" />
                         </div>
                         <div className="text-sm">
-                           Total bill over 50 million cannot be paid via MoMo
-                           Wallet
+                           {trans.checkout.over_50m_MOMO}
                         </div>
                      </div>
                   ) : (
@@ -844,8 +864,7 @@ const Payment = () => {
                            <BiErrorAlt className="text-2xl" />
                         </div>
                         <div className="text-sm">
-                           Can not checkout this cart, please adjust the
-                           quantity and try again later
+                           {trans.checkout.cant_checkout}
                         </div>
                      </div>
                   ) : (
@@ -964,13 +983,13 @@ const Payment = () => {
                      >
                         {address.id
                            ? paymentType === 1
-                              ? " Payment by cash on delivery (COD)"
+                              ? trans.checkout.payment_by_COD
                               : paymentType === 2
-                              ? " Payment by Momo"
+                              ? trans.checkout.paymeny_by_MoMo
                               : isDisablePaymentMethod === 3
-                              ? "Have some problems, please try it again later!"
-                              : "Please choice your payment method"
-                           : "Please choose address before payment!"}
+                              ? trans.checkout.problems_payment
+                              : trans.checkout.please_choose_method
+                           : trans.checkout.please_choose_address}
                      </button>
                   )}
                </div>
@@ -984,7 +1003,7 @@ const Payment = () => {
             <div className="w-1/3  h-fit">
                <ConfirmModel
                   functionConfirm={() => handlePayment()}
-                  content={`You will pay this order via  ${
+                  content={`${trans.checkout.confirm} ${
                      paymentType === 2 ? "MoMo wallet" : "COD method"
                   }`}
                   isOpenConfirm={isOpenConfirmPayment}

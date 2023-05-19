@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+import useTrans from "../../hook/useTrans";
 
 const DeliveryService = ({
    agencyServices,
@@ -9,6 +10,8 @@ const DeliveryService = ({
    itemsInCart,
 }) => {
    const [service, setService] = useState<any>({});
+   const trans = useTrans();
+
    useEffect(() => {}, []);
 
    const handleCloseModel = (e) => {
@@ -33,12 +36,14 @@ const DeliveryService = ({
    return (
       <div className="dark:bg-neutral-800 bg-light-primary rounded-lg w-full h-full relative p-8 shadow-lg border-2 border-primary-color">
          <div className="flex justify-between items-center mb-4">
-            <div className="font-semibold text-xl">Select service delivery</div>
+            <div className="font-semibold text-xl">
+               {trans.checkout.delivery_service_model.title}
+            </div>
             <div
                className="px-4 py-2 cursor-pointer bg-primary-color text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-primary-color"
                onClick={handleCloseModel}
             >
-               Close
+               {trans.checkout.delivery_service_model.close}
             </div>
          </div>
          {address ? (
@@ -72,13 +77,13 @@ const DeliveryService = ({
                            <div className="rounded-lg ring-2 bg-light-spot dark:bg-dark-bg ring-light-spot dark:ring-dark-bg mb-4 p-3 transition-all hover:shadow peer-checked:ring-secondary-color text-left font-medium">
                               <div className="text-sm mb-2">
                                  <span className="font-semibold">
-                                    Devilery service:
+                                    {trans.checkout.delivery}:
                                  </span>{" "}
                                  {service.short_name}
                               </div>
                               <div className="text-sm mb-2">
                                  <span className="font-semibold">
-                                    Ship fee :
+                                    {trans.checkout.ship_fee} :
                                  </span>
                                  <span className="">
                                     {service.serviceInfoWithCOD.isSuccess === 1
@@ -110,7 +115,7 @@ const DeliveryService = ({
                               </div>
                               <div className="text-sm font-medium ">
                                  <span className="font-bold">
-                                    Expected Delivery Time:
+                                    {trans.checkout.expect_time}:
                                  </span>
                                  <span>
                                     {" "}
@@ -134,7 +139,7 @@ const DeliveryService = ({
                title="choose service"
                onClick={handleChooseServiceButton}
             >
-               Choose this service delivery
+               {trans.checkout.delivery_service_model.submit}
             </button>
          </div>
       </div>

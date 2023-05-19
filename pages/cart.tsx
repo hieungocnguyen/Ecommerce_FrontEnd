@@ -20,6 +20,7 @@ import { AiOutlineClear } from "react-icons/ai";
 import emptyBox from "../public/empty-box.png";
 import { ClipLoader } from "react-spinners";
 import ConfirmModel from "../components/Model/ConfirmModel";
+import useTrans from "../hook/useTrans";
 
 const Cart = () => {
    const { state, dispatch } = useContext(Store);
@@ -30,6 +31,7 @@ const Cart = () => {
    const [loading, setLoading] = useState(false);
    const router = useRouter();
    const [isOpenConfirmRemove, setIsOpenConfirmRemove] = useState(false);
+   const trans = useTrans();
 
    const loadTotalCart = async () => {
       try {
@@ -146,7 +148,9 @@ const Cart = () => {
                   >
                      <BiArrowBack />
                   </div>
-                  <div className="font-semibold text-2xl">/ Cart</div>
+                  <div className="font-semibold text-2xl">
+                     / {trans.cart.title_cart}
+                  </div>
                </div>
                <div className="">
                   {itemsInCart.length > 0 ? (
@@ -156,7 +160,7 @@ const Cart = () => {
                            onClick={() => setIsOpenConfirmRemove(true)}
                         >
                            <AiOutlineClear className="text-xl" />
-                           <div>Clear cart</div>
+                           <div>{trans.cart.clear}</div>
                         </button>
                      </div>
                   ) : (
@@ -167,11 +171,11 @@ const Cart = () => {
             {itemsInCart.length > 0 ? (
                <>
                   <div className="grid grid-cols-12 h-16 items-center rounded-t-lg font-bold text-left p-6">
-                     <div className="col-span-1">Image</div>
-                     <div className="col-span-4">Title</div>
-                     <div className="col-span-2">Quantity</div>
-                     <div className="col-span-2">Unit Price</div>
-                     <div className="col-span-2">Price</div>
+                     <div className="col-span-1">{trans.cart.image}</div>
+                     <div className="col-span-4">{trans.cart.title}</div>
+                     <div className="col-span-2">{trans.cart.quantity}</div>
+                     <div className="col-span-2">{trans.cart.unit_price}</div>
+                     <div className="col-span-2">{trans.cart.price}</div>
                      <div className="col-span-1"></div>
                   </div>
                </>
@@ -293,7 +297,7 @@ const Cart = () => {
                      <div className="dark:bg-dark-primary bg-light-primary rounded-lg flex my-4 justify-between items-center mx-20 py-8 px-16">
                         <div className="text-left">
                            <div className="text-2xl">
-                              Total:{" "}
+                              {trans.cart.total}:{" "}
                               <span className="text-primary-color font-bold text-3xl">
                                  {totalPrice.toLocaleString("it-IT", {
                                     style: "currency",
@@ -302,7 +306,7 @@ const Cart = () => {
                               </span>
                            </div>
                            <div className="text-lg">
-                              Total item: {itemsInCart.length}
+                              {trans.cart.total_items}: {itemsInCart.length}
                            </div>
                         </div>
                         {/* <div className="flex flex-col my-4 w-1/3">
@@ -320,7 +324,7 @@ const Cart = () => {
                            className="py-4 px-12 bg-primary-color font-semibold rounded-lg text-lg hover:shadow-md hover:shadow-primary-color transition-all text-white"
                            onClick={handleRouteCheckout}
                         >
-                           Checkout
+                           {trans.cart.checkout}
                         </button>
                      </div>
                   </>
@@ -335,7 +339,7 @@ const Cart = () => {
                         />
                      </div>
                      <div className="uppercase text-2xl font-semibold">
-                        your cart is empty
+                        {trans.cart.empty}
                      </div>
                   </>
                )}

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import API, { endpoints } from "../../API";
 import { Store } from "../../utils/Store";
+import useTrans from "../../hook/useTrans";
 
 const AddToAddressBook = ({ setIsOpenAddAddress }) => {
    const [provinces, setProvinces] = useState([]);
@@ -18,6 +19,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
    const [addressFull, setAddressFull] = useState<any>({});
    const [isDisableStreet, setIsDisableStreet] = useState<boolean>(true);
    const [resetForm, setResetForm] = useState(false);
+   const trans = useTrans();
 
    const fetchProvinceAll = async () => {
       try {
@@ -116,13 +118,13 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
             >
                <div className="col-span-12">
                   <label htmlFor="customerName" className="pl-2 text-sm">
-                     Name of Recipient
+                     {trans.checkout.address_book.name}
                   </label>
                   <input
                      type="text"
                      id="customerName"
                      required
-                     placeholder="Name"
+                     placeholder={trans.checkout.address_book.name}
                      className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                      onChange={(e) => {
                         setAddressFull({
@@ -134,13 +136,13 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                </div>
                <div className="col-span-6">
                   <label htmlFor="deliveryPhone" className="pl-2 text-sm">
-                     Delivery Phone
+                     {trans.checkout.address_book.phone}
                   </label>
                   <input
                      type="number"
                      id="deliveryPhone"
                      required
-                     placeholder="Delivery Phone"
+                     placeholder={trans.checkout.address_book.phone}
                      className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                      onChange={(e) => {
                         setAddressFull({
@@ -152,7 +154,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                </div>
                <div className="col-span-6">
                   <label htmlFor="addressType" className="pl-2 text-sm">
-                     Address Type
+                     {trans.checkout.address_book.type}
                   </label>
                   <select
                      id="addressType"
@@ -165,7 +167,10 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                         });
                      }}
                   >
-                     <option value="">--Choose address type--</option>
+                     <option value="">
+                        --{trans.checkout.address_book.select}{" "}
+                        {trans.checkout.address_book.type}--
+                     </option>
                      <option value="HOME" className="">
                         HOME
                      </option>
@@ -174,14 +179,14 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                </div>
                <div className="col-span-12">
                   <label htmlFor="description" className="pl-2 text-sm">
-                     Note
+                     {trans.checkout.address_book.note}
                   </label>
                   <input
                      type="text"
                      id="description"
                      maxLength={50}
                      required
-                     placeholder="Note"
+                     placeholder={trans.checkout.address_book.note}
                      className="w-full p-3 rounded-lg bg-light-bg dark:bg-dark-bg"
                      onChange={(e) => {
                         setAddressFull({
@@ -193,7 +198,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                </div>
                <div className="col-span-4">
                   <label htmlFor="province" className="font-semibold text-sm">
-                     Province
+                     {trans.checkout.address_book.province}
                   </label>
                   <select
                      id="province"
@@ -211,7 +216,8 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                      }}
                   >
                      <option value="" className="hidden">
-                        --Select Province--
+                        --{trans.checkout.address_book.select}{" "}
+                        {trans.checkout.address_book.province}--
                      </option>
                      {provinces
                         .sort((a, b) => (a.ProvinceID < b.ProvinceID ? -1 : 1))
@@ -247,7 +253,8 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                      disabled={districts.length > 0 ? false : true}
                   >
                      <option value="" className="hidden">
-                        --Select District--
+                        --{trans.checkout.address_book.select}{" "}
+                        {trans.checkout.address_book.district}--
                      </option>
                      {districts
                         .sort((a, b) => (a.DistrictID < b.DistrictID ? -1 : 1))
@@ -263,7 +270,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                </div>
                <div className="col-span-4 text-left">
                   <label htmlFor="ward" className="font-semibold text-sm">
-                     Ward
+                     {trans.checkout.address_book.ward}
                   </label>
                   <select
                      id="ward"
@@ -282,7 +289,8 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                      }}
                   >
                      <option value="" className="hidden">
-                        --Select Ward--
+                        --{trans.checkout.address_book.select}{" "}
+                        {trans.checkout.address_book.ward}--
                      </option>
                      {wards
                         .sort((a, b) => (a.WardID < b.WardID ? -1 : 1))
@@ -296,14 +304,14 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                <div className="col-span-12 text-left">
                   <div>
                      <label htmlFor="street" className="font-semibold text-sm">
-                        Street
+                        {trans.checkout.address_book.street}
                      </label>
                      <input
                         id="street"
                         name="street"
                         required
                         type="text"
-                        placeholder="Street"
+                        placeholder={trans.checkout.address_book.street}
                         className="bg-light-bg dark:bg-dark-bg p-4 rounded-lg w-full font-medium focus:outline-primary-color disabled:cursor-not-allowed"
                         disabled={isDisableStreet}
                         onChange={(e) => {
@@ -320,7 +328,7 @@ const AddToAddressBook = ({ setIsOpenAddAddress }) => {
                      type="submit"
                      className="px-4 py-3 bg-primary-color hover:shadow-lg hover:shadow-primary-color text-white rounded-lg font-semibold"
                   >
-                     Add to Address Book
+                     {trans.checkout.address_book.add_to_address_book}
                   </button>
                </div>
             </form>
