@@ -17,6 +17,7 @@ import Loader from "../../components/Loader";
 import dynamic from "next/dynamic";
 import moment from "moment";
 import loginImg from "../../public/login.png";
+import emptyBox from "../../public/empty-box.png";
 import useTrans from "../../hook/useTrans";
 // import RelativePost from "../../components/RelativePost";
 
@@ -330,74 +331,87 @@ const ProductPage = ({ salePost }) => {
                )}
 
                <Suspense fallback={<p>Loading...</p>}>
-                  {comments
-                     .sort((a, b) => (a.id < b.id ? 1 : -1))
-                     .map((c) => (
-                        <div
-                           key={c.id}
-                           className="grid grid-cols-12 mx-14 mb-8"
-                        >
-                           <div className="overflow-hidden relative h-16 w-16">
-                              <Image
-                                 src={c.author ? c.author.avatar : ""}
-                                 alt="avatar"
-                                 layout="fill"
-                                 className="rounded-full object-cover"
-                              />
-                           </div>
-                           <div className="col-span-11 text-left">
-                              {c.author && (
-                                 <div className="flex gap-2 items-center">
-                                    {!c.author.firstName &&
-                                    !c.author.lastName ? (
-                                       <div>
-                                          <span className="italic opacity-70">
-                                             Unnamed -
-                                          </span>
-                                          <span className="font-semibold text-primary-color">
-                                             {" ["}
-                                             {c.author.username}
-                                             {"]"}
-                                          </span>
-                                       </div>
-                                    ) : (
-                                       <div className="font-semibold text-primary-color">
-                                          {c.author.firstName}{" "}
-                                          {c.author.lastName}
-                                          {" - ["}
-                                          {c.author.username}
-                                          {"]"}
-                                       </div>
-                                    )}
-                                    <span className="text-sm italic">
-                                       {" - "}
-                                       {moment(c.createdDate)
-                                          .startOf("m")
-                                          .fromNow()}
-                                    </span>
-                                 </div>
-                              )}
+                  {comments.length > 0
+                     ? comments
+                          .sort((a, b) => (a.id < b.id ? 1 : -1))
+                          .map((c) => (
+                             <div
+                                key={c.id}
+                                className="grid grid-cols-12 mx-14 mb-8"
+                             >
+                                <div className="overflow-hidden relative h-16 w-16">
+                                   <Image
+                                      src={c.author ? c.author.avatar : ""}
+                                      alt="avatar"
+                                      layout="fill"
+                                      className="rounded-full object-cover"
+                                   />
+                                </div>
+                                <div className="col-span-11 text-left">
+                                   {c.author && (
+                                      <div className="flex gap-2 items-center">
+                                         {!c.author.firstName &&
+                                         !c.author.lastName ? (
+                                            <div>
+                                               <span className="italic opacity-70">
+                                                  Unnamed -
+                                               </span>
+                                               <span className="font-semibold text-primary-color">
+                                                  {" ["}
+                                                  {c.author.username}
+                                                  {"]"}
+                                               </span>
+                                            </div>
+                                         ) : (
+                                            <div className="font-semibold text-primary-color">
+                                               {c.author.firstName}{" "}
+                                               {c.author.lastName}
+                                               {" - ["}
+                                               {c.author.username}
+                                               {"]"}
+                                            </div>
+                                         )}
+                                         <span className="text-sm italic">
+                                            {" - "}
+                                            {moment(c.createdDate)
+                                               .startOf("m")
+                                               .fromNow()}
+                                         </span>
+                                      </div>
+                                   )}
 
-                              <div className="my-1">
-                                 {c.content ? c.content : ""}
-                              </div>
-                              <div className="">
-                                 <Rating
-                                    sx={{
-                                       "& .MuiRating-iconFilled": {
-                                          color: "#2065d1",
-                                       },
-                                       "& .MuiRating-iconEmpty": {
-                                          color: "#2065d1",
-                                       },
-                                    }}
-                                    value={c.starRate ? c.starRate : 1}
-                                    readOnly
-                                 />
-                              </div>
-                           </div>
-                        </div>
-                     ))}
+                                   <div className="my-1">
+                                      {c.content ? c.content : ""}
+                                   </div>
+                                   <div className="">
+                                      <Rating
+                                         sx={{
+                                            "& .MuiRating-iconFilled": {
+                                               color: "#2065d1",
+                                            },
+                                            "& .MuiRating-iconEmpty": {
+                                               color: "#2065d1",
+                                            },
+                                         }}
+                                         value={c.starRate ? c.starRate : 1}
+                                         readOnly
+                                      />
+                                   </div>
+                                </div>
+                             </div>
+                          ))
+                     : userInfo && (
+                          <>
+                             <div className="relative overflow-hidden aspect-square w-1/5 mx-auto">
+                                <Image
+                                   src={emptyBox}
+                                   alt="empty"
+                                   layout="fill"
+                                   className="object-cover"
+                                />
+                             </div>
+                          </>
+                       )}
                </Suspense>
             </div>
          </div>

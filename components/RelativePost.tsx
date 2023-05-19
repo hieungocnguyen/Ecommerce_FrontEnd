@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import API, { endpoints } from "../API";
 import ProductItem from "./ProductItem";
+import useTrans from "../hook/useTrans";
 
 const RelativePost = ({ IDCategory, IDSalePost }) => {
    const [posts, setPosts] = useState([]);
+   const trans = useTrans();
 
    const fetchPost = async () => {
       try {
@@ -27,7 +29,9 @@ const RelativePost = ({ IDCategory, IDSalePost }) => {
       <div>
          {posts.length > 1 && (
             <div>
-               <div className="text-2xl font-bold mb-4">Relative post</div>
+               <div className="text-2xl font-bold mb-4">
+                  {trans.detailProduct.relative_post}
+               </div>
                <div className="grid grid-cols-4 gap-10">
                   {posts.map(
                      (post) =>
