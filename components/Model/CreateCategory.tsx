@@ -13,6 +13,7 @@ const CreateCategory = ({
    const [selectedImage, setSelectedImage] = useState();
    const [importImage, setImportImage] = useState(false);
    const [nameCategory, setNameCategory] = useState("");
+   const [nameViCategory, setNameViCategory] = useState("");
 
    const imageChange = (e) => {
       if (e.target.files[0] === undefined) {
@@ -57,6 +58,7 @@ const CreateCategory = ({
             );
             const res = await API.post(endpoints["create_category"], {
                name: nameCategory,
+               nameVi: nameViCategory,
                avatar: resUploadCloudinary.data.data,
                active: 1,
             });
@@ -116,14 +118,24 @@ const CreateCategory = ({
                </div>
             </div>
             <div className="col-span-8">
-               <div className="mb-4">
+               <div className="mb-2">
                   <input
                      name="name"
                      onChange={(e) => setNameCategory(e.target.value)}
                      required
                      value={nameCategory}
                      className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
-                     placeholder="Name of item"
+                     placeholder="Name of item (en)"
+                  />
+               </div>
+               <div className="mb-4">
+                  <input
+                     name="name"
+                     onChange={(e) => setNameViCategory(e.target.value)}
+                     required
+                     value={nameViCategory}
+                     className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
+                     placeholder="Name of item (vi)"
                   />
                </div>
                <button

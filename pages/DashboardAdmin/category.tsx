@@ -77,6 +77,9 @@ const CategoryManage = () => {
                         <div className="font-medium text-sm">
                            {category.name}
                         </div>
+                        <div className="text-sm opacity-70">
+                           {category.nameVi}
+                        </div>
                         <div className="flex gap-2 mt-2 items-center">
                            <label className="relative inline-flex items-center cursor-pointer">
                               <input
