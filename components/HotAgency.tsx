@@ -41,7 +41,7 @@ const HotAgency = () => {
                      </span>
                      {trans.home.hotAgency}
                   </div>
-                  <div className="grid sm:grid-cols-4 grid-cols-2 sm:gap-10 gap-4">
+                  <div className="grid sm:grid-cols-4 grid-cols-1 sm:gap-10 gap-4">
                      {hotAgency.map((agency) => (
                         <AgencyCard
                            agency={agency[0]}
