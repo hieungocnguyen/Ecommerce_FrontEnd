@@ -17,6 +17,7 @@ import f4 from "../public/4feature.png";
 import Image from "next/image";
 import useTrans from "../hook/useTrans";
 import HotCategory from "../components/HotCategory";
+import { BiShoppingBag } from "react-icons/bi";
 
 //lazy loading
 const ProductItem = dynamic(import("../components/ProductItem"));
@@ -115,7 +116,10 @@ export default function Home({ categories }) {
                   </div>
                </div>
                <div className="my-8">
-                  <h1 className="text-center font-bold text-2xl my-5 ">
+                  <h1 className="flex justify-center items-center gap-1 font-bold text-2xl my-4 ">
+                     <span>
+                        <BiShoppingBag className="text-xl" />
+                     </span>
                      {trans.home.allPost}
                   </h1>
                   <div className="grid sm:grid-cols-4 grid-cols-1 gap-10">

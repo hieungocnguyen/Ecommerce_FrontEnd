@@ -2,12 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import useTrans from "../hook/useTrans";
 import { useRouter } from "next/router";
+import { AiFillFire } from "react-icons/ai";
 
 const HotCategory = ({ categoryList }) => {
    const trans = useTrans();
    return (
       <div className="mb-4 hidden sm:block">
-         <div className="text-2xl font-bold mb-4">
+         <div className="flex justify-center items-center gap-1 font-bold text-2xl my-4">
+            <span>
+               <AiFillFire className="text-xl" />
+            </span>
             {trans.home.trendingCategory}
          </div>
          <div className="grid grid-cols-5 gap-10">
