@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useRef, useEffect, useState, useContext } from "react";
+import { useRef, useEffect, useState, useContext, Suspense } from "react";
 import Advertise from "../components/Advertise";
 import Layout from "../components/Layout/Layout";
 // import ProductItem from "../components/ProductItem";
@@ -122,11 +122,17 @@ export default function Home({ categories }) {
                      </span>
                      {trans.home.allPost}
                   </h1>
-                  <div className="grid sm:grid-cols-4 grid-cols-1 gap-10">
-                     {salePosts.map((i) => (
-                        <ProductItem key={i.id} product={i} inCompare={false} />
-                     ))}
-                  </div>
+                  <Suspense fallback={<p>Loading...</p>}>
+                     <div className="grid sm:grid-cols-4 grid-cols-1 gap-10">
+                        {salePosts.map((i) => (
+                           <ProductItem
+                              key={i.id}
+                              product={i}
+                              inCompare={false}
+                           />
+                        ))}
+                     </div>
+                  </Suspense>
 
                   {/* paginate */}
                   <div
