@@ -17,7 +17,10 @@ import useTrans from "../hook/useTrans";
 const ProductItem = dynamic(import("../components/ProductItem"));
 
 function valuetext(value: number) {
-   return `${value}VND`;
+   return `${value.toLocaleString("it-IT", {
+      style: "currency",
+      currency: "VND",
+   })}`;
 }
 const Search = ({ categories }) => {
    const [salePosts, setSalePosts] = useState([]);
@@ -129,11 +132,12 @@ const Search = ({ categories }) => {
                   </div>
                   <div className="w-full">
                      <Slider
-                        getAriaLabel={() => "Temperature range"}
+                        getAriaLabel={() => "Price range"}
                         value={value}
                         onChange={handleChange}
                         valueLabelDisplay="auto"
                         getAriaValueText={valuetext}
+                        valueLabelFormat={valuetext}
                         step={100000}
                         // marks
                         max={10000000}
