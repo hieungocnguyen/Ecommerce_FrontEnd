@@ -79,15 +79,15 @@ const ProductPage = ({ salePost }) => {
 
    return (
       <Layout title="Detail">
-         <div className="grid lg:grid-cols-12 grid-cols-1 gap-8 my-8 mx-16 ">
+         <div className="grid sm:grid-cols-12 grid-cols-1 gap-8 my-8 sm:mx-16 mx-0 ">
             {/* left part */}
             <Suspense fallback={<p>Loading image...</p>}>
-               <div className="lg:col-span-5 col-span-1">
-                  <div className="overflow-hidden aspect-square relative ">
+               <div className="sm:col-span-5 col-span-1">
+                  <div className="overflow-hidden aspect-square relative rounded-lg">
                      <Image
                         src={mainPic}
                         alt="img"
-                        className="object-cover rounded-lg"
+                        className="object-cover"
                         layout="fill"
                      />
                   </div>
@@ -101,7 +101,7 @@ const ProductPage = ({ salePost }) => {
                         .map((pic) => (
                            <SwiperSlide key={pic.id}>
                               <div
-                                 className="overflow-hidden aspect-square relative cursor-pointer"
+                                 className="overflow-hidden aspect-square relative cursor-pointer border-secondary-color border-2 rounded-lg"
                                  onClick={(e) => {
                                     setMainPic(pic.image);
                                  }}
@@ -109,7 +109,7 @@ const ProductPage = ({ salePost }) => {
                                  <Image
                                     src={pic.image}
                                     alt="img"
-                                    className="object-cover rounded-lg"
+                                    className="object-cover"
                                     layout="fill"
                                  />
                               </div>
@@ -119,42 +119,44 @@ const ProductPage = ({ salePost }) => {
                </div>
             </Suspense>
             {/* right part */}
-            <div className="lg:col-span-7 col-span-1">
-               <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8 text-left">
-                  <div className="font-semibold text-4xl text-left h-20 leading-10">
+            <div className="sm:col-span-7 col-span-1">
+               <div className="dark:bg-dark-primary bg-light-primary rounded-lg sm:p-8 p-6 text-left">
+                  <div className="font-semibold sm:text-4xl text-2xl text-left max-h-20 line-clamp-2">
                      {salePost.title}
                   </div>
-                  <div className="flex items-center gap-2 my-4 text-lg">
-                     <div className="rounded-lg border-2 border-secondary-color p-2 text-secondary-color font-semibold">
+                  <div className="sm:flex items-center gap-2 sm:my-4 my-2 text-lg">
+                     <div className="rounded-lg border-2 border-secondary-color sm:p-2 p-1 mb-1 sm:mb-0 font-semibold bg-secondary-color text-light-text w-fit ">
                         {locale == "vi"
                            ? salePost.sellStatus.nameVi
                            : salePost.sellStatus.name}
                      </div>
-                     <div>
-                        <Rating
-                           size="large"
-                           sx={{
-                              "& .MuiRating-iconFilled": {
-                                 color: "#2065d1",
-                              },
-                              "& .MuiRating-iconEmpty": {
-                                 color: "#2065d1",
-                              },
-                           }}
-                           value={starAvg}
-                           readOnly
-                        />
-                     </div>
-                     <div className="font-semibold hover:text-primary-color transition-all">
-                        <a
-                           href="#section_comment"
-                           title="Go to comment section"
-                        >
-                           {commentCount} {trans.detailProduct.comment}
-                        </a>
+                     <div className="flex items-center gap-2">
+                        <div>
+                           <Rating
+                              size="large"
+                              sx={{
+                                 "& .MuiRating-iconFilled": {
+                                    color: "#2065d1",
+                                 },
+                                 "& .MuiRating-iconEmpty": {
+                                    color: "#2065d1",
+                                 },
+                              }}
+                              value={starAvg}
+                              readOnly
+                           />
+                        </div>
+                        <div className="font-semibold hover:text-primary-color transition-all">
+                           <a
+                              href="#section_comment"
+                              title="Go to comment section"
+                           >
+                              {commentCount} {trans.detailProduct.comment}
+                           </a>
+                        </div>
                      </div>
                   </div>
-                  <div className="text-left mb-4 mt-8">
+                  <div className="text-left mb-4 sm:mt-8 mt-2">
                      <div className=" text-4xl text-primary-color font-bold">
                         {salePost.finalPrice.toLocaleString("it-IT", {
                            style: "currency",
@@ -168,7 +170,7 @@ const ProductPage = ({ salePost }) => {
                         })}
                      </div>
                   </div>
-                  <div className="mb-4 mt-8 grid grid-cols-2">
+                  <div className="mb-4 mt-8 grid sm:grid-cols-2 grid-cols-1 gap-2">
                      <div>
                         <div className="font-semibold mb-2 text-lg">
                            {trans.detailProduct.brand}:{" "}
@@ -217,9 +219,9 @@ const ProductPage = ({ salePost }) => {
                      </div>
                   </div>
                </div>
-               <div className="grid grid-cols-12 gap-8 mt-8 ">
+               <div className="grid sm:grid-cols-12 grid-cols-6 gap-8 mt-8 ">
                   <button
-                     className={`col-span-6 bg-primary-color text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-primary-color transition-all disabled:bg-gray-400 disabled:hover:shadow-gray-400 disabled:cursor-not-allowed`}
+                     className={`col-span-6 bg-primary-color text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer shadow-lg hover:shadow-none hover:brightness-95 shadow-primary-color transition-all disabled:bg-gray-400 disabled:shadow-gray-400 disabled:cursor-not-allowed`}
                      onClick={() => setIsOpenItemsModal(true)}
                      disabled={
                         salePost.agency.isActive === 0 ||
@@ -233,7 +235,7 @@ const ProductPage = ({ salePost }) => {
                         : trans.detailProduct.choose_items}
                   </button>
                   <div
-                     className="col-span-6 dark:bg-dark-primary bg-light-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-md dark:hover:shadow-dark-primary hover:shadow-light-primary transition-all"
+                     className="col-span-6 bg-secondary-color text-dark-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer shadow-lg shadow-secondary-color hover:brightness-95 hover:shadow-none transition-all"
                      onClick={handleRouteAgency}
                   >
                      <div className="relative h-20 w-20 overflow-hidden rounded-xl ">
@@ -272,12 +274,12 @@ const ProductPage = ({ salePost }) => {
                )}
             </div>
          </div>
-         <div className="my-8 mx-16 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
+         <div className="my-8 sm:mx-16 mx-0 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
             <div className="font-semibold text-left ml-12 text-xl">
                {trans.detailProduct.description}
             </div>
             <div
-               className={`my-6 mx-16 text-left overflow-hidden relative ${
+               className={`my-6 sm:mx-16 mx-2 text-left overflow-hidden relative ${
                   isShowMore ? "h-fit" : "h-52"
                }`}
             >
@@ -300,9 +302,12 @@ const ProductPage = ({ salePost }) => {
             </div>
          </div>
          {/* comment */}
-         <div className="grid grid-cols-1 my-8 mx-16" id="section_comment">
+         <div
+            className="grid grid-cols-1 my-8 sm:mx-16 mx-0"
+            id="section_comment"
+         >
             <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
-               <div className="font-semibold text-left ml-12 text-xl">
+               <div className="font-semibold text-left sm:ml-12 ml-4 text-xl">
                   {trans.detailProduct.comment}
                </div>
                {userInfo ? (
@@ -337,9 +342,9 @@ const ProductPage = ({ salePost }) => {
                           .map((c) => (
                              <div
                                 key={c.id}
-                                className="grid grid-cols-12 mx-14 mb-8"
+                                className="grid sm:grid-cols-12 grid-cols-6 sm:mx-14 mx-2 mb-8"
                              >
-                                <div className="overflow-hidden relative h-16 w-16">
+                                <div className="overflow-hidden relative sm:h-16 h-10 aspect-square">
                                    <Image
                                       src={c.author ? c.author.avatar : ""}
                                       alt="avatar"
@@ -347,30 +352,13 @@ const ProductPage = ({ salePost }) => {
                                       className="rounded-full object-cover"
                                    />
                                 </div>
-                                <div className="col-span-11 text-left">
+                                <div className="sm:col-span-11 col-span-5 text-left">
                                    {c.author && (
-                                      <div className="flex gap-2 items-center">
-                                         {!c.author.firstName &&
-                                         !c.author.lastName ? (
-                                            <div>
-                                               <span className="italic opacity-70">
-                                                  Unnamed -
-                                               </span>
-                                               <span className="font-semibold text-primary-color">
-                                                  {" ["}
-                                                  {c.author.username}
-                                                  {"]"}
-                                               </span>
-                                            </div>
-                                         ) : (
-                                            <div className="font-semibold text-primary-color">
-                                               {c.author.firstName}{" "}
-                                               {c.author.lastName}
-                                               {" - ["}
-                                               {c.author.username}
-                                               {"]"}
-                                            </div>
-                                         )}
+                                      <div className="flex items-center">
+                                         <span className="font-semibold text-primary-color">
+                                            {"@"}
+                                            {c.author.username}
+                                         </span>
                                          <span className="text-sm italic">
                                             {" - "}
                                             {moment(c.createdDate)
@@ -402,7 +390,7 @@ const ProductPage = ({ salePost }) => {
                           ))
                      : userInfo && (
                           <>
-                             <div className="relative overflow-hidden aspect-square w-1/5 mx-auto">
+                             <div className="relative overflow-hidden aspect-square sm:w-1/5 w-2/3 mx-auto">
                                 <Image
                                    src={emptyBox}
                                    alt="empty"
@@ -506,18 +494,18 @@ const CommentForm = ({
 
    return (
       <>
-         <form onSubmit={addComment} className=" my-6 rounded-lg">
+         <form onSubmit={addComment} className="sm:my-6 my-2 rounded-lg">
             <div className="">
                <textarea
                   // type="text"
                   placeholder={trans.detailProduct.comment}
-                  className=" rounded-lg h-18 w-[90%] mx-auto my-4 p-4"
+                  className=" rounded-lg h-18 w-[90%] mx-auto sm:my-4 my-1 p-4"
                   onChange={onChangeContent}
                   value={content}
                   rows={4}
                />
             </div>
-            <div className="my-4">
+            <div className="sm:my-4 my-2">
                <Rating
                   size="large"
                   sx={{

@@ -32,7 +32,7 @@ const RelativePost = ({ IDCategory, IDSalePost }) => {
                <div className="text-2xl font-bold mb-4">
                   {trans.detailProduct.relative_post}
                </div>
-               <div className="grid grid-cols-4 gap-10">
+               <div className="grid sm:grid-cols-4 grid-cols-1 sm:gap-8 gap-4">
                   {posts.map(
                      (post) =>
                         post.id != IDSalePost && (
