@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Rating } from "@mui/material";
 import Moment from "react-moment";
 import useTrans from "../../hook/useTrans";
+import { ClipLoader } from "react-spinners";
 
 const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
    const wrapperRef = useRef(null);
@@ -164,7 +165,11 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
                </div>
             </div>
          ) : (
-            <></>
+            <>
+               <div className="flex justify-center my-8">
+                  <ClipLoader size={35} color="#FF8500" />
+               </div>
+            </>
          )}
       </div>
    );
