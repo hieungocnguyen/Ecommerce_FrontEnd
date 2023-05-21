@@ -7,6 +7,7 @@ import { Rating } from "@mui/material";
 import Moment from "react-moment";
 import useTrans from "../../hook/useTrans";
 import { ClipLoader } from "react-spinners";
+import "swiper/css";
 
 const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
    const wrapperRef = useRef(null);
