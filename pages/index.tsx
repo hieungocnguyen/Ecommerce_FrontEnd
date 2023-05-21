@@ -20,7 +20,9 @@ import HotCategory from "../components/HotCategory";
 import { BiShoppingBag } from "react-icons/bi";
 
 //lazy loading
-const ProductItem = dynamic(import("../components/ProductItem"));
+const ProductItem = dynamic(() => import("../components/ProductItem"), {
+   loading: () => <div>Loading...</div>,
+});
 
 export default function Home({ categories }) {
    const { state, dispatch } = useContext(Store);
@@ -30,18 +32,22 @@ export default function Home({ categories }) {
    const [totalPage, setTotalPage] = useState(1);
    const [openCompare, setOpenCompare] = useState(false);
    const [loading, setLoading] = useState(false);
+   const [isFetching, setIsFetching] = useState(false);
 
    const trans = useTrans();
 
    const loadPosts = async () => {
       try {
+         setIsFetching(true);
          const resPosts = await API.post(endpoints["search_salePost"], {
             page: numberPage,
          });
          setSalePost(resPosts.data.data.listResult);
          setTotalPage(resPosts.data.data.totalPage);
+         setIsFetching(false);
       } catch (error) {
          console.log(error);
+         setIsFetching(false);
       }
    };
 
@@ -122,17 +128,19 @@ export default function Home({ categories }) {
                      </span>
                      {trans.home.allPost}
                   </h1>
-                  <Suspense fallback={<p>Loading...</p>}>
-                     <div className="grid sm:grid-cols-4 grid-cols-1 gap-10">
-                        {salePosts.map((i) => (
-                           <ProductItem
-                              key={i.id}
-                              product={i}
-                              inCompare={false}
-                           />
-                        ))}
-                     </div>
-                  </Suspense>
+                  <div className="grid sm:grid-cols-4 grid-cols-1 gap-10">
+                     {isFetching && salePosts.length == 0 && (
+                        <>
+                           <ProductSkeleton />
+                           <ProductSkeleton />
+                           <ProductSkeleton />
+                           <ProductSkeleton />
+                        </>
+                     )}
+                     {salePosts.map((i) => (
+                        <ProductItem key={i.id} product={i} inCompare={false} />
+                     ))}
+                  </div>
 
                   {/* paginate */}
                   <div
@@ -170,4 +178,25 @@ export const getServerSideProps = async () => {
    const resCategories = await API.get(endpoints["category_all"]);
    const categories = await resCategories.data.data;
    return { props: { categories } };
+};
+
+export const ProductSkeleton = () => {
+   return (
+      <div className="bg-gray-200 dark:bg-gray-800 rounded-lg p-6 cursor-pointer hover:shadow-lg">
+         <div className="relative">
+            <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
+         </div>
+         <div className="text-left font-bold text-xl uppercase mt-4 mb-2 h-14 bg-gray-300 dark:bg-gray-700 w-full animate-pulse"></div>
+         <div className="text-left">
+            <div className="text-2xl font-bold bg-gray-300 dark:bg-gray-700 h-8 animate-pulse"></div>
+            <div className="bg-gray-300 dark:bg-gray-700 h-6 mt-2 animate-pulse"></div>
+         </div>
+
+         <div className="flex gap-4 mt-4">
+            <button className="w-24 h-14 rounded-2xl flex justify-center items-center bg-gray-300 dark:bg-gray-700 animate-pulse"></button>
+            <button className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-gray-300 dark:bg-gray-700 animate-pulse"></button>
+            <button className="w-14 h-14 rounded-2xl flex justify-center items-center text-white bg-gray-300 dark:bg-gray-700 animate-pulse"></button>
+         </div>
+      </div>
+   );
 };

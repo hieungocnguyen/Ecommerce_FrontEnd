@@ -126,7 +126,7 @@ const ProductItem = ({ product, inCompare }) => {
             onClick={() => handleDetailRoute()}
          >
             <div className="relative">
-               <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all hover:sha">
+               <div className="w-full aspect-square relative overflow-hidden rounded-2xl hover:scale-105 transition-all">
                   <Image
                      src={product.avatar}
                      alt="avt"
