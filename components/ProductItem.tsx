@@ -241,7 +241,7 @@ const ProductItem = ({ product, inCompare }) => {
          </div>
 
          <div
-            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center sm:justify-center justify-start z-30 ${
+            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center sm:justify-center justify-start z-50 ${
                isOpenQuickViewModal ? "flex" : "hidden"
             }`}
          >

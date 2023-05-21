@@ -48,7 +48,7 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
          {post.picturePostSet ? (
             <div className="grid grid-cols-12 gap-6">
                <div className="col-span-4">
-                  <div className="overflow-hidden aspect-square relative mx-auto">
+                  <div className="overflow-hidden aspect-square relative">
                      <Image
                         src={mainPic}
                         alt="tai nghe"
