@@ -160,6 +160,7 @@ export default function Home({ categories }) {
                                  } `}
                                  onClick={(e) => {
                                     setNumberPage(i + 1);
+                                    setSalePost([]);
                                  }}
                               >
                                  {i + 1}
