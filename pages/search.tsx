@@ -213,7 +213,7 @@ const Search = ({ categories }) => {
                      </div>
                   )
                ) : (
-                  <div className="col-span-8">
+                  <div className="col-span-6">
                      <div className="flex justify-center items-center">
                         <ClipLoader size={50} color="#FF8500" />
                      </div>
