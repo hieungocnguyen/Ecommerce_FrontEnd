@@ -71,7 +71,7 @@ const AgencyPage = ({ agencyInfo, posts }) => {
                </div>
             </div>
             <div className="bg-primary-color rounded-lg h-32 relative">
-               <div className="relative -bottom-10 left-1/2 -translate-x-1/2 overflow-hidden w-40 h-40 z-50">
+               <div className="relative -bottom-10 left-1/2 -translate-x-1/2 overflow-hidden w-40 h-40 z-30">
                   <Image
                      src={agencyInfo ? agencyInfo.avatar : ""}
                      alt=""
@@ -82,7 +82,7 @@ const AgencyPage = ({ agencyInfo, posts }) => {
                <div className="text-3xl font-semibold text-center mt-14">
                   {agencyInfo ? agencyInfo.name : ""}
                </div>
-               <div className="absolute top-0 left-0 overflow-hidden w-full h-full z-30 rounded-lg opacity-10">
+               <div className="absolute top-0 left-0 overflow-hidden w-full h-full z-20 rounded-lg opacity-10">
                   <Image
                      src={agencyInfo ? agencyInfo.avatar : ""}
                      alt=""

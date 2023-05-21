@@ -134,10 +134,12 @@ const ProductItem = ({ product, inCompare }) => {
                      className="object-cover"
                   />
                </div>
-               <div className="absolute -left-4 -bottom-4 rounded-tr-xl pt-2 pb-4 pr-4 pl-6 font-bold uppercase bg-light-primary dark:bg-dark-primary text-primary-color text-lg z-10">
-                  {locale == "vi"
-                     ? product.sellStatus.nameVi
-                     : product.sellStatus.name}
+               <div className="absolute -left-4 -bottom-4 rounded-tr-lg p-2 pl-4 pb-4 font-bold uppercase bg-light-primary dark:bg-dark-primary text-primary-color z-10">
+                  <div className="bg-secondary-color py-1 px-2 rounded-xl text-dark-primary">
+                     {locale == "vi"
+                        ? product.sellStatus.nameVi
+                        : product.sellStatus.name}
+                  </div>
                </div>
             </div>
             <div className="text-left font-bold text-xl uppercase mt-4 mb-2 line-clamp-2 h-14">
@@ -213,10 +215,10 @@ const ProductItem = ({ product, inCompare }) => {
                )}
             </div>
 
-            <div className="absolute top-0 right-0">
+            <div className="absolute top-0 right-0 bg-light-primary dark:bg-dark-primary rounded-lg flex justify-center items-center">
                {!stateLike ? (
                   <button
-                     className="text-secondary-color w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
+                     className="bg-secondary-color text-2xl hover:text-3xl transition-all p-1 rounded-xl m-2"
                      title="like"
                      onClick={(event) => {
                         event.stopPropagation();
@@ -227,7 +229,7 @@ const ProductItem = ({ product, inCompare }) => {
                   </button>
                ) : (
                   <button
-                     className=" text-secondary-color w-12 h-12 rounded-lg bg-light-primary dark:bg-dark-primary text-3xl flex justify-center items-center hover:text-4xl transition-all"
+                     className="bg-secondary-color text-2xl hover:text-3xl transition-all p-1 rounded-xl m-2"
                      title="unlike"
                      onClick={(event) => {
                         event.stopPropagation();

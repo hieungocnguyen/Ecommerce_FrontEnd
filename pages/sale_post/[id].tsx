@@ -101,7 +101,7 @@ const ProductPage = ({ salePost }) => {
                         .map((pic) => (
                            <SwiperSlide key={pic.id}>
                               <div
-                                 className="overflow-hidden aspect-square relative cursor-pointer border-secondary-color border-2 rounded-lg"
+                                 className="overflow-hidden aspect-square relative cursor-pointer rounded-lg"
                                  onClick={(e) => {
                                     setMainPic(pic.image);
                                  }}
@@ -124,8 +124,8 @@ const ProductPage = ({ salePost }) => {
                   <div className="font-semibold sm:text-4xl text-2xl text-left max-h-20 line-clamp-2">
                      {salePost.title}
                   </div>
-                  <div className="sm:flex items-center gap-2 sm:my-4 my-2 text-lg">
-                     <div className="rounded-lg border-2 border-secondary-color sm:p-2 p-1 mb-1 sm:mb-0 font-semibold bg-secondary-color text-light-text w-fit ">
+                  <div className="sm:flex items-center gap-2 sm:my-4 my-2">
+                     <div className="rounded-lg border-2 border-secondary-color sm:px-2 sm:py-1 p-1 mb-1 sm:mb-0 font-bold bg-secondary-color text-light-text w-fit">
                         {locale == "vi"
                            ? salePost.sellStatus.nameVi
                            : salePost.sellStatus.name}
@@ -221,7 +221,7 @@ const ProductPage = ({ salePost }) => {
                </div>
                <div className="grid sm:grid-cols-12 grid-cols-6 gap-8 mt-8 ">
                   <button
-                     className={`col-span-6 bg-primary-color text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer shadow-lg hover:shadow-none hover:brightness-95 shadow-primary-color transition-all disabled:bg-gray-400 disabled:shadow-gray-400 disabled:cursor-not-allowed`}
+                     className={`col-span-6 bg-primary-color text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90 transition-all disabled:bg-gray-400 disabled:shadow-gray-400 disabled:cursor-not-allowed`}
                      onClick={() => setIsOpenItemsModal(true)}
                      disabled={
                         salePost.agency.isActive === 0 ||
@@ -235,7 +235,7 @@ const ProductPage = ({ salePost }) => {
                         : trans.detailProduct.choose_items}
                   </button>
                   <div
-                     className="col-span-6 bg-secondary-color text-dark-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer shadow-lg shadow-secondary-color hover:brightness-95 hover:shadow-none transition-all"
+                     className="col-span-6 bg-secondary-color text-dark-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-lg hover:shadow-secondary-color hover:brightness-90 transition-all"
                      onClick={handleRouteAgency}
                   >
                      <div className="relative h-20 w-20 overflow-hidden rounded-xl ">

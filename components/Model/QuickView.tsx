@@ -8,6 +8,7 @@ import Moment from "react-moment";
 import useTrans from "../../hook/useTrans";
 import { ClipLoader } from "react-spinners";
 import "swiper/css";
+import { useRouter } from "next/router";
 
 const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
    const wrapperRef = useRef(null);
@@ -15,6 +16,7 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
    const [mainPic, setMainPic] = useState("");
    const [starAvg, setStarAvg] = useState(0);
    const trans = useTrans();
+   const { locale } = useRouter();
 
    const fetchPost = async () => {
       const res = await API.get(endpoints["salePost"](postID));
@@ -89,8 +91,10 @@ const QuickView = ({ postID, setIsOpenQuickViewModal }) => {
                         {post.title}
                      </div>
                      <div className="flex items-center gap-2 my-2 text-lg">
-                        <div className="rounded-lg border-2 border-primary-color p-2 text-primary-color font-semibold">
-                           {post.sellStatus.name}
+                        <div className="rounded-lg border-2 border-secondary-color sm:px-2 sm:py-1 p-1 mb-1 sm:mb-0 font-semibold bg-secondary-color text-light-text w-fit">
+                           {locale == "vi"
+                              ? post.sellStatus.nameVi
+                              : post.sellStatus.name}
                         </div>
                         <div>
                            <Rating
