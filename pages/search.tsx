@@ -26,7 +26,7 @@ const Search = ({ categories }) => {
    const [salePosts, setSalePosts] = useState([]);
    const router = useRouter();
    const kw = router.query.input;
-   const [datePost, setDatePost] = useState(["2017-06-01", "2023-06-01"]);
+   const [datePost, setDatePost] = useState(["2017-06-01", "2023-07-01"]);
    const [value, setValue] = useState<number[]>([100000, 5000000]);
    const [numberPage, setNumberPage] = useState(1);
    const [totalPage, setTotalPage] = useState(1);
@@ -68,15 +68,14 @@ const Search = ({ categories }) => {
       router.push(
          `/search?input=${kw}&fromPrice=${value[0]}&toPrice=${value[1]}${
             categoryID > 0 ? `&categoryID=${categoryID}` : ""
-         } ${
+         }${
             agencyNameSearch != "" ? `&nameOfAgency=${agencyNameSearch}` : ""
-         } &fromDate=${new Date(datePost[0]).toLocaleDateString(
+         }&fromDate=${new Date(datePost[0]).toLocaleDateString(
             "en-GB"
          )}&toDate=${new Date(datePost[1]).toLocaleDateString("en-GB")}`
       );
       setNumberPage(1);
       loadPosts();
-      toast.success("Apply filter successful");
    };
 
    const handleChange = (event: Event, newValue: number | number[]) => {
