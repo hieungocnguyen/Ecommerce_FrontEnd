@@ -73,7 +73,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
                <input
                   type="text"
                   placeholder={trans.home.searchPlaceholder}
-                  defaultValue=""
+                  defaultValue={router.query.input}
                   ref={searchInput}
                   onChange={(e) => {
                      FetchSuggest(e.target.value);
