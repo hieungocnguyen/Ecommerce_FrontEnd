@@ -34,10 +34,19 @@ const Orders = () => {
       useState(false);
    const trans = useTrans();
 
+   //pagination
+   const lengthOfPage = 4;
+   const [pageCurrent, setPageCurrent] = useState(1);
+   const [totalPage, setTotalPage] = useState(0);
+   //
+   const [keywordCode, setKeywordCode] = useState("");
+   const [filterState, setFilterState] = useState(0);
+
    const loadOrder = async () => {
       try {
          const resOrder = await API.get(endpoints["order_user"](userInfo.id));
          setOrders(resOrder.data.data);
+         setTotalPage(Math.ceil(resOrder.data.data.length / lengthOfPage));
       } catch (error) {
          console.log(error);
       }
@@ -46,6 +55,10 @@ const Orders = () => {
    useEffect(() => {
       loadOrder();
    }, []);
+
+   useEffect(() => {
+      setTotalPage(Math.ceil(FilterArray(orders).length / lengthOfPage));
+   }, [filterState, keywordCode]);
 
    const handleCancelButton = async (order) => {
       try {
@@ -116,16 +129,51 @@ const Orders = () => {
       }
    };
 
+   const FilterArray = (array) => {
+      let resultArray = array
+         .filter((order) => order.orderExpressID.search(keywordCode) >= 0)
+         .filter((order) =>
+            filterState > 0 ? order.orderState.id == filterState : true
+         );
+      return resultArray;
+   };
+
    return (
       <Layout title="Your Order">
-         <div className="flex gap-4 items-center m-6">
-            <div
-               className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
-               onClick={() => router.back()}
-            >
-               <BiArrowBack />
+         <div className="flex justify-between items-center">
+            <div className="flex gap-4 items-center m-6">
+               <div
+                  className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
+                  onClick={() => router.back()}
+               >
+                  <BiArrowBack />
+               </div>
+               <div className="font-semibold text-2xl">
+                  / {trans.order.title}
+               </div>
             </div>
-            <div className="font-semibold text-2xl">/ {trans.order.title}</div>
+            <div className="flex gap-4">
+               <input
+                  type="text"
+                  placeholder="🔎Order Code"
+                  className="p-3 rounded-lg"
+                  onChange={(e) => setKeywordCode(e.target.value.toUpperCase())}
+               />
+               <select
+                  name=""
+                  id=""
+                  className="rounded-lg w-60"
+                  onChange={(e) => setFilterState(Number(e.target.value))}
+               >
+                  <option value={0}>All order state</option>
+                  <option value={1}>Waiting to confirm</option>
+                  <option value={2}>Accepted</option>
+                  <option value={3}>Packed</option>
+                  <option value={4}>Shipped</option>
+                  <option value={5}>Complete</option>
+                  <option value={6}>Cancelled</option>
+               </select>
+            </div>
          </div>
 
          <div className="rounded-lg overflow-hidden">
@@ -147,119 +195,130 @@ const Orders = () => {
                      </div>
                   }
                >
-                  {orders.length > 0 ? (
-                     orders.map((order) => (
-                        <div
-                           key={order.id}
-                           className={`grid grid-cols-12 gap-4 p-5 items-center dark:hover:bg-dark-spot hover:bg-light-spot font-medium `}
-                        >
-                           <div className="col-span-1 text-secondary-color font-semibold text-center">
-                              {order.orderExpressID ? (
-                                 `# ${order.orderExpressID}`
-                              ) : (
-                                 <>
-                                    <span
-                                       className="flex justify-center cursor-pointer"
-                                       onClick={() =>
-                                          toast.error(
-                                             "This order has an error, please wait for admin to process it"
-                                          )
+                  {FilterArray(orders).length > 0 ? (
+                     FilterArray(orders)
+                        .slice(
+                           (pageCurrent - 1) * lengthOfPage,
+                           (pageCurrent - 1) * lengthOfPage + lengthOfPage
+                        )
+                        .map((order) => (
+                           <div
+                              key={order.id}
+                              className={`grid grid-cols-12 gap-4 p-5 items-center dark:hover:bg-dark-spot hover:bg-light-spot font-medium `}
+                           >
+                              <div className="col-span-1 text-secondary-color font-semibold text-center">
+                                 {order.orderExpressID ? (
+                                    `#${order.orderExpressID}`
+                                 ) : (
+                                    <>
+                                       <span
+                                          className="flex justify-center cursor-pointer"
+                                          onClick={() =>
+                                             toast.error(
+                                                "This order has an error, please wait for admin to process it"
+                                             )
+                                          }
+                                       >
+                                          <BiMessageAltError className="text-3xl text-red-600" />
+                                       </span>
+                                    </>
+                                 )}
+                              </div>
+                              <div className="col-span-2">
+                                 {new Date(order.orders.createdDate).getHours()}
+                                 {"h"}
+                                 {new Date(
+                                    order.orders.createdDate
+                                 ).getMinutes()}
+                                 {"p"}
+                                 <br />
+                                 {new Date(
+                                    order.orders.createdDate
+                                 ).toLocaleDateString("en-GB")}
+                              </div>
+
+                              <div className="col-span-2 text-right text-primary-color font-semibold">
+                                 {order.totalPrice.toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                 })}
+                                 <br />
+                                 <span className="text-secondary-color text-sm">
+                                    {order.shipFee
+                                       ? `+ ${order.shipFee.toLocaleString(
+                                            "it-IT",
+                                            {
+                                               style: "currency",
+                                               currency: "VND",
+                                            }
+                                         )}`
+                                       : ""}
+                                 </span>
+                              </div>
+                              <div className="col-span-2">
+                                 {order.agency.name}
+                              </div>
+
+                              <div className="col-span-3">
+                                 <div
+                                    className={`relative overflow-hidden h-12`}
+                                 >
+                                    <Image
+                                       src={
+                                          order.orderState.id === 1
+                                             ? stateorder1
+                                             : order.orderState.id === 2
+                                             ? stateorder2
+                                             : order.orderState.id === 3
+                                             ? stateorder3
+                                             : order.orderState.id === 4
+                                             ? stateorder4
+                                             : order.orderState.id === 5
+                                             ? stateorder5
+                                             : order.orderState.id === 6
+                                             ? stateorder6
+                                             : order.orderState.id === 7
+                                             ? stateorder7
+                                             : stateorder1
                                        }
-                                    >
-                                       <BiMessageAltError className="text-3xl text-red-600" />
-                                    </span>
-                                 </>
-                              )}
-                           </div>
-                           <div className="col-span-2">
-                              {new Date(order.orders.createdDate).getHours()}
-                              {"h"}
-                              {new Date(order.orders.createdDate).getMinutes()}
-                              {"p"}
-                              <br />
-                              {new Date(
-                                 order.orders.createdDate
-                              ).toLocaleDateString("en-GB")}
-                           </div>
-
-                           <div className="col-span-2 text-right text-primary-color font-semibold">
-                              {order.totalPrice.toLocaleString("it-IT", {
-                                 style: "currency",
-                                 currency: "VND",
-                              })}
-                              <br />
-                              <span className="text-secondary-color text-sm">
-                                 {order.shipFee
-                                    ? `+ ${order.shipFee.toLocaleString(
-                                         "it-IT",
-                                         {
-                                            style: "currency",
-                                            currency: "VND",
-                                         }
-                                      )}`
-                                    : ""}
-                              </span>
-                           </div>
-                           <div className="col-span-2">{order.agency.name}</div>
-
-                           <div className="col-span-3">
-                              <div className={`relative overflow-hidden h-12`}>
-                                 <Image
-                                    src={
-                                       order.orderState.id === 1
-                                          ? stateorder1
-                                          : order.orderState.id === 2
-                                          ? stateorder2
-                                          : order.orderState.id === 3
-                                          ? stateorder3
-                                          : order.orderState.id === 4
-                                          ? stateorder4
-                                          : order.orderState.id === 5
-                                          ? stateorder5
-                                          : order.orderState.id === 6
-                                          ? stateorder6
-                                          : order.orderState.id === 7
-                                          ? stateorder7
-                                          : stateorder1
+                                       alt="state"
+                                       layout="fill"
+                                       objectFit="contain"
+                                       className=""
+                                    />
+                                 </div>
+                              </div>
+                              <div className="col-span-2 flex gap-4 justify-center">
+                                 <button
+                                    className={`p-3 text-2xl  hover:shadow-lg text-white rounded-lg ${
+                                       order.orderState.id === 5
+                                          ? "bg-green-500 hover:shadow-green-500"
+                                          : "bg-primary-color hover:shadow-primary-color"
+                                    }`}
+                                    title="View detail order"
+                                    onClick={() => {
+                                       setOrderAgencyID(order.id);
+                                       setOrderInfo(order);
+                                    }}
+                                 >
+                                    <BiShowAlt />
+                                 </button>
+                                 <button
+                                    className={`p-3 text-2xl bg-red-500 hover:shadow-lg hover:shadow-red-500 text-white rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none`}
+                                    title="Cancel order"
+                                    disabled={
+                                       order.orderState.id > 3 ? true : false
                                     }
-                                    alt="state"
-                                    layout="fill"
-                                    objectFit="contain"
-                                    className=""
-                                 />
+                                    onClick={() => {
+                                       handleCancelButton(order);
+                                       setOrderInfo(order);
+                                    }}
+                                 >
+                                    <BiX />
+                                 </button>
                               </div>
                            </div>
-                           <div className="col-span-2 flex gap-4 justify-center">
-                              <button
-                                 className={`p-3 text-2xl  hover:shadow-lg text-white rounded-lg ${
-                                    order.orderState.id === 5
-                                       ? "bg-green-500 hover:shadow-green-500"
-                                       : "bg-primary-color hover:shadow-primary-color"
-                                 }`}
-                                 title="View detail order"
-                                 onClick={() => {
-                                    setOrderAgencyID(order.id);
-                                    setOrderInfo(order);
-                                 }}
-                              >
-                                 <BiShowAlt />
-                              </button>
-                              <button
-                                 className={`p-3 text-2xl bg-red-500 hover:shadow-lg hover:shadow-red-500 text-white rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none`}
-                                 title="Cancel order"
-                                 disabled={
-                                    order.orderState.id > 3 ? true : false
-                                 }
-                                 onClick={() => {
-                                    handleCancelButton(order);
-                                    setOrderInfo(order);
-                                 }}
-                              >
-                                 <BiX />
-                              </button>
-                           </div>
-                        </div>
-                     ))
+                        ))
                   ) : (
                      <div>
                         <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
@@ -272,6 +331,30 @@ const Orders = () => {
                         </div>
                      </div>
                   )}
+                  {/* paginate */}
+                  <div
+                     className="flex gap-4
+                   justify-center mt-8"
+                  >
+                     {totalPage > 1 &&
+                        Array.from(Array(totalPage), (e, i) => {
+                           return (
+                              <div
+                                 key={i}
+                                 className={`w-8 h-8 rounded-lg border-2 border-primary-color flex justify-center items-center cursor-pointer paginator font-semibold ${
+                                    pageCurrent === i + 1
+                                       ? "bg-primary-color text-white"
+                                       : ""
+                                 } `}
+                                 onClick={(e) => {
+                                    setPageCurrent(i + 1);
+                                 }}
+                              >
+                                 {i + 1}
+                              </div>
+                           );
+                        })}
+                  </div>
                </Suspense>
             </div>
             <div

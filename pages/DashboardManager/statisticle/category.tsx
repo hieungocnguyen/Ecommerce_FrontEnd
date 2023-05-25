@@ -4,6 +4,7 @@ import API, { endpoints } from "../../../API";
 import LayoutDashboardManager from "../../../components/Dashboard/LayoutDashboardManager";
 import { Chart, ArcElement } from "chart.js";
 import { Store } from "../../../utils/Store";
+import ExportExcel from "../../../components/ExportExcel";
 Chart.register(ArcElement);
 
 const CategoryStatisticle = () => {
@@ -12,9 +13,12 @@ const CategoryStatisticle = () => {
    const [respondCateStat, setRespondCateStat] = useState([]);
    const { state, dispatch } = useContext(Store);
    const { agencyInfo } = state;
+   const [dataCSV, setDataCSV] = useState([]);
+
    useEffect(() => {
       setCategory([]);
       setDataStatCategory([]);
+      setDataCSV([]);
       const loadDataCate = async () => {
          try {
             const resDataCate = await API.get(
@@ -26,6 +30,10 @@ const CategoryStatisticle = () => {
                   ...dataStatCategory,
                   c[1],
                ]);
+               setDataCSV((data) => [
+                  ...data,
+                  { Category: c[0], Number: c[1] },
+               ]);
             });
             setRespondCateStat(resDataCate.data.data);
          } catch (error) {
@@ -34,6 +42,7 @@ const CategoryStatisticle = () => {
       };
       loadDataCate();
    }, []);
+
    const dataCate = {
       labels: category,
       datasets: [
@@ -76,12 +85,19 @@ const CategoryStatisticle = () => {
          },
       ],
    };
+   console.log(dataCSV);
 
    return (
       <LayoutDashboardManager title="Category Stat">
          <div className="w-[90%] mx-auto my-10">
-            <div className="font-semibold text-xl my-4">
-               Statistical category
+            <div className="flex justify-between items-center my-4">
+               <div className="font-semibold text-2xl">
+                  Statistical category
+               </div>
+               <ExportExcel
+                  csvData={dataCSV}
+                  fileName={`Stat category-${agencyInfo.name}`}
+               />
             </div>
             <div className="grid grid-cols-12 gap-4">
                <div className="col-span-6 dark:bg-dark-primary bg-light-primary rounded-lg p-8">

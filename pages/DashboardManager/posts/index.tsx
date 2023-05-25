@@ -29,19 +29,33 @@ const Posts = () => {
    const [loading, setLoading] = useState(false);
    // const [enabled, setEnabled] = useState(false);
 
+   //pagination
+   const lengthOfPage = 4;
+   const [pageCurrent, setPageCurrent] = useState(1);
+   const [totalPage, setTotalPage] = useState(0);
+   const [keywordSearch, setKeywordSearch] = useState("");
+
    const loadPosts = async () => {
       try {
          const resPostsPublish = await API.get(
             endpoints["get_all_post_by_agencyID"](agencyInfo.id)
          );
          setPosts(resPostsPublish.data.data);
+         setTotalPage(
+            Math.ceil(resPostsPublish.data.data.length / lengthOfPage)
+         );
       } catch (error) {
          console.log(error);
       }
    };
+
    useEffect(() => {
       loadPosts();
    }, [postID]);
+
+   useEffect(() => {
+      setTotalPage(Math.ceil(FilterArray(posts).length / lengthOfPage));
+   }, [keywordSearch]);
 
    const handlePublishPost = async (id) => {
       try {
@@ -82,182 +96,199 @@ const Posts = () => {
       router.push(`/DashboardManager/posts/${id}`);
    };
 
+   const FilterArray = (array) => {
+      let resultArray = array.filter(
+         (post) => post.title.toUpperCase().search(keywordSearch) >= 0
+      );
+
+      return resultArray;
+   };
+
    return (
       <>
          <LayoutDashboard title="List Post">
-            <div className="">
+            <div className="mx-auto my-8">
                <div className="flex justify-between items-center my-8">
                   <div className="font-semibold text-2xl">Post List</div>
+                  <input
+                     type="text"
+                     placeholder="🔎Search post"
+                     className="p-3 rounded-lg"
+                     onChange={(e) =>
+                        setKeywordSearch(e.target.value.toUpperCase())
+                     }
+                  />
                </div>
-               {posts.length > 0 ? (
-                  <div>
-                     <div className="rounded-lg dark:bg-dark-primary bg-light-spot  overflow-hidden shadow-2xl dark:shadow-dark-shadow shadow-light-primary">
-                        <ul className="grid grid-cols-12 p-5 dark:bg-dark-spot bg-light-primary items-center font-semibold">
-                           <li className="col-span-1">Avatar</li>
-                           <li className="col-span-3">Title</li>
-                           <li className="col-span-2">Price</li>
-                           <li className="col-span-2">Brand</li>
-                           <li className="col-span-2">Category</li>
-                           <li className="col-span-1">Publish</li>
-                           <li className="col-span-1"></li>
-                        </ul>
-                        {posts
-                           .sort((a, b) => (a.id > b.id ? -1 : 1))
-                           .map((post) => (
-                              <div key={post.id}>
-                                 <ul className="grid grid-cols-12 p-5 items-center dark:hover:bg-dark-bg hover:bg-light-primary cursor-pointer relative">
-                                    {/* <Link href={`/DashboardManager/posts/${post.id}`}> */}
-                                    <div
-                                       className="col-span-10 grid grid-cols-10 items-center"
-                                       onClick={() => handleRouting(post.id)}
-                                    >
-                                       <li className="col-span-1">
-                                          <Image
-                                             src={post.avatar}
-                                             alt=""
-                                             width={42}
-                                             height={42}
-                                             className="object-cover rounded-xl"
-                                          />
-                                       </li>
-                                       <li className="col-span-3">
-                                          {post.title}
-                                       </li>
-                                       <li className="col-span-2">
-                                          <div className="text-primary-color font-semibold">
-                                             {post.finalPrice.toLocaleString(
-                                                "it-IT",
-                                                {
-                                                   style: "currency",
-                                                   currency: "VND",
-                                                }
-                                             )}
-                                          </div>
-                                          <div className="text-sm line-through opacity-80">
-                                             {post.initialPrice.toLocaleString(
-                                                "it-IT",
-                                                {
-                                                   style: "currency",
-                                                   currency: "VND",
-                                                }
-                                             )}
-                                          </div>
-                                       </li>
-                                       <li className="col-span-2">
-                                          {post.brand}
-                                       </li>
-                                       <li className="col-span-2">
-                                          {post.category.name}
-                                       </li>
-                                    </div>
-                                    {/* </Link> */}
-                                    <li className="col-span-1">
-                                       <label className="relative inline-flex items-center cursor-pointer">
-                                          <input
-                                             type="checkbox"
-                                             value=""
-                                             className="sr-only peer"
-                                             checked={
-                                                post.isActive ? true : false
-                                             }
-                                             onClick={() => {
-                                                if (
-                                                   post.itemPostSet.length > 0
-                                                ) {
-                                                }
-                                                if (post.isActive) {
-                                                   handleUnpublishPost(post.id);
-                                                } else {
-                                                   if (
-                                                      post.itemPostSet.length >
-                                                      0
-                                                   ) {
-                                                      handlePublishPost(
-                                                         post.id
-                                                      );
-                                                   } else {
-                                                      toast.error(
-                                                         "Can't publish when don't have any item in post!",
-                                                         {
-                                                            position:
-                                                               "top-center",
-                                                         }
-                                                      );
-                                                   }
-                                                }
-                                             }}
-                                          />
-                                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-color"></div>
-                                       </label>
-                                    </li>
-                                    <li className="col-span-1 flex justify-end items-center gap-4 text-xl dark:text-white text-light-text absolute z-20 right-4">
-                                       <div
-                                          className="p-3 rounded-lg dark:bg-dark-spot bg-green-500 hover:shadow-lg hover:shadow-green-500 text-white"
-                                          onClick={() => setPostID(post.id)}
-                                       >
-                                          <BiEdit className="" />
-                                       </div>
-                                       <div
-                                          className="p-3 rounded-lg dark:bg-dark-spot bg-red-500 hover:shadow-lg hover:shadow-red-500 text-white"
-                                          // onClick={() => {
-                                          //    handleDeletePost(post.id);
-                                          // }}
-                                          onClick={() => {
-                                             if (post.itemPostSet.length > 0) {
-                                             }
-                                             if (post.isActive) {
-                                                handleUnpublishPost(post.id);
-                                             } else {
-                                                if (
-                                                   post.itemPostSet.length > 0
-                                                ) {
-                                                   handlePublishPost(post.id);
-                                                } else {
-                                                   toast.error(
-                                                      "Can't publish when don't have any item in post!",
-                                                      {
-                                                         position: "top-center",
-                                                      }
-                                                   );
-                                                }
-                                             }
-                                          }}
-                                       >
-                                          <BiTrashAlt />
-                                       </div>
-                                    </li>
-                                 </ul>
-                              </div>
-                           ))}
+               <div className="grid grid-cols-12 gap-2 font-semibold px-2 py-4 dark:bg-dark-primary bg-light-primary rounded-lg text-center my-4">
+                  <div className="col-span-1">Avatar</div>
+                  <div className="col-span-3">Title</div>
+                  <div className="col-span-2">Price</div>
+                  <div className="col-span-2">Brand</div>
+                  <div className="col-span-2">Category</div>
+                  <div className="col-span-1">Publish</div>
+                  <div className="col-span-1"></div>
+               </div>
+               {FilterArray(posts)
+                  .sort((a, b) => (a.id > b.id ? -1 : 1))
+                  .slice(
+                     (pageCurrent - 1) * lengthOfPage,
+                     (pageCurrent - 1) * lengthOfPage + lengthOfPage
+                  )
+                  .map((post) => (
+                     <div
+                        className="grid grid-cols-12 gap-2 items-center  dark:bg-dark-primary bg-light-spot rounded-lg mb-4 py-4 px-2 font-medium text-center hover:brightness-95 cursor-pointer transition-all"
+                        key={post.id}
+                     >
                         <div
-                           className={`fixed pt-10 top-0 right-0 w-full h-screen overflow-auto backdrop-blur-sm  justify-center z-20 ${
-                              postID > 0 ? "flex" : "hidden"
-                           }`}
+                           className="col-span-10 grid grid-cols-10 items-center"
+                           onClick={() => handleRouting(post.id)}
                         >
-                           <div className="w-3/4 h-fit">
-                              <EditPost
-                                 postID={postID}
-                                 setPostID={setPostID}
-                                 setLoading={setLoading}
+                           <div className="col-span-1 relative w-2/3 mx-auto aspect-square overflow-hidden rounded-xl">
+                              <Image
+                                 src={post.avatar}
+                                 alt=""
+                                 layout="fill"
+                                 className="object-cover"
                               />
+                           </div>
+                           <div className="col-span-3">{post.title}</div>
+                           <div className="col-span-2">
+                              <div className="text-primary-color font-semibold">
+                                 {post.finalPrice.toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                 })}
+                              </div>
+                              <div className="text-sm line-through opacity-80">
+                                 {post.initialPrice.toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                 })}
+                              </div>
+                           </div>
+                           <div className="col-span-2">{post.brand}</div>
+                           <div className="col-span-2">
+                              {post.category.name}
+                           </div>
+                        </div>
+                        <div className="col-span-1 flex justify-center">
+                           <label className="relative inline-flex items-center cursor-pointer">
+                              <input
+                                 type="checkbox"
+                                 value=""
+                                 className="sr-only peer"
+                                 checked={post.isActive ? true : false}
+                                 onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (post.itemPostSet.length > 0) {
+                                    }
+                                    if (post.isActive) {
+                                       handleUnpublishPost(post.id);
+                                    } else {
+                                       if (post.itemPostSet.length > 0) {
+                                          handlePublishPost(post.id);
+                                       } else {
+                                          toast.error(
+                                             "Can't publish when don't have any item in post!",
+                                             {
+                                                position: "top-center",
+                                             }
+                                          );
+                                       }
+                                    }
+                                 }}
+                              />
+                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-color"></div>
+                           </label>
+                        </div>
+                        <div className="col-span-1 flex justify-end items-center gap-3 text-xl dark:text-white text-light-text">
+                           <div
+                              className="p-3 rounded-lg dark:bg-dark-spot bg-green-500 hover:shadow-lg hover:shadow-green-500 text-white"
+                              onClick={() => setPostID(post.id)}
+                           >
+                              <BiEdit className="" />
+                           </div>
+                           <div
+                              className="p-3 rounded-lg dark:bg-dark-spot bg-red-500 hover:shadow-lg hover:shadow-red-500 text-white"
+                              // onClick={() => {
+                              //    handleDeletePost(post.id);
+                              // }}
+                              onClick={() => {
+                                 if (post.itemPostSet.length > 0) {
+                                 }
+                                 if (post.isActive) {
+                                    handleUnpublishPost(post.id);
+                                 } else {
+                                    if (post.itemPostSet.length > 0) {
+                                       handlePublishPost(post.id);
+                                    } else {
+                                       toast.error(
+                                          "Can't publish when don't have any item in post!",
+                                          {
+                                             position: "top-center",
+                                          }
+                                       );
+                                    }
+                                 }
+                              }}
+                           >
+                              <BiTrashAlt />
                            </div>
                         </div>
                      </div>
+                  ))}
+
+               {/* paginate */}
+               <div
+                  className="flex gap-4
+                   justify-center mt-8"
+               >
+                  {totalPage > 1 &&
+                     Array.from(Array(totalPage), (e, i) => {
+                        return (
+                           <div
+                              key={i}
+                              className={`w-8 h-8 rounded-lg border-2 border-primary-color flex justify-center items-center cursor-pointer paginator font-semibold ${
+                                 pageCurrent === i + 1
+                                    ? "bg-primary-color text-white"
+                                    : ""
+                              } `}
+                              onClick={(e) => {
+                                 setPageCurrent(i + 1);
+                              }}
+                           >
+                              {i + 1}
+                           </div>
+                        );
+                     })}
+               </div>
+            </div>
+
+            {FilterArray(posts).length == 0 && (
+               <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
+                  <Image
+                     src={emptyBox}
+                     alt="empty"
+                     layout="fill"
+                     className="object-cover"
+                  />
+               </div>
+            )}
+
+            {/* Model Edit  */}
+            <div
+               className={`fixed pt-10 top-0 right-0 w-full h-screen overflow-auto backdrop-blur-sm  justify-center z-20 ${
+                  postID > 0 ? "flex" : "hidden"
+               }`}
+            >
+               {postID > 0 && (
+                  <div className="w-3/4 h-fit">
+                     <EditPost
+                        postID={postID}
+                        setPostID={setPostID}
+                        setLoading={setLoading}
+                     />
                   </div>
-               ) : (
-                  <>
-                     <div className="relative overflow-hidden aspect-square w-1/4 mx-auto">
-                        <Image
-                           src={emptyBox}
-                           alt="empty"
-                           layout="fill"
-                           className="object-cover"
-                        />
-                     </div>
-                     <div className="uppercase text-xl font-semibold text-center">
-                        your post list is empty
-                     </div>
-                  </>
                )}
             </div>
             {loading ? <Loader /> : <></>}

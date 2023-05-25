@@ -48,12 +48,20 @@ const Orders = () => {
    const [IDOpenAcceptCancelModel, setIDOpenAcceptCancelModel] = useState(-1);
    const [IDUserRequest, setIDUserRequest] = useState(-1);
 
+   //pagination
+   const lengthOfPage = 4;
+   const [pageCurrent, setPageCurrent] = useState(1);
+   const [totalPage, setTotalPage] = useState(0);
+   const [keywordCode, setKeywordCode] = useState("");
+   const [filterState, setFilterState] = useState(0);
+
    const loadOrders = async () => {
       try {
          const resOrders = await API.get(
             endpoints["order_agency"](agencyInfo.id)
          );
          setOrders(resOrders.data.data);
+         setTotalPage(Math.ceil(resOrders.data.data.length / lengthOfPage));
       } catch (error) {
          console.log(error);
       }
@@ -62,6 +70,10 @@ const Orders = () => {
    useEffect(() => {
       loadOrders();
    }, [stateCurrentID, IDOpenOrderCancelModel, IDOpenAcceptCancelModel]);
+
+   useEffect(() => {
+      setTotalPage(Math.ceil(FilterArray(orders).length / lengthOfPage));
+   }, [filterState, keywordCode]);
 
    const handleChangeStateOrder = async (order) => {
       try {
@@ -87,23 +99,63 @@ const Orders = () => {
          console.log(error);
       }
    };
+
+   const FilterArray = (array) => {
+      let resultArray = array
+         .filter((order) => order.orderExpressID.search(keywordCode) >= 0)
+         .filter((order) =>
+            filterState > 0 ? order.orderState.id == filterState : true
+         );
+      return resultArray;
+   };
+
    return (
       <>
          <LayoutDashboard title="Orders">
             <div className="w-[95%] mx-auto my-8">
-               <div className="font-semibold text-2xl">Orders Tracking</div>
-               {orders.length > 0 ? (
+               <div className="flex items-center justify-between">
+                  <div className="font-semibold text-2xl">Orders Tracking</div>
+                  <div className="flex gap-4">
+                     <input
+                        type="text"
+                        placeholder="Order Code"
+                        className="p-3 rounded-lg"
+                        onChange={(e) =>
+                           setKeywordCode(e.target.value.toUpperCase())
+                        }
+                     />
+                     <select
+                        name=""
+                        id=""
+                        className="rounded-lg w-60"
+                        onChange={(e) => setFilterState(Number(e.target.value))}
+                     >
+                        <option value={0}>All order state</option>
+                        <option value={1}>Waiting to confirm</option>
+                        <option value={2}>Accepted</option>
+                        <option value={3}>Packed</option>
+                        <option value={4}>Shipped</option>
+                        <option value={5}>Complete</option>
+                        <option value={6}>Cancelled</option>
+                     </select>
+                  </div>
+               </div>
+               <div className="grid grid-cols-12 font-semibold px-4 py-4 dark:bg-dark-primary bg-light-primary my-4 rounded-lg text-center">
+                  <div className="col-span-1 ">Order Code</div>
+                  <div className="col-span-1 ">Items</div>
+                  <div className="col-span-2 ">Date</div>
+                  <div className="col-span-4 ">State</div>
+                  <div className="col-span-4"></div>
+               </div>
+               {FilterArray(orders).length > 0 ? (
                   <>
-                     <div className="mt-8">
-                        <div className="grid grid-cols-12 font-semibold px-4 py-4 dark:bg-dark-primary bg-light-primary mb-4 rounded-lg text-center">
-                           <div className="col-span-1 ">Order Code</div>
-                           <div className="col-span-1 ">Items</div>
-                           <div className="col-span-2 ">Date</div>
-                           <div className="col-span-4 ">State</div>
-                           <div className="col-span-4"></div>
-                        </div>
-                        {orders
+                     <div className="">
+                        {FilterArray(orders)
                            .sort((a, b) => (a.id > b.id ? -1 : 1))
+                           .slice(
+                              (pageCurrent - 1) * lengthOfPage,
+                              (pageCurrent - 1) * lengthOfPage + lengthOfPage
+                           )
                            .map((order) => (
                               <div
                                  key={order.id}
@@ -408,6 +460,30 @@ const Orders = () => {
                      </div>
                   </>
                )}
+               {/* paginate */}
+               <div
+                  className="flex gap-4
+                   justify-center mt-8"
+               >
+                  {totalPage > 1 &&
+                     Array.from(Array(totalPage), (e, i) => {
+                        return (
+                           <div
+                              key={i}
+                              className={`w-8 h-8 rounded-lg border-2 border-primary-color flex justify-center items-center cursor-pointer paginator font-semibold ${
+                                 pageCurrent === i + 1
+                                    ? "bg-primary-color text-white"
+                                    : ""
+                              } `}
+                              onClick={(e) => {
+                                 setPageCurrent(i + 1);
+                              }}
+                           >
+                              {i + 1}
+                           </div>
+                        );
+                     })}
+               </div>
             </div>
             <Toaster />
          </LayoutDashboard>
