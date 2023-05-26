@@ -39,11 +39,10 @@ const ProductPage = ({ salePost }) => {
    const [loading, setLoading] = useState(false);
    const [isShowMore, setIsShowMore] = useState(false);
    const trans = useTrans();
-   const [isFetching, setIsFetching] = useState(false);
+   const [isFetching, setIsFetching] = useState(true);
 
    const loadComment = async () => {
       try {
-         setIsFetching(true);
          const resComments = await API.get(endpoints["comment_all_post"](id));
          setComments(resComments.data.data);
          setIsFetching(false);
@@ -339,7 +338,13 @@ const ProductPage = ({ salePost }) => {
                   </div>
                )}
 
-               <Suspense fallback={<p>Loading...</p>}>
+               <Suspense
+                  fallback={
+                     <div className="flex justify-center my-8">
+                        <ClipLoader size={35} color="#FF8500" />
+                     </div>
+                  }
+               >
                   {comments.length > 0 &&
                      comments
                         .sort((a, b) => (a.id < b.id ? 1 : -1))
@@ -397,7 +402,7 @@ const ProductPage = ({ salePost }) => {
                         <ClipLoader size={35} color="#FF8500" />
                      </div>
                   )}
-                  {userInfo && comments.length == 0 && !isFetching && (
+                  {comments.length == 0 && !isFetching && (
                      <>
                         <div className="relative overflow-hidden aspect-square sm:w-1/5 w-2/3 mx-auto">
                            <Image
