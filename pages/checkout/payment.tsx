@@ -748,6 +748,22 @@ const Payment = () => {
                               </div>
                               <div className="mb-2 text-left">
                                  <label
+                                    htmlFor="address"
+                                    className="font-medium text-sm pl-2"
+                                 >
+                                    Type:
+                                 </label>
+                                 <input
+                                    type="text"
+                                    name="address"
+                                    required
+                                    value={address.addressType}
+                                    disabled
+                                    className="bg-dark-text dark:bg-dark-bg w-full p-4 rounded-lg font-medium disabled:bg-slate-50"
+                                 />
+                              </div>
+                              <div className="mb-2 text-left">
+                                 <label
                                     htmlFor="phone"
                                     className="font-medium text-sm pl-2"
                                  >
@@ -778,6 +794,7 @@ const Payment = () => {
                                     className="bg-dark-text dark:bg-dark-bg w-full p-4 rounded-lg font-medium disabled:bg-slate-50 "
                                  />
                               </div>
+
                               <div className="flex justify-center my-6">
                                  <button
                                     className="py-3 px-4 rounded-lg bg-primary-color text-white font-semibold hover:shadow-lg hover:shadow-primary-color"

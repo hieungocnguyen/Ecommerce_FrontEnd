@@ -89,6 +89,7 @@ export let endpoints = {
    get_top_agency: `/agency/top-agency`,
    count_follow_agency: (agencyID) =>
       `/action/follow/count-follow-by-agency/${agencyID}`,
+   stats_agency: (agencyID) => `/general-stats/view-agency/${agencyID}`,
 
    //category
    category_all: `/category/all`,
