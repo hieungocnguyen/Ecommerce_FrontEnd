@@ -121,7 +121,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                            <div className="text-sm">Administrator</div>
                         </div>
                      </div>
-                     <div className="mt-10 mx-4">
+                     <div className="my-4 mx-4 max-h-[360px] overflow-auto">
                         <Link href="/DashboardAdmin">
                            <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                               <BiHomeAlt className="text-lg" />
@@ -155,7 +155,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                               }
                            >
                               <BiStore className="text-lg" />
-                              Merchant 
+                              Merchant
                               <BiChevronRight
                                  className={`absolute right-6 font-semibold text-2xl transition-all ${
                                     openMenu ? "rotate-90" : ""
@@ -169,7 +169,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                            >
                               <Link href="/DashboardAdmin/agencies">
                                  <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
-                                 Merchant List
+                                    Merchant List
                                  </div>
                               </Link>
                               <Link href="/DashboardAdmin/agencies/uncensoredAgency">

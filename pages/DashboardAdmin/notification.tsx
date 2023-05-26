@@ -10,16 +10,27 @@ import moment from "moment";
 import API, { endpoints } from "../../API";
 import AdminLayoutDashboard from "../../components/Dashboard/AdminLayoutDashboard";
 import emptyBox from "../../public/empty-box.png";
+import PaginationComponent from "../../components/Pagination";
 
 const Notification = () => {
    const [notiList, setNotiList] = useState([]);
    const [isFetching, setIsFetching] = useState(false);
+
+   const lengthOfPage = 8;
+   const [pageCurrent, setPageCurrent] = useState(1);
+   const [totalPage, setTotalPage] = useState(0);
 
    const SnapFirestore = () => {
       setIsFetching(true);
       const unsubcribe = onSnapshot(collection(db, `admin`), (snapshot) => {
          setNotiList(
             snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+         );
+         setTotalPage(
+            Math.ceil(
+               snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+                  .length / lengthOfPage
+            )
          );
          setIsFetching(false);
       });
@@ -42,8 +53,8 @@ const Notification = () => {
 
    return (
       <AdminLayoutDashboard title="Notification">
-         <div className="w-[95%] mx-auto my-8">
-            <div className="flex justify-between items-center">
+         <div className="w-[95%] mx-auto mt-8">
+            <div className="flex justify-between items-center my-4">
                <div className="font-semibold text-2xl">Notification</div>
                <div className="">
                   <button
@@ -55,7 +66,7 @@ const Notification = () => {
                   </button>
                </div>
             </div>
-            <div className="mt-6">
+            <div className="">
                {isFetching ? (
                   <div className="flex justify-center my-8">
                      <ClipLoader size={35} color="#FF8500" />
@@ -66,6 +77,10 @@ const Notification = () => {
                         a.data.createdDate.seconds < b.data.createdDate.seconds
                            ? 1
                            : -1
+                     )
+                     .slice(
+                        (pageCurrent - 1) * lengthOfPage,
+                        (pageCurrent - 1) * lengthOfPage + lengthOfPage
                      )
                      .map((noti) => (
                         <div
@@ -121,6 +136,11 @@ const Notification = () => {
                   </div>
                )}
             </div>
+            <PaginationComponent
+               totalPage={totalPage}
+               pageCurrent={pageCurrent}
+               setPageCurrent={setPageCurrent}
+            />
          </div>
       </AdminLayoutDashboard>
    );

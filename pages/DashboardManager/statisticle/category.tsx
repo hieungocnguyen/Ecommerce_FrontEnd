@@ -94,10 +94,7 @@ const CategoryStatisticle = () => {
                <div className="font-semibold text-2xl">
                   Statistical category
                </div>
-               <ExportExcel
-                  csvData={dataCSV}
-                  fileName={`Stat category-${agencyInfo.name}`}
-               />
+               <ExportExcel csvData={dataCSV} fileName={`Stat category`} />
             </div>
             <div className="grid grid-cols-12 gap-4">
                <div className="col-span-6 dark:bg-dark-primary bg-light-primary rounded-lg p-8">

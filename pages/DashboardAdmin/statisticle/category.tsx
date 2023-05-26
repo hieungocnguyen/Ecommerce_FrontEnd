@@ -12,6 +12,7 @@ import {
    Tooltip,
    Legend,
 } from "chart.js";
+import ExportExcel from "../../../components/ExportExcel";
 ChartJS.register(
    CategoryScale,
    ArcElement,
@@ -26,10 +27,12 @@ const Category = () => {
    const [category, setCategory] = useState([]);
    const [dataStatCategory, setDataStatCategory] = useState([]);
    const [respondCateStat, setRespondCateStat] = useState([]);
+   const [dataCSV, setDataCSV] = useState([]);
 
    useEffect(() => {
       setCategory([]);
       setDataStatCategory([]);
+      setDataCSV([]);
       const loadDataCate = async () => {
          try {
             const resDataCate = await API.get(endpoints["stat_post_category"]);
@@ -38,6 +41,10 @@ const Category = () => {
                setDataStatCategory((dataStatCategory) => [
                   ...dataStatCategory,
                   c[1],
+               ]);
+               setDataCSV((data) => [
+                  ...data,
+                  { Category: c[0], Number: c[1] },
                ]);
             });
             setRespondCateStat(resDataCate.data.data);
@@ -93,8 +100,11 @@ const Category = () => {
    return (
       <AdminLayoutDashboard title="Statistical Category">
          <div className="w-[90%] mx-auto">
-            <div className="font-semibold text-2xl my-10">
-               Statistical Category
+            <div className="flex justify-between items-center my-4">
+               <div className="font-semibold text-2xl">
+                  Statistical category
+               </div>
+               <ExportExcel csvData={dataCSV} fileName={`Stat category`} />
             </div>
             <div className="grid grid-cols-12 gap-4">
                <div className="col-span-6 dark:bg-dark-primary bg-light-primary rounded-lg p-8">

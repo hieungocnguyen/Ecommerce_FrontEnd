@@ -9,12 +9,18 @@ import Image from "next/image";
 import moment from "moment";
 import API, { endpoints } from "../../API";
 import emptyBox from "../../public/empty-box.png";
+import PaginationComponent from "../../components/Pagination";
+import { toast } from "react-hot-toast";
 
 const Notification = () => {
    const { state, dispatch } = useContext(Store);
    const { agencyInfo } = state;
    const [notiList, setNotiList] = useState([]);
    const [isFetching, setIsFetching] = useState(false);
+
+   const lengthOfPage = 8;
+   const [pageCurrent, setPageCurrent] = useState(1);
+   const [totalPage, setTotalPage] = useState(0);
 
    const SnapFirestore = () => {
       setIsFetching(true);
@@ -23,6 +29,12 @@ const Notification = () => {
          (snapshot) => {
             setNotiList(
                snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+            );
+            setTotalPage(
+               Math.ceil(
+                  snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+                     .length / lengthOfPage
+               )
             );
             setIsFetching(false);
          }
@@ -44,6 +56,7 @@ const Notification = () => {
             const res = await API.get(
                endpoints["update_seen_status"](`agency-${agencyInfo.id}`)
             );
+            toast.success("All notifications are marked as seen");
          }
       } catch (error) {
          console.log(error);
@@ -72,6 +85,10 @@ const Notification = () => {
                   </div>
                ) : notiList.length > 0 ? (
                   notiList
+                     .slice(
+                        (pageCurrent - 1) * lengthOfPage,
+                        (pageCurrent - 1) * lengthOfPage + lengthOfPage
+                     )
                      .sort((a, b) =>
                         a.data.createdDate.seconds < b.data.createdDate.seconds
                            ? 1
@@ -127,6 +144,11 @@ const Notification = () => {
                      </div>
                   </div>
                )}
+               <PaginationComponent
+                  totalPage={totalPage}
+                  pageCurrent={pageCurrent}
+                  setPageCurrent={setPageCurrent}
+               />
             </div>
          </div>
       </LayoutDashboardManager>

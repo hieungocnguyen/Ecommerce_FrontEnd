@@ -16,6 +16,7 @@ import {
    PointElement,
    LineElement,
 } from "chart.js";
+import ExportExcel from "../../../components/ExportExcel";
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
    CategoryScale,
@@ -261,11 +262,13 @@ const RevenueByMonth = () => {
    const [valuesRespondRevenueByMonth, setValuesRespondRevenueByMonth] =
       useState([]);
    const [dataRevenueByMonth, setDataRevenueByMonth] = useState<any>([]);
+   const [dataCSV, setDataCSV] = useState([]);
 
    const loadRevenueByMonth = async () => {
       try {
          setLablesRespondRevenueByMonth([]);
          setValuesRespondRevenueByMonth([]);
+         setDataCSV([]);
          const resRevenueByYear = await API.get(
             endpoints["stat_renewal_by_month"](yearStatMonth)
          );
@@ -278,6 +281,16 @@ const RevenueByMonth = () => {
             setValuesRespondRevenueByMonth((valuesRespondRevenueByMonth) => [
                ...valuesRespondRevenueByMonth,
                r[1],
+            ]);
+            setDataCSV((data) => [
+               ...data,
+               {
+                  Month: r[0],
+                  Revenue: `${r[1].toLocaleString("it-IT", {
+                     style: "currency",
+                     currency: "VND",
+                  })}`,
+               },
             ]);
          });
       } catch (error) {
@@ -331,9 +344,13 @@ const RevenueByMonth = () => {
                            loadRevenueByMonth();
                         }}
                      >
-                        Apply selected year
+                        Apply
                      </button>
                   </div>
+                  <ExportExcel
+                     csvData={dataCSV}
+                     fileName={`Month revenue of ${yearStatMonth}`}
+                  />
                </div>
                <div className="text-center font-medium">
                   <table className="w-full">
@@ -367,10 +384,12 @@ const RevenueByQuarter = () => {
       useState([]);
    const [dataRevenueByQuarter, setDataRevenueByQuarter] = useState<any>([]);
    const [yearStatQuarter, setYearStatQuarter] = useState(2023);
+   const [dataCSV, setDataCSV] = useState([]);
 
    const loadRevenueByQuarter = async () => {
       setLablesRespondRevenueByQuarter([]);
       setValuesRespondRevenueByQuarter([]);
+      setDataCSV([]);
       try {
          const resRevenueByQuarter = await API.get(
             endpoints["stat_renewal_by_quarter"](yearStatQuarter)
@@ -389,6 +408,16 @@ const RevenueByQuarter = () => {
                   r[1],
                ]
             );
+            setDataCSV((data) => [
+               ...data,
+               {
+                  Quarter: r[0],
+                  Revenue: `${r[1].toLocaleString("it-IT", {
+                     style: "currency",
+                     currency: "VND",
+                  })}`,
+               },
+            ]);
          });
       } catch (error) {
          console.log(error);
@@ -415,13 +444,13 @@ const RevenueByQuarter = () => {
    return (
       <>
          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-6">
+            <div className="col-span-8">
                <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                   <Pie options={options} data={databyQuarter} />
                </div>
             </div>
-            <div className="col-span-6">
-               <div className="flex gap-6 items-center mb-4">
+            <div className="col-span-4">
+               <div className="flex gap-6 items-center justify-end mb-4">
                   <select
                      name=""
                      id=""
@@ -442,9 +471,13 @@ const RevenueByQuarter = () => {
                         className="bg-primary-color text-white font-semibold py-4 px-6 rounded-lg"
                         onClick={() => loadRevenueByQuarter()}
                      >
-                        Apply selected year
+                        Apply
                      </button>
                   </div>
+                  <ExportExcel
+                     csvData={dataCSV}
+                     fileName={`Quarter revenue of ${yearStatQuarter}`}
+                  />
                </div>
                <div className="text-center font-medium">
                   <table className="w-full">
@@ -479,8 +512,10 @@ const RevenueByYear = () => {
       []
    );
    const [dataRevenueByYear, setDataRevenueByYear] = useState<any>([]);
+   const [dataCSV, setDataCSV] = useState([]);
 
    const loadRevenueByYear = async () => {
+      setDataCSV([]);
       try {
          const resRevenueByYear = await API.get(
             endpoints["stat_renewal_by_year"]
@@ -494,6 +529,16 @@ const RevenueByYear = () => {
             setValuesRespondRevenueByYear((valuesRespondRevenueByYear) => [
                ...valuesRespondRevenueByYear,
                r[1],
+            ]);
+            setDataCSV((data) => [
+               ...data,
+               {
+                  Year: r[0],
+                  Revenue: `${r[1].toLocaleString("it-IT", {
+                     style: "currency",
+                     currency: "VND",
+                  })}`,
+               },
             ]);
          });
       } catch (error) {

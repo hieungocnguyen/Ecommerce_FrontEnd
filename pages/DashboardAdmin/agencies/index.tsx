@@ -8,12 +8,19 @@ import ConfirmModel from "../../../components/Model/ConfirmModel";
 import { toast } from "react-hot-toast";
 import { BiMessageRounded } from "react-icons/bi";
 import emptyBox from "../../../public/empty-box.png";
+import PaginationComponent from "../../../components/Pagination";
 
 const AgenciesAdminDashboard = () => {
    const [agencies, setAgencies] = useState([]);
    const [isOpenConfirmBan, setIsOpenConfirmBan] = useState(false);
    const [isOpenConfirmUnBan, setIsOpenConfirmUnBan] = useState(false);
    const [modelID, setModelID] = useState(-1);
+
+   const lengthOfPage = 6;
+   const [pageCurrent, setPageCurrent] = useState(1);
+   const [totalPage, setTotalPage] = useState(0);
+   const [keyword, setKeyword] = useState("");
+   const [filterState, setFilterState] = useState(0);
 
    const fetchAgencies = async () => {
       try {
@@ -23,12 +30,12 @@ const AgenciesAdminDashboard = () => {
          console.log(error);
       }
    };
+
    useEffect(() => {
       fetchAgencies();
       const interval = setInterval(() => {
          fetchAgencies();
       }, 10000);
-
       return () => clearInterval(interval);
    }, []);
 
@@ -54,14 +61,49 @@ const AgenciesAdminDashboard = () => {
       }
    };
 
+   const FilterArray = (array) => {
+      let resultArray = array
+         .filter((agency) => agency.name.toUpperCase().search(keyword) >= 0)
+         .filter((agency) =>
+            filterState > 0
+               ? filterState == 1
+                  ? agency.isActive == 1
+                  : agency.isActive == 0
+               : true
+         );
+
+      return resultArray;
+   };
+
+   useEffect(() => {
+      setTotalPage(Math.ceil(FilterArray(agencies).length / lengthOfPage));
+   }, [keyword, filterState, agencies]);
+
    return (
       <AdminLayoutDashboard title={"Merchant List"}>
-         <div className="w-[90%] mx-auto">
-            <div className="flex justify-between my-10">
+         <div className="w-[95%] mx-auto mt-8">
+            <div className="flex justify-between my-4">
                <div className="font-semibold text-2xl">Merchant List</div>
+               <div className="flex gap-4">
+                  <input
+                     type="text"
+                     placeholder="🔎 Merchant Name"
+                     className="p-3 rounded-lg border-2 border-primary-color"
+                     onChange={(e) => setKeyword(e.target.value.toUpperCase())}
+                  />
+                  <select
+                     name=""
+                     id=""
+                     className="p-3 rounded-lg w-60 border-2 border-primary-color"
+                     onChange={(e) => setFilterState(Number(e.target.value))}
+                  >
+                     <option value={0}>All Merchant</option>
+                     <option value={1}>Active</option>
+                     <option value={2}>Banned</option>
+                  </select>
+               </div>
             </div>
-
-            {agencies.length > 0 ? (
+            {FilterArray(agencies).length > 0 ? (
                <div className="rounded-lg dark:bg-dark-primary bg-light-primary overflow-hidden shadow-lg dark:shadow-dark-shadow shadow-light-primary mb-10">
                   <ul className="grid grid-cols-12 p-5 items-center font-semibold">
                      <li className="col-span-1">Avatar</li>
@@ -71,8 +113,12 @@ const AgenciesAdminDashboard = () => {
                      <li className="col-span-2">Address</li>
                      <li className="col-span-2"></li>
                   </ul>
-                  {agencies
+                  {FilterArray(agencies)
                      .filter((agency) => agency.isCensored === 1)
+                     .slice(
+                        (pageCurrent - 1) * lengthOfPage,
+                        (pageCurrent - 1) * lengthOfPage + lengthOfPage
+                     )
                      .map((agency) => (
                         <Link
                            href={`/DashboardAdmin/agencies/${agency.id}`}
@@ -178,6 +224,12 @@ const AgenciesAdminDashboard = () => {
                   </div>
                </>
             )}
+
+            <PaginationComponent
+               totalPage={totalPage}
+               pageCurrent={pageCurrent}
+               setPageCurrent={setPageCurrent}
+            />
          </div>
       </AdminLayoutDashboard>
    );

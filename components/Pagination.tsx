@@ -1,18 +1,20 @@
-import { useState } from "react";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import { BiArrowBack, BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 
 const PaginationComponent = ({ totalPage, pageCurrent, setPageCurrent }) => {
    const [i, seti] = useState(0);
    const maxViewCount = totalPage - 4;
 
-   const handleNext = () => {
-      if (i < maxViewCount) {
-         seti(i + 1);
-      }
-   };
    const handlePrev = () => {
       if (i > 0) {
          seti(i - 1);
+      }
+   };
+
+   const handleNext = () => {
+      if (i < maxViewCount) {
+         seti(i + 1);
       }
    };
 
@@ -23,7 +25,7 @@ const PaginationComponent = ({ totalPage, pageCurrent, setPageCurrent }) => {
                className={`text-3xl text-primary-color  ${
                   i == 0 ? "opacity-30" : "cursor-pointer"
                }`}
-               onClick={handlePrev}
+               onClick={() => handlePrev()}
             >
                <BiLeftArrowAlt className="" />
             </div>
@@ -35,7 +37,7 @@ const PaginationComponent = ({ totalPage, pageCurrent, setPageCurrent }) => {
             }`}
          >
             <div
-               className={`flex w-fit gap-4 justify-center transition-all -translate-x-[${
+               className={`flex w-fit gap-4 transition-all -translate-x-[${
                   i * 48
                }px]`}
             >
@@ -64,7 +66,7 @@ const PaginationComponent = ({ totalPage, pageCurrent, setPageCurrent }) => {
                className={`text-3xl text-primary-color ${
                   i == maxViewCount ? "opacity-30" : "cursor-pointer"
                }`}
-               onClick={handleNext}
+               onClick={() => handleNext()}
             >
                <BiRightArrowAlt />
             </div>
@@ -73,4 +75,7 @@ const PaginationComponent = ({ totalPage, pageCurrent, setPageCurrent }) => {
    );
 };
 
-export default PaginationComponent;
+// export default PaginationComponent;
+export default dynamic(() => Promise.resolve(PaginationComponent), {
+   ssr: false,
+});

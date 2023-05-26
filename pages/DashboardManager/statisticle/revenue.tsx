@@ -439,6 +439,7 @@ const RevenueByYear = ({ agencyInfoID }) => {
    const [dataCSV, setDataCSV] = useState([]);
 
    const loadRevenueByYear = async () => {
+      setDataCSV([]);
       try {
          const resRevenueByYear = await API.get(
             endpoints["revenue_by_year"](agencyInfoID)
