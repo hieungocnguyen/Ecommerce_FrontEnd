@@ -21,6 +21,7 @@ import emptyBox from "../../public/empty-box.png";
 import useTrans from "../../hook/useTrans";
 import { ClipLoader } from "react-spinners";
 // import RelativePost from "../../components/RelativePost";
+import PaginationComponent from "../../components/Pagination";
 
 const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
 const RelativePost = dynamic(() => import("../../components/RelativePost"));
@@ -41,11 +42,17 @@ const ProductPage = ({ salePost }) => {
    const trans = useTrans();
    const [isFetching, setIsFetching] = useState(true);
 
+   const lengthOfPage = 6;
+   const [pageCurrent, setPageCurrent] = useState(1);
+   const [totalPage, setTotalPage] = useState(0);
+   const [keywordSearch, setKeywordSearch] = useState("");
+
    const loadComment = async () => {
       try {
          const resComments = await API.get(endpoints["comment_all_post"](id));
          setComments(resComments.data.data);
          setIsFetching(false);
+         setTotalPage(Math.ceil(resComments.data.data.length / lengthOfPage));
       } catch (error) {
          console.log(error);
       }
@@ -348,6 +355,10 @@ const ProductPage = ({ salePost }) => {
                   {comments.length > 0 &&
                      comments
                         .sort((a, b) => (a.id < b.id ? 1 : -1))
+                        .slice(
+                           (pageCurrent - 1) * lengthOfPage,
+                           (pageCurrent - 1) * lengthOfPage + lengthOfPage
+                        )
                         .map((c) => (
                            <div
                               key={c.id}
@@ -415,6 +426,11 @@ const ProductPage = ({ salePost }) => {
                      </>
                   )}
                </Suspense>
+               <PaginationComponent
+                  totalPage={totalPage}
+                  pageCurrent={pageCurrent}
+                  setPageCurrent={setPageCurrent}
+               />
             </div>
          </div>
          <div className="my-10">
