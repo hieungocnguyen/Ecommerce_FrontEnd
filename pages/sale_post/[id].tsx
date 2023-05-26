@@ -19,6 +19,7 @@ import moment from "moment";
 import loginImg from "../../public/login.png";
 import emptyBox from "../../public/empty-box.png";
 import useTrans from "../../hook/useTrans";
+import { ClipLoader } from "react-spinners";
 // import RelativePost from "../../components/RelativePost";
 
 const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
@@ -38,11 +39,14 @@ const ProductPage = ({ salePost }) => {
    const [loading, setLoading] = useState(false);
    const [isShowMore, setIsShowMore] = useState(false);
    const trans = useTrans();
+   const [isFetching, setIsFetching] = useState(false);
 
    const loadComment = async () => {
       try {
+         setIsFetching(true);
          const resComments = await API.get(endpoints["comment_all_post"](id));
          setComments(resComments.data.data);
+         setIsFetching(false);
       } catch (error) {
          console.log(error);
       }
@@ -336,70 +340,75 @@ const ProductPage = ({ salePost }) => {
                )}
 
                <Suspense fallback={<p>Loading...</p>}>
-                  {comments.length > 0
-                     ? comments
-                          .sort((a, b) => (a.id < b.id ? 1 : -1))
-                          .map((c) => (
-                             <div
-                                key={c.id}
-                                className="grid sm:grid-cols-12 grid-cols-6 sm:mx-14 mx-2 mb-8"
-                             >
-                                <div className="overflow-hidden relative sm:h-16 h-10 aspect-square">
-                                   <Image
-                                      src={c.author ? c.author.avatar : ""}
-                                      alt="avatar"
-                                      layout="fill"
-                                      className="rounded-full object-cover"
-                                   />
-                                </div>
-                                <div className="sm:col-span-11 col-span-5 text-left">
-                                   {c.author && (
-                                      <div className="flex items-center">
-                                         <span className="font-semibold text-primary-color">
-                                            {"@"}
-                                            {c.author.username}
-                                         </span>
-                                         <span className="text-sm italic">
-                                            {" - "}
-                                            {moment(c.createdDate)
-                                               .startOf("m")
-                                               .fromNow()}
-                                         </span>
-                                      </div>
-                                   )}
+                  {comments.length > 0 &&
+                     comments
+                        .sort((a, b) => (a.id < b.id ? 1 : -1))
+                        .map((c) => (
+                           <div
+                              key={c.id}
+                              className="grid sm:grid-cols-12 grid-cols-6 sm:mx-14 mx-2 mb-8"
+                           >
+                              <div className="overflow-hidden relative sm:h-16 h-10 aspect-square">
+                                 <Image
+                                    src={c.author ? c.author.avatar : ""}
+                                    alt="avatar"
+                                    layout="fill"
+                                    className="rounded-full object-cover"
+                                 />
+                              </div>
+                              <div className="sm:col-span-11 col-span-5 text-left">
+                                 {c.author && (
+                                    <div className="flex items-center">
+                                       <span className="font-semibold text-primary-color">
+                                          {"@"}
+                                          {c.author.username}
+                                       </span>
+                                       <span className="text-sm italic">
+                                          {" - "}
+                                          {moment(c.createdDate)
+                                             .startOf("m")
+                                             .fromNow()}
+                                       </span>
+                                    </div>
+                                 )}
 
-                                   <div className="my-1">
-                                      {c.content ? c.content : ""}
-                                   </div>
-                                   <div className="">
-                                      <Rating
-                                         sx={{
-                                            "& .MuiRating-iconFilled": {
-                                               color: "#2065d1",
-                                            },
-                                            "& .MuiRating-iconEmpty": {
-                                               color: "#2065d1",
-                                            },
-                                         }}
-                                         value={c.starRate ? c.starRate : 1}
-                                         readOnly
-                                      />
-                                   </div>
-                                </div>
-                             </div>
-                          ))
-                     : userInfo && (
-                          <>
-                             <div className="relative overflow-hidden aspect-square sm:w-1/5 w-2/3 mx-auto">
-                                <Image
-                                   src={emptyBox}
-                                   alt="empty"
-                                   layout="fill"
-                                   className="object-cover"
-                                />
-                             </div>
-                          </>
-                       )}
+                                 <div className="my-1">
+                                    {c.content ? c.content : ""}
+                                 </div>
+                                 <div className="">
+                                    <Rating
+                                       sx={{
+                                          "& .MuiRating-iconFilled": {
+                                             color: "#2065d1",
+                                          },
+                                          "& .MuiRating-iconEmpty": {
+                                             color: "#2065d1",
+                                          },
+                                       }}
+                                       value={c.starRate ? c.starRate : 1}
+                                       readOnly
+                                    />
+                                 </div>
+                              </div>
+                           </div>
+                        ))}
+                  {isFetching && (
+                     <div className="flex justify-center my-8">
+                        <ClipLoader size={35} color="#FF8500" />
+                     </div>
+                  )}
+                  {userInfo && comments.length == 0 && !isFetching && (
+                     <>
+                        <div className="relative overflow-hidden aspect-square sm:w-1/5 w-2/3 mx-auto">
+                           <Image
+                              src={emptyBox}
+                              alt="empty"
+                              layout="fill"
+                              className="object-cover"
+                           />
+                        </div>
+                     </>
+                  )}
                </Suspense>
             </div>
          </div>
