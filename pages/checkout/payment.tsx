@@ -38,7 +38,7 @@ const Payment = () => {
    const [isOpenAddAddress, setIsOpenAddAddress] = useState(false);
    const [address, setAddress] = useState<any>({});
    const [itemsInCart, setItemsInCart] = useState<any>([]);
-   const [isLoadCompleted, setIsLoadComplete] = useState(false);
+   const [isLoadCompleted, setIsLoadComplete] = useState(true);
    const [idOpenDeliveryServices, setIdOpenDeliveryServices] = useState(0);
    const [amountShipFee, setAmountShipFee] = useState(0);
    const [totalOrder, setTotalOrder] = useState(0);
@@ -55,7 +55,7 @@ const Payment = () => {
    const fetchCartData = async () => {
       const temp = [];
       let currentAddress: any; //to get value address
-
+      setIsLoadComplete(false);
       try {
          console.log("address", address);
 
@@ -144,7 +144,7 @@ const Payment = () => {
 
    useEffect(() => {
       fetchCartData();
-   }, [isOpenAddressBook]);
+   }, [address]);
 
    useEffect(() => {
       CalcTotalOrder(itemsInCart);
@@ -386,7 +386,7 @@ const Payment = () => {
                                  {isErrorGHNThirdParty ? (
                                     <>
                                        <div className="py-8 m-6 bg-red-600 bg-opacity-20 border-2 rounded-xl border-red-600 font-semibold">
-                                          {trans.checkout.title}
+                                          {trans.checkout.sth_wrong}
                                        </div>
                                     </>
                                  ) : (
