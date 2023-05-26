@@ -116,7 +116,7 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                      <div className="grid grid-cols-12 gap-8 mt-4">
                         <div className="col-span-6">
                            <div className="flex mb-1">
-                              <div className="font-medium">Star averange: </div>
+                              <div className="font-medium">Star average: </div>
                               <Rating
                                  size="medium"
                                  sx={{
@@ -129,8 +129,8 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                                  }}
                                  name="half-rating-read"
                                  precision={0.2}
-                                 value={3.6}
-                                 // value={stats.averageStar}
+                                 // value={3.6}
+                                 value={stats.averageStar}
                                  readOnly
                               />
                               <div className="font-medium text-primary-color">
