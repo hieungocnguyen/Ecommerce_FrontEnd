@@ -140,23 +140,23 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                            <div className="flex gap-4 mb-1">
                               <div className="flex gap-2">
                                  <div className="font-medium">Follow: </div>
-                                 <div className="text-primary-color flex items-center gap-1">
+                                 <div className="text-primary-color flex items-center gap-1 font-medium">
                                     <span>{stats.numOfFollow}</span>
                                     <BiUser />
                                  </div>
                               </div>
                            </div>
-                           <div className="mb-1 flex gap-2">
-                              <div className="flex">
+                           <div className="mb-1 flex gap-4">
+                              <div className="flex gap-2">
                                  <div className="font-medium">Like: </div>
-                                 <div className="text-primary-color flex items-center gap-1">
+                                 <div className="text-primary-color flex items-center gap-1 font-medium">
                                     <span>{stats.numOfLike}</span>
                                     <BiLike />
                                  </div>
                               </div>
-                              <div className="flex">
+                              <div className="flex gap-2">
                                  <div className="font-medium">Comment: </div>
-                                 <div className="text-primary-color flex items-center gap-1">
+                                 <div className="text-primary-color flex items-center gap-1 font-medium">
                                     <span>{stats.numOfComment}</span>
                                     <BiMessageDetail />
                                  </div>
