@@ -65,7 +65,7 @@ export default function Home({ categories }) {
                <div className="sm:my-10 my-6">
                   <HotAgency />
                </div>
-               <div className="mb-6">
+               <div className="mb-10">
                   <HotCategory categoryList={categories.slice(0, 5)} />
                </div>
                <div className="grid sm:grid-cols-4 grid-cols-1 gap-10 h-fit">

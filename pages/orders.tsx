@@ -20,6 +20,7 @@ import Image from "next/image";
 import router from "next/router";
 import ConfirmModel from "../components/Model/ConfirmModel";
 import useTrans from "../hook/useTrans";
+import PaginationComponent from "../components/Pagination";
 
 const Orders = () => {
    const { state } = useContext(Store);
@@ -35,7 +36,7 @@ const Orders = () => {
    const trans = useTrans();
 
    //pagination
-   const lengthOfPage = 4;
+   const lengthOfPage = 6;
    const [pageCurrent, setPageCurrent] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
    //
@@ -156,13 +157,13 @@ const Orders = () => {
                <input
                   type="text"
                   placeholder="🔎Order Code"
-                  className="p-3 rounded-lg"
+                  className="p-3 rounded-lg border-2 border-primary-color"
                   onChange={(e) => setKeywordCode(e.target.value.toUpperCase())}
                />
                <select
                   name=""
                   id=""
-                  className="rounded-lg w-60"
+                  className="p-3 rounded-lg w-60 border-2 border-primary-color"
                   onChange={(e) => setFilterState(Number(e.target.value))}
                >
                   <option value={0}>All order state</option>
@@ -332,29 +333,11 @@ const Orders = () => {
                      </div>
                   )}
                   {/* paginate */}
-                  <div
-                     className="flex gap-4
-                   justify-center mt-8"
-                  >
-                     {totalPage > 1 &&
-                        Array.from(Array(totalPage), (e, i) => {
-                           return (
-                              <div
-                                 key={i}
-                                 className={`w-8 h-8 rounded-lg border-2 border-primary-color flex justify-center items-center cursor-pointer paginator font-semibold ${
-                                    pageCurrent === i + 1
-                                       ? "bg-primary-color text-white"
-                                       : ""
-                                 } `}
-                                 onClick={(e) => {
-                                    setPageCurrent(i + 1);
-                                 }}
-                              >
-                                 {i + 1}
-                              </div>
-                           );
-                        })}
-                  </div>
+                  <PaginationComponent
+                     totalPage={totalPage}
+                     pageCurrent={pageCurrent}
+                     setPageCurrent={setPageCurrent}
+                  />
                </Suspense>
             </div>
             <div

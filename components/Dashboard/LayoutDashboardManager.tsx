@@ -117,7 +117,7 @@ const LayoutDashboard = ({ title, children }) => {
                   </div>
                </div>
                {/* navigate */}
-               <div className="mt-6 mx-4">
+               <div className="my-4 mx-4 max-h-[360px] overflow-auto">
                   <Link href="/DashboardManager">
                      <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                         <BiHomeAlt className="text-lg" />
@@ -137,7 +137,7 @@ const LayoutDashboard = ({ title, children }) => {
                   </Link>
                   <div>
                      <div
-                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3"
+                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 relative"
                         onClick={() => setOpenPost(!openPost)}
                      >
                         <BiReceipt className="text-lg" />
@@ -173,7 +173,7 @@ const LayoutDashboard = ({ title, children }) => {
                   </Link>
                   <div>
                      <div
-                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3"
+                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 relative"
                         onClick={() => setOpenStatisticle(!openStatisticle)}
                      >
                         <BiBarChartAlt2 className="text-lg" />

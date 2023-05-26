@@ -31,6 +31,7 @@ import CancelOrder from "../../components/Model/ManagerOrder/OrderCancel";
 import OrderReview from "../../components/Model/ManagerOrder/OrderReview";
 import OrderPickShift from "../../components/Model/ManagerOrder/OrderPickShift";
 import OrderAcceptCancel from "../../components/Model/ManagerOrder/OrderAcceptCancel";
+import PaginationComponent from "../../components/Pagination";
 
 const Orders = () => {
    const { state, dispatch } = useContext(Store);
@@ -118,8 +119,8 @@ const Orders = () => {
                   <div className="flex gap-4">
                      <input
                         type="text"
-                        placeholder="Order Code"
-                        className="p-3 rounded-lg"
+                        placeholder="🔎 Order Code"
+                        className="p-3 rounded-lg border-2 border-primary-color"
                         onChange={(e) =>
                            setKeywordCode(e.target.value.toUpperCase())
                         }
@@ -127,7 +128,7 @@ const Orders = () => {
                      <select
                         name=""
                         id=""
-                        className="rounded-lg w-60"
+                        className="p-3 rounded-lg w-60 border-2 border-primary-color"
                         onChange={(e) => setFilterState(Number(e.target.value))}
                      >
                         <option value={0}>All order state</option>
@@ -461,29 +462,11 @@ const Orders = () => {
                   </>
                )}
                {/* paginate */}
-               <div
-                  className="flex gap-4
-                   justify-center mt-8"
-               >
-                  {totalPage > 1 &&
-                     Array.from(Array(totalPage), (e, i) => {
-                        return (
-                           <div
-                              key={i}
-                              className={`w-8 h-8 rounded-lg border-2 border-primary-color flex justify-center items-center cursor-pointer paginator font-semibold ${
-                                 pageCurrent === i + 1
-                                    ? "bg-primary-color text-white"
-                                    : ""
-                              } `}
-                              onClick={(e) => {
-                                 setPageCurrent(i + 1);
-                              }}
-                           >
-                              {i + 1}
-                           </div>
-                        );
-                     })}
-               </div>
+               <PaginationComponent
+                  totalPage={totalPage}
+                  pageCurrent={pageCurrent}
+                  setPageCurrent={setPageCurrent}
+               />
             </div>
             <Toaster />
          </LayoutDashboard>

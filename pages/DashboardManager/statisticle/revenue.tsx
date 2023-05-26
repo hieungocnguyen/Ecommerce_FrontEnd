@@ -1,4 +1,4 @@
-import { Bar, Line } from "react-chartjs-2";
+import { Bar, Line, Pie } from "react-chartjs-2";
 import LayoutDashboardManager from "../../../components/Dashboard/LayoutDashboardManager";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import {
@@ -225,10 +225,10 @@ const RevenueByMonth = ({ agencyInfoID }) => {
       labels: lablesRespondRevenueByMonth,
       datasets: [
          {
-            label: "Revenue",
+            label: "Renewal",
             data: valuesRespondRevenueByMonth,
-            borderColor: "#525EC1",
-            backgroundColor: "white",
+            borderColor: ["#F45050"],
+            backgroundColor: ["#F45050"],
          },
       ],
    };
@@ -358,10 +358,10 @@ const RevenueByQuarter = ({ agencyInfoID }) => {
       labels: lablesRespondRevenueByQuarter,
       datasets: [
          {
-            label: "Revenue",
+            label: "Renewal",
             data: valuesRespondRevenueByQuarter,
-            borderColor: "#525EC1",
-            backgroundColor: "white",
+            borderColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
+            backgroundColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
          },
       ],
    };
@@ -370,7 +370,7 @@ const RevenueByQuarter = ({ agencyInfoID }) => {
          <div className="grid grid-cols-12 gap-4">
             <div className="col-span-8 ">
                <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8">
-                  <Line options={options} data={databyQuarter} />
+                  <Pie options={options} data={databyQuarter} />
                </div>
             </div>
             <div className="col-span-4">
@@ -472,10 +472,10 @@ const RevenueByYear = ({ agencyInfoID }) => {
       labels: lablesRespondRevenueByYear,
       datasets: [
          {
-            label: "Revenue",
+            label: "Renewal",
             data: valuesRespondRevenueByYear,
-
-            backgroundColor: "#525EC1",
+            borderColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
+            backgroundColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
          },
       ],
    };

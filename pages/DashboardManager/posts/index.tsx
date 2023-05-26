@@ -19,6 +19,7 @@ import Image from "next/image";
 import EditPost from "../../../components/Model/EditPost";
 import dynamic from "next/dynamic";
 import emptyBox from "../../../public/empty-box.png";
+import PaginationComponent from "../../../components/Pagination";
 
 const Posts = () => {
    const { state, dispatch } = useContext(Store);
@@ -30,7 +31,7 @@ const Posts = () => {
    // const [enabled, setEnabled] = useState(false);
 
    //pagination
-   const lengthOfPage = 4;
+   const lengthOfPage = 6;
    const [pageCurrent, setPageCurrent] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
    const [keywordSearch, setKeywordSearch] = useState("");
@@ -113,7 +114,7 @@ const Posts = () => {
                   <input
                      type="text"
                      placeholder="🔎Search post"
-                     className="p-3 rounded-lg"
+                     className="p-3 rounded-lg border-2 border-primary-color"
                      onChange={(e) =>
                         setKeywordSearch(e.target.value.toUpperCase())
                      }
@@ -239,29 +240,11 @@ const Posts = () => {
                   ))}
 
                {/* paginate */}
-               <div
-                  className="flex gap-4
-                   justify-center mt-8"
-               >
-                  {totalPage > 1 &&
-                     Array.from(Array(totalPage), (e, i) => {
-                        return (
-                           <div
-                              key={i}
-                              className={`w-8 h-8 rounded-lg border-2 border-primary-color flex justify-center items-center cursor-pointer paginator font-semibold ${
-                                 pageCurrent === i + 1
-                                    ? "bg-primary-color text-white"
-                                    : ""
-                              } `}
-                              onClick={(e) => {
-                                 setPageCurrent(i + 1);
-                              }}
-                           >
-                              {i + 1}
-                           </div>
-                        );
-                     })}
-               </div>
+               <PaginationComponent
+                  totalPage={totalPage}
+                  pageCurrent={pageCurrent}
+                  setPageCurrent={setPageCurrent}
+               />
             </div>
 
             {FilterArray(posts).length == 0 && (
