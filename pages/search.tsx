@@ -51,7 +51,12 @@ const Search = ({ categories }) => {
             nameOfAgency: router.query.nameOfAgency,
          });
          setSalePosts(resPosts.data.data.listResult);
-         setTotalPage(resPosts.data.data.totalPage);
+         setTotalPage(
+            Math.ceil(
+               resPosts.data.data.listResult.length /
+                  resPosts.data.data.pageSize
+            )
+         );
          setIsFetching(false);
       } catch (error) {
          console.log(error);

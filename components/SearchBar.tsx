@@ -20,7 +20,8 @@ const SearchBar = ({ categories, setNumberPage }) => {
 
    const trans = useTrans();
 
-   const searchByKeyWord = () => {
+   const searchByKeyWord = (e) => {
+      e.preventDefault();
       if (searchInput.current.value.trim() == "") {
          toast.error("Empty input!");
       } else {
@@ -62,7 +63,10 @@ const SearchBar = ({ categories, setNumberPage }) => {
 
    return (
       <div>
-         <div className="flex justify-center gap-4 my-3 mx-auto sm:w-[90%] w-full">
+         <form
+            onSubmit={searchByKeyWord}
+            className="flex justify-center gap-4 my-3 mx-auto sm:w-[90%] w-full"
+         >
             <button
                className="px-4 py-3 bg-primary-color rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-primary-color"
                onClick={() => setIsOpen(!isOpen)}
@@ -73,6 +77,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
                   {trans.home.category}
                </div>
             </button>
+
             <div className="text-left relative" ref={searchContainer}>
                <input
                   type="text"
@@ -93,6 +98,7 @@ const SearchBar = ({ categories, setNumberPage }) => {
                            searchInput.current.value = `${i}`;
                            setIsOpenSearch(true);
                            FetchSuggest(searchInput.current.value);
+                           searchInput.current.focus();
                         }}
                         className="cursor-pointer bg-primary-color py-[1px] px-2 rounded-full text-white font-medium"
                      >
@@ -110,9 +116,9 @@ const SearchBar = ({ categories, setNumberPage }) => {
                         {suggestText.map((text) => (
                            <div
                               key={text}
-                              onClick={() => {
+                              onClick={(e) => {
                                  searchInput.current.value = text;
-                                 searchByKeyWord();
+                                 searchByKeyWord(e);
                               }}
                               className="p-2 cursor-pointer hover:text-primary-color font-medium rounded-lg"
                            >
@@ -126,15 +132,16 @@ const SearchBar = ({ categories, setNumberPage }) => {
                )}
             </div>
             <button
-               onClick={searchByKeyWord}
+               // onClick={searchByKeyWord}
                className="px-4 py-3 bg-primary-color rounded-lg text-white flex items-center gap-2 h-fit hover:shadow-lg hover:shadow-primary-color"
+               type="submit"
             >
                <BiSearch className="text-2xl" />
                <div className="font-semibold sm:flex hidden">
                   {trans.home.search}
                </div>
             </button>
-         </div>
+         </form>
          <div
             className={`grid sm:grid-cols-5 grid-cols-2 gap-8 absolute z-40 sm:top-[160px] top-[140px] dark:bg-dark-primary bg-light-primary rounded-lg p-8 w-[90%] transition-all ease-out duration-200 ${
                isOpen ? "scale-100" : "scale-0 -translate-y-40 -translate-x-80"
