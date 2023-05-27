@@ -21,6 +21,7 @@ const Loading = () => {
          } else {
             url === router.asPath && setLoading(false);
          }
+         setLoading(false);
       };
       const handleError = () => {
          setLoading(false);

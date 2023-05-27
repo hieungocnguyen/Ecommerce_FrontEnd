@@ -18,12 +18,14 @@ const ProductItem = dynamic(import("../../components/ProductItem"));
 
 const AgencyPage = ({ agencyInfo, posts, stats }) => {
    const router = useRouter();
+   const { locale } = useRouter();
    const [numberPage, setnumberPage] = useState(1);
    const [stateFollow, setStateFollow] = useState<boolean>(false);
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
 
    const trans = useTrans();
+
    const fetchFollowAgencyState = async () => {
       try {
          const res = await authAxios().get(
@@ -36,10 +38,10 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
    };
 
    useEffect(() => {
-      if (agencyInfo) {
+      if (userInfo) {
          fetchFollowAgencyState();
       }
-   }, [agencyInfo]);
+   }, [userInfo]);
 
    const handleFollowAgency = async () => {
       if (userInfo) {
@@ -116,7 +118,9 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                      <div className="grid grid-cols-12 gap-8 mt-4">
                         <div className="col-span-6">
                            <div className="flex mb-1">
-                              <div className="font-medium">Star average: </div>
+                              <div className="font-medium">
+                                 {trans.agencyPage.star_average}:{" "}
+                              </div>
                               <Rating
                                  size="medium"
                                  sx={{
@@ -140,7 +144,7 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                            <div className="flex gap-4 mb-1">
                               <div className="flex gap-2">
                                  <div className="font-medium">
-                                    Follower(s):{" "}
+                                    {trans.agencyPage.follower}:
                                  </div>
                                  <div className="text-primary-color flex items-center gap-1 font-medium">
                                     <span>{stats.numOfFollow}</span>
@@ -150,14 +154,18 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                            </div>
                            <div className="mb-1 flex gap-4">
                               <div className="flex gap-2">
-                                 <div className="font-medium">Like(s): </div>
+                                 <div className="font-medium">
+                                    {trans.agencyPage.like}:{" "}
+                                 </div>
                                  <div className="text-primary-color flex items-center gap-1 font-medium">
                                     <span>{stats.numOfLike}</span>
                                     <BiLike />
                                  </div>
                               </div>
                               <div className="flex gap-2">
-                                 <div className="font-medium">Review(s): </div>
+                                 <div className="font-medium">
+                                    {trans.agencyPage.review}:
+                                 </div>
                                  <div className="text-primary-color flex items-center gap-1 font-medium">
                                     <span>{stats.numOfComment}</span>
                                     <BiMessageDetail />
@@ -165,7 +173,9 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                               </div>
                            </div>
                            <div className="">
-                              <span className="font-medium">Joined date: </span>
+                              <span className="font-medium">
+                                 {trans.agencyPage.joined_date}:{" "}
+                              </span>
                               {agencyInfo.createdDate
                                  ? new Date(
                                       agencyInfo.createdDate
@@ -175,15 +185,25 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                         </div>
                         <div className="col-span-6">
                            <div className="mb-1">
-                              <span className="font-medium">Field: </span>
-                              {agencyInfo.field ? agencyInfo.field.name : ""}
+                              <span className="font-medium">
+                                 {trans.agencyPage.field}:{" "}
+                              </span>
+                              {agencyInfo.field
+                                 ? locale == "vi"
+                                    ? agencyInfo.field.name
+                                    : agencyInfo.field.nameEn
+                                 : ""}
                            </div>
                            <div className="mb-1">
-                              <span className="font-medium">Hotline: </span>
+                              <span className="font-medium">
+                                 {trans.agencyPage.hotline}:{" "}
+                              </span>
                               {agencyInfo.hotline ? agencyInfo.hotline : ""}
                            </div>
                            <div className="">
-                              <span className="font-medium">Address: </span>
+                              <span className="font-medium">
+                                 {trans.agencyPage.address}:{" "}
+                              </span>
                               {agencyInfo.fromAddress
                                  ? agencyInfo.fromAddress
                                  : ""}
@@ -238,6 +258,7 @@ export default AgencyPage;
 export const getServerSideProps = async (context) => {
    const id = context.params.id;
    const resAgency = await API.get(endpoints["agency_info"](id));
+
    const resPosts = await API.get(
       endpoints["get_post_published_by_agencyID"](id)
    );
@@ -245,5 +266,6 @@ export const getServerSideProps = async (context) => {
    const agencyInfo = await resAgency.data.data;
    const posts = await resPosts.data.data;
    const stats = await resStats.data.data;
+
    return { props: { agencyInfo, posts, stats } };
 };

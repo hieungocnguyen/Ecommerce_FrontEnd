@@ -97,6 +97,14 @@ const viLang = {
       title: "Đại lý bán hàng",
       follow: "Theo dõi",
       unfollow: "Bỏ theo dõi",
+      star_average: "Đánh giá",
+      follower: "Lượt theo dõi",
+      like: "Lượt thích",
+      review: "Lượt đánh giá & bình luận",
+      joined_date: "Ngày bắt đầu",
+      field: "Linh vực",
+      hotline: "Đường dây nóng",
+      address: "Địa chỉ",
    },
    category: {
       all: {

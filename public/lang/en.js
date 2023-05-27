@@ -98,6 +98,14 @@ const enLang = {
       title: "Merchant Page",
       follow: "Follow",
       unfollow: "Unfollow",
+      star_average: "Star average",
+      follower: "Follower(s)",
+      like: "Like(s)",
+      review: "Review(s)",
+      joined_date: "Joined date",
+      field: "Field",
+      hotline: "Hotline",
+      address: "Address",
    },
    category: {
       all: {

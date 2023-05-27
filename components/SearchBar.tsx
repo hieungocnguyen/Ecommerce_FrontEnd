@@ -21,9 +21,13 @@ const SearchBar = ({ categories, setNumberPage }) => {
    const trans = useTrans();
 
    const searchByKeyWord = () => {
-      const query = searchInput.current.value;
-      router.push(`/search?input=${query}`);
-      setNumberPage(1);
+      if (searchInput.current.value.trim() == "") {
+         toast.error("Empty input!");
+      } else {
+         const query = searchInput.current.value;
+         router.push(`/search?input=${query}`);
+         setNumberPage(1);
+      }
    };
 
    const FetchSuggest = async (keyword: string) => {
@@ -85,7 +89,11 @@ const SearchBar = ({ categories, setNumberPage }) => {
                   {quickSearch.map((i) => (
                      <div
                         key={i}
-                        onClick={() => (searchInput.current.value = i)}
+                        onClick={(e) => {
+                           searchInput.current.value = `${i}`;
+                           setIsOpenSearch(true);
+                           FetchSuggest(searchInput.current.value);
+                        }}
                         className="cursor-pointer bg-primary-color py-[1px] px-2 rounded-full text-white font-medium"
                      >
                         {i}
