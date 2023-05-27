@@ -157,7 +157,7 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                                  </div>
                               </div>
                               <div className="flex gap-2">
-                                 <div className="font-medium">Comment(s): </div>
+                                 <div className="font-medium">Review(s): </div>
                                  <div className="text-primary-color flex items-center gap-1 font-medium">
                                     <span>{stats.numOfComment}</span>
                                     <BiMessageDetail />
@@ -165,7 +165,7 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                               </div>
                            </div>
                            <div className="">
-                              <span className="font-medium">Join date: </span>
+                              <span className="font-medium">Joined date: </span>
                               {agencyInfo.createdDate
                                  ? new Date(
                                       agencyInfo.createdDate
