@@ -30,7 +30,7 @@ const RatingAdvanced = ({ statComment, commentCount, starAvg }) => {
                   readOnly
                />
                <div className="text-sm font-medium">
-                  {commentCount}Review(s)
+                  {commentCount} Review(s)
                </div>
             </div>
          </div>
