@@ -22,6 +22,8 @@ import useTrans from "../../hook/useTrans";
 import { ClipLoader } from "react-spinners";
 // import RelativePost from "../../components/RelativePost";
 import PaginationComponent from "../../components/Pagination";
+import { AiFillStar } from "react-icons/ai";
+import RatingAdvanced from "../../components/RatingAdvanced";
 
 const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
 const RelativePost = dynamic(() => import("../../components/RelativePost"));
@@ -42,10 +44,11 @@ const ProductPage = ({ salePost }) => {
    const trans = useTrans();
    const [isFetching, setIsFetching] = useState(true);
 
-   const lengthOfPage = 6;
+   const lengthOfPage = 3;
    const [pageCurrent, setPageCurrent] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
-   const [keywordSearch, setKeywordSearch] = useState("");
+
+   const [statComment, setStatComment] = useState<any>([]);
 
    const loadComment = async () => {
       try {
@@ -73,14 +76,23 @@ const ProductPage = ({ salePost }) => {
          console.log(error);
       }
    };
+   const fetchStatRating = async () => {
+      try {
+         const resCommentStat = await API.get(
+            endpoints["stat_comment_star_post"](id)
+         );
+         setStatComment(resCommentStat.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
 
    useEffect(() => {
       loadComment();
       loadStarAvg();
       loadCommentCount();
+      fetchStatRating();
       setMainPic(salePost.avatar);
-
-      console.log(salePost);
    }, [id]);
 
    const handleRouteAgency = () => {
@@ -89,7 +101,7 @@ const ProductPage = ({ salePost }) => {
 
    return (
       <Layout title="Detail">
-         <div className="grid sm:grid-cols-12 grid-cols-1 gap-8 my-8 sm:mx-16 mx-0 ">
+         <div className="grid sm:grid-cols-12 grid-cols-1 gap-8 my-8 sm:mx-10 mx-0 ">
             {/* left part */}
             <Suspense fallback={<p>Loading image...</p>}>
                <div className="sm:col-span-5 col-span-1">
@@ -146,10 +158,10 @@ const ProductPage = ({ salePost }) => {
                               size="large"
                               sx={{
                                  "& .MuiRating-iconFilled": {
-                                    color: "#2065d1",
+                                    color: "#ffab00",
                                  },
                                  "& .MuiRating-iconEmpty": {
-                                    color: "#2065d1",
+                                    color: "#ffab00",
                                  },
                               }}
                               value={starAvg}
@@ -167,7 +179,7 @@ const ProductPage = ({ salePost }) => {
                      </div>
                   </div>
                   <div className="text-left mb-4 sm:mt-8 mt-2">
-                     <div className=" text-4xl text-primary-color font-bold">
+                     <div className=" text-5xl text-primary-color font-bold">
                         {salePost.finalPrice.toLocaleString("it-IT", {
                            style: "currency",
                            currency: "VND",
@@ -284,7 +296,7 @@ const ProductPage = ({ salePost }) => {
                )}
             </div>
          </div>
-         <div className="my-8 sm:mx-16 mx-0 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
+         <div className="my-8 sm:mx-10 mx-0 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
             <div className="font-semibold text-left ml-12 text-xl">
                {trans.detailProduct.description}
             </div>
@@ -313,10 +325,10 @@ const ProductPage = ({ salePost }) => {
          </div>
          {/* comment */}
          <div
-            className="grid grid-cols-1 my-8 sm:mx-16 mx-0"
+            className="grid grid-cols-1 my-8 sm:mx-10 mx-0"
             id="section_comment"
          >
-            <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
+            <div className="col-span-3 dark:bg-dark-primary bg-light-primary rounded-lg py-6">
                <div className="font-semibold text-left sm:ml-12 ml-4 text-xl">
                   {trans.detailProduct.comment}
                </div>
@@ -344,7 +356,6 @@ const ProductPage = ({ salePost }) => {
                      </div>
                   </div>
                )}
-
                <Suspense
                   fallback={
                      <div className="flex justify-center my-8">
@@ -352,62 +363,71 @@ const ProductPage = ({ salePost }) => {
                      </div>
                   }
                >
-                  {comments.length > 0 &&
-                     comments
-                        .sort((a, b) => (a.id < b.id ? 1 : -1))
-                        .slice(
-                           (pageCurrent - 1) * lengthOfPage,
-                           (pageCurrent - 1) * lengthOfPage + lengthOfPage
-                        )
-                        .map((c) => (
-                           <div
-                              key={c.id}
-                              className="grid sm:grid-cols-12 grid-cols-6 sm:mx-14 mx-2 mb-8"
-                           >
-                              <div className="overflow-hidden relative sm:h-16 h-10 aspect-square">
-                                 <Image
-                                    src={c.author ? c.author.avatar : ""}
-                                    alt="avatar"
-                                    layout="fill"
-                                    className="rounded-full object-cover"
-                                 />
-                              </div>
-                              <div className="sm:col-span-11 col-span-5 text-left">
-                                 {c.author && (
-                                    <div className="flex items-center">
-                                       <span className="font-semibold text-primary-color">
-                                          {"@"}
-                                          {c.author.username}
-                                       </span>
-                                       <span className="text-sm italic">
-                                          {" - "}
-                                          {moment(c.createdDate)
-                                             .startOf("m")
-                                             .fromNow()}
-                                       </span>
-                                    </div>
-                                 )}
-
-                                 <div className="my-1">
-                                    {c.content ? c.content : ""}
-                                 </div>
-                                 <div className="">
-                                    <Rating
-                                       sx={{
-                                          "& .MuiRating-iconFilled": {
-                                             color: "#2065d1",
-                                          },
-                                          "& .MuiRating-iconEmpty": {
-                                             color: "#2065d1",
-                                          },
-                                       }}
-                                       value={c.starRate ? c.starRate : 1}
-                                       readOnly
+                  {comments.length > 0 && (
+                     <div>
+                        <RatingAdvanced
+                           statComment={statComment}
+                           commentCount={commentCount}
+                           starAvg={starAvg}
+                        />
+                        <div className="w-4/5 h-[1px] bg-gray-500 mx-auto my-6"></div>
+                        {comments
+                           .sort((a, b) => (a.id < b.id ? 1 : -1))
+                           .slice(
+                              (pageCurrent - 1) * lengthOfPage,
+                              (pageCurrent - 1) * lengthOfPage + lengthOfPage
+                           )
+                           .map((c) => (
+                              <div
+                                 key={c.id}
+                                 className="grid sm:grid-cols-12 grid-cols-6 sm:mx-14 mx-2 mb-8"
+                              >
+                                 <div className="overflow-hidden relative sm:h-16 h-10 aspect-square">
+                                    <Image
+                                       src={c.author ? c.author.avatar : ""}
+                                       alt="avatar"
+                                       layout="fill"
+                                       className="rounded-full object-cover"
                                     />
                                  </div>
+                                 <div className="sm:col-span-11 col-span-5 text-left">
+                                    {c.author && (
+                                       <div className="flex items-center">
+                                          <span className="font-semibold text-primary-color">
+                                             {"@"}
+                                             {c.author.username}
+                                          </span>
+                                          <span className="text-sm italic">
+                                             {" - "}
+                                             {moment(c.createdDate)
+                                                .startOf("m")
+                                                .fromNow()}
+                                          </span>
+                                       </div>
+                                    )}
+
+                                    <div className="my-1">
+                                       {c.content ? c.content : ""}
+                                    </div>
+                                    <div className="">
+                                       <Rating
+                                          sx={{
+                                             "& .MuiRating-iconFilled": {
+                                                color: "#ffab00",
+                                             },
+                                             "& .MuiRating-iconEmpty": {
+                                                color: "#ffab00",
+                                             },
+                                          }}
+                                          value={c.starRate ? c.starRate : 1}
+                                          readOnly
+                                       />
+                                    </div>
+                                 </div>
                               </div>
-                           </div>
-                        ))}
+                           ))}
+                     </div>
+                  )}
                   {isFetching && (
                      <div className="flex justify-center my-8">
                         <ClipLoader size={35} color="#FF8500" />
@@ -524,26 +544,26 @@ const CommentForm = ({
 
    return (
       <>
-         <form onSubmit={addComment} className="sm:my-6 my-2 rounded-lg">
+         <form onSubmit={addComment} className="sm:my-4 my-2 rounded-lg">
             <div className="">
                <textarea
                   // type="text"
                   placeholder={trans.detailProduct.comment}
-                  className=" rounded-lg h-18 w-[90%] mx-auto sm:my-4 my-1 p-4"
+                  className=" rounded-lg h-18 w-[90%] mx-auto sm:my-2 my-1 p-4"
                   onChange={onChangeContent}
                   value={content}
                   rows={4}
                />
             </div>
-            <div className="sm:my-4 my-2">
+            <div className="my-1">
                <Rating
                   size="large"
                   sx={{
                      "& .MuiRating-iconFilled": {
-                        color: "#525EC1",
+                        color: "#ffab00",
                      },
                      "& .MuiRating-iconEmpty": {
-                        color: "#656b99",
+                        color: "#ffab00",
                      },
                   }}
                   value={value}

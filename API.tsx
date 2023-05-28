@@ -43,6 +43,8 @@ export let endpoints = {
    get_all_post_by_agencyID: (agencyID) =>
       `/sale-post/get-all-sale-post-by-agency-id/${agencyID}`,
    get_keyword_suggest: `/sale-post/get-keywords-suggest-for-search`,
+   stat_comment_star_post: (postID) =>
+      `/action/comment/stats-comments-by-sale-post/${postID}`,
 
    //cart API
    add_to_cart: "/cart/add-to-cart",
