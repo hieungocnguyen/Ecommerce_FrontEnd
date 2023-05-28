@@ -340,6 +340,7 @@ const ProductPage = ({ salePost }) => {
                      setStarAvg={setStarAvg}
                      setCommentCount={setCommentCount}
                      setLoading={setLoading}
+                     fetchStatRating={fetchStatRating}
                   />
                ) : (
                   <div className="my-8">
@@ -469,6 +470,7 @@ const CommentForm = ({
    setStarAvg,
    setCommentCount,
    setLoading,
+   fetchStatRating,
 }) => {
    const { state, dispatch } = useContext(Store);
    const { cart, userInfo } = state;
@@ -513,6 +515,7 @@ const CommentForm = ({
                toast.success("Comment successful!", {
                   position: "top-center",
                });
+               fetchStatRating();
                setLoading(false);
             } catch (error) {
                setLoading(false);
