@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import dynamic from "next/dynamic";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import {
    BiBlock,
@@ -8,9 +8,11 @@ import {
    BiDetail,
    BiEditAlt,
    BiErrorCircle,
+   BiFilterAlt,
    BiMessageAltX,
    BiPrinter,
    BiReceipt,
+   BiTrashAlt,
 } from "react-icons/bi";
 import API, { endpoints } from "../../API";
 import LayoutDashboard from "../../components/Dashboard/LayoutDashboardManager";
@@ -55,6 +57,12 @@ const Orders = () => {
    const [totalPage, setTotalPage] = useState(0);
    const [keywordCode, setKeywordCode] = useState("");
    const [filterState, setFilterState] = useState(0);
+   const [isOpenFilter, setIsOpenFilter] = useState(false);
+   const [dateOrder, setDateOrder] = useState([
+      "2001-03-20",
+      new Date(Date.now() + 604800 * 1000).toISOString().slice(0, 10),
+   ]);
+   const refKeyword = useRef(null);
 
    const loadOrders = async () => {
       try {
@@ -74,7 +82,7 @@ const Orders = () => {
 
    useEffect(() => {
       setTotalPage(Math.ceil(FilterArray(orders).length / lengthOfPage));
-   }, [filterState, keywordCode]);
+   }, [filterState, keywordCode, dateOrder]);
 
    const handleChangeStateOrder = async (order) => {
       try {
@@ -106,42 +114,119 @@ const Orders = () => {
          .filter((order) => order.orderExpressID.search(keywordCode) >= 0)
          .filter((order) =>
             filterState > 0 ? order.orderState.id == filterState : true
+         )
+         .filter(
+            (order) =>
+               Date.parse(
+                  new Date(order.orders.createdDate).toISOString().slice(0, 10)
+               ) >= Date.parse(dateOrder[0]) &&
+               Date.parse(
+                  new Date(order.orders.createdDate).toISOString().slice(0, 10)
+               ) <= Date.parse(dateOrder[1])
          );
       return resultArray;
+   };
+
+   const clearFilter = () => {
+      setKeywordCode("");
+      refKeyword.current.value = "";
+      setDateOrder([
+         "2017-06-01",
+         new Date(Date.now() + 604800 * 1000).toISOString().slice(0, 10),
+      ]);
+      setFilterState(0);
+      toast.success("Cleared filter");
    };
 
    return (
       <>
          <LayoutDashboard title="Orders">
-            <div className="w-[95%] mx-auto my-8">
-               <div className="flex items-center justify-between">
+            <div className="w-full mx-auto my-8">
+               <div className="flex items-center justify-between mb-2">
                   <div className="font-semibold text-2xl">Orders Tracking</div>
-                  <div className="flex gap-4">
-                     <input
-                        type="text"
-                        placeholder="🔎 Order Code"
-                        className="p-3 rounded-lg border-2 border-primary-color"
-                        onChange={(e) =>
-                           setKeywordCode(e.target.value.toUpperCase())
-                        }
-                     />
-                     <select
-                        name=""
-                        id=""
-                        className="p-3 rounded-lg w-60 border-2 border-primary-color"
-                        onChange={(e) => setFilterState(Number(e.target.value))}
-                     >
-                        <option value={0}>All order state</option>
-                        <option value={1}>Waiting to confirm</option>
-                        <option value={2}>Accepted</option>
-                        <option value={3}>Packed</option>
-                        <option value={4}>Shipped</option>
-                        <option value={5}>Complete</option>
-                        <option value={6}>Cancelled</option>
-                     </select>
+                  <div
+                     className="p-3 text-white bg-primary-color rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90 flex items-center gap-1"
+                     onClick={() => setIsOpenFilter(!isOpenFilter)}
+                  >
+                     <BiFilterAlt className="text-2xl" />
+                     <div className="font-semibold">Filter</div>
                   </div>
                </div>
-               <div className="grid grid-cols-12 font-semibold px-4 py-4 dark:bg-dark-primary bg-light-primary my-4 rounded-lg text-center">
+               <div
+                  className={`bg-primary-color overflow-hidden transition-all duration-100 rounded-lg flex justify-center gap-4 ${
+                     isOpenFilter ? "h-fit p-3 mb-2" : "h-0 p-0 mb-0"
+                  }`}
+               >
+                  <input
+                     type="text"
+                     placeholder="🔎Order Code"
+                     id="keywordCodeFilterOrder"
+                     ref={refKeyword}
+                     className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+                     onChange={(e) =>
+                        setKeywordCode(e.target.value.toUpperCase())
+                     }
+                  />
+                  <div className="flex items-center bg-white rounded-lg">
+                     <label
+                        className="pl-3 font-medium whitespace-nowrap"
+                        htmlFor="fromDate"
+                     >
+                        From date:
+                     </label>
+                     <input
+                        type="date"
+                        id="fromDate"
+                        className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+                        value={dateOrder[0]}
+                        onChange={(e) => {
+                           setDateOrder([e.target.value, dateOrder[1]]);
+                        }}
+                     />
+                  </div>
+                  <div className="flex items-center bg-white rounded-lg">
+                     <label
+                        className="pl-3 font-medium whitespace-nowrap"
+                        htmlFor="toDate"
+                     >
+                        To date:
+                     </label>
+                     <input
+                        type="date"
+                        id="toDate"
+                        className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+                        value={dateOrder[1]}
+                        onChange={(e) => {
+                           setDateOrder([dateOrder[0], e.target.value]);
+                        }}
+                     />
+                  </div>
+                  <select
+                     name=""
+                     id=""
+                     className={`w-52 rounded-lg ${
+                        isOpenFilter ? "p-3" : "p-0"
+                     }`}
+                     value={filterState}
+                     onChange={(e) => setFilterState(Number(e.target.value))}
+                  >
+                     <option value={0}>All order state</option>
+                     <option value={1}>Waiting to confirm</option>
+                     <option value={2}>Accepted</option>
+                     <option value={3}>Packed</option>
+                     <option value={4}>Shipped</option>
+                     <option value={5}>Complete</option>
+                     <option value={6}>Cancelled</option>
+                  </select>
+                  <div
+                     className="p-3 bg-secondary-color rounded-lg font-semibold text-dark-primary cursor-pointer hover:shadow-lg hover:shadow-secondary-color hover:brightness-90 flex gap-1 items-center"
+                     onClick={clearFilter}
+                  >
+                     <BiTrashAlt className="text-2xl" />
+                     Clear filter
+                  </div>
+               </div>
+               <div className="grid grid-cols-12 font-semibold px-4 py-4 dark:bg-dark-primary bg-light-primary my-2 rounded-lg text-center">
                   <div className="col-span-1 ">Order Code</div>
                   <div className="col-span-1 ">Items</div>
                   <div className="col-span-2 ">Date</div>
@@ -455,9 +540,6 @@ const Orders = () => {
                            layout="fill"
                            className="object-cover"
                         />
-                     </div>
-                     <div className="uppercase text-2xl font-semibold text-center">
-                        your order list is empty
                      </div>
                   </>
                )}

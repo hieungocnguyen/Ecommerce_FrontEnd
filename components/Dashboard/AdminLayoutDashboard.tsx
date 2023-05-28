@@ -6,6 +6,8 @@ import {
    BiBell,
    BiChevronDown,
    BiChevronRight,
+   BiEnvelope,
+   BiGroup,
    BiHomeAlt,
    BiLogIn,
    BiPackage,
@@ -145,7 +147,25 @@ const AdminLayoutDashboard = ({ title, children }) => {
                               Category
                            </div>
                         </Link>
-                        <div className="transition-all duration-1000">
+                        <Link href="/DashboardAdmin/agencies">
+                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                              <BiStore className="text-lg" />
+                              Merchant List
+                           </div>
+                        </Link>
+                        <Link href="/DashboardAdmin/agencies/uncensoredAgency">
+                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                              <BiEnvelope className="text-lg" />
+                              Uncensored
+                              <span
+                                 className={`bg-primary-color rounded-full w-2 h-2 font-semibold ml-2 ${
+                                    numberUncensored ? "" : "hidden"
+                                 }`}
+                              ></span>
+                           </div>
+                        </Link>
+
+                        {/* <div className="transition-all duration-1000">
                            <div
                               className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3"
                               onClick={(e) =>
@@ -185,10 +205,10 @@ const AdminLayoutDashboard = ({ title, children }) => {
                                  </div>
                               </Link>
                            </div>
-                        </div>
+                        </div> */}
                         <div className="transition-all duration-1000">
                            <div
-                              className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3"
+                              className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 relative"
                               onClick={(e) =>
                                  openStatisticle
                                     ? setOpenStatisticle(false)
@@ -198,7 +218,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                               <BiBarChartAlt2 className="text-lg" />
                               Statistical
                               <BiChevronRight
-                                 className={`absolute right-6 font-semibold text-2xl transition-all ${
+                                 className={`absolute right-2 font-semibold text-2xl transition-all ${
                                     openStatisticle ? "rotate-90" : ""
                                  }`}
                               />
@@ -224,19 +244,19 @@ const AdminLayoutDashboard = ({ title, children }) => {
                         </div>
                         <Link href="/DashboardAdmin/users">
                            <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
-                              <BiUser className="text-lg" />
+                              <BiGroup className="text-lg" />
                               User List
                            </div>
                         </Link>
                      </div>
                      <div className="absolute bottom-4 flex justify-center items-center gap-2 w-full">
                         <Link href="/">
-                           <button className="rounded-lg  bg-primary-color hover:bg-opacity-80 h-10 w-fit px-3 font-semibold text-sm text-white">
+                           <button className="rounded-lg bg-primary-color hover:brightness-90 hover:shadow-lg hover:shadow-primary-color h-10 w-fit px-3 font-semibold text-sm text-dark-text">
                               Back to Homepage
                            </button>
                         </Link>
                         <button
-                           className=" bg-primary-color hover:bg-opacity-80 rounded-lg text-xl h-10 w-fit px-3 text-white"
+                           className=" bg-primary-color hover:brightness-90 hover:shadow-lg hover:shadow-primary-color rounded-lg text-xl h-10 w-fit px-3 text-dark-text"
                            onClick={logoutClickHandler}
                         >
                            <BiLogIn />

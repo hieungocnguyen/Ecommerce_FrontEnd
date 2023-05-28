@@ -1,12 +1,12 @@
 import { log } from "console";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import API, { endpoints } from "../../../API";
 import AdminLayoutDashboard from "../../../components/Dashboard/AdminLayoutDashboard";
 import ConfirmModel from "../../../components/Model/ConfirmModel";
 import { toast } from "react-hot-toast";
-import { BiMessageRounded } from "react-icons/bi";
+import { BiMessageRounded, BiTrashAlt } from "react-icons/bi";
 import emptyBox from "../../../public/empty-box.png";
 import PaginationComponent from "../../../components/Pagination";
 
@@ -21,6 +21,7 @@ const AgenciesAdminDashboard = () => {
    const [totalPage, setTotalPage] = useState(0);
    const [keyword, setKeyword] = useState("");
    const [filterState, setFilterState] = useState(0);
+   const refKeyword = useRef(null);
 
    const fetchAgencies = async () => {
       try {
@@ -74,6 +75,12 @@ const AgenciesAdminDashboard = () => {
 
       return resultArray;
    };
+   const clearFilter = () => {
+      setKeyword("");
+      refKeyword.current.value = "";
+      setFilterState(0);
+      toast.success("Cleared filter");
+   };
 
    useEffect(() => {
       setTotalPage(Math.ceil(FilterArray(agencies).length / lengthOfPage));
@@ -87,13 +94,13 @@ const AgenciesAdminDashboard = () => {
                <div className="flex gap-4">
                   <input
                      type="text"
+                     ref={refKeyword}
                      placeholder="🔎 Merchant Name"
                      className="p-3 rounded-lg border-2 border-primary-color"
                      onChange={(e) => setKeyword(e.target.value.toUpperCase())}
                   />
                   <select
-                     name=""
-                     id=""
+                     value={filterState}
                      className="p-3 rounded-lg w-60 border-2 border-primary-color"
                      onChange={(e) => setFilterState(Number(e.target.value))}
                   >
@@ -101,6 +108,13 @@ const AgenciesAdminDashboard = () => {
                      <option value={1}>Active</option>
                      <option value={2}>Banned</option>
                   </select>
+                  <div
+                     className="p-3 bg-secondary-color rounded-lg font-semibold text-dark-primary cursor-pointer hover:shadow-lg hover:shadow-secondary-color hover:brightness-90 flex gap-1 items-center"
+                     onClick={clearFilter}
+                  >
+                     <BiTrashAlt className="text-2xl" />
+                     Clear filter
+                  </div>
                </div>
             </div>
             {FilterArray(agencies).length > 0 ? (

@@ -10,6 +10,7 @@ import {
    BiImages,
    BiEdit,
    BiTrashAlt,
+   BiLayerPlus,
 } from "react-icons/bi";
 import API, { endpoints } from "../../../API";
 import LayoutDashboard from "../../../components/Dashboard/LayoutDashboardManager";
@@ -109,7 +110,7 @@ const Posts = () => {
       <>
          <LayoutDashboard title="List Post">
             <div className="mx-auto my-8">
-               <div className="flex justify-between items-center my-8">
+               <div className="flex justify-between items-center mt-8">
                   <div className="font-semibold text-2xl">Post List</div>
                   <input
                      type="text"
@@ -152,7 +153,9 @@ const Posts = () => {
                                  className="object-cover"
                               />
                            </div>
-                           <div className="col-span-3">{post.title}</div>
+                           <div className="col-span-3 text-left">
+                              {post.title}
+                           </div>
                            <div className="col-span-2">
                               <div className="text-primary-color font-semibold">
                                  {post.finalPrice.toLocaleString("it-IT", {
@@ -204,36 +207,34 @@ const Posts = () => {
                         </div>
                         <div className="col-span-1 flex justify-end items-center gap-3 text-xl dark:text-white text-light-text">
                            <div
-                              className="p-3 rounded-lg dark:bg-dark-spot bg-green-500 hover:shadow-lg hover:shadow-green-500 text-white"
+                              className="p-3 rounded-lg bg-secondary-color hover:shadow-lg hover:shadow-secondary-color text-dark-primary hover:brightness-90"
                               onClick={() => setPostID(post.id)}
                            >
                               <BiEdit className="" />
                            </div>
                            <div
-                              className="p-3 rounded-lg dark:bg-dark-spot bg-red-500 hover:shadow-lg hover:shadow-red-500 text-white"
+                              className="p-3 rounded-lg bg-secondary-color hover:shadow-lg hover:shadow-secondary-color text-dark-primary hover:brightness-90"
                               // onClick={() => {
-                              //    handleDeletePost(post.id);
+                              //    if (post.itemPostSet.length > 0) {
+                              //    }
+                              //    if (post.isActive) {
+                              //       handleUnpublishPost(post.id);
+                              //    } else {
+                              //       if (post.itemPostSet.length > 0) {
+                              //          handlePublishPost(post.id);
+                              //       } else {
+                              //          toast.error(
+                              //             "Can't publish when don't have any item in post!",
+                              //             {
+                              //                position: "top-center",
+                              //             }
+                              //          );
+                              //       }
+                              //    }
                               // }}
-                              onClick={() => {
-                                 if (post.itemPostSet.length > 0) {
-                                 }
-                                 if (post.isActive) {
-                                    handleUnpublishPost(post.id);
-                                 } else {
-                                    if (post.itemPostSet.length > 0) {
-                                       handlePublishPost(post.id);
-                                    } else {
-                                       toast.error(
-                                          "Can't publish when don't have any item in post!",
-                                          {
-                                             position: "top-center",
-                                          }
-                                       );
-                                    }
-                                 }
-                              }}
+                              onClick={() => handleRouting(post.id)}
                            >
-                              <BiTrashAlt />
+                              <BiLayerPlus />
                            </div>
                         </div>
                      </div>

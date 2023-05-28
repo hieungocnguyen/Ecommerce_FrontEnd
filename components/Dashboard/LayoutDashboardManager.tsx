@@ -2,8 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import {
+   BiAddToQueue,
    BiBarChartAlt2,
    BiBell,
+   BiCategoryAlt,
    BiChevronRight,
    BiHomeAlt,
    BiLogIn,
@@ -107,7 +109,7 @@ const LayoutDashboard = ({ title, children }) => {
                   </div>
                   <div className="mt-2">
                      <button
-                        className="bg-primary-color text-white font-semibold w-full py-2 rounded-lg"
+                        className="bg-primary-color text-white font-semibold w-full py-2 rounded-lg hover:brightness-90 hover:shadow-lg hover:shadow-primary-color"
                         onClick={() =>
                            router.push("/DashboardManager/editinfo")
                         }
@@ -135,7 +137,19 @@ const LayoutDashboard = ({ title, children }) => {
                         )}
                      </div>
                   </Link>
-                  <div>
+                  <Link href="/DashboardManager/posts/createnewpost">
+                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                        <BiAddToQueue className="text-lg" />
+                        Create Post
+                     </div>
+                  </Link>
+                  <Link href="/DashboardManager/posts">
+                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                        <BiCategoryAlt className="text-lg" />
+                        List Product
+                     </div>
+                  </Link>
+                  {/* <div>
                      <div
                         className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 relative"
                         onClick={() => setOpenPost(!openPost)}
@@ -164,7 +178,7 @@ const LayoutDashboard = ({ title, children }) => {
                            </div>
                         </Link>
                      </div>
-                  </div>
+                  </div> */}
                   <Link href="/DashboardManager/orders">
                      <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                         <BiPackage className="text-lg" />
@@ -179,7 +193,7 @@ const LayoutDashboard = ({ title, children }) => {
                         <BiBarChartAlt2 className="text-lg" />
                         Statistical
                         <BiChevronRight
-                           className={`absolute right-6 font-semibold text-2xl transition-all ${
+                           className={`absolute right-2 font-semibold text-2xl transition-all ${
                               openStatisticle ? "rotate-90" : ""
                            }`}
                         />
@@ -211,14 +225,14 @@ const LayoutDashboard = ({ title, children }) => {
                <div className="absolute bottom-4 flex justify-center items-center gap-2 w-full">
                   <Link href="/">
                      <button
-                        className="rounded-lg bg-primary-color hover:bg-opacity-80 h-10 w-fit px-3 font-semibold text-sm text-dark-text"
+                        className="rounded-lg bg-primary-color hover:brightness-90 hover:shadow-lg hover:shadow-primary-color h-10 w-fit px-3 font-semibold text-sm text-dark-text"
                         title="Back to Homepage"
                      >
                         Back to Homepage
                      </button>
                   </Link>
                   <button
-                     className=" bg-primary-color hover:bg-opacity-80 rounded-lg text-xl h-10 w-fit px-3 text-dark-text"
+                     className=" bg-primary-color hover:brightness-90 hover:shadow-lg hover:shadow-primary-color rounded-lg text-xl h-10 w-fit px-3 text-dark-text"
                      title="logout"
                      onClick={logoutClickHandler}
                   >

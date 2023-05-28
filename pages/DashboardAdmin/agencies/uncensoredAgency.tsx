@@ -81,7 +81,9 @@ const AgenciesAdminDashboard = () => {
       <AdminLayoutDashboard title="Uncensored Agencies">
          <div className="w-[95%] mx-auto mt-8">
             <div className="flex justify-between my-4">
-               <div className="font-semibold text-2xl">Uncensored Agencies</div>
+               <div className="font-semibold text-2xl">
+                  Uncensored Merchants
+               </div>
                <div className="">
                   <input
                      type="text"

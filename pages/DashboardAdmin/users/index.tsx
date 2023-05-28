@@ -4,9 +4,12 @@ import AdminLayoutDashboard from "../../../components/Dashboard/AdminLayoutDashb
 import Image from "next/image";
 import PaginationComponent from "../../../components/Pagination";
 import emptyBox from "../../../public/empty-box.png";
+import { BiShowAlt } from "react-icons/bi";
+import UserInfo from "../../../components/Model/UserInfo";
 
 const UsersAdminDashboard = () => {
    const [users, setUsers] = useState([]);
+   const [userModel, setUserModel] = useState<any>({});
 
    const lengthOfPage = 6;
    const [pageCurrent, setPageCurrent] = useState(1);
@@ -59,7 +62,8 @@ const UsersAdminDashboard = () => {
                   <li className="col-span-2">Username</li>
                   <li className="col-span-2">Phone number</li>
                   <li className="col-span-3">Email</li>
-                  <li className="col-span-4">Address</li>
+                  <li className="col-span-3 text-center">Auth Provider</li>
+                  <li className=""></li>
                </ul>
                {FilterArray(users)
                   .slice(
@@ -71,7 +75,7 @@ const UsersAdminDashboard = () => {
                         className="grid grid-cols-12 p-5  items-center dark:hover:bg-dark-spot hover:bg-light-primary cursor-pointer font-semibold"
                         key={user.id}
                      >
-                        <li className="col-span-1">
+                        <div className="col-span-1">
                            <Image
                               src={user.avatar}
                               alt="avatar"
@@ -79,23 +83,27 @@ const UsersAdminDashboard = () => {
                               height={42}
                               className="object-cover rounded-full"
                            />
-                        </li>
-                        <li className="col-span-2">{user.username}</li>
-                        <li
+                        </div>
+                        <div className="col-span-2">{user.username}</div>
+                        <div
                            className={`col-span-2 ${
                               user.phone ? "" : "opacity-70"
                            }`}
                         >
                            {user.phone ? user.phone : "Not provided"}
-                        </li>
-                        <li className="col-span-3">{user.email}</li>
-                        <li
-                           className={`col-span-4 ${
-                              user.address ? "" : "opacity-70"
-                           }`}
+                        </div>
+                        <div className="col-span-3">{user.email}</div>
+                        <div className={`col-span-3 text-center`}>
+                           {user.authProvider.name
+                              ? user.authProvider.name
+                              : "Not provided"}
+                        </div>
+                        <div
+                           className="flex justify-center items-center bg-primary-color w-12 h-12 text-2xl text-white rounded-lg hover:shadow-lg hover:shadow-primary-color"
+                           onClick={() => setUserModel(user)}
                         >
-                           {user.address ? user.address : "Not provided"}
-                        </li>
+                           <BiShowAlt />
+                        </div>
                      </ul>
                   ))}
                {FilterArray(users).length == 0 && (
@@ -114,6 +122,20 @@ const UsersAdminDashboard = () => {
                pageCurrent={pageCurrent}
                setPageCurrent={setPageCurrent}
             />
+            <div
+               className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center sm:justify-center justify-start z-30 ${
+                  userModel.id ? "flex" : "hidden"
+               }`}
+            >
+               {userModel.id && (
+                  <div className="w-1/2 h-fit">
+                     <UserInfo
+                        userModel={userModel}
+                        setUserModel={setUserModel}
+                     />
+                  </div>
+               )}
+            </div>
          </div>
       </AdminLayoutDashboard>
    );

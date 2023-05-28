@@ -5,14 +5,6 @@ import API, { authAxios, endpoints } from "../../../API";
 import LayoutDashboard from "../../../components/Dashboard/LayoutDashboardManager";
 import Image from "next/image";
 import { AiOutlineDelete } from "react-icons/ai";
-import styled from "@emotion/styled";
-import {
-   FormControl,
-   InputLabel,
-   MenuItem,
-   Select,
-   TextField,
-} from "@mui/material";
 import Loader from "../../../components/Loader";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -37,6 +29,23 @@ const ItemsOfPost = () => {
    const [picturesSet, setPicturesSet] = useState([]);
    const [itemID, setItemID] = useState(-1);
    const [isOpenNewItem, setIsOpenNewItem] = useState(false);
+
+   const loadItems = async () => {
+      try {
+         const resItems = await API.get(endpoints["salePost"](id));
+         setItems(resItems.data.data.itemPostSet);
+         setPicturesSet(resItems.data.data.picturePostSet);
+         setSalePost(resItems.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   useEffect(() => {
+      if (id) {
+         loadItems();
+      }
+   }, [id, isOpenNewItem, itemID]);
 
    const addImageSet = async (image) => {
       if (image && image.size <= 2097152) {
@@ -76,6 +85,7 @@ const ItemsOfPost = () => {
          }
       }
    };
+
    const deleteHandle = async (p) => {
       try {
          setLoading(true);
@@ -94,23 +104,6 @@ const ItemsOfPost = () => {
 
       loadItems();
    };
-
-   const loadItems = async () => {
-      try {
-         const resItems = await API.get(endpoints["salePost"](id));
-         setItems(resItems.data.data.itemPostSet);
-         setPicturesSet(resItems.data.data.picturePostSet);
-         setSalePost(resItems.data.data);
-      } catch (error) {
-         console.log(error);
-      }
-   };
-
-   useEffect(() => {
-      if (id) {
-         loadItems();
-      }
-   }, [id, isOpenNewItem, itemID]);
 
    const handleDeleteItem = async (i) => {
       try {
@@ -131,7 +124,7 @@ const ItemsOfPost = () => {
 
    return (
       <LayoutDashboard title="Post">
-         <div className="relative p-8">
+         <div className="relative py-8">
             <div>
                <div className="flex justify-between mb-4">
                   <div className="flex gap-4 items-center">
@@ -197,7 +190,7 @@ const ItemsOfPost = () => {
                                     </li>
                                     <li className="col-span-1 flex gap-2">
                                        <div
-                                          className=" p-3 bg-green-500  rounded-lg cursor-pointer flex justify-center items-center text-xl text-white hover:shadow-green-500 hover:shadow-lg"
+                                          className=" p-3 rounded-lg cursor-pointer flex justify-center items-center text-xl bg-secondary-color hover:shadow-lg hover:shadow-secondary-color text-dark-primary"
                                           onClick={() => {
                                              setItemID(i.id);
                                           }}
