@@ -22,7 +22,9 @@ const AllAgency = () => {
             page: numberPage,
          });
          setAgencyList(res.data.data.listResult);
-         setTotalPage(res.data.data.totalPage);
+         setTotalPage(
+            Math.ceil(res.data.data.listResult.length / res.data.data.pageSize)
+         );
       } catch (error) {
          console.log(error);
       }
@@ -50,7 +52,13 @@ const AllAgency = () => {
                   / {trans.all_agency.title}
                </div>
             </div>
-            <div className="mx-auto mb-8">
+            <form
+               onSubmit={(e) => {
+                  e.preventDefault();
+                  fetchAgencies();
+               }}
+               className="mx-auto mb-8"
+            >
                <input
                   type="text"
                   onChange={(e) => setKeyWord(e.target.value)}
@@ -58,12 +66,12 @@ const AllAgency = () => {
                   className="p-4 w-2/3 bg-light-primary dark:bg-dark-primary rounded-lg font-medium"
                />
                <button
-                  onClick={() => fetchAgencies()}
+                  type="submit"
                   className="ml-4 px-5 py-4 bg-primary-color text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-primary-color transition-all"
                >
                   {trans.all_agency.search}
                </button>
-            </div>
+            </form>
             <div className="grid grid-cols-4 gap-8">
                {agencyList ? (
                   agencyList.length > 0 ? (

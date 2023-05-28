@@ -24,7 +24,7 @@ const Wishlist = () => {
    const trans = useTrans();
 
    //pagination
-   const lengthOfPage = 6;
+   const lengthOfPage = 4;
    const [pageCurrent, setPageCurrent] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
    const [keywordSearch, setKeywordSearch] = useState("");

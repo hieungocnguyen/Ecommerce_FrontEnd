@@ -1,8 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import dynamic from "next/dynamic";
-import { Suspense, useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { BiArrowBack, BiMessageAltError, BiShowAlt, BiX } from "react-icons/bi";
+import {
+   BiArrowBack,
+   BiFilter,
+   BiFilterAlt,
+   BiMessageAltError,
+   BiShowAlt,
+   BiTrashAlt,
+   BiX,
+} from "react-icons/bi";
 import API, { endpoints } from "../API";
 import Layout from "../components/Layout/Layout";
 import OrderView from "../components/Model/OrderView";
@@ -33,10 +41,16 @@ const Orders = () => {
    const [orderIDCancel, setOrderIDCancel] = useState(-1);
    const [isOpenConfirmModelChangeState, setIsOpenConfirmModelChangeState] =
       useState(false);
+   const [isOpenFilter, setIsOpenFilter] = useState(false);
+   const [dateOrder, setDateOrder] = useState([
+      "2017-06-01",
+      new Date(Date.now() + 604800 * 1000).toISOString().slice(0, 10),
+   ]);
    const trans = useTrans();
+   const refKeyword = useRef(null);
 
    //pagination
-   const lengthOfPage = 6;
+   const lengthOfPage = 4;
    const [pageCurrent, setPageCurrent] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
    //
@@ -59,7 +73,7 @@ const Orders = () => {
 
    useEffect(() => {
       setTotalPage(Math.ceil(FilterArray(orders).length / lengthOfPage));
-   }, [filterState, keywordCode]);
+   }, [filterState, keywordCode, dateOrder]);
 
    const handleCancelButton = async (order) => {
       try {
@@ -135,14 +149,35 @@ const Orders = () => {
          .filter((order) => order.orderExpressID.search(keywordCode) >= 0)
          .filter((order) =>
             filterState > 0 ? order.orderState.id == filterState : true
+         )
+         .filter(
+            (order) =>
+               Date.parse(
+                  new Date(order.orders.createdDate).toISOString().slice(0, 10)
+               ) >= Date.parse(dateOrder[0]) &&
+               Date.parse(
+                  new Date(order.orders.createdDate).toISOString().slice(0, 10)
+               ) <= Date.parse(dateOrder[1])
          );
+
       return resultArray;
+   };
+
+   const clearFilter = () => {
+      setKeywordCode("");
+      refKeyword.current.value = "";
+      setDateOrder([
+         "2017-06-01",
+         new Date(Date.now() + 604800 * 1000).toISOString().slice(0, 10),
+      ]);
+      setFilterState(0);
+      toast.success("Cleared filter");
    };
 
    return (
       <Layout title="Your Order">
-         <div className="flex justify-between items-center">
-            <div className="flex gap-4 items-center m-6">
+         <div className="flex justify-between items-center my-4">
+            <div className="flex gap-4 items-center">
                <div
                   className="bg-primary-color text-white p-3 text-2xl rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color"
                   onClick={() => router.back()}
@@ -153,27 +188,77 @@ const Orders = () => {
                   / {trans.order.title}
                </div>
             </div>
-            <div className="flex gap-4">
+            <div
+               className="p-3 text-white bg-primary-color rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90 flex items-center gap-1"
+               onClick={() => setIsOpenFilter(!isOpenFilter)}
+            >
+               <BiFilterAlt className="text-2xl" />
+               <div className="font-semibold">Filter</div>
+            </div>
+         </div>
+
+         <div
+            className={`bg-primary-color overflow-hidden transition-all duration-100 rounded-lg flex justify-center gap-6 ${
+               isOpenFilter ? "h-fit p-4 mb-2" : "h-0 p-0 mb-0"
+            }`}
+         >
+            <input
+               type="text"
+               placeholder="🔎Order Code"
+               id="keywordCodeFilterOrder"
+               ref={refKeyword}
+               className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+               onChange={(e) => setKeywordCode(e.target.value.toUpperCase())}
+            />
+            <div className="flex items-center bg-white rounded-lg">
+               <label className="pl-3 font-medium" htmlFor="fromDate">
+                  From date:
+               </label>
                <input
-                  type="text"
-                  placeholder="🔎Order Code"
-                  className="p-3 rounded-lg border-2 border-primary-color"
-                  onChange={(e) => setKeywordCode(e.target.value.toUpperCase())}
+                  type="date"
+                  id="fromDate"
+                  className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+                  value={dateOrder[0]}
+                  onChange={(e) => {
+                     setDateOrder([e.target.value, dateOrder[1]]);
+                  }}
                />
-               <select
-                  name=""
-                  id=""
-                  className="p-3 rounded-lg w-60 border-2 border-primary-color"
-                  onChange={(e) => setFilterState(Number(e.target.value))}
-               >
-                  <option value={0}>All order state</option>
-                  <option value={1}>Waiting to confirm</option>
-                  <option value={2}>Accepted</option>
-                  <option value={3}>Packed</option>
-                  <option value={4}>Shipped</option>
-                  <option value={5}>Complete</option>
-                  <option value={6}>Cancelled</option>
-               </select>
+            </div>
+            <div className="flex items-center bg-white rounded-lg">
+               <label className="pl-3 font-medium" htmlFor="toDate">
+                  To date:
+               </label>
+               <input
+                  type="date"
+                  id="toDate"
+                  className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+                  value={dateOrder[1]}
+                  onChange={(e) => {
+                     setDateOrder([dateOrder[0], e.target.value]);
+                  }}
+               />
+            </div>
+            <select
+               name=""
+               id=""
+               className={`w-52 rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+               value={filterState}
+               onChange={(e) => setFilterState(Number(e.target.value))}
+            >
+               <option value={0}>All order state</option>
+               <option value={1}>Waiting to confirm</option>
+               <option value={2}>Accepted</option>
+               <option value={3}>Packed</option>
+               <option value={4}>Shipped</option>
+               <option value={5}>Complete</option>
+               <option value={6}>Cancelled</option>
+            </select>
+            <div
+               className="p-3 bg-secondary-color rounded-lg font-semibold text-dark-primary cursor-pointer hover:shadow-lg hover:shadow-secondary-color hover:brightness-90 flex gap-1 items-center"
+               onClick={clearFilter}
+            >
+               <BiTrashAlt className="text-2xl" />
+               Clear filter
             </div>
          </div>
 

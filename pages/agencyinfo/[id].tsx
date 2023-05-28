@@ -13,16 +13,20 @@ import useTrans from "../../hook/useTrans";
 import toast from "react-hot-toast";
 import { Store } from "../../utils/Store";
 import Rating from "@mui/material/Rating";
+import PaginationComponent from "../../components/Pagination";
 
 const ProductItem = dynamic(import("../../components/ProductItem"));
 
 const AgencyPage = ({ agencyInfo, posts, stats }) => {
    const router = useRouter();
    const { locale } = useRouter();
-   const [numberPage, setnumberPage] = useState(1);
    const [stateFollow, setStateFollow] = useState<boolean>(false);
    const { state, dispatch } = useContext(Store);
    const { userInfo } = state;
+
+   const lengthOfPage = 8;
+   const [pageCurrent, setPageCurrent] = useState(1);
+   const [totalPage, setTotalPage] = useState(0);
 
    const trans = useTrans();
 
@@ -32,6 +36,7 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
             endpoints["get_state_follow_agency"](agencyInfo.id)
          );
          setStateFollow(res.data.data);
+         setTotalPage(Math.ceil(res.data.data.length / lengthOfPage));
       } catch (error) {
          console.log(error);
       }
@@ -221,16 +226,6 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                   />
                </div>
             </div>
-            {/* <div
-               className={`mt-36 px-4 py-3 border-primary-color border-2 inline-block mx-auto cursor-pointer rounded-lg font-semibold hover:shadow-lg hover:shadow-primary-color ${
-                  stateFollow ? "" : "bg-primary-color text-white"
-               }`}
-               onClick={() => handleFollowAgency()}
-            >
-               {stateFollow
-                  ? trans.agencyPage.unfollow
-                  : trans.agencyPage.follow}
-            </div> */}
             <div className="grid grid-cols-4 gap-8 mt-44">
                <Suspense
                   fallback={
@@ -239,14 +234,24 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                      </div>
                   }
                >
-                  {posts.map((post) => (
-                     <ProductItem
-                        key={post.id}
-                        product={post}
-                        inCompare={false}
-                     />
-                  ))}
+                  {posts
+                     .slice(
+                        (pageCurrent - 1) * lengthOfPage,
+                        (pageCurrent - 1) * lengthOfPage + lengthOfPage
+                     )
+                     .map((post) => (
+                        <ProductItem
+                           key={post.id}
+                           product={post}
+                           inCompare={false}
+                        />
+                     ))}
                </Suspense>
+               <PaginationComponent
+                  totalPage={totalPage}
+                  pageCurrent={pageCurrent}
+                  setPageCurrent={setPageCurrent}
+               />
             </div>
          </div>
       </Layout>

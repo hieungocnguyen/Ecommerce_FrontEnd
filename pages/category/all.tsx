@@ -1,5 +1,3 @@
-import { Slider } from "@mui/material";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import API, { endpoints } from "../../API";
@@ -10,9 +8,6 @@ import Image from "next/image";
 import emptyBox from "../../public/empty-box.png";
 import useTrans from "../../hook/useTrans";
 
-function valuetext(value: number) {
-   return `${value}°C`;
-}
 const CategoryAll = ({ categories }) => {
    const [salePosts, setSalePosts] = useState([]);
    const router = useRouter();
@@ -27,7 +22,12 @@ const CategoryAll = ({ categories }) => {
             page: numberPage,
          });
          setSalePosts(resPosts.data.data.listResult);
-         setTotalPage(resPosts.data.data.totalPage);
+         setTotalPage(
+            Math.ceil(
+               resPosts.data.data.listResult.length /
+                  resPosts.data.data.pageSize
+            )
+         );
       } catch (error) {
          console.log(error);
       }
@@ -36,6 +36,7 @@ const CategoryAll = ({ categories }) => {
    useEffect(() => {
       loadPosts();
    }, [numberPage]);
+
    return (
       <Layout title="Search Page">
          <div className="my-4">

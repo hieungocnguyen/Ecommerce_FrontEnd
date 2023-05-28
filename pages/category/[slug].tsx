@@ -3,12 +3,9 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import ProductItem from "../../components/ProductItem";
 import SearchBar from "../../components/SearchBar";
-import axios from "axios";
 import API, { endpoints } from "../../API";
-import { Slider } from "@mui/material";
 import Image from "next/image";
 import emptyBox from "../../public/empty-box.png";
-import toast from "react-hot-toast";
 import useTrans from "../../hook/useTrans";
 
 const CategoryPage = ({ categories, category }) => {
@@ -27,7 +24,12 @@ const CategoryPage = ({ categories, category }) => {
             page: numberPage,
          });
          setSalePosts(resPosts.data.data.listResult);
-         setTotalPage(resPosts.data.data.totalPage);
+         setTotalPage(
+            Math.ceil(
+               resPosts.data.data.listResult.length /
+                  resPosts.data.data.pageSize
+            )
+         );
       } catch (error) {
          console.log(error);
       }
