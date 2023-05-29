@@ -143,8 +143,10 @@ const Payment = () => {
    };
 
    useEffect(() => {
-      fetchCartData();
-   }, [address]);
+      if (isOpenAddressBook == false) {
+         fetchCartData();
+      }
+   }, [isOpenAddressBook]);
 
    useEffect(() => {
       CalcTotalOrder(itemsInCart);
