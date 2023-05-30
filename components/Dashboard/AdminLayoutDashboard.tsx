@@ -233,6 +233,11 @@ const AdminLayoutDashboard = ({ title, children }) => {
                                     Category
                                  </div>
                               </Link>
+                              <Link href="/DashboardAdmin/statisticle/bestseller">
+                                 <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
+                                    Best Seller
+                                 </div>
+                              </Link>
                               <Link href="/DashboardAdmin/statisticle/renewal">
                                  <div
                                     className={`p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer items-center flex `}

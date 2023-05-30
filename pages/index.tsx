@@ -19,6 +19,7 @@ import useTrans from "../hook/useTrans";
 import HotCategory from "../components/HotCategory";
 import { BiShoppingBag } from "react-icons/bi";
 import ProductSkeleton from "../components/ProductSkeleton";
+import TopSeller from "../components/TopSeller";
 
 //lazy loading
 const ProductItem = dynamic(() => import("../components/ProductItem"), {
@@ -34,6 +35,7 @@ export default function Home({ categories }) {
    const [openCompare, setOpenCompare] = useState(false);
    const [loading, setLoading] = useState(false);
    const [isFetching, setIsFetching] = useState(false);
+   const [itemsHot, setItemsHot] = useState<any>([]);
 
    const trans = useTrans();
 
@@ -52,8 +54,18 @@ export default function Home({ categories }) {
       }
    };
 
+   const fetchItemsBestSeller = async () => {
+      try {
+         const res = await API.get(endpoints["items_best_seller"](6));
+         setItemsHot(res.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    useEffect(() => {
       loadPosts();
+      fetchItemsBestSeller();
    }, [numberPage]);
 
    return (
@@ -121,6 +133,9 @@ export default function Home({ categories }) {
                         {trans.home.featured.shipping}
                      </div>
                   </div>
+               </div>
+               <div className="my-6">
+                  <TopSeller itemsHot={itemsHot} />
                </div>
                <div className="my-8">
                   <h1 className="flex justify-center items-center gap-1 font-bold text-2xl my-4 ">

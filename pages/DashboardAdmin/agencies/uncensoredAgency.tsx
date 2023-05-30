@@ -71,7 +71,7 @@ const AgenciesAdminDashboard = () => {
 
    const FilterArray = (array) => {
       let resultArray = array.filter(
-         (agency) => agency.name.search(keyword) >= 0
+         (agency) => agency.agency.name.search(keyword) >= 0
       );
 
       return resultArray;
@@ -89,7 +89,10 @@ const AgenciesAdminDashboard = () => {
                      type="text"
                      placeholder="🔎 Merchant Name"
                      className="p-3 rounded-lg border-2 border-primary-color"
-                     onChange={(e) => setKeyword(e.target.value.toUpperCase())}
+                     onChange={(e) => {
+                        setKeyword(e.target.value.toUpperCase());
+                        setPageCurrent(1);
+                     }}
                   />
                </div>
             </div>
@@ -115,7 +118,7 @@ const AgenciesAdminDashboard = () => {
                            <li className="col-span-1">
                               <Image
                                  src={agency.agency.avatar}
-                                 alt=""
+                                 alt="img"
                                  width={42}
                                  height={42}
                                  className="object-cover rounded-lg"

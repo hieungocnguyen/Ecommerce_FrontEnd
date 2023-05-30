@@ -97,7 +97,10 @@ const AgenciesAdminDashboard = () => {
                      ref={refKeyword}
                      placeholder="🔎 Merchant Name"
                      className="p-3 rounded-lg border-2 border-primary-color"
-                     onChange={(e) => setKeyword(e.target.value.toUpperCase())}
+                     onChange={(e) => {
+                        setKeyword(e.target.value.toUpperCase());
+                        setPageCurrent(1);
+                     }}
                   />
                   <select
                      value={filterState}
@@ -142,7 +145,7 @@ const AgenciesAdminDashboard = () => {
                               <li className="col-span-1">
                                  <Image
                                     src={agency.avatar}
-                                    alt=""
+                                    alt="img"
                                     width={42}
                                     height={42}
                                     className="object-cover rounded-xl"

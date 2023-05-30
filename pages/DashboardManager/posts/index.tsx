@@ -116,9 +116,10 @@ const Posts = () => {
                      type="text"
                      placeholder="🔎Search post"
                      className="p-3 rounded-lg border-2 border-primary-color"
-                     onChange={(e) =>
-                        setKeywordSearch(e.target.value.toUpperCase())
-                     }
+                     onChange={(e) => {
+                        setKeywordSearch(e.target.value.toUpperCase());
+                        setPageCurrent(1);
+                     }}
                   />
                </div>
                <div className="grid grid-cols-12 gap-2 font-semibold px-2 py-4 dark:bg-dark-primary bg-light-primary rounded-lg text-center my-4">
@@ -148,7 +149,7 @@ const Posts = () => {
                            <div className="col-span-1 relative w-2/3 mx-auto aspect-square overflow-hidden rounded-xl">
                               <Image
                                  src={post.avatar}
-                                 alt=""
+                                 alt="img"
                                  layout="fill"
                                  className="object-cover"
                               />

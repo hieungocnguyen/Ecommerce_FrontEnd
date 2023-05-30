@@ -163,9 +163,10 @@ const Orders = () => {
                      id="keywordCodeFilterOrder"
                      ref={refKeyword}
                      className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
-                     onChange={(e) =>
-                        setKeywordCode(e.target.value.toUpperCase())
-                     }
+                     onChange={(e) => {
+                        setKeywordCode(e.target.value.toUpperCase());
+                        setPageCurrent(1);
+                     }}
                   />
                   <div className="flex items-center bg-white rounded-lg">
                      <label

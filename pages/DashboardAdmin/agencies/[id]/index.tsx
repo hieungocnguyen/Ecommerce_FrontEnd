@@ -6,7 +6,14 @@ import API, { endpoints } from "../../../../API";
 import AdminLayoutDashboard from "../../../../components/Dashboard/AdminLayoutDashboard";
 import Image from "next/image";
 import axios from "axios";
-import { BiMap, BiPhone, BiRadioCircle } from "react-icons/bi";
+import {
+   BiLike,
+   BiMap,
+   BiMessageDetail,
+   BiPhone,
+   BiRadioCircle,
+   BiUser,
+} from "react-icons/bi";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import {
    CategoryScale,
@@ -21,6 +28,7 @@ import Link from "next/link";
 import ConfirmModel from "../../../../components/Model/ConfirmModel";
 import toast from "react-hot-toast";
 import emptyvector from "../../../../public/empty-box.png";
+import Rating from "@mui/material/Rating";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
@@ -60,6 +68,7 @@ const AgencyPage = ({ agencyInfo }) => {
    const [expireDate, setExpireDate] = useState(0);
    const [countDown, setCountDown] = useState(0);
    const [historyRenewalList, setHistoryRenewalList] = useState<any>([]);
+   const [stats, setStats] = useState<any>({});
 
    const fetchAgency = async () => {
       try {
@@ -82,10 +91,21 @@ const AgencyPage = ({ agencyInfo }) => {
       }
    };
 
+   const fetchStat = async () => {
+      try {
+         const resStats = await API.get(endpoints["stats_agency"](id));
+         setStats(resStats.data.data);
+         console.log(resStats.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    useEffect(() => {
       if (id) {
          fetchAgency();
          fetchRenewal();
+         fetchStat();
       }
    }, [id]);
 
@@ -141,7 +161,7 @@ const AgencyPage = ({ agencyInfo }) => {
                      <div className=" relative overflow-hidden w-40 h-40 rounded-2xl ">
                         <Image
                            src={agency.avatar}
-                           alt=""
+                           alt="img"
                            layout="fill"
                            className="object-cover"
                         />
@@ -158,6 +178,66 @@ const AgencyPage = ({ agencyInfo }) => {
                         </div>
                         <div className="text-sm font-medium">
                            Address: {agency.address}
+                        </div>
+                        <div className="flex">
+                           <div className="font-medium text-sm">
+                              Star average:{" "}
+                           </div>
+                           <Rating
+                              size="small"
+                              sx={{
+                                 "& .MuiRating-iconFilled": {
+                                    color: "#2065d1",
+                                 },
+                                 "& .MuiRating-iconEmpty": {
+                                    color: "#2065d1",
+                                 },
+                              }}
+                              name="half-rating-read"
+                              precision={0.2}
+                              value={stats.averageStar}
+                              readOnly
+                           />
+                           <div className="font-medium text-primary-color text-sm">
+                              ({stats.averageStar.toFixed(2)})
+                           </div>
+                        </div>
+                        <div className="flex gap-4">
+                           <div className="flex gap-2">
+                              <div className="font-medium text-sm">
+                                 Follower(s):
+                              </div>
+                              <div className="text-primary-color flex items-center gap-1 font-medium">
+                                 <span className="text-sm">
+                                    {stats.numOfFollow}
+                                 </span>
+                                 <BiUser />
+                              </div>
+                           </div>
+                        </div>
+                        <div className="flex gap-4">
+                           <div className="flex gap-2">
+                              <div className="font-medium text-sm">
+                                 Like(s):{" "}
+                              </div>
+                              <div className="text-primary-color flex items-center gap-1 font-medium">
+                                 <span className="text-sm">
+                                    {stats.numOfLike}
+                                 </span>
+                                 <BiLike />
+                              </div>
+                           </div>
+                           <div className="flex gap-2">
+                              <div className="font-medium text-sm">
+                                 Review(s):
+                              </div>
+                              <div className="text-primary-color flex items-center gap-1 font-medium">
+                                 <span className="text-sm">
+                                    {stats.numOfComment}
+                                 </span>
+                                 <BiMessageDetail />
+                              </div>
+                           </div>
                         </div>
                      </div>
                   </div>

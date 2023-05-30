@@ -750,14 +750,14 @@ const Payment = () => {
                               </div>
                               <div className="mb-2 text-left">
                                  <label
-                                    htmlFor="address"
+                                    htmlFor="typeAddress"
                                     className="font-medium text-sm pl-2"
                                  >
                                     Type:
                                  </label>
                                  <input
                                     type="text"
-                                    name="address"
+                                    name="typeAddress"
                                     required
                                     value={address.addressType}
                                     disabled
@@ -796,7 +796,6 @@ const Payment = () => {
                                     className="bg-dark-text dark:bg-dark-bg w-full p-4 rounded-lg font-medium disabled:bg-slate-50 "
                                  />
                               </div>
-
                               <div className="flex justify-center my-6">
                                  <button
                                     className="py-3 px-4 rounded-lg bg-primary-color text-white font-semibold hover:shadow-lg hover:shadow-primary-color"
@@ -929,7 +928,7 @@ const Payment = () => {
                                        ? cashDisabled
                                        : cashpaymentimage
                                  }
-                                 alt=""
+                                 alt="img"
                                  layout="fill"
                                  className="object-cover"
                               />
@@ -976,7 +975,7 @@ const Payment = () => {
                                        ? momoDisabled
                                        : momopaymentimage
                                  }
-                                 alt=""
+                                 alt="img"
                                  layout="fill"
                                  className="object-cover"
                               />

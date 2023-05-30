@@ -95,9 +95,10 @@ const Wishlist = () => {
                   type="text"
                   placeholder="🔎Title of product"
                   className="p-3 rounded-lg border-2 border-primary-color"
-                  onChange={(e) =>
-                     setKeywordSearch(e.target.value.toUpperCase())
-                  }
+                  onChange={(e) => {
+                     setKeywordSearch(e.target.value.toUpperCase());
+                     setPageCurrent(1);
+                  }}
                />
             </div>
          </div>
@@ -126,7 +127,7 @@ const Wishlist = () => {
                                     <div className="col-span-1 flex gap-4 items-center overflow-hidden relative w-16 aspect-square">
                                        <Image
                                           src={w.avatar}
-                                          alt=""
+                                          alt="img"
                                           layout="fill"
                                           className="object-cover rounded-lg"
                                        />

@@ -49,6 +49,7 @@ const ProductPage = ({ salePost }) => {
    const [totalPage, setTotalPage] = useState(0);
 
    const [statComment, setStatComment] = useState<any>([]);
+   const [itemsHot, setItemsHot] = useState<any>([]);
 
    const loadComment = async () => {
       try {
@@ -86,6 +87,17 @@ const ProductPage = ({ salePost }) => {
          console.log(error);
       }
    };
+   const fetchHotItems = async () => {
+      try {
+         const res = await API.get(
+            endpoints["item_best_seller_by_agency"](4, salePost.agency.id)
+         );
+         setItemsHot(res.data.data);
+         console.log(res.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
 
    useEffect(() => {
       loadComment();
@@ -93,6 +105,7 @@ const ProductPage = ({ salePost }) => {
       loadCommentCount();
       fetchStatRating();
       setMainPic(salePost.avatar);
+      fetchHotItems();
    }, [id]);
 
    const handleRouteAgency = () => {
@@ -296,31 +309,70 @@ const ProductPage = ({ salePost }) => {
                )}
             </div>
          </div>
-         <div className="my-8 sm:mx-10 mx-0 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
-            <div className="font-semibold text-left ml-12 text-xl">
-               {trans.detailProduct.description}
-            </div>
-            <div
-               className={`my-6 sm:mx-16 mx-2 text-left overflow-hidden relative ${
-                  isShowMore ? "h-fit" : "h-52"
-               }`}
-            >
+         <div className="grid grid-cols-12 gap-4 sm:mx-10 mx-0 my-8">
+            <div className="col-span-8 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
+               <div className="font-semibold text-left ml-12 text-xl">
+                  {trans.detailProduct.description}
+               </div>
                <div
-                  dangerouslySetInnerHTML={{ __html: salePost.description }}
-               ></div>
-               {!isShowMore && (
-                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 rounded-lg"></div>
-               )}
-            </div>
-            <div className="">
-               <button
-                  className="px-4 py-2 rounded-lg border-2 border-primary-color text-primary-color font-semibold"
-                  onClick={() => setIsShowMore(!isShowMore)}
+                  className={`my-4 sm:mx-10 mx-2 text-left overflow-hidden relative ${
+                     isShowMore ? "h-fit" : "h-96"
+                  }`}
                >
-                  {isShowMore
-                     ? trans.detailProduct.show_less
-                     : trans.detailProduct.show_more}
-               </button>
+                  <div
+                     dangerouslySetInnerHTML={{ __html: salePost.description }}
+                  ></div>
+                  {!isShowMore && (
+                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 rounded-lg"></div>
+                  )}
+               </div>
+               <div className="">
+                  <button
+                     className="px-4 py-2 rounded-lg border-2 border-primary-color text-primary-color font-semibold"
+                     onClick={() => setIsShowMore(!isShowMore)}
+                  >
+                     {isShowMore
+                        ? trans.detailProduct.show_less
+                        : trans.detailProduct.show_more}
+                  </button>
+               </div>
+            </div>
+            <div className="col-span-4 h-fit">
+               <div className="text-center font-bold text-2xl mb-4">
+                  Hot Sellers
+               </div>
+               <div className="grid grid-cols-2 gap-4">
+                  {itemsHot.length > 0 &&
+                     itemsHot.map((item) => (
+                        <Link href={`/sale_post/${item[1].id}`} key={item.id}>
+                           <div className="bg-light-primary dark:bg-dark-primary rounded-lg p-3 cursor-pointer hover:shadow-lg">
+                              <div className="relative overflow-hidden w-3/4 aspect-square mx-auto rounded-xl">
+                                 <Image
+                                    src={item[6]}
+                                    alt="item"
+                                    layout="fill"
+                                    className="object-cover"
+                                 />
+                              </div>
+                              <div className="font-semibold mt-2 line-clamp-1">
+                                 {item[2]}
+                              </div>
+                              <div className="font-semibold text-sm opacity-75 line-clamp-1">
+                                 {item[5]}
+                              </div>
+                              <div className="text-primary-color font-bold mt-1 text-lg">
+                                 {item[3].toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                 })}
+                              </div>
+                              <div className="font-semibold text-sm opacity-75 line-clamp-1">
+                                 Sold: {item[4]}
+                              </div>
+                           </div>
+                        </Link>
+                     ))}
+               </div>
             </div>
          </div>
          {/* comment */}

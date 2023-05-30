@@ -33,7 +33,7 @@ export const CardCategory = ({ category }) => {
             <div className="relative overflow-hidden w-3/4 mx-auto aspect-square bg-light-primary dark:bg-dark-primary rounded-xl">
                <Image
                   src={category.avatar}
-                  alt=""
+                  alt="img"
                   layout="fill"
                   className="object-cover"
                />

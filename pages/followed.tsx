@@ -92,9 +92,10 @@ const Followed = () => {
                   type="text"
                   placeholder="🔎Name of merchant"
                   className="p-3 rounded-lg border-2 border-primary-color"
-                  onChange={(e) =>
-                     setKeywordSearch(e.target.value.toUpperCase())
-                  }
+                  onChange={(e) => {
+                     setKeywordSearch(e.target.value.toUpperCase());
+                     setPageCurrent(1);
+                  }}
                />
             </div>
          </div>

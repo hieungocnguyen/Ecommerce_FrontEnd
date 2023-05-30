@@ -96,7 +96,7 @@ const LayoutDashboard = ({ title, children }) => {
                   <div className="relative overflow-hidden w-28 aspect-square rounded-xl mx-auto">
                      <Image
                         src={agencyInfo ? agencyInfo.avatar : ""}
-                        alt=""
+                        alt="img"
                         className="object-cover"
                         layout="fill"
                      />
@@ -206,6 +206,11 @@ const LayoutDashboard = ({ title, children }) => {
                         <Link href="/DashboardManager/statisticle/category">
                            <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
                               Category
+                           </div>
+                        </Link>
+                        <Link href="/DashboardManager/statisticle/bestseller">
+                           <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
+                              Best seller
                            </div>
                         </Link>
                         <Link href="/DashboardManager/statisticle/revenue">

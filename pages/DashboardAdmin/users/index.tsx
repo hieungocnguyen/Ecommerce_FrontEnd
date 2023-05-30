@@ -52,7 +52,10 @@ const UsersAdminDashboard = () => {
                      type="text"
                      placeholder="🔎 Username"
                      className="p-3 rounded-lg border-2 border-primary-color"
-                     onChange={(e) => setKeyword(e.target.value.toUpperCase())}
+                     onChange={(e) => {
+                        setKeyword(e.target.value.toUpperCase());
+                        setPageCurrent(1);
+                     }}
                   />
                </div>
             </div>
