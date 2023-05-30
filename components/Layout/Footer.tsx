@@ -38,7 +38,7 @@ const Footer = () => {
                <div className="relative overflow-hidden w-14 aspect-square">
                   <Image
                      src={ghnLogo}
-                     alt=""
+                     alt="img"
                      layout="fill"
                      className="object-cover"
                   />
@@ -46,7 +46,7 @@ const Footer = () => {
                <div className="relative overflow-hidden w-14 aspect-square">
                   <Image
                      src={momoLogo}
-                     alt=""
+                     alt="img"
                      layout="fill"
                      className="object-cover"
                   />

@@ -169,7 +169,7 @@ const ItemsOfPost = () => {
                                     <li className="col-span-1">
                                        <Image
                                           src={i.avatar}
-                                          alt=""
+                                          alt="img"
                                           width={42}
                                           height={42}
                                           className="object-cover rounded-xl"

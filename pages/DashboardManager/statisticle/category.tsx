@@ -85,7 +85,6 @@ const CategoryStatisticle = () => {
          },
       ],
    };
-   console.log(dataCSV);
 
    return (
       <LayoutDashboardManager title="Category Stat">

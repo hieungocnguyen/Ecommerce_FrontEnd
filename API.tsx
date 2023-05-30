@@ -106,6 +106,9 @@ export let endpoints = {
 
    //item
    item: (itemID) => `/item/${itemID}`,
+   items_best_seller: (top) => `/item/top-seller/${top}`,
+   item_best_seller_by_agency: (top, agencyID) =>
+      `/item/top-seller-by-agency/${top}/${agencyID}`,
 
    //payment
    momo_payment_info: `/cart/get-momo-payment-info`,

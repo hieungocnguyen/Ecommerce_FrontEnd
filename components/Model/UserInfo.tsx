@@ -24,7 +24,7 @@ const UserInfo = ({ userModel, setUserModel }) => {
                <div className="col-span-3 w-3/4 aspect-square relative overflow-hidden rounded-full">
                   <Image
                      src={userModel.avatar}
-                     alt=""
+                     alt="img"
                      layout="fill"
                      className="object-cover "
                   />

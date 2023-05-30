@@ -65,7 +65,7 @@ const Advertise = () => {
                <div className="relative h-full w-full rounded-lg overflow-hidden">
                   <Image
                      src="https://res.cloudinary.com/ngnohieu/image/upload/v1683624331/6339694_Medium_owicrl.png"
-                     alt=""
+                     alt="img"
                      layout="fill"
                      className="object-cover"
                   />
@@ -75,7 +75,7 @@ const Advertise = () => {
                <div className="relative h-full w-full rounded-lg overflow-hidden">
                   <Image
                      src="https://res.cloudinary.com/ngnohieu/image/upload/v1683623770/7943870_ygu77g.png"
-                     alt=""
+                     alt="img"
                      layout="fill"
                      className="object-cover"
                   />

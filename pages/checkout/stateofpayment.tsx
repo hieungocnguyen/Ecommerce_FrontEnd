@@ -74,7 +74,7 @@ const PaymentSuccess = () => {
             <div className="relative overflow-hidden w-72 h-72 mt-12 mb-8">
                <Image
                   src={paymentSuccess}
-                  alt=""
+                  alt="img"
                   layout="fill"
                   className="object-cover"
                />
@@ -102,7 +102,7 @@ const PaymentFailed = ({ detail }) => {
             <div className="relative overflow-hidden w-72 h-72 mt-12 mb-8">
                <Image
                   src={paymentFailed}
-                  alt=""
+                  alt="img"
                   layout="fill"
                   className="object-cover"
                />

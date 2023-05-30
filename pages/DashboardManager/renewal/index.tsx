@@ -106,7 +106,7 @@ const Renewal = () => {
                   <div className="relative  w-full h-full">
                      <Image
                         src={renewalBackground}
-                        alt=""
+                        alt="img"
                         layout="fill"
                         className="object-cover"
                      />
