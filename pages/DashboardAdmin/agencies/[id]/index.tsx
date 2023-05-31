@@ -57,7 +57,7 @@ for (let index = 0; index <= 10; index++) {
    arrayYear[index] = new Date().getFullYear() - 10 + index;
 }
 
-const AgencyPage = ({ agencyInfo }) => {
+const AgencyPage = ({ agencyInfo, stats }) => {
    const router = useRouter();
    const id = router.query.id;
    const [agency, setAgency] = useState<any>({});
@@ -68,7 +68,7 @@ const AgencyPage = ({ agencyInfo }) => {
    const [expireDate, setExpireDate] = useState(0);
    const [countDown, setCountDown] = useState(0);
    const [historyRenewalList, setHistoryRenewalList] = useState<any>([]);
-   const [stats, setStats] = useState<any>({});
+   // const [stats, setStats] = useState<any>({});
 
    const fetchAgency = async () => {
       try {
@@ -94,8 +94,7 @@ const AgencyPage = ({ agencyInfo }) => {
    const fetchStat = async () => {
       try {
          const resStats = await API.get(endpoints["stats_agency"](id));
-         setStats(resStats.data.data);
-         console.log(resStats.data.data);
+         // setStats(resStats.data.data);
       } catch (error) {
          console.log(error);
       }
@@ -105,7 +104,7 @@ const AgencyPage = ({ agencyInfo }) => {
       if (id) {
          fetchAgency();
          fetchRenewal();
-         fetchStat();
+         // fetchStat();
       }
    }, [id]);
 
@@ -543,7 +542,9 @@ export const getServerSideProps = async (context) => {
    const id = context.params.id;
    const resAgency = await API.get(endpoints["agency_info"](id));
    const agencyInfo = await resAgency.data.data;
-   return { props: { agencyInfo } };
+   const resStats = await API.get(endpoints["stats_agency"](id));
+   const stats = await resStats.data.data;
+   return { props: { agencyInfo, stats } };
 };
 
 const RevenueByMonth = ({ agencyInfoID }) => {
