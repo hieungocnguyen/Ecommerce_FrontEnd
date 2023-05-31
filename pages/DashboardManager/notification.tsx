@@ -18,7 +18,7 @@ const Notification = () => {
    const [notiList, setNotiList] = useState([]);
    const [isFetching, setIsFetching] = useState(false);
 
-   const lengthOfPage = 8;
+   const lengthOfPage = 6;
    const [pageCurrent, setPageCurrent] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
 
@@ -85,14 +85,14 @@ const Notification = () => {
                   </div>
                ) : notiList.length > 0 ? (
                   notiList
-                     .slice(
-                        (pageCurrent - 1) * lengthOfPage,
-                        (pageCurrent - 1) * lengthOfPage + lengthOfPage
-                     )
                      .sort((a, b) =>
                         a.data.createdDate.seconds < b.data.createdDate.seconds
                            ? 1
                            : -1
+                     )
+                     .slice(
+                        (pageCurrent - 1) * lengthOfPage,
+                        (pageCurrent - 1) * lengthOfPage + lengthOfPage
                      )
                      .map((noti) => (
                         <div
