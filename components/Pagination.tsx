@@ -18,6 +18,8 @@ const PaginationComponent = ({ totalPage, pageCurrent, setPageCurrent }) => {
       }
    };
 
+   useEffect(() => {}, []);
+
    return (
       <div className="flex gap-2 justify-center items-center my-8">
          {totalPage > 4 && (
@@ -37,9 +39,10 @@ const PaginationComponent = ({ totalPage, pageCurrent, setPageCurrent }) => {
             }`}
          >
             <div
-               className={`flex w-fit gap-4 transition-all -translate-x-[${
-                  i * 48
-               }px]`}
+               className={`flex w-fit gap-4 transition-all`}
+               style={{
+                  transform: `translate(-${i * 48}px, ${0}px)`,
+               }}
             >
                {totalPage > 1 &&
                   Array.from(Array(totalPage), (e, i) => {
