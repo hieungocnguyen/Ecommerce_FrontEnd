@@ -108,7 +108,7 @@ const ItemsInPost = ({ items, setIsOpenItemsModal }) => {
          <div className="mb-8 font-semibold text-2xl text-center">
             {trans.detailProduct.choose_item}
          </div>
-         <div className="p-4 h-[340px] rounded-lg dark:bg-dark-primary bg-light-spot">
+         <div className="p-4 h-[340px] overflow-auto rounded-lg dark:bg-dark-primary bg-light-spot">
             <div className="grid grid-cols-12 gap-4 items-center font-semibold mb-4">
                <div className="col-span-5">{trans.detailProduct.item}</div>
                <div className="col-span-2">{trans.detailProduct.unitprice}</div>
