@@ -339,6 +339,11 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fancyapps/ui@^5.0.19":
+  version "5.0.19"
+  resolved "https://registry.npmjs.org/@fancyapps/ui/-/ui-5.0.19.tgz"
+  integrity sha512-/DDmO+9wnlXkk9oimwg7eT7Wo8qKuW4XU6NgJtqdJ/GOZvEPq5ozLEqSKy9Z4pa4RkLwtbcTgBixP7f0C+6kVw==
+
 "@firebase/analytics-compat@0.2.5":
   version "0.2.5"
   resolved "https://registry.npmjs.org/@firebase/analytics-compat/-/analytics-compat-0.2.5.tgz"

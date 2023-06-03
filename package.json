@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@fancyapps/ui": "^5.0.19",
     "@heroicons/react": "^2.0.14",
     "@mui/lab": "^5.0.0-alpha.105",
     "@mui/material": "^5.11.13",
