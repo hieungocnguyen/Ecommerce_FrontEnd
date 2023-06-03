@@ -310,35 +310,39 @@ const ProductPage = ({ salePost }) => {
             </div>
          </div>
          <div className="grid grid-cols-12 gap-4 sm:mx-10 mx-0 my-8">
-            <div className="col-span-8 dark:bg-dark-primary bg-light-primary rounded-lg py-8">
-               <div className="font-semibold text-left ml-12 text-xl">
-                  {trans.detailProduct.description}
+            <div className="col-span-8 h-fit">
+               <div className="text-center font-bold text-xl mb-2">
+                  Description
                </div>
-               <div
-                  className={`my-4 sm:mx-10 mx-2 text-left overflow-hidden relative ${
-                     isShowMore ? "h-fit" : "h-96"
-                  }`}
-               >
+               <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-4">
                   <div
-                     dangerouslySetInnerHTML={{ __html: salePost.description }}
-                  ></div>
-                  {!isShowMore && (
-                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 rounded-lg"></div>
-                  )}
-               </div>
-               <div className="">
-                  <button
-                     className="px-4 py-2 rounded-lg border-2 border-primary-color text-primary-color font-semibold"
-                     onClick={() => setIsShowMore(!isShowMore)}
+                     className={`mx-4 text-left overflow-hidden relative py-8 ${
+                        isShowMore ? "h-fit" : "h-80"
+                     }`}
                   >
-                     {isShowMore
-                        ? trans.detailProduct.show_less
-                        : trans.detailProduct.show_more}
-                  </button>
+                     <div
+                        dangerouslySetInnerHTML={{
+                           __html: salePost.description,
+                        }}
+                     ></div>
+                     {!isShowMore && (
+                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 rounded-lg"></div>
+                     )}
+                  </div>
+                  <div className="">
+                     <button
+                        className="px-4 py-2 mt-4 rounded-lg border-2 border-primary-color text-primary-color font-semibold"
+                        onClick={() => setIsShowMore(!isShowMore)}
+                     >
+                        {isShowMore
+                           ? trans.detailProduct.show_less
+                           : trans.detailProduct.show_more}
+                     </button>
+                  </div>
                </div>
             </div>
             <div className="col-span-4 h-fit">
-               <div className="text-center font-bold text-2xl mb-4">
+               <div className="text-center font-bold text-xl mb-2">
                   Hot Sellers
                </div>
                <div className="grid grid-cols-2 gap-4">
@@ -372,6 +376,16 @@ const ProductPage = ({ salePost }) => {
                            </div>
                         </Link>
                      ))}
+                  {itemsHot.length == 0 && (
+                     <div className="col-span-2 relative overflow-hidden w-1/2 aspect-square mx-auto mt-10">
+                        <Image
+                           src={emptyBox}
+                           alt="img"
+                           className="object-cover"
+                           layout="fill"
+                        />
+                     </div>
+                  )}
                </div>
             </div>
          </div>
