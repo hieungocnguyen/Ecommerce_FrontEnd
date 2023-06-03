@@ -1,25 +1,38 @@
 import Head from "next/head";
 import React, { useContext, useEffect, useState } from "react";
-import { BiArrowToTop, BiGitCompare, BiX } from "react-icons/bi";
+import {
+   BiArrowToTop,
+   BiGitCompare,
+   BiMessageDetail,
+   BiX,
+} from "react-icons/bi";
 import CompareProduct from "../CompareProduct";
 import Footer from "./Footer";
 import Header from "./Header";
 import Cookies from "js-cookie";
 import { Store } from "../../utils/Store";
 import dynamic from "next/dynamic";
+import ChatComponent from "../ChatComponent";
 
 const Layout = ({ title, children }) => {
    const [openCompare, setOpenCompare] = useState(false);
    const [lengthCompare, setLengthCompare] = useState(0);
    const { state, dispatch } = useContext(Store);
-   const { compare } = state;
+   const { compare, userInfo } = state;
    const [visible, setVisible] = useState(false);
+   const [isOpenChat, setIsOpenChat] = useState(false);
+   const [chat, setChat] = useState(false);
 
    useEffect(() => {
       setLengthCompare(
          Cookies.get("compare") ? JSON.parse(Cookies.get("compare")).length : 0
       );
-   }, [compare]);
+      if (userInfo) {
+         setChat(true);
+      } else {
+         setChat(false);
+      }
+   }, [compare, userInfo]);
 
    const toggleVisible = () => {
       const scrolled = document.documentElement.scrollTop;
@@ -78,7 +91,24 @@ const Layout = ({ title, children }) => {
          >
             <BiArrowToTop className="text-3xl" />
          </div>
+         <div
+            className={`fixed left-10 bottom-10 w-14 h-14 rounded-full bg-primary-color flex justify-center items-center text-2xl cursor-pointer text-white z-40 ${
+               chat ? "scale-100" : "scale-0"
+            }`}
+            onClick={() => {
+               setIsOpenChat(!isOpenChat);
+            }}
+         >
+            <BiMessageDetail />
+         </div>
          <CompareProduct openCompare={openCompare} />
+         <div
+            className={` left-16 bottom-12 z-30 ${
+               isOpenChat ? "fixed" : "hidden"
+            }`}
+         >
+            <ChatComponent isOpenChat={isOpenChat} />
+         </div>
          <footer>
             <Footer />
          </footer>

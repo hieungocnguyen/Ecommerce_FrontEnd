@@ -9,6 +9,7 @@ import {
    BiChevronRight,
    BiHomeAlt,
    BiLogIn,
+   BiMessageDetail,
    BiPackage,
    BiReceipt,
    BiRocket,
@@ -135,6 +136,12 @@ const LayoutDashboard = ({ title, children }) => {
                         ) : (
                            <></>
                         )}
+                     </div>
+                  </Link>
+                  <Link href="/DashboardManager/message">
+                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                        <BiMessageDetail className="text-lg" />
+                        Message
                      </div>
                   </Link>
                   <Link href="/DashboardManager/posts/createnewpost">

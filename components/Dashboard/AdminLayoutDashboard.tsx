@@ -10,6 +10,7 @@ import {
    BiGroup,
    BiHomeAlt,
    BiLogIn,
+   BiMessageDetail,
    BiPackage,
    BiReceipt,
    BiSpreadsheet,
@@ -100,8 +101,8 @@ const AdminLayoutDashboard = ({ title, children }) => {
                            <Logo width="125" />
                         </Link>
                      </div>
-                     <div className="my-8">
-                        <div className="flex justify-center mb-4">
+                     <div className="my-4">
+                        <div className="flex justify-center mb-4 relative w-2/5 aspect-square mx-auto">
                            <Image
                               src={
                                  userInfo
@@ -109,9 +110,8 @@ const AdminLayoutDashboard = ({ title, children }) => {
                                     : "https://images.unsplash.com/photo-1612994370726-5d4d609fca1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
                               }
                               alt="avatar"
-                              className="rounded-full"
-                              width={90}
-                              height={90}
+                              className="rounded-full object-cover"
+                              layout="fill"
                            />
                         </div>
                         <div className="mx-4 p-4 dark:bg-dark-spot bg-light-spot bg-opacity-80 rounded-lg ">
@@ -123,7 +123,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
                            <div className="text-sm">Administrator</div>
                         </div>
                      </div>
-                     <div className="my-4 mx-4 max-h-[360px] overflow-auto">
+                     <div className="my-4 mx-4 max-h-[400px] overflow-auto">
                         <Link href="/DashboardAdmin">
                            <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                               <BiHomeAlt className="text-lg" />
@@ -139,6 +139,12 @@ const AdminLayoutDashboard = ({ title, children }) => {
                               ) : (
                                  <></>
                               )}
+                           </div>
+                        </Link>
+                        <Link href="/DashboardAdmin/message">
+                           <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                              <BiMessageDetail className="text-lg" />
+                              Message
                            </div>
                         </Link>
                         <Link href="/DashboardAdmin/category">
