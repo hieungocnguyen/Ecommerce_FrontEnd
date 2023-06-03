@@ -24,6 +24,7 @@ import {
 } from "firebase/firestore";
 import { chat } from "../../lib/chat_firebase";
 import Link from "next/link";
+import emptyBox from "../../public/empty-box.png";
 
 const ProductItem = dynamic(import("../../components/ProductItem"));
 
@@ -154,7 +155,7 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                         </div>
                         <div className="flex gap-4">
                            <div
-                              className="p-3 cursor-pointer bg-primary-color text-white rounded-lg font-semibold"
+                              className="p-3 cursor-pointer bg-primary-color text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-primary-color"
                               onClick={handleChat}
                            >
                               Chat now
@@ -318,6 +319,16 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                               </div>
                            </Link>
                         ))}
+                     {itemsHot.length == 0 && (
+                        <div className="col-span-4 relative overflow-hidden w-1/6 aspect-square mx-auto">
+                           <Image
+                              src={emptyBox}
+                              alt=""
+                              className="object-cover"
+                              layout="fill"
+                           />
+                        </div>
+                     )}
                   </div>
                </div>
             </div>
@@ -346,6 +357,16 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                                  inCompare={false}
                               />
                            ))}
+                        {posts.length == 0 && (
+                           <div className="col-span-4 relative overflow-hidden w-1/6 aspect-square mx-auto">
+                              <Image
+                                 src={emptyBox}
+                                 alt=""
+                                 className="object-cover"
+                                 layout="fill"
+                              />
+                           </div>
+                        )}
                      </Suspense>
                   </div>
                   <PaginationComponent

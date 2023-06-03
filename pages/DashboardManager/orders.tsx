@@ -12,6 +12,7 @@ import {
    BiMessageAltX,
    BiPrinter,
    BiReceipt,
+   BiShowAlt,
    BiTrashAlt,
 } from "react-icons/bi";
 import API, { endpoints } from "../../API";
@@ -34,6 +35,7 @@ import OrderReview from "../../components/Model/ManagerOrder/OrderReview";
 import OrderPickShift from "../../components/Model/ManagerOrder/OrderPickShift";
 import OrderAcceptCancel from "../../components/Model/ManagerOrder/OrderAcceptCancel";
 import PaginationComponent from "../../components/Pagination";
+import OrderView from "../../components/Model/OrderView";
 
 const Orders = () => {
    const { state, dispatch } = useContext(Store);
@@ -50,6 +52,8 @@ const Orders = () => {
    const [orderInfoModel, setOrderInfoModel] = useState<any>({});
    const [IDOpenAcceptCancelModel, setIDOpenAcceptCancelModel] = useState(-1);
    const [IDUserRequest, setIDUserRequest] = useState(-1);
+   const [orderInfo, setOrderInfo] = useState<any>({});
+   const [orderAgencyID, setOrderAgencyID] = useState(0);
 
    //pagination
    const lengthOfPage = 4;
@@ -262,25 +266,27 @@ const Orders = () => {
                                        className={`text-2xl p-3 bg-primary-color text-white rounded-lg hover:shadow-lg hover:shadow-primary-color disabled:bg-gray-300 disabled:shadow-none  `}
                                        onClick={() => {
                                           setIDOpenModelOrderItems(order.id);
+                                          setOrderInfo(order);
+                                          setOrderAgencyID(order.id);
                                        }}
                                        disabled={
                                           order.orderExpressID ? false : true
                                        }
                                        title="Show items of order"
                                     >
-                                       <BiDetail />
+                                       <BiShowAlt />
                                     </button>
                                  </div>
                                  <div className="col-span-2">
-                                    {"["}
                                     {new Date(
                                        order.orders.createdDate
                                     ).getHours()}
-                                    {":"}
+                                    {"h"}
                                     {new Date(
                                        order.orders.createdDate
                                     ).getMinutes()}
-                                    {"] | "}
+                                    {"p"}
+                                    {" | "}
                                     {new Date(
                                        order.orders.createdDate
                                     ).toLocaleDateString("en-GB")}
@@ -425,15 +431,15 @@ const Orders = () => {
                            ))}
                         <div
                            className={`fixed top-0 right-0 w-full h-screen backdrop-blur-md items-center justify-center z-20 ${
-                              IDOpenModalOrderItems > -1 ? "flex" : "hidden"
+                              orderAgencyID > 0 ? "flex" : "hidden"
                            }`}
                         >
                            <div className="w-3/5 h-fit">
-                              <OrderItems
-                                 setIDOpenModelOrderItems={
-                                    setIDOpenModelOrderItems
-                                 }
-                                 IDOpenModalOrderItems={IDOpenModalOrderItems}
+                              <OrderView
+                                 orderInfo={orderInfo}
+                                 orderAgencyID={orderAgencyID}
+                                 setOrderAgencyID={setOrderAgencyID}
+                                 setOrderInfo={setOrderInfo}
                               />
                            </div>
                         </div>

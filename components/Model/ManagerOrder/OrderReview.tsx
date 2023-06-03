@@ -99,11 +99,11 @@ const OrderReview = ({
                         <div className="font-semibold">Order date: </div>
                         <div className="col-span-2">
                            {reviewInfor.orderDate
-                              ? `${"["}
+                              ? `
                            ${new Date(reviewInfor.orderDate).getHours()}
-                           ${":"}
+                        ${"h"}
                            ${new Date(reviewInfor.orderDate).getMinutes()}
-                           ${"] | "}
+                        ${"p | "}
                            ${new Date(reviewInfor.orderDate).toLocaleDateString(
                               "en-GB"
                            )}`
@@ -126,23 +126,17 @@ const OrderReview = ({
                         {reviewInfor.pickUpShift && (
                            <span className="">
                               {reviewInfor.pickUpShift.from_time
-                                 ? `from ${"["}
+                                 ? `from 
                            ${new Date(
                               reviewInfor.pickUpShift.from_time
-                           ).getHours()}
-                           ${":"}
-                           ${new Date(
-                              reviewInfor.pickUpShift.from_time
-                           ).getMinutes()}
-                           ${"] "}to${" ["}
+                           ).getHours()}${"h"}${new Date(
+                                      reviewInfor.pickUpShift.from_time
+                                   ).getMinutes()}${"p "}to${" "}
                            ${new Date(
                               reviewInfor.pickUpShift.to_time
-                           ).getHours()}
-                           ${":"}
-                           ${new Date(
-                              reviewInfor.pickUpShift.to_time
-                           ).getMinutes()}
-                           ${"] "} ${"  |  "}
+                           ).getHours()}${"h"}${new Date(
+                                      reviewInfor.pickUpShift.to_time
+                                   ).getMinutes()}${"p"} ${"  |  "}
                            ${new Date(
                               reviewInfor.pickUpShift.to_time
                            ).toLocaleDateString("en-GB")}`
@@ -177,15 +171,14 @@ const OrderReview = ({
                               Expected Delivery Time:{" "}
                            </span>
                            <span className="">
-                              {"[ "}
                               {new Date(
                                  reviewInfor.expectedDeliveryTime
                               ).getHours()}
-                              {" : "}
+                              {"h"}
                               {new Date(
                                  reviewInfor.expectedDeliveryTime
                               ).getMinutes()}
-                              {" ] | "}
+                              {"p | "}
                               {new Date(
                                  reviewInfor.expectedDeliveryTime
                               ).toLocaleDateString("en-GB")}
