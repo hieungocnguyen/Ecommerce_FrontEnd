@@ -194,6 +194,14 @@ const ChatView = ({ userInfo, agencyID, isOpenChat, empty }) => {
                         a.createdAt < b.createdAt ? 1 : -1
                      )
                );
+               console.log(
+                  doc
+                     .data()
+                     .messages.sort((a, b) =>
+                        a.createdAt < b.createdAt ? 1 : -1
+                     )
+               );
+
                setInfoAgency(doc.data());
                fetchsetSeenMessage();
             } else {
@@ -494,11 +502,30 @@ const ChatView = ({ userInfo, agencyID, isOpenChat, empty }) => {
                                        <div className="w-8"></div>
                                     )}
 
-                                    <div
-                                       className={`font-medium p-2 px-4 rounded-3xl bg-secondary-color text-dark-primary max-w-[600px]`}
-                                    >
-                                       {message.message}
-                                    </div>
+                                    {message?.type == "image" ? (
+                                       <a
+                                          data-fancybox="gallery"
+                                          href={message?.message}
+                                       >
+                                          <img
+                                             src={message?.message}
+                                             alt="img"
+                                             style={{
+                                                width: "auto",
+                                                height: "160px",
+                                             }}
+                                             className="rounded-xl bg-gray-300 "
+                                          />
+                                       </a>
+                                    ) : (
+                                       <>
+                                          <div
+                                             className={`text-white p-2 px-4 rounded-3xl bg-primary-color max-w-xl font-medium`}
+                                          >
+                                             {message?.message}
+                                          </div>
+                                       </>
+                                    )}
                                  </div>
                               </div>
                            )}
