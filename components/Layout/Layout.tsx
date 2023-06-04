@@ -107,7 +107,10 @@ const Layout = ({ title, children }) => {
                isOpenChat ? "fixed" : "hidden"
             }`}
          >
-            <ChatComponent isOpenChat={isOpenChat} />
+            <ChatComponent
+               isOpenChat={isOpenChat}
+               setIsOpenChat={setIsOpenChat}
+            />
          </div>
          <footer>
             <Footer />

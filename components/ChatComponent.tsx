@@ -27,7 +27,7 @@ import emptyImage from "../public/empty-box.png";
 import vectorChat from "../public/vectorchat.png";
 import Link from "next/link";
 
-const ChatComponent = ({ isOpenChat }) => {
+const ChatComponent = ({ isOpenChat, setIsOpenChat }) => {
    const [agencyID, setAgencyID] = useState(0);
    const [agencyList, setAgencyList] = useState<any>([]);
    const [empty, setEmpty] = useState(true);
@@ -64,6 +64,10 @@ const ChatComponent = ({ isOpenChat }) => {
                if (agencyID == 0 && agencies.length > 0) {
                   setAgencyID(agencies[0] ? agencies[0].id : 0);
                }
+               if (localStorage.getItem("isOpenChat") == "true") {
+                  setIsOpenChat(true);
+                  localStorage.removeItem("isOpenChat");
+               }
             }
          );
          countUnRead();
@@ -75,9 +79,9 @@ const ChatComponent = ({ isOpenChat }) => {
    }, []);
 
    return (
-      <div className="bg-light-primary w-[1150px] h-[550px] rounded-lg p-3 overflow-hidden flex flex-col justify-between border-primary-color shadow-lg">
+      <div className="bg-light-primary dark:bg-dark-primary w-[1150px] h-[550px] rounded-lg p-3 overflow-hidden flex flex-col justify-between border-primary-color shadow-lg">
          <div className="grid grid-cols-12 gap-4 h-full">
-            <div className="col-span-4 flex flex-col gap-1 bg-light-bg rounded-xl p-2 h-[520px] overflow-auto">
+            <div className="col-span-4 flex flex-col gap-1 bg-light-bg dark:bg-dark-bg rounded-xl p-2 h-[520px] overflow-auto">
                <div className="font-medium text-lg mb-1 text-center">
                   Message Box ({unReadCount})
                </div>
@@ -95,7 +99,9 @@ const ChatComponent = ({ isOpenChat }) => {
                   <div
                      key={agency?.id}
                      className={`py-1 px-2 m-2 mt-0 grid grid-cols-12 gap-2 items-center rounded-md cursor-pointer hover:brightness-95 ${
-                        !agency?.isSeen ? "bg-gray-200" : "bg-gray-50"
+                        !agency?.isSeen
+                           ? "bg-gray-200 dark:bg-stone-500"
+                           : "bg-gray-50 dark:bg-stone-700"
                      }`}
                      onClick={() => setAgencyID(Number(agency?.id))}
                   >
@@ -401,7 +407,7 @@ const ChatView = ({ userInfo, agencyID, isOpenChat, empty }) => {
 
    return (
       <>
-         <div className="row-span-5 bg-light-bg rounded-xl overflow-auto p-3">
+         <div className="row-span-5 bg-light-bg dark:bg-dark-bg rounded-xl overflow-auto p-3">
             {!empty && (
                <div className="flex items-center gap-1 justify-start p-1 border-b-2 border-gray-300">
                   <div className="relative w-12 aspect-square overflow-hidden rounded-full border-2 border-primary-color">
@@ -556,7 +562,7 @@ const ChatView = ({ userInfo, agencyID, isOpenChat, empty }) => {
                   />
                )}
 
-               <div className="text-2xl w-full aspect-square flex justify-center items-center bg-gray-300">
+               <div className="text-2xl w-full aspect-square flex justify-center items-center bg-gray-300 dark:bg-stone-700">
                   <BiImageAdd />
                </div>
                <input

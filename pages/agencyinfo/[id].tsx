@@ -38,7 +38,6 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
    const lengthOfPage = 8;
    const [pageCurrent, setPageCurrent] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
-
    const trans = useTrans();
 
    const [itemsHot, setItemsHot] = useState<any>([]);
@@ -54,6 +53,7 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
          console.log(error);
       }
    };
+
    const fetchHotItems = async () => {
       try {
          const res = await API.get(
@@ -95,6 +95,8 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
    };
 
    const handleChat = async () => {
+      localStorage.setItem("isOpenChat", "true");
+
       const docRef = doc(
          chat,
          `customer${userInfo?.id}`,
