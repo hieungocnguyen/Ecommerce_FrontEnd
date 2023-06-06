@@ -103,6 +103,7 @@ export let endpoints = {
    stat_post_category: `/sale-post/stats-by-category`,
    stat_category_by_agency: (agencyID) =>
       `/sale-post/stats-by-category/${agencyID}`,
+   general_stats_view_admin: `/general-stats/view-admin`,
 
    //item
    item: (itemID) => `/item/${itemID}`,

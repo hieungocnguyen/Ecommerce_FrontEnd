@@ -40,6 +40,7 @@ const AdminHome = () => {
    const [numberTop, setNumberTop] = useState(6);
    const { userInfo } = state;
    const [itemsHot, setItemsHot] = useState<any>([]);
+   const [stats, setStats] = useState<any>({});
 
    const fetchItemsBestSeller = async () => {
       try {
@@ -64,9 +65,20 @@ const AdminHome = () => {
       }
    };
 
+   const fetchStat = async () => {
+      try {
+         const res = await API.get(endpoints["general_stats_view_admin"]);
+         setStats(res.data.data);
+         console.log(res.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    useEffect(() => {
       fetchItemsBestSeller();
       fetchData();
+      fetchStat();
    }, []);
 
    const data = {
@@ -84,9 +96,94 @@ const AdminHome = () => {
 
    return (
       <AdminLayoutDashboard title="General">
-         <div className="w-[90%] mx-auto">
-            <div className="font-semibold text-2xl my-8">
+         <div className="w-[95%] mx-auto">
+            <div className="font-semibold text-2xl my-6">
                ✨Hello Administrator
+            </div>
+            <div className="text-center font-semibold text-xl mb-2">
+               Merchant statisticle
+            </div>
+            <div className="grid grid-cols-5 gap-4 mb-4">
+               <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center rounded-lg font-medium p-2">
+                  <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
+                     <Image
+                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686028765/shop_eqhk6j.png"
+                        alt="img"
+                        layout="fill"
+                        className="object-cover"
+                     />
+                  </div>
+                  <div className="col-span-2">
+                     <div>Active</div>
+                     <div className="text-xl text-primary-color">
+                        {stats.numOfActiveAgency}
+                     </div>
+                  </div>
+               </div>
+               <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center rounded-lg font-medium p-2">
+                  <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
+                     <Image
+                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686028765/shop_1_cns75j.png"
+                        alt="img"
+                        layout="fill"
+                        className="object-cover"
+                     />
+                  </div>
+                  <div className="col-span-2">
+                     <div>Deactivate</div>
+                     <div className="text-xl text-primary-color">
+                        {stats.numOfDeactivateAgency}
+                     </div>
+                  </div>
+               </div>
+               <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center  rounded-lg font-medium p-2">
+                  <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
+                     <Image
+                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686028765/shop_3_qd8zcc.png"
+                        alt="img"
+                        layout="fill"
+                        className="object-cover"
+                     />
+                  </div>
+                  <div className="col-span-2">
+                     <div>Expired</div>
+                     <div className="text-xl text-primary-color">
+                        {stats.numOfBannedByExpired}
+                     </div>
+                  </div>
+               </div>
+               <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center  rounded-lg font-medium p-2">
+                  <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
+                     <Image
+                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686028765/shop_4_sc53cz.png"
+                        alt="img"
+                        layout="fill"
+                        className="object-cover"
+                     />
+                  </div>
+                  <div className="col-span-2">
+                     <div>Banned</div>
+                     <div className="text-xl text-primary-color">
+                        {stats.numOfBannedByAdmin}
+                     </div>
+                  </div>
+               </div>
+               <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center  rounded-lg font-medium p-2">
+                  <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
+                     <Image
+                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686028765/shop_2_v4szs7.png"
+                        alt="img"
+                        layout="fill"
+                        className="object-cover"
+                     />
+                  </div>
+                  <div className="col-span-2">
+                     <div>Uncensored</div>
+                     <div className="text-xl text-primary-color">
+                        {stats.numOfUncensoredAgency}
+                     </div>
+                  </div>
+               </div>
             </div>
             <div className="grid grid-cols-2 gap-6">
                <div className="">

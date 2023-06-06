@@ -27,6 +27,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase-config";
+import { chat } from "../../lib/chat_firebase";
 
 const AdminLayoutDashboard = ({ title, children }) => {
    const { state, dispatch } = useContext(Store);
@@ -36,6 +37,7 @@ const AdminLayoutDashboard = ({ title, children }) => {
    const router = useRouter();
    const [numberUncensored, setNumberUncensored] = useState(0);
    const [unSeen, setUnSeen] = useState(false);
+   const [isMessages, setIsMessages] = useState(false);
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -63,6 +65,31 @@ const AdminLayoutDashboard = ({ title, children }) => {
          SnapFirestore();
       } else {
          router.push("/403");
+      }
+   }, []);
+
+   useEffect(() => {
+      try {
+         const unsuscribe = onSnapshot(
+            collection(chat, `admin`),
+            (snapshot) => {
+               let agencies = [];
+               setIsMessages(false);
+
+               snapshot.forEach((doc) => {
+                  agencies.push({ ...doc.data() });
+               });
+               agencies.map((cus) => {
+                  if (cus.isSeen == false) {
+                     setIsMessages(true);
+                  }
+               });
+            }
+         );
+
+         return () => unsuscribe();
+      } catch (error) {
+         console.log(error);
       }
    }, []);
 
@@ -144,7 +171,10 @@ const AdminLayoutDashboard = ({ title, children }) => {
                         <Link href="/DashboardAdmin/message">
                            <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
                               <BiMessageDetail className="text-lg" />
-                              Message
+                              Message{" "}
+                              {isMessages && (
+                                 <span className="w-3 h-3 rounded-full bg-primary-color"></span>
+                              )}
                            </div>
                         </Link>
                         <Link href="/DashboardAdmin/category">

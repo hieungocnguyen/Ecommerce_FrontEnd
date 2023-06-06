@@ -99,7 +99,7 @@ const Layout = ({ title, children }) => {
                setIsOpenChat(!isOpenChat);
             }}
          >
-            <BiMessageDetail />
+            {isOpenChat ? <BiX className="text-3xl" /> : <BiMessageDetail />}
          </div>
          <CompareProduct openCompare={openCompare} />
          <div

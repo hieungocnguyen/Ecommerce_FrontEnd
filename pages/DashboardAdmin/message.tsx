@@ -35,6 +35,7 @@ const MessageAdmin = () => {
 
    useEffect(() => {
       try {
+         let empty = true;
          const unsuscribe = onSnapshot(
             query(collection(chat, `admin`), orderBy("createdAt")),
             (snapshot) => {
@@ -46,8 +47,9 @@ const MessageAdmin = () => {
                setAgencyList(agencies.reverse());
                if (agencies.length > 0) {
                   setEmpty(false);
+                  empty = false;
                }
-               if (agencyID == 0 && userInfo && agencies.length > 0) {
+               if (agencyID == 0 && userInfo && agencies.length > 0 && !empty) {
                   setAgencyID(agencies[0].id);
                }
             }

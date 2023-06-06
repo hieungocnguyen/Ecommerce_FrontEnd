@@ -29,6 +29,8 @@ import ConfirmModel from "../../../../components/Model/ConfirmModel";
 import toast from "react-hot-toast";
 import emptyvector from "../../../../public/empty-box.png";
 import Rating from "@mui/material/Rating";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import { chat } from "../../../../lib/chat_firebase";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
@@ -139,19 +141,46 @@ const AgencyPage = ({ agencyInfo, stats }) => {
       }
    };
 
+   const handleStartChat = async () => {
+      router.push("/DashboardAdmin/message");
+
+      const docRef = doc(chat, `admin`, `agency${agencyInfo.id}`);
+
+      if ((await getDoc(docRef)).exists()) {
+         await setDoc(
+            docRef,
+            {
+               avatar: agencyInfo.avatar,
+               createdAt: serverTimestamp(),
+               displayName: agencyInfo.name,
+            },
+            { merge: true }
+         );
+      } else {
+         await setDoc(docRef, {
+            avatar: agencyInfo.avatar,
+            id: agencyInfo?.id,
+            createdAt: serverTimestamp(),
+            displayName: agencyInfo.name,
+            messageLatest: "Click to start chat",
+            isSeen: true,
+            messages: [],
+         });
+      }
+   };
+
    return (
       <AdminLayoutDashboard title="Detail">
          <div className="w-[90%] mx-auto my-10">
-            <div className="">
-               <div className="font-semibold text-2xl">Merchant</div>
-               <div className="flex gap-2 mt-2 items-center text-sm font-medium">
-                  <div className="opacity-60">Admin Dashboard</div>
-                  <BiRadioCircle />
-                  <Link href="/DashboardAdmin/agencies">
-                     <div className="cursor-pointer">List</div>
-                  </Link>
-                  <BiRadioCircle />
-                  <div className="opacity-60">Merchant</div>
+            <div className="flex items-center justify-between mb-2">
+               <div>
+                  <div className="font-semibold text-2xl">Merchant</div>
+               </div>
+               <div
+                  className="p-3 rounded-lg bg-primary-color cursor-pointer text-white font-semibold"
+                  onClick={handleStartChat}
+               >
+                  Chat now
                </div>
             </div>
             <div className="mb-10">

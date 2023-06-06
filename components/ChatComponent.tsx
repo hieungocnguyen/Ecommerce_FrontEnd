@@ -47,6 +47,7 @@ const ChatComponent = ({ isOpenChat, setIsOpenChat }) => {
 
    useEffect(() => {
       try {
+         let empty = true;
          const unsuscribe = onSnapshot(
             query(
                collection(chat, `customer${userInfo?.id}`),
@@ -54,14 +55,23 @@ const ChatComponent = ({ isOpenChat, setIsOpenChat }) => {
             ),
             (snapshot) => {
                let agencies = [];
+               let count = 0;
                snapshot.forEach((doc) => {
                   agencies.push({ ...doc.data() });
                });
                setAgencyList(agencies.reverse());
+               agencies.map((agency) => {
+                  if (agency.isSeen == false) {
+                     count++;
+                  }
+               });
+               setUnReadCount(count);
                if (agencies.length > 0) {
                   setEmpty(false);
+                  empty = false;
                }
-               if (agencyID == 0 && agencies.length > 0) {
+
+               if (agencyID == 0 && agencies.length > 0 && !empty) {
                   setAgencyID(agencies[0] ? agencies[0].id : 0);
                }
                if (localStorage.getItem("isOpenChat") == "true") {

@@ -36,6 +36,7 @@ const MessagePanelManager = () => {
 
    useEffect(() => {
       try {
+         let empty = true;
          const unsuscribe = onSnapshot(
             query(
                collection(chat, `agency${agencyInfo?.id}`),
@@ -50,9 +51,15 @@ const MessagePanelManager = () => {
 
                if (customers.length > 0) {
                   setEmpty(false);
+                  empty = false;
                }
 
-               if (customerID == 0 && agencyInfo.id && customers.length > 0) {
+               if (
+                  customerID == 0 &&
+                  agencyInfo.id &&
+                  customers.length > 0 &&
+                  !empty
+               ) {
                   setCustomerID(customers[0].id);
                }
             }
