@@ -224,19 +224,21 @@ const MessageView = ({ agencyID, userInfo, empty }) => {
          await setDoc(
             docRef,
             {
-               avatar: userInfo.avatar,
+               avatar:
+                  "https://res.cloudinary.com/ngnohieu/image/upload/v1685723176/thumbnailArtboard_19_Small_drrxuq.png",
                createdAt: serverTimestamp(),
-               displayName: userInfo?.username,
+               displayName: "✨Admin Open Market",
             },
             { merge: true }
          );
       } else {
          await setDoc(docRef, {
-            avatar: userInfo.avatar,
-            id: userInfo.id,
+            id: -1,
+            avatar:
+               "https://res.cloudinary.com/ngnohieu/image/upload/v1685723176/thumbnailArtboard_19_Small_drrxuq.png",
             createdAt: serverTimestamp(),
-            displayName: userInfo?.username,
-            messageLatest: "",
+            displayName: "✨Admin Open Market",
+            messageLatest: "Click to start chat",
             isSeen: false,
             messages: [],
          });
