@@ -219,6 +219,29 @@ const MessageView = ({ agencyID, userInfo, empty }) => {
       event.preventDefault();
       setIsSeenCustomer(false);
 
+      const docRef = doc(chat, `agency${agencyID}`, "admin");
+      if ((await getDoc(docRef)).exists()) {
+         await setDoc(
+            docRef,
+            {
+               avatar: userInfo.avatar,
+               createdAt: serverTimestamp(),
+               displayName: userInfo?.username,
+            },
+            { merge: true }
+         );
+      } else {
+         await setDoc(docRef, {
+            avatar: userInfo.avatar,
+            id: userInfo.id,
+            createdAt: serverTimestamp(),
+            displayName: userInfo?.username,
+            messageLatest: "",
+            isSeen: false,
+            messages: [],
+         });
+      }
+
       if (selectedImage) {
          try {
             setDisableButtonInteractive(true);
