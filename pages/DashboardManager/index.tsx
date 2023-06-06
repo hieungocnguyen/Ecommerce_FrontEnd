@@ -288,10 +288,10 @@ const AgencyHome = () => {
                            </Link>
                         ))}
                      {itemsHot.length == 0 && (
-                        <div className="col-span-4 relative overflow-hidden w-1/6 aspect-square mx-auto">
+                        <div className="col-span-4 relative overflow-hidden w-1/2 aspect-square mx-auto">
                            <Image
                               src={emptyBox}
-                              alt=""
+                              alt="img"
                               className="object-cover"
                               layout="fill"
                            />

@@ -23,6 +23,7 @@ ChartJS.register(
    Tooltip,
    Legend
 );
+import emptyBox from "../../public/empty-box.png";
 
 const options = {
    responsive: true,
@@ -224,6 +225,16 @@ const AdminHome = () => {
                               </div>
                            </Link>
                         ))}
+                     {itemsHot.length == 0 && (
+                        <div className="col-span-4 relative overflow-hidden w-1/2 aspect-square mx-auto">
+                           <Image
+                              src={emptyBox}
+                              alt="img"
+                              className="object-cover"
+                              layout="fill"
+                           />
+                        </div>
+                     )}
                   </div>
                </div>
                <div>
