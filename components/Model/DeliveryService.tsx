@@ -65,69 +65,75 @@ const DeliveryService = ({
          <div className="overflow-auto max-h-96 h-fit p-3">
             {agencyServices.services ? (
                <>
-                  {agencyServices.services.map((service) => (
-                     <div key={service.id}>
-                        <label className="cursor-pointer">
-                           <input
-                              type="radio"
-                              className="peer sr-only"
-                              name="pricing"
-                              onChange={() => handleSelectService(service)}
-                           />
-                           <div className="rounded-lg ring-2 bg-light-spot dark:bg-dark-bg ring-light-spot dark:ring-dark-bg mb-4 p-3 transition-all hover:shadow peer-checked:ring-secondary-color text-left font-medium">
-                              <div className="text-sm mb-2">
-                                 <span className="font-semibold">
-                                    {trans.checkout.delivery}:
-                                 </span>{" "}
-                                 {service.short_name}
+                  {agencyServices.services
+                     .filter(
+                        (service) =>
+                           service.serviceInfoWithPrePayment.shipFee != null
+                     )
+                     .map((service) => (
+                        <div key={service.id}>
+                           <label className="cursor-pointer">
+                              <input
+                                 type="radio"
+                                 className="peer sr-only"
+                                 name="pricing"
+                                 onChange={() => handleSelectService(service)}
+                              />
+                              <div className="rounded-lg ring-2 bg-light-spot dark:bg-dark-bg ring-light-spot dark:ring-dark-bg mb-4 p-3 transition-all hover:shadow peer-checked:ring-secondary-color text-left font-medium">
+                                 <div className="text-sm mb-2">
+                                    <span className="font-semibold">
+                                       {trans.checkout.delivery}:
+                                    </span>{" "}
+                                    {service.short_name}
+                                 </div>
+                                 <div className="text-sm mb-2">
+                                    <span className="font-semibold">
+                                       {trans.checkout.ship_fee} :
+                                    </span>
+                                    <span className="">
+                                       {service.serviceInfoWithCOD.isSuccess ===
+                                       1
+                                          ? `${service.serviceInfoWithCOD.shipFee.toLocaleString(
+                                               "it-IT",
+                                               {
+                                                  style: "currency",
+                                                  currency: "VND",
+                                               }
+                                            )} [COD]`
+                                          : ""}
+                                       {service.serviceInfoWithCOD.isSuccess ===
+                                          1 &&
+                                       service.serviceInfoWithPrePayment
+                                          .isSuccess === 1
+                                          ? " | "
+                                          : ""}
+                                       {service.serviceInfoWithPrePayment
+                                          .isSuccess === 1
+                                          ? `${service.serviceInfoWithPrePayment.shipFee.toLocaleString(
+                                               "it-IT",
+                                               {
+                                                  style: "currency",
+                                                  currency: "VND",
+                                               }
+                                            )} [MOMO]`
+                                          : ""}
+                                    </span>
+                                 </div>
+                                 <div className="text-sm font-medium ">
+                                    <span className="font-bold">
+                                       {trans.checkout.expect_time}:
+                                    </span>
+                                    <span>
+                                       {" "}
+                                       {new Date(
+                                          service.serviceInfoWithCOD.expectedTimeDelivery
+                                       ).toLocaleDateString("en-GB")}
+                                    </span>
+                                 </div>
                               </div>
-                              <div className="text-sm mb-2">
-                                 <span className="font-semibold">
-                                    {trans.checkout.ship_fee} :
-                                 </span>
-                                 <span className="">
-                                    {service.serviceInfoWithCOD.isSuccess === 1
-                                       ? `${service.serviceInfoWithCOD.shipFee.toLocaleString(
-                                            "it-IT",
-                                            {
-                                               style: "currency",
-                                               currency: "VND",
-                                            }
-                                         )} [COD]`
-                                       : ""}
-                                    {service.serviceInfoWithCOD.isSuccess ===
-                                       1 &&
-                                    service.serviceInfoWithPrePayment
-                                       .isSuccess === 1
-                                       ? " | "
-                                       : ""}
-                                    {service.serviceInfoWithPrePayment
-                                       .isSuccess === 1
-                                       ? `${service.serviceInfoWithPrePayment.shipFee.toLocaleString(
-                                            "it-IT",
-                                            {
-                                               style: "currency",
-                                               currency: "VND",
-                                            }
-                                         )} [MOMO]`
-                                       : ""}
-                                 </span>
-                              </div>
-                              <div className="text-sm font-medium ">
-                                 <span className="font-bold">
-                                    {trans.checkout.expect_time}:
-                                 </span>
-                                 <span>
-                                    {" "}
-                                    {new Date(
-                                       service.serviceInfoWithCOD.expectedTimeDelivery
-                                    ).toLocaleDateString("en-GB")}
-                                 </span>
-                              </div>
-                           </div>
-                        </label>
-                     </div>
-                  ))}
+                           </label>
+                        </div>
+                     ))}
                </>
             ) : (
                <></>

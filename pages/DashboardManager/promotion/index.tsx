@@ -35,7 +35,6 @@ const PromotionPage = () => {
             endpoints["get_post_published_by_agencyID"](agencyInfo.id)
          );
          setPosts(data.data);
-         setTotalPage(Math.ceil(data.data.length / lengthOfPage));
       } catch (error) {
          console.log(error);
       }
@@ -47,6 +46,7 @@ const PromotionPage = () => {
             endpoints["get_all_promotion_program"](agencyInfo.id)
          );
          setPrograms(data.data);
+         setTotalPage(Math.ceil(data.data.length / lengthOfPage));
 
          if (isOpenModelDetail) {
             const updatedProgram = data.data.find((p) => p.id == program.id);

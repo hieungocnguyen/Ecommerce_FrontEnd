@@ -209,7 +209,7 @@ const Orders = () => {
                ref={refKeyword}
                className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
                onKeyDown={(e) => {
-                  !/^[a-zA-Z0-9._\b]+$/.test(e.key) && e.preventDefault();
+                  !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) && e.preventDefault();
                }}
                onChange={(e) => {
                   setKeywordCode(e.target.value.toUpperCase());
@@ -329,13 +329,22 @@ const Orders = () => {
                                  ).toLocaleDateString("en-GB")}
                               </div>
 
-                              <div className="col-span-2 text-right text-primary-color font-semibold">
-                                 {order.totalPrice.toLocaleString("it-IT", {
+                              <div
+                                 className="col-span-2 text-right text-sm  font-semibold"
+                                 title="Order price"
+                              >
+                                 {(
+                                    order.totalPrice +
+                                    order.reductionAmountVoucher
+                                 ).toLocaleString("it-IT", {
                                     style: "currency",
                                     currency: "VND",
                                  })}
                                  <br />
-                                 <span className="text-secondary-color text-sm">
+                                 <span
+                                    className="text-secondary-color text-sm"
+                                    title="Ship fee"
+                                 >
                                     {order.shipFee
                                        ? `+ ${order.shipFee.toLocaleString(
                                             "it-IT",
@@ -345,6 +354,33 @@ const Orders = () => {
                                             }
                                          )}`
                                        : ""}
+                                 </span>
+                                 <br />
+                                 <span
+                                    className="text-green-500 text-sm"
+                                    title="Discount"
+                                 >
+                                    {order.reductionAmountVoucher > 0 &&
+                                       `- ${order.reductionAmountVoucher.toLocaleString(
+                                          "it-IT",
+                                          {
+                                             style: "currency",
+                                             currency: "VND",
+                                          }
+                                       )}`}
+                                 </span>
+                                 <br />
+                                 <span
+                                    className="text-primary-color text-base"
+                                    title="Total"
+                                 >
+                                    {order.shipFee &&
+                                       `= ${(
+                                          order.totalPrice + order.shipFee
+                                       ).toLocaleString("it-IT", {
+                                          style: "currency",
+                                          currency: "VND",
+                                       })}`}
                                  </span>
                               </div>
                               <div className="col-span-2">

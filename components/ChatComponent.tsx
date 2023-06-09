@@ -210,13 +210,6 @@ const ChatView = ({ userInfo, agencyID, isOpenChat, empty }) => {
                         a.createdAt < b.createdAt ? 1 : -1
                      )
                );
-               console.log(
-                  doc
-                     .data()
-                     .messages.sort((a, b) =>
-                        a.createdAt < b.createdAt ? 1 : -1
-                     )
-               );
 
                setInfoAgency(doc.data());
                fetchsetSeenMessage();

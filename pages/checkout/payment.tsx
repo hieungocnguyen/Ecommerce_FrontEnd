@@ -51,14 +51,14 @@ const Payment = () => {
    const refTotalBill = useRef(null);
    const [isOpenConfirmPayment, setIsOpenConfirmPayment] = useState(false);
    const trans = useTrans();
+   const [previewDiscount, setPreviewDiscount] = useState<any>([]);
+   const [voucher, setVoucher] = useState("");
 
    const fetchCartData = async () => {
       const temp = [];
       let currentAddress: any; //to get value address
       setIsLoadComplete(false);
       try {
-         console.log("address", address);
-
          //get addressbook by userid
          const resAddressBook = await API.get(
             endpoints["get_address_book"](userInfo.id)
@@ -98,18 +98,36 @@ const Payment = () => {
                   `${endpoints["get_service_package"]}?addressBookID=${currentAddress.id}&agencyID=${i.agencyID}`
                );
 
+               //check null services
+               let deliveryServiceResult;
+               let notNullServices = false;
+               resDeliveryService.data.data.services.map((service) => {
+                  if (service.serviceInfoWithPrePayment.shipFee != null) {
+                     notNullServices = true;
+                  }
+               });
+               if (notNullServices) {
+                  deliveryServiceResult = resDeliveryService.data.data.services
+                     .filter(
+                        (service) =>
+                           service.serviceInfoWithPrePayment.shipFee != null
+                     )
+                     .sort((a, b) =>
+                        a.serviceInfoWithPrePayment.shipFee <
+                        b.serviceInfoWithPrePayment.shipFee
+                           ? -1
+                           : 1
+                     )[0];
+               } else {
+                  deliveryServiceResult = resDeliveryService.data.data.services;
+               }
+
                temp.push({
                   ...i,
                   ...resAgencyInfo.data.data,
                   ...resDeliveryService.data.data,
                   ...{
-                     selectedService:
-                        resDeliveryService.data.data.services.sort((a, b) =>
-                           a.serviceInfoWithPrePayment.shipFee <
-                           b.serviceInfoWithPrePayment.shipFee
-                              ? -1
-                              : 1
-                        )[0],
+                     selectedService: deliveryServiceResult,
                   },
                });
 
@@ -123,8 +141,9 @@ const Payment = () => {
             //make sure to render the items correctly
             if (temp.length === resCart.data.data.length) {
                setIsLoadComplete(true);
-               // console.log(temp);
                setItemsInCart(temp);
+               console.log(temp);
+
                if (currentAddress) {
                   CheckDisablePaymentType(temp);
                   CalcTotalOrder(temp);
@@ -189,6 +208,7 @@ const Payment = () => {
    const CalcTotalOrder = (items) => {
       let tempTotalOrder = 0;
       let shipfeeMoMoPayment = 0;
+
       items.map((item) => {
          shipfeeMoMoPayment +=
             item.selectedService.serviceInfoWithPrePayment.shipFee;
@@ -212,6 +232,7 @@ const Payment = () => {
                      item.selectedService.serviceInfoWithPrePayment.shipFee)
             );
          }
+         previewDiscount.map((p) => (tempTotalOrder -= p.discount));
          setTotalOrder(tempTotalOrder);
       } else {
          setTotalOrder(-1);
@@ -220,6 +241,7 @@ const Payment = () => {
          tempTotalOrder + shipfeeMoMoPayment > 50000000 ? true : false
       );
    };
+
    const CalcAmountShipFee = (items) => {
       let amount = 0;
       items.map((item) => {
@@ -229,7 +251,6 @@ const Payment = () => {
             amount += item.selectedService.serviceInfoWithPrePayment.shipFee;
          }
       });
-      console.log("amount", amount);
 
       setAmountShipFee(amount);
    };
@@ -254,6 +275,12 @@ const Payment = () => {
             mapServiceInfo[item.id] = {
                serviceID: item.selectedService.service_id,
                serviceTypeID: item.selectedService.service_type_id,
+               voucher:
+                  previewDiscount.find((p) => p.id == item.agencyID) !=
+                  undefined
+                     ? previewDiscount.find((p) => p.id == item.agencyID)
+                          .voucher
+                     : null,
             };
          });
 
@@ -318,6 +345,43 @@ const Payment = () => {
       }
    };
 
+   const handlePreviewVoucher = async () => {
+      try {
+         const res = await API.get(
+            endpoints["preview_discount_voucher"](userInfo.id, voucher)
+         );
+         if (res.data.code == "200") {
+            const existItem = previewDiscount.find(
+               (item) => item.id === res.data.data.agencyID
+            );
+
+            const updateDiscount = existItem
+               ? previewDiscount.map((p) =>
+                    p.id === existItem.id
+                       ? {
+                            ...p,
+                            discount: res.data.data.discount,
+                            voucher: voucher,
+                         }
+                       : p
+                 )
+               : [
+                    ...previewDiscount,
+                    {
+                       id: res.data.data.agencyID,
+                       discount: res.data.data.discount,
+                       voucher: voucher,
+                    },
+                 ];
+            console.log(updateDiscount);
+            setPreviewDiscount(updateDiscount);
+         } else {
+            toast.error(res.data.message);
+         }
+      } catch (error) {
+         console.log(error);
+      }
+   };
    return (
       <Layout title="Payment">
          <div className="flex gap-4 items-center m-6">
@@ -338,7 +402,7 @@ const Payment = () => {
                      {itemsInCart
                         .sort((a, b) => (a.id > b.id ? -1 : 1))
                         .map((i) => (
-                           <div key={i.id} className="mb-10">
+                           <div key={i.id} className="mb-6">
                               {/* agency name */}
                               <div className="bg-dark-text dark:bg-dark-bg px-5 py-3 rounded-t-xl w-fit text-left font-medium flex gap-2 items-center hover:text-secondary-color transition-all cursor-pointer">
                                  <BiStore className="text-2xl" />
@@ -657,6 +721,29 @@ const Payment = () => {
                                              )}
                                           </div>
                                        </div>
+                                       {previewDiscount.find(
+                                          (p) => p.id == i.agencyID
+                                       ) != undefined && (
+                                          <div className="flex justify-between items-center">
+                                             <div className="font-medium">
+                                                Discount by voucher:
+                                             </div>
+                                             <div className="text-right text-green-500 font-semibold text-lg">
+                                                -
+                                                {previewDiscount
+                                                   .find(
+                                                      (p) => p.id == i.agencyID
+                                                   )
+                                                   .discount.toLocaleString(
+                                                      "it-IT",
+                                                      {
+                                                         style: "currency",
+                                                         currency: "VND",
+                                                      }
+                                                   )}
+                                             </div>
+                                          </div>
+                                       )}
                                     </div>
                                  ) : (
                                     <></>
@@ -664,6 +751,44 @@ const Payment = () => {
                               </div>
                            </div>
                         ))}
+                     <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl border-2 mb-6 shadow-lg">
+                        <div className="flex items-center justify-between">
+                           <div className="font-semibold text-lg">Voucher:</div>
+                           <div className="flex items-center justify-center gap-2">
+                              <input
+                                 type="text"
+                                 name=""
+                                 id=""
+                                 className="bg-light-primary p-3 rounded-lg font-semibold"
+                                 value={voucher}
+                                 onKeyDown={(e) => {
+                                    !/^[a-zA-Z0-9._\b]+$/.test(e.key) &&
+                                       e.preventDefault();
+                                 }}
+                                 onChange={(e) =>
+                                    setVoucher(e.target.value.toUpperCase())
+                                 }
+                              />
+                              <button
+                                 className="p-3 rounded-lg bg-primary-color text-white font-semibold"
+                                 onClick={handlePreviewVoucher}
+                              >
+                                 Apply
+                              </button>
+                           </div>
+                        </div>
+                        {previewDiscount.length > 0 && (
+                           <div className="flex items-center justify-between mt-2">
+                              <div className="font-semibold">
+                                 Voucher(s) applied:
+                              </div>
+                              <div className="text-green-500 font-semibold text-sm">
+                                 {previewDiscount.map((p) => p.voucher)}
+                              </div>
+                           </div>
+                        )}
+                     </div>
+                     {/* total bill */}
                      <div ref={refTotalBill}>
                         {!address.id ? (
                            <div className="bg-dark-text dark:bg-dark-bg p-6 rounded-xl text-xl font-semibold border-2 border-secondary-color shadow-lg">

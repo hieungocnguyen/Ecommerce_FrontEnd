@@ -191,8 +191,11 @@ const OrderView = ({
                   </div>
                   <div className="">
                      <div className="text-right">
-                        <div className="text-primary-color text-xl font-semibold">
-                           {orderInfo.totalPrice.toLocaleString("it-IT", {
+                        <div className=" text-lg font-semibold">
+                           {(
+                              orderInfo.totalPrice +
+                              orderInfo.reductionAmountVoucher
+                           ).toLocaleString("it-IT", {
                               style: "currency",
                               currency: "VND",
                            })}
@@ -211,6 +214,28 @@ const OrderView = ({
                         ) : (
                            <></>
                         )}
+                        {orderInfo.reductionAmountVoucher > 0 && (
+                           <div className="text-green-500 font-semibold">
+                              Discount:{" -"}
+                              {orderInfo.reductionAmountVoucher.toLocaleString(
+                                 "it-IT",
+                                 {
+                                    style: "currency",
+                                    currency: "VND",
+                                 }
+                              )}
+                           </div>
+                        )}
+
+                        <div className="font-semibold text-xl text-primary-color">
+                           {"= "}
+                           {(
+                              orderInfo.totalPrice + orderInfo.shipFee
+                           ).toLocaleString("it-IT", {
+                              style: "currency",
+                              currency: "VND",
+                           })}
+                        </div>
                      </div>
                   </div>
                </div>
