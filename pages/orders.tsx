@@ -208,6 +208,9 @@ const Orders = () => {
                id="keywordCodeFilterOrder"
                ref={refKeyword}
                className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+               onKeyDown={(e) => {
+                  !/^[a-zA-Z0-9._\b]+$/.test(e.key) && e.preventDefault();
+               }}
                onChange={(e) => {
                   setKeywordCode(e.target.value.toUpperCase());
                   setPageCurrent(1);

@@ -95,6 +95,9 @@ const Wishlist = () => {
                   type="text"
                   placeholder="🔎Title of product"
                   className="p-3 rounded-lg border-2 border-primary-color"
+                  onKeyDown={(e) => {
+                     !/^[a-zA-Z0-9._\b]+$/.test(e.key) && e.preventDefault();
+                  }}
                   onChange={(e) => {
                      setKeywordSearch(e.target.value.toUpperCase());
                      setPageCurrent(1);

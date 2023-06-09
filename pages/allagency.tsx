@@ -62,6 +62,9 @@ const AllAgency = () => {
                <input
                   type="text"
                   onChange={(e) => setKeyWord(e.target.value)}
+                  onKeyDown={(e) => {
+                     !/^[a-zA-Z0-9._\b]+$/.test(e.key) && e.preventDefault();
+                  }}
                   placeholder={trans.all_agency.search_bar_placeholder}
                   className="p-4 w-2/3 bg-light-primary dark:bg-dark-primary rounded-lg font-medium"
                />
