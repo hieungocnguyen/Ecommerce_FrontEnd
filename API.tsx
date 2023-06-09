@@ -163,7 +163,22 @@ export let endpoints = {
       `/renewal/stats-revenue-month-by-year/${year}`,
    get_all_renewal: `/renewal/get-all-orders-renewal`,
 
-   //
+   //promotion
+   create_promotion_program: (agencyID) =>
+      `/promotion/create-promotion-program/${agencyID}`,
+   get_all_promotion_program: (agencyID) =>
+      `/promotion/get-all-promotion-program-by-agency/${agencyID}`,
+   get_all_promotion_code: (programID) =>
+      `/promotion/get-promotion-code-for-manage-by-program-id/${programID}`,
+   generate_promotion_code: (programID) =>
+      `/promotion/generate-promotion-code/${programID}`,
+   publish_code: (codeID) => `/promotion/publish-promotion-code/${codeID}`,
+   unpublish_code: (codeID) => `/promotion/un-publish-promotion-code/${codeID}`,
+   delete_code: (codeID) => `/promotion/delete-promotion-code/${codeID}`,
+   update_promotion_program: (programID) =>
+      `/promotion/update-promotion-program/${programID}`,
+   preview_discount_voucher: (userID, voucherCode) =>
+      `/promotion/preview-discount-by-voucher/${userID}/${voucherCode}`,
 };
 
 export const authAxios = () =>
