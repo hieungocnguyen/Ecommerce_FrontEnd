@@ -600,6 +600,24 @@ const Payment = () => {
                                     <div className="mx-8 mb-4">
                                        <div className="flex justify-between items-center">
                                           <div className="font-medium">
+                                             {
+                                                trans.checkout
+                                                   .sub_total_wthout_ship
+                                             }
+                                             :
+                                          </div>
+                                          <div className="font-semibold line-through text-lg">
+                                             {i.calculatorPrice.toLocaleString(
+                                                "it-IT",
+                                                {
+                                                   style: "currency",
+                                                   currency: "VND",
+                                                }
+                                             )}
+                                          </div>
+                                       </div>
+                                       <div className="flex justify-between items-center">
+                                          <div className="font-medium">
                                              {trans.checkout.ship_fee}:{" "}
                                           </div>
                                           <div className="text-right text-secondary-color font-semibold text-lg">
@@ -703,24 +721,7 @@ const Payment = () => {
                                              )}
                                           </div>
                                        </div>
-                                       <div className="flex justify-between items-center">
-                                          <div className="font-medium">
-                                             {
-                                                trans.checkout
-                                                   .sub_total_wthout_ship
-                                             }
-                                             :
-                                          </div>
-                                          <div className="font-bold text-2xl text-primary-color">
-                                             {i.calculatorPrice.toLocaleString(
-                                                "it-IT",
-                                                {
-                                                   style: "currency",
-                                                   currency: "VND",
-                                                }
-                                             )}
-                                          </div>
-                                       </div>
+
                                        {previewDiscount.find(
                                           (p) => p.id == i.agencyID
                                        ) != undefined && (
@@ -744,6 +745,40 @@ const Payment = () => {
                                              </div>
                                           </div>
                                        )}
+                                       <div className="flex justify-between items-center">
+                                          {paymentType > 0 && (
+                                             <div className="font-medium">
+                                                Subtotal:
+                                             </div>
+                                          )}
+
+                                          {paymentType === 1 && (
+                                             <div className="font-bold text-primary-color text-xl">
+                                                {(
+                                                   i.calculatorPrice +
+                                                   i.selectedService
+                                                      .serviceInfoWithCOD
+                                                      .shipFee
+                                                ).toLocaleString("it-IT", {
+                                                   style: "currency",
+                                                   currency: "VND",
+                                                })}
+                                             </div>
+                                          )}
+                                          {paymentType === 2 && (
+                                             <div className="font-bold text-primary-color text-xl">
+                                                {(
+                                                   i.calculatorPrice +
+                                                   i.selectedService
+                                                      .serviceInfoWithPrePayment
+                                                      .shipFee
+                                                ).toLocaleString("it-IT", {
+                                                   style: "currency",
+                                                   currency: "VND",
+                                                })}
+                                             </div>
+                                          )}
+                                       </div>
                                     </div>
                                  ) : (
                                     <></>
@@ -782,8 +817,8 @@ const Payment = () => {
                               <div className="font-semibold">
                                  Voucher(s) applied:
                               </div>
-                              <div className="text-green-500 font-semibold text-sm">
-                                 {previewDiscount.map((p) => p.voucher)}
+                              <div className="text-green-500 font-semibold text-sm max-w-[380px] line-clamp-2 overflow-x-auto text-right">
+                                 {previewDiscount.map((p) => `${p.voucher}; `)}
                               </div>
                            </div>
                         )}

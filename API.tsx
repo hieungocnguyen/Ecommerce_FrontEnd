@@ -179,6 +179,9 @@ export let endpoints = {
       `/promotion/update-promotion-program/${programID}`,
    preview_discount_voucher: (userID, voucherCode) =>
       `/promotion/preview-discount-by-voucher/${userID}/${voucherCode}`,
+   get_promotion_program_by_agency_list: (top) =>
+      `/promotion/get-promotion-program-by-list-agency-id/${top}`,
+   get_sale_post_by_list_post_ID: `/sale-post/get-list-sale-post-by-list-id`,
 };
 
 export const authAxios = () =>

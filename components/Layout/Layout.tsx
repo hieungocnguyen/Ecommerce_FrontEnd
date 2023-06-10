@@ -112,6 +112,7 @@ const Layout = ({ title, children }) => {
                setIsOpenChat={setIsOpenChat}
             />
          </div>
+
          <footer>
             <Footer />
          </footer>

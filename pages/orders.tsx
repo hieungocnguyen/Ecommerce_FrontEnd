@@ -333,13 +333,15 @@ const Orders = () => {
                                  className="col-span-2 text-right text-sm  font-semibold"
                                  title="Order price"
                               >
-                                 {(
-                                    order.totalPrice +
-                                    order.reductionAmountVoucher
-                                 ).toLocaleString("it-IT", {
-                                    style: "currency",
-                                    currency: "VND",
-                                 })}
+                                 <span className="line-through">
+                                    {(
+                                       order.totalPrice +
+                                       order.reductionAmountVoucher
+                                    ).toLocaleString("it-IT", {
+                                       style: "currency",
+                                       currency: "VND",
+                                    })}
+                                 </span>
                                  <br />
                                  <span
                                     className="text-secondary-color text-sm"
@@ -360,14 +362,14 @@ const Orders = () => {
                                     className="text-green-500 text-sm"
                                     title="Discount"
                                  >
-                                    {order.reductionAmountVoucher > 0 &&
-                                       `- ${order.reductionAmountVoucher.toLocaleString(
-                                          "it-IT",
-                                          {
-                                             style: "currency",
-                                             currency: "VND",
-                                          }
-                                       )}`}
+                                    -
+                                    {order.reductionAmountVoucher.toLocaleString(
+                                       "it-IT",
+                                       {
+                                          style: "currency",
+                                          currency: "VND",
+                                       }
+                                    )}
                                  </span>
                                  <br />
                                  <span
@@ -375,7 +377,7 @@ const Orders = () => {
                                     title="Total"
                                  >
                                     {order.shipFee &&
-                                       `= ${(
+                                       ` ${(
                                           order.totalPrice + order.shipFee
                                        ).toLocaleString("it-IT", {
                                           style: "currency",
