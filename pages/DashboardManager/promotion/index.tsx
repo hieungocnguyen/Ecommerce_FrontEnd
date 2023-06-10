@@ -188,7 +188,7 @@ const PromotionPage = () => {
                   isOpenModelDetail ? "flex" : "hidden"
                }`}
             >
-               <div className="w-2/3 ">
+               <div className="w-3/4 ">
                   <DetailPromotion
                      program={program}
                      programs={programs}
@@ -206,7 +206,7 @@ const PromotionPage = () => {
                   isOpenModelCreateCode ? "flex" : "hidden"
                }`}
             >
-               <div className="w-1/3 ">
+               <div className="w-1/2 ">
                   <CreatePromotionCode
                      program={program}
                      setIsModelCreateCode={setIsModelCreateCode}
