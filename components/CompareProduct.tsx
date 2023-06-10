@@ -39,7 +39,7 @@ const CompareProduct = ({ openCompare }) => {
 
    return (
       <div
-         className={`fixed top-0 w-full h-screen z-10 justify-center items-center backdrop-blur-sm  ${
+         className={`fixed top-0 w-full h-screen z-30 justify-center items-center backdrop-blur-sm  ${
             openCompare ? "flex" : "hidden"
          }`}
       >

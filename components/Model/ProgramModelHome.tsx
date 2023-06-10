@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { BiRightArrowAlt } from "react-icons/bi";
+import { BiClipboard, BiRightArrowAlt } from "react-icons/bi";
 import API, { endpoints } from "../../API";
 import { toast } from "react-hot-toast";
 import emptyBox from "../../public/empty-box.png";
@@ -66,46 +66,89 @@ const ProgramModelHome = ({
          document.removeEventListener("mousedown", handleClickOutside);
       };
    }, [wrapperRef]);
+
+   const handleSaveVouchers = (code, agencyID, agencyName, agencyAvatar) => {
+      const newVoucher = {
+         code: code,
+         agencyID: agencyID,
+         agencyName: agencyName,
+         agencyAvatar: agencyAvatar,
+      };
+
+      if (JSON.parse(sessionStorage.getItem("vouchers"))) {
+         if (JSON.parse(sessionStorage.getItem("vouchers")).length >= 10) {
+            toast.error("Limit to save code is 10");
+         } else {
+            const existProduct = JSON.parse(
+               sessionStorage.getItem("vouchers")
+            ).find((voucher) => voucher.code === newVoucher.code);
+
+            if (existProduct) {
+               toast.error("This code has saved");
+            } else {
+               const listVouchers = [
+                  ...JSON.parse(sessionStorage.getItem("vouchers")),
+                  newVoucher,
+               ];
+               sessionStorage.setItem("vouchers", JSON.stringify(listVouchers));
+               toast.success("Added code to clipboard!");
+            }
+         }
+      } else {
+         const initStorage = [newVoucher];
+         sessionStorage.setItem("vouchers", JSON.stringify(initStorage));
+         toast.success("Added code to clipboard!");
+      }
+   };
+
    return (
       <div
          className="dark:bg-neutral-800 bg-light-bg rounded-lg w-full relative shadow-xl h-[700px] overflow-auto"
          ref={wrapperRef}
       >
-         <div className="relative w-full h-40 rounded-t-lg">
+         <div className="relative w-full h-56 rounded-t-lg">
             <Image
                src={program.avatar}
                alt="img"
                layout="fill"
                className="object-cover"
             />
-            <div className="w-[80%] mx-auto bg-light-primary translate-y-14 p-3 rounded-lg">
-               <div className="text-xl font-semibold uppercase">
+            <div className="w-[90%] mx-auto bg-gradient-to-tr from-white to-sky-50 translate-y-28 p-4 rounded-lg shadow-lg shadow-blue-200">
+               <div className="text-2xl font-bold uppercase text-center">
                   {program.programTitle}
                </div>
-               <div className="mb-1">{program.programName}</div>
-               <div className=" font-medium flex gap-2">
-                  <span>🍀Reduction Type:</span>
-                  <span>
-                     {program.reductionType == 1 ? "AMOUNT" : "PERCENTAGE"}
-                  </span>
-               </div>
-               {program.reductionType == 2 && (
-                  <div className=" font-medium flex gap-2">
-                     <span>✨Percentage Reduction:</span>
-                     <span>{program.percentageReduction}%</span>
+               <div className="mb-2 text-center">{program.programName}</div>
+               <div
+                  className={`grid ${
+                     program.reductionType == 2 ? "grid-cols-3" : "grid-cols-2"
+                  } mb-4 gap-6`}
+               >
+                  <div className="font-medium text-center rounded-xl bg-gradient-to-tr from-sky-100 to-white p-3 ">
+                     <div className="text-sm">✨Reduction Type:</div>
+                     <div className="text-lg font-semibold text-primary-color">
+                        {program.reductionType == 1 ? "AMOUNT" : "PERCENTAGE"}
+                     </div>
                   </div>
-               )}
-               <div className="mb-1 font-medium flex gap-2">
-                  <span>💵Reduction Amount Maximum:</span>
-                  <span>
-                     {program?.reductionAmountMax?.toLocaleString("it-IT", {
-                        style: "currency",
-                        currency: "VND",
-                     })}
-                  </span>
+                  {program.reductionType == 2 && (
+                     <div className=" font-medium text-center rounded-xl bg-gradient-to-tr from-sky-100 to-white p-3">
+                        <div className="text-sm">✨Percentage Reduction:</div>
+                        <div className="text-lg font-semibold text-primary-color">
+                           {program.percentageReduction}%
+                        </div>
+                     </div>
+                  )}
+                  <div className="font-medium text-center rounded-xl bg-gradient-to-tr from-sky-100 to-white p-3">
+                     <div className="text-sm">💵Reduction Amount Maximum:</div>
+                     <div className="text-lg font-semibold text-primary-color">
+                        {program?.reductionAmountMax?.toLocaleString("it-IT", {
+                           style: "currency",
+                           currency: "VND",
+                        })}
+                     </div>
+                  </div>
                </div>
-               <div className="flex items-center gap-1 text-sm font-medium">
-                  <div className="py-1 px-2 bg-secondary-color text-light-text rounded-full">
+               <div className="flex items-center justify-center gap-1 text-sm font-semibold">
+                  <div className="py-1 px-2 bg-gradient-to-bl from-amber-400 to-secondary-color text-light-text rounded-xl">
                      {new Date(program.beginUsable).getHours()}
                      {"h"}
                      {new Date(program.beginUsable).getMinutes()}
@@ -113,8 +156,8 @@ const ProgramModelHome = ({
                      {" | "}
                      {new Date(program.beginUsable).toLocaleDateString("en-GB")}
                   </div>
-                  <BiRightArrowAlt className="text-xl" />
-                  <div className="py-1 px-2 bg-secondary-color text-light-text rounded-full">
+                  <BiRightArrowAlt className="text-2xl" />
+                  <div className="py-1 px-2 bg-gradient-to-bl from-amber-400 to-secondary-color text-light-text rounded-xl">
                      {new Date(program.endUsable).getHours()}
                      {"h"}
                      {new Date(program.endUsable).getMinutes()}
@@ -125,14 +168,13 @@ const ProgramModelHome = ({
                </div>
             </div>
          </div>
-         <div className="w-[95%] mx-auto grid grid-cols-3 gap-4 mt-24">
+         <div className="w-[95%] mx-auto grid grid-cols-3 gap-6 mt-32">
             <div className="col-span-2">
                {/* code */}
                <div>
                   <div className="mb-2">
-                     <div className="font-semibold text-xl">Codes</div>
-                     <div className="text-sm font-semibold italic text-green-500">
-                        (Click code to add clipboard)
+                     <div className="font-semibold text-xl text-left">
+                        Codes
                      </div>
                   </div>
                   {codes.length > 0 && (
@@ -140,26 +182,35 @@ const ProgramModelHome = ({
                         {codes.map((code) => (
                            <div
                               key={code.id}
-                              className="px-4 py-3 bg-light-primary rounded-lg w-72 cursor-pointer hover:brightness-95"
+                              className="px-4 py-2 border-2 border-primary-color rounded-lg cursor-pointer hover:bg-green-50 flex gap-2 items-center"
                               onClick={() => {
-                                 navigator.clipboard.writeText(code.code);
-                                 toast.success("Added code to clipboard!");
+                                 handleSaveVouchers(
+                                    code.code,
+                                    program.agency.id,
+                                    program.agency.name,
+                                    program.agency.avatar
+                                 );
                               }}
                            >
-                              <div className="font-bold text-lg uppercase text-primary-color ">
-                                 {code.code}
+                              <div className="text-2xl text-green-600">
+                                 <BiClipboard />
                               </div>
-                              <div className="mt-1">
-                                 <div className="font-semibold text-sm">
-                                    <div>
-                                       End usable:{" "}
-                                       {new Date(
-                                          code.endUsableDate
-                                       ).toLocaleDateString("en-GB")}
-                                    </div>
+                              <div>
+                                 <div className="font-bold text-lg uppercase text-primary-color text-left">
+                                    {code.code}
+                                 </div>
+                                 <div className="mt-1 text-left">
                                     <div className="font-semibold text-sm">
-                                       Remain: {code.totalCurrent}/
-                                       {code.totalRelease}
+                                       <div>
+                                          End usable:{" "}
+                                          {new Date(
+                                             code.endUsableDate
+                                          ).toLocaleDateString("en-GB")}
+                                       </div>
+                                       <div className="font-semibold text-sm">
+                                          Remain: {code.totalCurrent}/
+                                          {code.totalRelease}
+                                       </div>
                                     </div>
                                  </div>
                               </div>
@@ -182,14 +233,16 @@ const ProgramModelHome = ({
 
                {/* description */}
                <div className="mt-2 text-left">
-                  <div className="text-xl font-semibold text-center">
+                  <div className="text-xl font-semibold text-left">
                      Description
                   </div>
-                  <div
-                     dangerouslySetInnerHTML={{
-                        __html: program.description,
-                     }}
-                  ></div>
+                  <div className="p-4 border-2 border-primary-color rounded-lg mt-2">
+                     <div
+                        dangerouslySetInnerHTML={{
+                           __html: program.description,
+                        }}
+                     ></div>
+                  </div>
                </div>
             </div>
             <div className="">

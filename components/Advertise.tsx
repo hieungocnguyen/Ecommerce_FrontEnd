@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 import { Autoplay } from "swiper";
+import { Pagination } from "swiper";
 import Image from "next/image";
 import API, { endpoints } from "../API";
 import ProgramModelHome from "./Model/ProgramModelHome";
@@ -71,7 +74,8 @@ const Advertise = () => {
                            disableOnInteraction: false,
                         }}
                         spaceBetween={20}
-                        modules={[Autoplay]}
+                        modules={[Autoplay, Pagination]}
+                        pagination={{ clickable: true }}
                         className="mySwiper h-full w-full rounded-lg overflow-hidden"
                      >
                         {programs.map((program) => (

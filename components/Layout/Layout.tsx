@@ -4,6 +4,7 @@ import {
    BiArrowToTop,
    BiGitCompare,
    BiMessageDetail,
+   BiPlanet,
    BiX,
 } from "react-icons/bi";
 import CompareProduct from "../CompareProduct";
@@ -13,6 +14,7 @@ import Cookies from "js-cookie";
 import { Store } from "../../utils/Store";
 import dynamic from "next/dynamic";
 import ChatComponent from "../ChatComponent";
+import VoucherSaved from "../VoucherSaved";
 
 const Layout = ({ title, children }) => {
    const [openCompare, setOpenCompare] = useState(false);
@@ -22,6 +24,7 @@ const Layout = ({ title, children }) => {
    const [visible, setVisible] = useState(false);
    const [isOpenChat, setIsOpenChat] = useState(false);
    const [chat, setChat] = useState(false);
+   const [openVouchers, setOpenVouchers] = useState(false);
 
    useEffect(() => {
       setLengthCompare(
@@ -33,6 +36,8 @@ const Layout = ({ title, children }) => {
          setChat(false);
       }
    }, [compare, userInfo]);
+
+   useEffect(() => {}, []);
 
    const toggleVisible = () => {
       const scrolled = document.documentElement.scrollTop;
@@ -67,11 +72,27 @@ const Layout = ({ title, children }) => {
          <main className="w-[90%] mx-auto text-center min-h-[calc(100vh-60px-178px)]">
             {children}
          </main>
+
          <div
-            className={`fixed bottom-10 right-10 w-14 h-14 z-20 rounded-full bg-primary-color flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-primary-color ${
+            className={`fixed right-10 w-14 h-14 z-40 rounded-full bg-green-500 flex justify-center items-center  cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-green-500 ${
+               lengthCompare === 0 && !openCompare ? "bottom-10" : "bottom-28"
+            }`}
+            onClick={() => setOpenVouchers(!openVouchers)}
+         >
+            {openVouchers ? (
+               <BiX className="text-3xl" />
+            ) : (
+               <BiPlanet className="text-3xl" />
+            )}
+         </div>
+         <div
+            className={`fixed bottom-10 right-10 w-14 h-14 z-40 rounded-full bg-primary-color flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-primary-color ${
                lengthCompare === 0 && !openCompare ? "scale-0" : "scale-100"
             } ${openCompare ? "scale-125" : ""}`}
-            onClick={() => setOpenCompare(!openCompare)}
+            onClick={() => {
+               setOpenCompare(!openCompare);
+               setOpenVouchers(false);
+            }}
          >
             {openCompare ? <BiX className="text-3xl" /> : <BiGitCompare />}
             <div
@@ -81,10 +102,12 @@ const Layout = ({ title, children }) => {
             ></div>
          </div>
          <div
-            className={`fixed right-10 w-14 h-14 z-20 rounded-full bg-primary-color flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-primary-color ${
+            className={`fixed right-10 w-14 h-14 z-40 rounded-full bg-primary-color flex justify-center items-center text-2xl cursor-pointer text-white transition-all ease-out hover:shadow-lg hover:shadow-primary-color ${
                visible ? "scale-100" : "scale-0"
             } ${
-               lengthCompare === 0 && !openCompare ? "bottom-10" : "bottom-28"
+               lengthCompare === 0 && !openCompare
+                  ? "bottom-10"
+                  : "bottom-[180px]"
             }`}
             onClick={scrollToTop}
             title="Scroll to top"
@@ -102,6 +125,13 @@ const Layout = ({ title, children }) => {
             {isOpenChat ? <BiX className="text-3xl" /> : <BiMessageDetail />}
          </div>
          <CompareProduct openCompare={openCompare} />
+         <div
+            className={`right-16 bottom-12 z-30 ${
+               openVouchers ? "fixed" : "hidden"
+            }`}
+         >
+            <VoucherSaved openVouchers={openVouchers} />
+         </div>
          <div
             className={` left-16 bottom-12 z-30 ${
                isOpenChat ? "fixed" : "hidden"

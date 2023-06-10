@@ -27,7 +27,10 @@ import Link from "next/link";
 import emptyBox from "../../public/empty-box.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 import { Autoplay } from "swiper";
+import { Pagination } from "swiper";
 import ProgramModelHome from "../../components/Model/ProgramModelHome";
 
 const ProductItem = dynamic(import("../../components/ProductItem"));
@@ -311,7 +314,8 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                            disableOnInteraction: false,
                         }}
                         spaceBetween={20}
-                        modules={[Autoplay]}
+                        modules={[Autoplay, Pagination]}
+                        pagination={{ clickable: true }}
                         className="mySwiper h-full w-full rounded-lg overflow-hidden"
                      >
                         {programs.map((program) => (
