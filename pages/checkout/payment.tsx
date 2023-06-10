@@ -146,7 +146,7 @@ const Payment = () => {
 
                if (currentAddress) {
                   CheckDisablePaymentType(temp);
-                  CalcTotalOrder(temp);
+                  CalcTotalOrder(temp, previewDiscount);
                   CalcAmountShipFee(temp);
                }
             }
@@ -168,7 +168,7 @@ const Payment = () => {
    }, [isOpenAddressBook]);
 
    useEffect(() => {
-      CalcTotalOrder(itemsInCart);
+      CalcTotalOrder(itemsInCart, previewDiscount);
       CalcAmountShipFee(itemsInCart);
    }, [idOpenDeliveryServices, paymentType]);
 
@@ -205,7 +205,7 @@ const Payment = () => {
       }
    };
 
-   const CalcTotalOrder = (items) => {
+   const CalcTotalOrder = (items, discounts) => {
       let tempTotalOrder = 0;
       let shipfeeMoMoPayment = 0;
 
@@ -232,8 +232,10 @@ const Payment = () => {
                      item.selectedService.serviceInfoWithPrePayment.shipFee)
             );
          }
-         previewDiscount.map((p) => (tempTotalOrder -= p.discount));
+         discounts.map((p) => (tempTotalOrder -= p.discount));
+
          setTotalOrder(tempTotalOrder);
+         return tempTotalOrder;
       } else {
          setTotalOrder(-1);
       }
@@ -312,18 +314,24 @@ const Payment = () => {
 
    const handlePaymentMomo = async () => {
       const arrayInforPayment = [];
+      let discountAmount = 0;
+      previewDiscount.map((p) => (discountAmount += p.discount));
+
       itemsInCart.map((item) =>
          arrayInforPayment.push({
             agencyID: item.agencyID,
             serviceID: item.selectedService.service_id,
             serviceTypeID: item.selectedService.service_type_id,
+            voucher:
+               previewDiscount.find((p) => p.id == item.agencyID) != undefined
+                  ? previewDiscount.find((p) => p.id == item.agencyID).voucher
+                  : null,
          })
       );
-
       setLoading(true);
       try {
          const res = await authAxios().post(
-            `${endpoints["momo_payment_info"]}?amountShipFee=${amountShipFee}`
+            `${endpoints["momo_payment_info"]}?amountShipFee=${amountShipFee}&amountDiscount=${discountAmount}`
          );
 
          if (res.data.data.payUrl) {
@@ -373,8 +381,14 @@ const Payment = () => {
                        voucher: voucher,
                     },
                  ];
-            console.log(updateDiscount);
             setPreviewDiscount(updateDiscount);
+            // let tempTotal = CalcTotalOrder(itemsInCart);
+            // updateDiscount.map((p) => (tempTotal -= p.discount));
+            // setTotalOrder(tempTotal);
+
+            CalcTotalOrder(itemsInCart, updateDiscount);
+            setVoucher("");
+            toast.success("Applied voucher");
          } else {
             toast.error(res.data.message);
          }
@@ -758,7 +772,15 @@ const Payment = () => {
                                                    i.calculatorPrice +
                                                    i.selectedService
                                                       .serviceInfoWithCOD
-                                                      .shipFee
+                                                      .shipFee -
+                                                   (previewDiscount.find(
+                                                      (p) => p.id == i.agencyID
+                                                   )
+                                                      ? previewDiscount.find(
+                                                           (p) =>
+                                                              p.id == i.agencyID
+                                                        ).discount
+                                                      : 0)
                                                 ).toLocaleString("it-IT", {
                                                    style: "currency",
                                                    currency: "VND",
@@ -771,7 +793,15 @@ const Payment = () => {
                                                    i.calculatorPrice +
                                                    i.selectedService
                                                       .serviceInfoWithPrePayment
-                                                      .shipFee
+                                                      .shipFee -
+                                                   (previewDiscount.find(
+                                                      (p) => p.id == i.agencyID
+                                                   )
+                                                      ? previewDiscount.find(
+                                                           (p) =>
+                                                              p.id == i.agencyID
+                                                        ).discount
+                                                      : 0)
                                                 ).toLocaleString("it-IT", {
                                                    style: "currency",
                                                    currency: "VND",
@@ -805,8 +835,9 @@ const Payment = () => {
                                  }
                               />
                               <button
-                                 className="p-3 rounded-lg bg-primary-color text-white font-semibold"
+                                 className="p-3 rounded-lg bg-primary-color text-white font-semibold disabled:bg-gray-400 disabled:opacity-90"
                                  onClick={handlePreviewVoucher}
+                                 disabled={voucher.length == 0 ? true : false}
                               >
                                  Apply
                               </button>

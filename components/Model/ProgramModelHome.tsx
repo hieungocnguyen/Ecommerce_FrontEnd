@@ -5,6 +5,7 @@ import API, { endpoints } from "../../API";
 import { toast } from "react-hot-toast";
 import emptyBox from "../../public/empty-box.png";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const ProgramModelHome = ({
    program,
@@ -15,6 +16,7 @@ const ProgramModelHome = ({
    const wrapperRef = useRef(null);
    const [codes, setCodes] = useState<any>([]);
    const [posts, setPosts] = useState<any>([]);
+   const router = useRouter();
 
    const fetchCode = async () => {
       try {
@@ -195,24 +197,28 @@ const ProgramModelHome = ({
                   Available Product(s)
                </div>
                {program.availableSku === "ALL" && (
-                  <Link href={`/agencyinfo/${program.agency.id}`}>
-                     <div className="w-[80%] mx-auto border-2 border-primary-color rounded-lg p-3 cursor-pointer hover:bg-gradient-to-t hover:from-blue-50 hover:to-blue-100">
-                        <div className="text-lg font-semibold">
-                           All products of
-                        </div>
-                        <div className="relative overflow-hidden w-4/5 mx-auto aspect-square rounded-xl mt-4">
-                           <Image
-                              src={program.agency.avatar}
-                              alt="img"
-                              layout="fill"
-                              className="object-cover"
-                           />
-                        </div>
-                        <div className="font-semibold text-primary-color text-lg mt-2">
-                           {program.agency.name}
-                        </div>
+                  <div
+                     className="w-[80%] mx-auto border-2 border-primary-color rounded-lg p-3 cursor-pointer hover:bg-gradient-to-t hover:from-blue-50 hover:to-blue-100"
+                     onClick={() => {
+                        router.push(`/agencyinfo/${program.agency.id}`);
+                        setOpenModelDetail(false);
+                     }}
+                  >
+                     <div className="text-lg font-semibold">
+                        All products of
                      </div>
-                  </Link>
+                     <div className="relative overflow-hidden w-4/5 mx-auto aspect-square rounded-xl mt-4">
+                        <Image
+                           src={program.agency.avatar}
+                           alt="img"
+                           layout="fill"
+                           className="object-cover"
+                        />
+                     </div>
+                     <div className="font-semibold text-primary-color text-lg mt-2">
+                        {program.agency.name}
+                     </div>
+                  </div>
                )}
                {posts.length > 0 && (
                   <div className="flex flex-col space-y-2">

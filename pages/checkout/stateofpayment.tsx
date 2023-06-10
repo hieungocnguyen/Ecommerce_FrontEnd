@@ -26,6 +26,7 @@ const StateOfPayment = () => {
                mapServiceInfo[item.agencyID] = {
                   serviceID: item.serviceID,
                   serviceTypeID: item.serviceTypeID,
+                  voucher: item.voucher != null ? item.voucher : null,
                };
             });
          }

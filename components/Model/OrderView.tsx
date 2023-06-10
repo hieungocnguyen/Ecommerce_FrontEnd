@@ -191,7 +191,7 @@ const OrderView = ({
                   </div>
                   <div className="">
                      <div className="text-right">
-                        <div className=" text-lg font-semibold">
+                        <div className=" text-lg font-semibold line-through">
                            {(
                               orderInfo.totalPrice +
                               orderInfo.reductionAmountVoucher
@@ -228,7 +228,7 @@ const OrderView = ({
                         )}
 
                         <div className="font-semibold text-xl text-primary-color">
-                           {"= "}
+                           {" "}
                            {(
                               orderInfo.totalPrice + orderInfo.shipFee
                            ).toLocaleString("it-IT", {

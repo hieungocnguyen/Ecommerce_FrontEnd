@@ -199,6 +199,10 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
                            defaultValue={valueItem.inventory}
                            className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
                            placeholder="Inventory"
+                           onKeyDown={(e) => {
+                              !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) &&
+                                 e.preventDefault();
+                           }}
                         />
                      </div>
                   </div>

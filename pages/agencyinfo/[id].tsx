@@ -25,6 +25,10 @@ import {
 import { chat } from "../../lib/chat_firebase";
 import Link from "next/link";
 import emptyBox from "../../public/empty-box.png";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { Autoplay } from "swiper";
+import ProgramModelHome from "../../components/Model/ProgramModelHome";
 
 const ProductItem = dynamic(import("../../components/ProductItem"));
 
@@ -39,8 +43,10 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
    const [pageCurrent, setPageCurrent] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
    const trans = useTrans();
-
    const [itemsHot, setItemsHot] = useState<any>([]);
+   const [programs, setPrograms] = useState<any>([]);
+   const [program, setProgram] = useState<any>({});
+   const [openModelDetail, setOpenModelDetail] = useState(false);
 
    const fetchFollowAgencyState = async () => {
       try {
@@ -66,11 +72,24 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
       }
    };
 
+   const fetchPromotionPrograms = async () => {
+      try {
+         const res = await API.post(
+            endpoints["get_promotion_program_by_agency_list"](100),
+            { listAgencyID: [agencyInfo.id] }
+         );
+         setPrograms(res.data.data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    useEffect(() => {
       if (userInfo) {
          fetchFollowAgencyState();
       }
       fetchHotItems();
+      fetchPromotionPrograms();
    }, [userInfo, agencyInfo]);
 
    const handleFollowAgency = async () => {
@@ -282,7 +301,68 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                   />
                </div>
             </div>
-            <div className="mt-44 mb-8">
+            <div className="mt-44">
+               <div className=" w-[80%] h-[440px] mx-auto">
+                  {programs.length > 0 && (
+                     <Swiper
+                        loop={true}
+                        autoplay={{
+                           delay: 5000,
+                           disableOnInteraction: false,
+                        }}
+                        spaceBetween={20}
+                        modules={[Autoplay]}
+                        className="mySwiper h-full w-full rounded-lg overflow-hidden"
+                     >
+                        {programs.map((program) => (
+                           <SwiperSlide key={program.id}>
+                              <div className="relative w-full h-full overflow-hidden">
+                                 <Image
+                                    src={program.avatar}
+                                    alt="img"
+                                    layout="fill"
+                                    className="object-cover"
+                                    loading="lazy"
+                                 />
+                                 <div className="absolute -bottom-20 left-0 w-full h-full bg-gradient-to-t from-primary-color"></div>
+                                 <div className="absolute bottom-4 left-6 text-left">
+                                    <div className="text-primary-color py-1 px-2 w-fit italic font-semibold bg-white text-sm">
+                                       <span>
+                                          {new Date(
+                                             program.beginUsable
+                                          ).toLocaleDateString("en-GB")}
+                                       </span>{" "}
+                                       -{" "}
+                                       <span>
+                                          {new Date(
+                                             program.endUsable
+                                          ).toLocaleDateString("en-GB")}
+                                       </span>
+                                    </div>
+                                    <div className="text-3xl line-clamp-1 font-bold text-white uppercase my-1">
+                                       {program.programTitle}
+                                    </div>
+                                    <div className="text-xl line-clamp-1 font-medium text-white">
+                                       {program.programName}
+                                    </div>
+                                 </div>
+                                 <div
+                                    className="absolute bottom-7 right-6 font-semibold text-primary-color text-lg bg-white rounded-lg px-4 py-2 cursor-pointer hover:shadow-lg hover:shadow-white"
+                                    onClick={() => {
+                                       setOpenModelDetail(true);
+                                       setProgram(program);
+                                    }}
+                                 >
+                                    View detail
+                                 </div>
+                              </div>
+                           </SwiperSlide>
+                        ))}
+                     </Swiper>
+                  )}
+               </div>
+            </div>
+            <div className="mb-8">
                <div className="text-center font-bold text-2xl mb-4">
                   Hot Sellers
                </div>
@@ -375,6 +455,20 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                      totalPage={totalPage}
                      pageCurrent={pageCurrent}
                      setPageCurrent={setPageCurrent}
+                  />
+               </div>
+            </div>
+            <div
+               className={`fixed top-0 right-0 w-full h-screen backdrop-blur-sm items-center justify-center z-30 ${
+                  openModelDetail ? "flex" : "hidden"
+               }`}
+            >
+               <div className="w-4/5 ">
+                  <ProgramModelHome
+                     program={program}
+                     setProgram={setProgram}
+                     setOpenModelDetail={setOpenModelDetail}
+                     openModelDetail={openModelDetail}
                   />
                </div>
             </div>

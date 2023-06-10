@@ -3,12 +3,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { Store } from "../../utils/Store";
 import API, { endpoints } from "../../API";
 import TopSeller from "../../components/TopSeller";
-import { Bar } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 import Image from "next/image";
 import {
    Chart as ChartJS,
    CategoryScale,
    LinearScale,
+   ArcElement,
    BarElement,
    Title,
    Tooltip,
@@ -17,6 +18,7 @@ import {
 import Link from "next/link";
 ChartJS.register(
    CategoryScale,
+   ArcElement,
    LinearScale,
    BarElement,
    Title,
@@ -38,6 +40,7 @@ const AdminHome = () => {
    const { state } = useContext(Store);
    const [items, setItems] = useState<any>([]);
    const [dataStatItem, setDataStatItem] = useState([]);
+   const [dataStatMerchant, setDataStatMerchant] = useState([]);
    const [numberTop, setNumberTop] = useState(6);
    const { userInfo } = state;
    const [itemsHot, setItemsHot] = useState<any>([]);
@@ -70,7 +73,12 @@ const AdminHome = () => {
       try {
          const res = await API.get(endpoints["general_stats_view_admin"]);
          setStats(res.data.data);
-         console.log(res.data.data);
+         setDataStatMerchant([
+            res.data.data.numOfActiveAgency,
+            res.data.data.numOfBannedByAdmin,
+            res.data.data.numOfBannedByExpired,
+            res.data.data.numOfUncensoredAgency,
+         ]);
       } catch (error) {
          console.log(error);
       }
@@ -88,6 +96,24 @@ const AdminHome = () => {
          {
             label: "Best seller",
             data: dataStatItem,
+            borderColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
+            backgroundColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
+            borderWidth: 2,
+         },
+      ],
+   };
+
+   const dataMerchant = {
+      labels: [
+         "Active Merchant",
+         "Banned by admin",
+         "Banned by expired",
+         "Uncensored",
+      ],
+      datasets: [
+         {
+            label: "Merchant",
+            data: dataStatMerchant,
             borderColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
             backgroundColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
             borderWidth: 2,
@@ -243,6 +269,12 @@ const AdminHome = () => {
                   </div>
                   <div className=" dark:bg-dark-primary bg-light-primary rounded-lg p-8 h-fit">
                      <Bar options={options} data={data} />
+                  </div>
+                  <div className="text-xl font-semibold text-center mb-2">
+                     Stat merchant
+                  </div>
+                  <div className=" dark:bg-dark-primary bg-light-primary rounded-lg p-8 h-fit">
+                     <Doughnut options={options} data={dataMerchant} />
                   </div>
                </div>
             </div>
