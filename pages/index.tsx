@@ -20,7 +20,6 @@ import HotCategory from "../components/HotCategory";
 import { BiShoppingBag } from "react-icons/bi";
 import ProductSkeleton from "../components/ProductSkeleton";
 import TopSeller from "../components/TopSeller";
-import ProgramModelHome from "../components/Model/ProgramModelHome";
 
 //lazy loading
 const ProductItem = dynamic(() => import("../components/ProductItem"), {
