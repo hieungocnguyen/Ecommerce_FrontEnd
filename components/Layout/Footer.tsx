@@ -26,9 +26,7 @@ const Footer = () => {
                <div className=" font-semibold">
                   <div className="mb-2">{trans.footer.introduction}</div>
                   <div className="mb-2">{trans.footer.career}</div>
-                  <div className="mb-2">{trans.footer.privacyPolicy}</div>
                   <div className="mb-2">{trans.footer.terms}</div>
-                  <div className="mb-2">{trans.footer.genuine}</div>
                </div>
             </div>
             <div className="font-semibold text-2xl mt-5">
@@ -94,10 +92,6 @@ const Footer = () => {
                   <div className="mb-2">
                      <div className="font-semibold">{trans.footer.address}</div>
                      <div className="">317 Nguyen Kiem, Go Vap</div>
-                  </div>
-                  <div className="mb-2">
-                     <div className="font-semibold">{trans.footer.hours}</div>
-                     <div className="">Monday - Friday, 8AM- 7PM</div>
                   </div>
                </div>
             </div>
