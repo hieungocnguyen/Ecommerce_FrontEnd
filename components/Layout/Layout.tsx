@@ -106,7 +106,7 @@ const Layout = ({ title, children }) => {
                visible ? "scale-100" : "scale-0"
             } ${
                lengthCompare === 0 && !openCompare
-                  ? "bottom-10"
+                  ? "bottom-28"
                   : "bottom-[180px]"
             }`}
             onClick={scrollToTop}
