@@ -305,8 +305,8 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                </div>
             </div>
             <div className="mt-44">
-               <div className=" w-[80%] h-[440px] mx-auto">
-                  {programs.length > 0 && (
+               {programs.length > 0 && (
+                  <div className=" w-[80%] h-[440px] mx-auto">
                      <Swiper
                         loop={true}
                         autoplay={{
@@ -363,8 +363,8 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                            </SwiperSlide>
                         ))}
                      </Swiper>
-                  )}
-               </div>
+                  </div>
+               )}
             </div>
             <div className="mb-8">
                <div className="text-center font-bold text-2xl mb-4">
