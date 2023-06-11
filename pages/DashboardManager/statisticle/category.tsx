@@ -109,7 +109,7 @@ const CategoryStatisticle = () => {
                                  {item[1]}
                               </td>
                               <td className="text-center">
-                                 {(item[1] / total) * 100}%
+                                 {((item[1] / total) * 100).toFixed(2)}%
                               </td>
                            </tr>
                         ))}
