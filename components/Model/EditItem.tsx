@@ -88,7 +88,24 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
                position: "top-center",
             });
          }
-      } catch (error) {}
+      } catch (error) {
+         setLoading(false);
+         if (error.response.data.data.inventory) {
+            toast.error(`Inventory: ${error.response.data.data.inventory}`);
+         }
+         if (error.response.data.data.unitPrice) {
+            toast.error(`Unit Price: ${error.response.data.data.unitPrice}`);
+         }
+         if (error.response.data.data.description) {
+            toast.error(`Description: ${error.response.data.data.description}`);
+         }
+         if (error.response.data.data.name) {
+            toast.error(`Name: ${error.response.data.data.name}`);
+         }
+         if (error.response.data.data.avatar) {
+            toast.error(`Avatar: ${error.response.data.data.avatar}`);
+         }
+      }
 
       setItemID(-1);
    };
@@ -159,6 +176,7 @@ const EditItem = ({ itemID, setItemID, setLoading }) => {
                      <input
                         name="name"
                         onChange={handleChange}
+                        minLength={1}
                         required
                         defaultValue={valueItem.name}
                         className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"

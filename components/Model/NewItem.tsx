@@ -45,6 +45,12 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
       e.preventDefault();
       let imageURL =
          "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg";
+      if (selectedImage === undefined) {
+         toast.error("Please upload an avatar for this post! ", {
+            position: "top-center",
+         });
+         return;
+      }
       try {
          setLoading(true);
          if (importImage) {
@@ -85,7 +91,22 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
             setUnitPrice("");
          }
       } catch (error) {
-         console.log(error);
+         if (error.response.data.data.inventory) {
+            toast.error(`Inventory: ${error.response.data.data.inventory}`);
+         }
+         if (error.response.data.data.unitPrice) {
+            toast.error(`Unit Price: ${error.response.data.data.unitPrice}`);
+         }
+         if (error.response.data.data.description) {
+            toast.error(`Description: ${error.response.data.data.description}`);
+         }
+         if (error.response.data.data.name) {
+            toast.error(`Name: ${error.response.data.data.name}`);
+         }
+         if (error.response.data.data.avatar) {
+            toast.error(`Avatar: ${error.response.data.data.avatar}`);
+         }
+         setLoading(false);
       }
    };
 
@@ -153,6 +174,8 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                   <input
                      name="name"
                      onChange={handleChange}
+                     minLength={1}
+                     // maxLength={100}
                      required
                      value={values.name}
                      className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
