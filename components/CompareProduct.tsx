@@ -76,20 +76,21 @@ const CompareProduct = ({ openCompare }) => {
             <div className="text-left font-semibold text-xl dark:text-dark-text">
                {trans.detailProduct.compare_product}
             </div>
-            <div className="grid grid-cols-3">
+            <div className="grid grid-cols-5">
                <div className="border-r-4 ">
-                  <div className="h-[310px] m-2 p-2 flex items-center  font-medium text-lg">
-                     Products
-                  </div>
+                  <div className="h-[310px] m-2 p-2 flex items-center  font-medium text-lg"></div>
                   <div className="bg-light-bg p-2 font-medium">Brand</div>
                   <div className="p-2 font-medium">Manufacturer</div>
                   <div className="bg-light-bg p-2 font-medium">Origin</div>
                   <div className="p-2 font-medium">Category</div>
-                  <div className="bg-light-bg p-2 font-medium">Start at</div>
+                  <div className="bg-light-bg p-2 font-medium">Sale date</div>
                   <div className="p-2 font-medium">Merchant</div>
                </div>
                {posts.map((post) => (
-                  <div key={post.id} className="text-center border-r-4">
+                  <div
+                     key={post.id}
+                     className="text-center border-r-4 col-span-2"
+                  >
                      <Link href={`/sale_post/${post.id}`}>
                         <div className="h-[310px] text-center p-2 m-2 cursor-pointer hover:bg-gray-200 rounded-lg">
                            <div className="relative w-32 mx-auto aspect-square overflow-hidden rounded-lg">
@@ -139,6 +140,7 @@ const CompareProduct = ({ openCompare }) => {
                               })}
                            </div>
                            <div className="p-2 bg-secondary-color rounded-lg w-fit mx-auto font-bold">
+                              Discount{" "}
                               {(
                                  ((post.initialPrice - post.finalPrice) /
                                     post.initialPrice) *
@@ -171,7 +173,7 @@ const CompareProduct = ({ openCompare }) => {
                   </div>
                ))}
                {posts.length == 1 && (
-                  <div className="text-center border-r-4">
+                  <div className="text-center border-r-4 col-span-2">
                      <div className="h-[310px] text-center p-2 m-2  rounded-lg flex justify-center items-center opacity-70">
                         <div className="relative w-40 mx-auto aspect-square overflow-hidden rounded-lg">
                            <Image
@@ -192,7 +194,7 @@ const CompareProduct = ({ openCompare }) => {
                )}
                {posts.length == 0 && (
                   <>
-                     <div className="text-center border-r-4">
+                     <div className="text-center border-r-4 col-span-2">
                         <div className="h-[310px] text-center p-2 m-2  rounded-lg flex justify-center items-center opacity-70">
                            <div className="relative w-40 mx-auto aspect-square overflow-hidden rounded-lg">
                               <Image
@@ -216,7 +218,7 @@ const CompareProduct = ({ openCompare }) => {
                         </div>
                         <div className="py-2 font-medium h-10">--</div>
                      </div>
-                     <div className="text-center">
+                     <div className="text-center col-span-2">
                         <div className="h-[310px] text-center p-2 m-2  rounded-lg flex justify-center items-center opacity-70">
                            <div className="relative w-40 mx-auto aspect-square overflow-hidden rounded-lg">
                               <Image

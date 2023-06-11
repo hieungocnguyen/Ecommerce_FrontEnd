@@ -75,6 +75,7 @@ const viLang = {
          tracking: "Theo dõi đơn dễ dàng",
          shipping: "Vận chuyển nhanh và rẻ",
       },
+      view_detail: "Xem chi tiết",
    },
    search: {
       result_for: "Kết quả tìm kiếm cho",

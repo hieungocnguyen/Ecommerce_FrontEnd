@@ -9,6 +9,7 @@ import { Pagination } from "swiper";
 import Image from "next/image";
 import API, { endpoints } from "../API";
 import ProgramModelHome from "./Model/ProgramModelHome";
+import useTrans from "../hook/useTrans";
 
 const imageList = [
    {
@@ -38,6 +39,7 @@ const Advertise = () => {
    const [programs, setPrograms] = useState<any>([]);
    const [program, setProgram] = useState<any>({});
    const [openModelDetail, setOpenModelDetail] = useState(false);
+   const trans = useTrans();
 
    const fetchPrograms = async () => {
       try {
@@ -117,7 +119,7 @@ const Advertise = () => {
                                        setProgram(program);
                                     }}
                                  >
-                                    View detail
+                                    {trans.home.view_detail}
                                  </div>
                               </div>
                            </SwiperSlide>

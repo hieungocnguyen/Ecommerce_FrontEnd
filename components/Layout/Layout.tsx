@@ -15,6 +15,7 @@ import { Store } from "../../utils/Store";
 import dynamic from "next/dynamic";
 import ChatComponent from "../ChatComponent";
 import VoucherSaved from "../VoucherSaved";
+import { HiOutlineTicket } from "react-icons/hi";
 
 const Layout = ({ title, children }) => {
    const [openCompare, setOpenCompare] = useState(false);
@@ -82,7 +83,7 @@ const Layout = ({ title, children }) => {
             {openVouchers ? (
                <BiX className="text-3xl" />
             ) : (
-               <BiPlanet className="text-3xl" />
+               <HiOutlineTicket className="text-3xl" />
             )}
          </div>
          <div

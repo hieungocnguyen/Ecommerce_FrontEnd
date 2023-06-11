@@ -76,6 +76,7 @@ const enLang = {
          tracking: "Easy tracking your order",
          shipping: "Fast & low cost shipping",
       },
+      view_detail: "View detail",
    },
    search: {
       result_for: "Results for",
