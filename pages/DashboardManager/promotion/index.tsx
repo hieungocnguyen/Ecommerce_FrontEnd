@@ -1,8 +1,13 @@
-import { BiPlanet, BiRightArrowAlt } from "react-icons/bi";
+import {
+   BiFilterAlt,
+   BiPlanet,
+   BiRightArrowAlt,
+   BiTrashAlt,
+} from "react-icons/bi";
 import LayoutDashboardManager from "../../../components/Dashboard/LayoutDashboardManager";
 import AddPromotion from "../../../components/Model/AddPromotion";
 import API, { endpoints } from "../../../API";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Store } from "../../../utils/Store";
 import Loader from "../../../components/Loader";
 import Image from "next/image";
@@ -12,6 +17,7 @@ import CreatePromotionCode from "../../../components/Model/CreatePromotionCode";
 import Pagination from "../../../components/Pagination";
 import UpdateProgram from "../../../components/Model/UpdateProgram";
 import emptyBox from "../../../public/empty-box.png";
+import toast from "react-hot-toast";
 
 const PromotionPage = () => {
    const [posts, setPosts] = useState<any>([]);
@@ -29,6 +35,15 @@ const PromotionPage = () => {
    const lengthOfPage = 2;
    const [pageCurrent, setPageCurrent] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
+   const [programNameFilter, setProgramNameFilter] = useState("");
+   const [programTitleFilter, setProgramTitleFilter] = useState("");
+   const [isOpenFilter, setIsOpenFilter] = useState(false);
+   const [dateOrder, setDateOrder] = useState([
+      "2001-03-20",
+      new Date(Date.now() + 31556926 * 1000).toISOString().slice(0, 10),
+   ]);
+   const refKeywordName = useRef(null);
+   const refKeywordTitle = useRef(null);
 
    const fetchPost = async () => {
       try {
@@ -63,25 +78,145 @@ const PromotionPage = () => {
       fetchProgram();
    }, [isOpenModelDetail, isOpenModel]);
 
+   useEffect(() => {
+      setTotalPage(Math.ceil(FilterArray(programs).length / lengthOfPage));
+   }, [programNameFilter, programTitleFilter, dateOrder]);
+
+   const FilterArray = (array) => {
+      let resultArray = array
+         .filter(
+            (program) =>
+               program.programTitle.toUpperCase().search(programTitleFilter) >=
+               0
+         )
+         .filter(
+            (program) =>
+               program.programName.toUpperCase().search(programNameFilter) >= 0
+         )
+         .filter(
+            (program) =>
+               program.beginUsable >= Date.parse(dateOrder[0]) &&
+               program.endUsable <= Date.parse(dateOrder[1])
+         );
+      console.log(resultArray);
+
+      return resultArray;
+   };
+
+   const clearFilter = () => {
+      setProgramNameFilter("");
+      setProgramTitleFilter("");
+      refKeywordName.current.value = "";
+      refKeywordTitle.current.value = "";
+      setDateOrder([
+         "2001-03-20",
+         new Date(Date.now() + 31556926 * 1000).toISOString().slice(0, 10),
+      ]);
+      toast.success("Cleared filter");
+   };
+
    return (
       <LayoutDashboardManager title="Promotion">
          <div className=" mx-auto my-8">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-2">
                <div className="font-semibold text-2xl flex items-center gap-1">
                   <div className="text-primary-color">
                      <BiPlanet />
                   </div>
                   <div>Promotion</div>
                </div>
+               <div className=" flex gap-2">
+                  <div
+                     className="py-3 px-5 text-primary-color hover:bg-primary-color rounded-lg hover:text-white font-semibold transition-all cursor-pointer border-2 border-primary-color"
+                     onClick={() => setisOpenModel(true)}
+                  >
+                     Add new promotion program
+                  </div>
+                  <div
+                     className="p-3 text-white bg-primary-color rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90"
+                     onClick={() => setIsOpenFilter(!isOpenFilter)}
+                  >
+                     <BiFilterAlt className="text-2xl" />
+                  </div>
+               </div>
+            </div>
+            <div
+               className={`bg-primary-color overflow-hidden transition-all duration-100 rounded-lg flex justify-center gap-4 ${
+                  isOpenFilter ? "h-fit p-3 mb-2" : "h-0 p-0 mb-0"
+               }`}
+            >
+               <input
+                  type="text"
+                  placeholder="🔎Program Title"
+                  id="keywordCodeFilterOrder"
+                  ref={refKeywordTitle}
+                  className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+                  onKeyDown={(e) => {
+                     !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) && e.preventDefault();
+                  }}
+                  onChange={(e) => {
+                     setProgramTitleFilter(e.target.value.toUpperCase());
+                     setPageCurrent(1);
+                  }}
+               />
+               <input
+                  type="text"
+                  placeholder="🔎Program Name"
+                  id="keywordCodeFilterOrder"
+                  ref={refKeywordName}
+                  className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+                  onKeyDown={(e) => {
+                     !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) && e.preventDefault();
+                  }}
+                  onChange={(e) => {
+                     setProgramNameFilter(e.target.value.toUpperCase());
+                     setPageCurrent(1);
+                  }}
+               />
+               <div className="flex items-center bg-white rounded-lg">
+                  <label
+                     className="pl-3 font-medium whitespace-nowrap"
+                     htmlFor="fromDate"
+                  >
+                     From date:
+                  </label>
+                  <input
+                     type="date"
+                     id="fromDate"
+                     className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+                     value={dateOrder[0]}
+                     onChange={(e) => {
+                        setDateOrder([e.target.value, dateOrder[1]]);
+                     }}
+                  />
+               </div>
+               <div className="flex items-center bg-white rounded-lg">
+                  <label
+                     className="pl-3 font-medium whitespace-nowrap"
+                     htmlFor="toDate"
+                  >
+                     To date:
+                  </label>
+                  <input
+                     type="date"
+                     id="toDate"
+                     className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
+                     value={dateOrder[1]}
+                     onChange={(e) => {
+                        setDateOrder([dateOrder[0], e.target.value]);
+                     }}
+                  />
+               </div>
                <div
-                  className="py-3 px-5 text-primary-color hover:bg-primary-color rounded-lg hover:text-white font-semibold transition-all cursor-pointer border-2 border-primary-color"
-                  onClick={() => setisOpenModel(true)}
+                  className="p-3 bg-secondary-color rounded-lg font-semibold text-dark-primary cursor-pointer hover:shadow-lg hover:shadow-secondary-color hover:brightness-90 flex gap-1 items-center"
+                  onClick={clearFilter}
                >
-                  Add new promotion program
+                  <BiTrashAlt className="text-2xl" />
+                  Clear
                </div>
             </div>
             <div className="grid grid-cols-2 gap-8">
-               {programs
+               {FilterArray(programs)
                   .slice(
                      (pageCurrent - 1) * lengthOfPage,
                      (pageCurrent - 1) * lengthOfPage + lengthOfPage
@@ -95,7 +230,11 @@ const PromotionPage = () => {
                            setIsOpenModelDetail(true);
                         }}
                      >
-                        <div className="relative overflow-hidden w-full h-80">
+                        <div
+                           className={`relative overflow-hidden w-full h-80 ${
+                              program.state == 0 && "grayscale"
+                           }`}
+                        >
                            <Image
                               src={program.avatar}
                               alt="img"
@@ -166,7 +305,7 @@ const PromotionPage = () => {
                   ))}
             </div>
             <div className="">
-               {programs.length == 0 && (
+               {FilterArray(programs).length == 0 && (
                   <div className="relative overflow-hidden w-1/3 aspect-square mx-auto">
                      <Image
                         src={emptyBox}
