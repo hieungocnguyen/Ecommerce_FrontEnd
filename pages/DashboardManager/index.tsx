@@ -300,7 +300,7 @@ const AgencyHome = () => {
                   </div>
                   <div className="">
                      <div className="text-center text-xl font-semibold col-span-2 mb-4">
-                        Statisticle Hot Items
+                        Statistical Hot Items
                      </div>
                      <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-8">
                         <Bar options={options} data={data} />

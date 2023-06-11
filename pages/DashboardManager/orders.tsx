@@ -183,7 +183,7 @@ const Orders = () => {
          <LayoutDashboard title="Orders">
             <div className="w-full mx-auto my-8">
                <div className="flex items-center justify-between mb-2">
-                  <div className="font-semibold text-2xl">Orders Tracking</div>
+                  <div className="font-semibold text-2xl">Tracking Order</div>
                   <div
                      className="p-3 text-white bg-primary-color rounded-lg cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90 flex items-center gap-1"
                      onClick={() => setIsOpenFilter(!isOpenFilter)}

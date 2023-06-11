@@ -303,7 +303,7 @@ const LayoutDashboard = ({ title, children }) => {
                         }`}
                      >
                         <BiPackage className="text-lg" />
-                        Order Tracking
+                        Tracking Order
                      </div>
                   </Link>
                   <div>

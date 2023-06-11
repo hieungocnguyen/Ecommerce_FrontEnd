@@ -265,13 +265,13 @@ const AdminHome = () => {
                </div>
                <div>
                   <div className="text-xl font-semibold text-center mb-2">
-                     Stat hot items
+                     Statistical hot items
                   </div>
                   <div className=" dark:bg-dark-primary bg-light-primary rounded-lg p-8 h-fit">
                      <Bar options={options} data={data} />
                   </div>
                   <div className="text-xl font-semibold text-center mb-2">
-                     Stat merchant
+                     Statistical merchant
                   </div>
                   <div className=" dark:bg-dark-primary bg-light-primary rounded-lg p-8 h-fit">
                      <Doughnut options={options} data={dataMerchant} />
