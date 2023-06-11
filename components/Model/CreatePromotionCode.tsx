@@ -38,7 +38,14 @@ const CreatePromotionCode = ({ setIsModelCreateCode, setLoading, program }) => {
       } catch (error) {
          console.log(error);
          setLoading(false);
-         toast.error("Something wrong");
+         if (error.response.data.data.totalRelease) {
+            toast.error(
+               `Total release: ${error.response.data.data.totalRelease}`
+            );
+         }
+         if (error.response.data.data.prefix) {
+            toast.error(`Prefix: ${error.response.data.data.prefix}`);
+         }
       }
    };
 
@@ -83,6 +90,8 @@ const CreatePromotionCode = ({ setIsModelCreateCode, setLoading, program }) => {
                <input
                   type="text"
                   id="prefix"
+                  minLength={1}
+                  // maxLength={30}
                   required
                   value={prefix}
                   className="p-3 w-full rounded-lg"
