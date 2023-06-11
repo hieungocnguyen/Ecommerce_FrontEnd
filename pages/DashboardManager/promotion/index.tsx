@@ -11,6 +11,7 @@ import DetailPromotion from "../../../components/Model/DetailPromotion";
 import CreatePromotionCode from "../../../components/Model/CreatePromotionCode";
 import Pagination from "../../../components/Pagination";
 import UpdateProgram from "../../../components/Model/UpdateProgram";
+import emptyBox from "../../../public/empty-box.png";
 
 const PromotionPage = () => {
    const [posts, setPosts] = useState<any>([]);
@@ -163,6 +164,18 @@ const PromotionPage = () => {
                         </div>
                      </div>
                   ))}
+            </div>
+            <div className="">
+               {programs.length == 0 && (
+                  <div className="relative overflow-hidden w-1/3 aspect-square mx-auto">
+                     <Image
+                        src={emptyBox}
+                        alt="empty"
+                        layout="fill"
+                        className="object-cover"
+                     />
+                  </div>
+               )}
             </div>
             <Pagination
                totalPage={totalPage}

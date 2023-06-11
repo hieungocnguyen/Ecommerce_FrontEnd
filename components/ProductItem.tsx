@@ -48,6 +48,7 @@ const ProductItem = ({ product, inCompare }) => {
          }
       }
    };
+
    const handleRemoveToWishList = async () => {
       try {
          const resRemove = await authAxios().get(
@@ -62,9 +63,10 @@ const ProductItem = ({ product, inCompare }) => {
          toast.error("Something wrong, please try again!");
       }
    };
+
    const handleAddCompare = () => {
-      if (compare.products.length == 8) {
-         toast.error("Can only compare 8 posts at a time!");
+      if (compare.products.length == 2) {
+         toast.error("Max number item is 2");
       } else {
          dispatch({
             type: "COMPARE_ADD_PRODUCT",
@@ -82,8 +84,8 @@ const ProductItem = ({ product, inCompare }) => {
             position: "top-center",
          });
       }
-      console.log(compare.products.length);
    };
+
    const handleRemoveCompare = () => {
       dispatch({
          type: "COMPARE_REMOVE_PRODUCT",
@@ -95,6 +97,7 @@ const ProductItem = ({ product, inCompare }) => {
          position: "top-center",
       });
    };
+
    const loadLikeStatus = async () => {
       try {
          const resStatus = await authAxios().get(
@@ -108,6 +111,7 @@ const ProductItem = ({ product, inCompare }) => {
          });
       }
    };
+
    const handleDetailRoute = () => {
       router.push(`/sale_post/${product.id}`);
    };

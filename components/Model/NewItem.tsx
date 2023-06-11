@@ -190,6 +190,10 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                         type="number"
                         onChange={handleChange}
                         required
+                        onKeyDown={(e) => {
+                           !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) &&
+                              e.preventDefault();
+                        }}
                         value={values.inventory}
                         className="w-full p-4 rounded-lg bg-light-bg dark:bg-dark-bg"
                         placeholder="Inventory"
