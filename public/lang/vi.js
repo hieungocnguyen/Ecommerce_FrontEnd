@@ -134,6 +134,8 @@ const viLang = {
       relative_post: "Các sản phẩm liên quan",
 
       compare_product: "So sánh sản phẩm",
+      discount: "Giảm giá",
+      remove: "Gỡ bỏ",
       choose_item: "Chọn mặt hàng",
       item: "Mặt hàng",
       unitprice: "Đơn giá",

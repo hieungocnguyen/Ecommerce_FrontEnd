@@ -77,14 +77,20 @@ const CompareProduct = ({ openCompare }) => {
                {trans.detailProduct.compare_product}
             </div>
             <div className="grid grid-cols-5">
-               <div className="border-r-4 ">
+               <div className="border-r-4 font-semibold uppercase">
                   <div className="h-[310px] m-2 p-2 flex items-center  font-medium text-lg"></div>
-                  <div className="bg-light-bg p-2 font-medium">Brand</div>
-                  <div className="p-2 font-medium">Manufacturer</div>
-                  <div className="bg-light-bg p-2 font-medium">Origin</div>
-                  <div className="p-2 font-medium">Category</div>
-                  <div className="bg-light-bg p-2 font-medium">Sale date</div>
-                  <div className="p-2 font-medium">Merchant</div>
+                  <div className="bg-light-bg p-2 ">
+                     {trans.detailProduct.brand}
+                  </div>
+                  <div className="p-2 ">{trans.detailProduct.manufacturer}</div>
+                  <div className="bg-light-bg p-2 ">
+                     {trans.detailProduct.origin}
+                  </div>
+                  <div className="p-2 ">{trans.detailProduct.category}</div>
+                  <div className="bg-light-bg p-2 ">
+                     {trans.detailProduct.date_of_sale}
+                  </div>
+                  <div className="p-2">{trans.detailProduct.merchant}</div>
                </div>
                {posts.map((post) => (
                   <div
@@ -140,7 +146,7 @@ const CompareProduct = ({ openCompare }) => {
                               })}
                            </div>
                            <div className="p-2 bg-secondary-color rounded-lg w-fit mx-auto font-bold">
-                              Discount{" "}
+                              {trans.detailProduct.discount}{" "}
                               {(
                                  ((post.initialPrice - post.finalPrice) /
                                     post.initialPrice) *
@@ -168,7 +174,7 @@ const CompareProduct = ({ openCompare }) => {
                         className="py-2 px-3 bg-red-500 rounded-lg cursor-pointer hover:brightness-95 text-white font-semibold w-fit mx-auto mt-1"
                         onClick={() => handleRemoveCompare(post.id)}
                      >
-                        Remove
+                        {trans.detailProduct.remove}
                      </div>
                   </div>
                ))}

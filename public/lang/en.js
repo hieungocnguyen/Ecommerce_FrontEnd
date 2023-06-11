@@ -135,6 +135,8 @@ const enLang = {
       relative_post: "Relative Products",
 
       compare_product: "Compare products",
+      discount: "Discount",
+      remove: "Remove",
       choose_item: "Choose item",
       item: "Item",
       unitprice: "Unitprice",
