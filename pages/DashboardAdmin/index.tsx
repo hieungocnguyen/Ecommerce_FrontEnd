@@ -114,8 +114,8 @@ const AdminHome = () => {
          {
             label: "Merchant",
             data: dataStatMerchant,
-            borderColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
-            backgroundColor: ["#ff9f1c", "#e71d36", "#662e9b", "#00509d"],
+            borderColor: ["#2ccd59", "#4f4f50", "#116ad0", "#fb3e9c"],
+            backgroundColor: ["#2ccd59", "#4f4f50", "#116ad0", "#fb3e9c"],
             borderWidth: 2,
          },
       ],
@@ -128,7 +128,7 @@ const AdminHome = () => {
                ✨Hello Administrator
             </div>
             <div className="text-center font-semibold text-xl mb-2">
-               Merchant statisticle
+               Merchant statistical
             </div>
             <div className="grid grid-cols-5 gap-4 mb-4">
                <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center rounded-lg font-medium p-2">
@@ -212,70 +212,69 @@ const AdminHome = () => {
                   </div>
                </div>
             </div>
-            <div className="grid grid-cols-2 gap-6">
-               <div className="">
-                  <div className="text-xl font-semibold text-center mb-2">
-                     Best selling items
-                  </div>
-                  <div className="grid grid-cols-3 gap-4">
-                     {itemsHot.length > 0 &&
-                        itemsHot.map((item) => (
-                           <Link
-                              href={`/sale_post/${item[1].id}`}
-                              key={item.id}
-                           >
-                              <div className="bg-light-primary dark:bg-dark-primary rounded-lg p-3 cursor-pointer hover:shadow-lg text-center">
-                                 <div className="relative overflow-hidden w-3/4 aspect-square mx-auto rounded-xl">
-                                    <Image
-                                       src={item[6]}
-                                       alt="item"
-                                       layout="fill"
-                                       className="object-cover"
-                                    />
-                                 </div>
-                                 <div className="font-semibold mt-2 line-clamp-1">
-                                    {item[2]}
-                                 </div>
-                                 <div className="font-semibold text-sm opacity-75 line-clamp-1">
-                                    {item[5]}
-                                 </div>
-                                 <div className="text-primary-color font-bold mt-1 text-lg">
-                                    {item[3].toLocaleString("it-IT", {
-                                       style: "currency",
-                                       currency: "VND",
-                                    })}
-                                 </div>
-                                 <div className="font-semibold text-sm opacity-75 line-clamp-1">
-                                    Sold: {item[4]}
-                                 </div>
-                              </div>
-                           </Link>
-                        ))}
-                     {itemsHot.length == 0 && (
-                        <div className="col-span-4 relative overflow-hidden w-1/2 aspect-square mx-auto">
-                           <Image
-                              src={emptyBox}
-                              alt="img"
-                              className="object-cover"
-                              layout="fill"
-                           />
-                        </div>
-                     )}
-                  </div>
-               </div>
-               <div>
+            <div className="grid grid-cols-12 gap-6">
+               <div className="col-span-8">
                   <div className="text-xl font-semibold text-center mb-2">
                      Statistical hot items
                   </div>
                   <div className=" dark:bg-dark-primary bg-light-primary rounded-lg p-8 h-fit">
                      <Bar options={options} data={data} />
                   </div>
+               </div>
+               <div className="col-span-4">
                   <div className="text-xl font-semibold text-center mb-2">
                      Statistical merchant
                   </div>
                   <div className=" dark:bg-dark-primary bg-light-primary rounded-lg p-8 h-fit">
                      <Doughnut options={options} data={dataMerchant} />
                   </div>
+               </div>
+            </div>
+            <div className="">
+               <div className="text-xl font-semibold text-center my-2">
+                  Best selling items
+               </div>
+               <div className="grid grid-cols-6 gap-4">
+                  {itemsHot.length > 0 &&
+                     itemsHot.map((item) => (
+                        <Link href={`/sale_post/${item[1].id}`} key={item.id}>
+                           <div className="bg-light-primary dark:bg-dark-primary rounded-lg p-3 cursor-pointer hover:shadow-lg text-center">
+                              <div className="relative overflow-hidden w-3/4 aspect-square mx-auto rounded-xl">
+                                 <Image
+                                    src={item[6]}
+                                    alt="item"
+                                    layout="fill"
+                                    className="object-cover"
+                                 />
+                              </div>
+                              <div className="font-semibold mt-2 line-clamp-1">
+                                 {item[2]}
+                              </div>
+                              <div className="font-semibold text-sm opacity-75 line-clamp-1">
+                                 {item[5]}
+                              </div>
+                              <div className="text-primary-color font-bold mt-1 text-lg">
+                                 {item[3].toLocaleString("it-IT", {
+                                    style: "currency",
+                                    currency: "VND",
+                                 })}
+                              </div>
+                              <div className="font-semibold text-sm opacity-75 line-clamp-1">
+                                 Sold: {item[4]}
+                              </div>
+                           </div>
+                        </Link>
+                     ))}
+                  {itemsHot.length == 0 && (
+                     <div className="col-span-4 relative overflow-hidden w-1/2 aspect-square mx-auto">
+                        <Image
+                           src={emptyBox}
+                           alt="img"
+                           className="object-cover"
+                           layout="fill"
+                        />
+                     </div>
+                  )}
                </div>
             </div>
          </div>
