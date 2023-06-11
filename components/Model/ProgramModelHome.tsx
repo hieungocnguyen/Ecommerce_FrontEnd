@@ -21,7 +21,7 @@ const ProgramModelHome = ({
    const fetchCode = async () => {
       try {
          const { data } = await API.get(
-            endpoints["get_all_promotion_code"](program.id)
+            endpoints["get_all_publish_promotion_code"](program.id)
          );
          setCodes(data.data);
       } catch (error) {

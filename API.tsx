@@ -182,6 +182,8 @@ export let endpoints = {
    get_promotion_program_by_agency_list: (top) =>
       `/promotion/get-promotion-program-by-list-agency-id/${top}`,
    get_sale_post_by_list_post_ID: `/sale-post/get-list-sale-post-by-list-id`,
+   get_all_publish_promotion_code: (programID) =>
+      `/promotion/get-promotion-code-by-program-id/${programID}`,
 };
 
 export const authAxios = () =>
