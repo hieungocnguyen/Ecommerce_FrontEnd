@@ -161,7 +161,7 @@ const Advertise = () => {
                <div className="sm:h-1/2 h-full w-full rounded-lg shadow-lg">
                   <div className="relative h-full w-full rounded-lg overflow-hidden">
                      <Image
-                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686493541/Artboard_19_copy_3x_khaghq.png"
+                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686507035/12123Artboard_19_copy_2_3x_mtt13q.png"
                         alt="img"
                         layout="fill"
                         className="object-cover"
