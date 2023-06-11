@@ -77,6 +77,7 @@ const enLang = {
          shipping: "Fast & low cost shipping",
       },
       view_detail: "View detail",
+      register_now: "Register now",
    },
    search: {
       result_for: "Results for",

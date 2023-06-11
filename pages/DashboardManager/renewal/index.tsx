@@ -125,6 +125,12 @@ const Renewal = () => {
             </div>
             <div className="">
                <div className="font-semibold text-xl my-6">History renewal</div>
+               <div className="grid grid-cols-12 font-semibold text-center my-2 text-lg">
+                  <div className="col-span-3">Renewal date</div>
+                  <div className="col-span-3">Package name</div>
+                  <div className="col-span-3">Price</div>
+                  <div className="col-span-3">Number of day available</div>
+               </div>
                {historyRenewalList.length > 0 ? (
                   <div className="">
                      {historyRenewalList

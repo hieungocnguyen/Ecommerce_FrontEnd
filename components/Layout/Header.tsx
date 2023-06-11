@@ -408,7 +408,7 @@ const Header = () => {
                )}
             </div>
             <div
-               className={`absolute -left-5 top-14 z-20 rounded-lg bg-light-primary dark:bg-dark-primary overflow-auto sm:w-[34rem] w-screen transition-all ease-out ${
+               className={`absolute -left-5 top-14 z-20 rounded-lg bg-light-primary dark:bg-dark-primary overflow-auto sm:w-[46rem] w-screen transition-all ease-out ${
                   notiList.length > 5 ? "h-[26rem]" : "h-fit"
                } ${
                   isNotiOpen

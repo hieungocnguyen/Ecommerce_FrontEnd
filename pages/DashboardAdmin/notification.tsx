@@ -100,7 +100,7 @@ const Notification = () => {
                               />
                            </div>
                            <div>
-                              <div className="text-lg font-medium">
+                              <div className="text-lg font-semibold">
                                  {noti.data.title}
                               </div>
                               <div className=" mb-1">{noti.data.details}</div>

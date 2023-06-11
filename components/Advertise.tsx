@@ -10,6 +10,7 @@ import Image from "next/image";
 import API, { endpoints } from "../API";
 import ProgramModelHome from "./Model/ProgramModelHome";
 import useTrans from "../hook/useTrans";
+import Link from "next/link";
 
 const imageList = [
    {
@@ -157,20 +158,25 @@ const Advertise = () => {
                </div>
             </div>
             <div className="sm:col-span-1 col-span-4 flex sm:flex-col sm:gap-6 gap-4">
-               <div className="sm:h-1/2 h-full w-full bg-primary-color rounded-lg">
+               <div className="sm:h-1/2 h-full w-full rounded-lg shadow-lg">
                   <div className="relative h-full w-full rounded-lg overflow-hidden">
                      <Image
-                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1683624331/6339694_Medium_owicrl.png"
+                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686493541/Artboard_19_copy_3x_khaghq.png"
                         alt="img"
                         layout="fill"
                         className="object-cover"
                      />
+                     <Link href={`/profile`}>
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 font-bold text-lg uppercase py-3 px-5 bg-secondary-color rounded-lg hover:brightness-95 cursor-pointer hover:shadow-lg hover:shadow-secondary-color">
+                           REGISTER <br /> HERE!
+                        </div>
+                     </Link>
                   </div>
                </div>
                <div className="sm:h-1/2 h-full w-full bg-primary-color rounded-lg">
                   <div className="relative h-full w-full rounded-lg overflow-hidden">
                      <Image
-                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1683623770/7943870_ygu77g.png"
+                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1684215390/thumbnailArtboard_19_lh1aia.png"
                         alt="img"
                         layout="fill"
                         className="object-cover"

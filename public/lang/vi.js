@@ -76,6 +76,7 @@ const viLang = {
          shipping: "Vận chuyển nhanh và rẻ",
       },
       view_detail: "Xem chi tiết",
+      register_now: "Đăng ký ngay",
    },
    search: {
       result_for: "Kết quả tìm kiếm cho",
