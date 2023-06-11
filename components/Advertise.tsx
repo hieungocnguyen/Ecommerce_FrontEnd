@@ -168,7 +168,7 @@ const Advertise = () => {
                      />
                      <Link href={`/profile`}>
                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 font-bold text-lg uppercase py-3 px-5 bg-secondary-color rounded-lg hover:brightness-95 cursor-pointer hover:shadow-lg hover:shadow-secondary-color">
-                           REGISTER <br /> HERE!
+                           {trans.home.register_now}
                         </div>
                      </Link>
                   </div>
