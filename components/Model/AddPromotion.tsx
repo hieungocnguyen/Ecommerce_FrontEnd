@@ -360,7 +360,7 @@ const AddPromotion = ({ posts, setisOpenModel, agencyInfo, setLoading }) => {
                                  htmlFor="percentageReduction"
                                  className="font-medium text-sm"
                               >
-                                 Percentage Reduction
+                                 Percentage Reduction (%)
                               </label>
                               <input
                                  type="number"
@@ -396,7 +396,7 @@ const AddPromotion = ({ posts, setisOpenModel, agencyInfo, setLoading }) => {
                            htmlFor="reductionAmountMax"
                            className="font-medium text-sm"
                         >
-                           Reduction Amount Max
+                           Reduction Amount Max (VND)
                         </label>
                         <input
                            type="text"
