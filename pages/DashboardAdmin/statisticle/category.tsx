@@ -28,6 +28,7 @@ const Category = () => {
    const [dataStatCategory, setDataStatCategory] = useState([]);
    const [respondCateStat, setRespondCateStat] = useState([]);
    const [dataCSV, setDataCSV] = useState([]);
+   const [total, setTotal] = useState(0);
 
    useEffect(() => {
       setCategory([]);
@@ -35,6 +36,7 @@ const Category = () => {
       setDataCSV([]);
       const loadDataCate = async () => {
          try {
+            let tempTotal = 0;
             const resDataCate = await API.get(endpoints["stat_post_category"]);
             resDataCate.data.data.map((c) => {
                setCategory((category) => [...category, c[0]]);
@@ -46,7 +48,9 @@ const Category = () => {
                   ...data,
                   { Category: c[0], Number: c[1] },
                ]);
+               tempTotal += c[1];
             });
+            setTotal(tempTotal);
             setRespondCateStat(resDataCate.data.data);
          } catch (error) {
             console.log(error);
@@ -101,7 +105,10 @@ const Category = () => {
                            <td className="border-r-2 border-dark-spot dark:bg-light-primary">
                               Category
                            </td>
-                           <td className="text-center">Number of post</td>
+                           <td className="text-center border-r-2 border-dark-spot dark:bg-light-primary">
+                              Number of post
+                           </td>
+                           <td className="text-center">Ratio</td>
                         </tr>
                         {respondCateStat.map((item) => (
                            <tr
@@ -111,7 +118,12 @@ const Category = () => {
                               <td className="border-r-2 border-dark-spot dark:bg-light-primary">
                                  {item[0]}
                               </td>
-                              <td className="text-center">{item[1]}</td>
+                              <td className="text-center border-r-2 border-dark-spot dark:bg-light-primary">
+                                 {item[1]}
+                              </td>
+                              <td className="text-center">
+                                 {(item[1] / total) * 100}%
+                              </td>
                            </tr>
                         ))}
                      </table>
