@@ -246,54 +246,75 @@ const ProgramModelHome = ({
                </div>
             </div>
             <div className="">
-               <div className="font-semibold text-xl mb-2">
-                  Available Product(s)
+               {program.id && (
+                  <div className="mb-3">
+                     <div className="font-semibold text-xl mb-2">Merchant</div>
+                     <div className="grid grid-cols-6 items-center gap-2 border-2 p-2 border-primary-color rounded-lg">
+                        <div className="relative overflow-hidden w-full aspect-square rounded-lg">
+                           <Image
+                              src={program.agency.avatar}
+                              alt="img"
+                              layout="fill"
+                              className="object-cover"
+                           />
+                        </div>
+                        <div className="font-semibold col-span-5 text-left">
+                           {program.agency.name}
+                        </div>
+                     </div>
+                  </div>
+               )}
+
+               <div>
+                  <div className="font-semibold text-xl mb-2">
+                     Available Product(s)
+                  </div>
+                  {program.availableSku === "ALL" && (
+                     <div
+                        className="w-[80%] mx-auto border-2 border-primary-color rounded-lg p-3 cursor-pointer hover:bg-gradient-to-t hover:from-blue-50 hover:to-blue-100"
+                        onClick={() => {
+                           router.push(`/agencyinfo/${program.agency.id}`);
+                           setOpenModelDetail(false);
+                        }}
+                     >
+                        <div className="text-lg font-semibold">
+                           All products of
+                        </div>
+                        <div className="relative overflow-hidden w-4/5 mx-auto aspect-square rounded-xl mt-4">
+                           <Image
+                              src={program.agency.avatar}
+                              alt="img"
+                              layout="fill"
+                              className="object-cover"
+                           />
+                        </div>
+                        <div className="font-semibold text-primary-color text-lg mt-2">
+                           {program.agency.name}
+                        </div>
+                     </div>
+                  )}
+                  {posts.length > 0 && (
+                     <div className="flex flex-col space-y-2">
+                        {posts.map((post) => (
+                           <Link href={`/sale_post/${post.id}`} key={post.id}>
+                              <div className="flex items-center gap-2 p-3 bg-light-primary rounded-lg hover:brightness-95 cursor-pointer">
+                                 <div className="relative overflow-hidden w-10 aspect-square">
+                                    <Image
+                                       src={post.avatar}
+                                       alt="img"
+                                       layout="fill"
+                                       className="object-cover bg-white rounded-lg"
+                                    />
+                                 </div>
+                                 <div className="line-clamp-1 text-left font-medium">
+                                    {post.title}
+                                 </div>
+                              </div>
+                           </Link>
+                        ))}
+                     </div>
+                  )}
                </div>
-               {program.availableSku === "ALL" && (
-                  <div
-                     className="w-[80%] mx-auto border-2 border-primary-color rounded-lg p-3 cursor-pointer hover:bg-gradient-to-t hover:from-blue-50 hover:to-blue-100"
-                     onClick={() => {
-                        router.push(`/agencyinfo/${program.agency.id}`);
-                        setOpenModelDetail(false);
-                     }}
-                  >
-                     <div className="text-lg font-semibold">
-                        All products of
-                     </div>
-                     <div className="relative overflow-hidden w-4/5 mx-auto aspect-square rounded-xl mt-4">
-                        <Image
-                           src={program.agency.avatar}
-                           alt="img"
-                           layout="fill"
-                           className="object-cover"
-                        />
-                     </div>
-                     <div className="font-semibold text-primary-color text-lg mt-2">
-                        {program.agency.name}
-                     </div>
-                  </div>
-               )}
-               {posts.length > 0 && (
-                  <div className="flex flex-col space-y-2">
-                     {posts.map((post) => (
-                        <Link href={`/sale_post/${post.id}`} key={post.id}>
-                           <div className="flex items-center gap-2 p-3 bg-light-primary rounded-lg hover:brightness-95 cursor-pointer">
-                              <div className="relative overflow-hidden w-10 aspect-square">
-                                 <Image
-                                    src={post.avatar}
-                                    alt="img"
-                                    layout="fill"
-                                    className="object-cover bg-white rounded-lg"
-                                 />
-                              </div>
-                              <div className="line-clamp-1 text-left font-medium">
-                                 {post.title}
-                              </div>
-                           </div>
-                        </Link>
-                     ))}
-                  </div>
-               )}
             </div>
          </div>
       </div>
