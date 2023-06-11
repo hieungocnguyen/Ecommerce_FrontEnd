@@ -529,7 +529,7 @@ const ChatView = ({ userInfo, agencyID, isOpenChat, empty }) => {
                                     ) : (
                                        <>
                                           <div
-                                             className={`text-white p-2 px-4 rounded-3xl bg-primary-color max-w-xl font-medium`}
+                                             className={`text-light-text p-2 px-4 rounded-3xl bg-secondary-color max-w-xl font-medium`}
                                           >
                                              {message?.message}
                                           </div>
