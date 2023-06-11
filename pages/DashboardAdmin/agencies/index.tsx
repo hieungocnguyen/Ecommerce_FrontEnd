@@ -64,7 +64,12 @@ const AgenciesAdminDashboard = () => {
 
    const FilterArray = (array) => {
       let resultArray = array
-         .filter((agency) => agency.name.toUpperCase().search(keyword) >= 0)
+         .filter(
+            (agency) =>
+               unicodeParse(agency.name)
+                  .toUpperCase()
+                  .search(unicodeParse(keyword)) >= 0
+         )
          .filter((agency) =>
             filterState > 0
                ? filterState == 1
@@ -75,6 +80,15 @@ const AgenciesAdminDashboard = () => {
 
       return resultArray;
    };
+
+   const unicodeParse = (string) => {
+      return string
+         .normalize("NFD")
+         .replace(/[\u0300-\u036f]/g, "")
+         .replace(/đ/g, "d")
+         .replace(/Đ/g, "D");
+   };
+
    const clearFilter = () => {
       setKeyword("");
       refKeyword.current.value = "";
@@ -98,8 +112,9 @@ const AgenciesAdminDashboard = () => {
                      placeholder="🔎 Merchant Name"
                      className="p-3 rounded-lg border-2 border-primary-color"
                      onKeyDown={(e) => {
-                        !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) &&
-                           e.preventDefault();
+                        ["(", ")", "`", "`", "[", "]", "?", "\\"].includes(
+                           e.key
+                        ) && e.preventDefault();
                      }}
                      onChange={(e) => {
                         setKeyword(e.target.value.toUpperCase());

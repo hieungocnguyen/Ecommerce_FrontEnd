@@ -71,10 +71,19 @@ const AgenciesAdminDashboard = () => {
 
    const FilterArray = (array) => {
       let resultArray = array.filter(
-         (agency) => agency.agency.name.search(keyword) >= 0
+         (agency) =>
+            unicodeParse(agency.agency.name).search(unicodeParse(keyword)) >= 0
       );
 
       return resultArray;
+   };
+
+   const unicodeParse = (string) => {
+      return string
+         .normalize("NFD")
+         .replace(/[\u0300-\u036f]/g, "")
+         .replace(/đ/g, "d")
+         .replace(/Đ/g, "D");
    };
 
    return (
@@ -89,6 +98,11 @@ const AgenciesAdminDashboard = () => {
                      type="text"
                      placeholder="🔎 Merchant Name"
                      className="p-3 rounded-lg border-2 border-primary-color"
+                     onKeyDown={(e) => {
+                        ["(", ")", "`", "`", "[", "]", "?", "\\"].includes(
+                           e.key
+                        ) && e.preventDefault();
+                     }}
                      onChange={(e) => {
                         setKeyword(e.target.value.toUpperCase());
                         setPageCurrent(1);

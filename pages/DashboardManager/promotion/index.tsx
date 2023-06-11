@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
    BiFilterAlt,
    BiPlanet,
@@ -36,14 +37,12 @@ const PromotionPage = () => {
    const [pageCurrent, setPageCurrent] = useState(1);
    const [totalPage, setTotalPage] = useState(0);
    const [programNameFilter, setProgramNameFilter] = useState("");
-   const [programTitleFilter, setProgramTitleFilter] = useState("");
    const [isOpenFilter, setIsOpenFilter] = useState(false);
    const [dateOrder, setDateOrder] = useState([
       "2001-03-20",
-      new Date(Date.now() + 31556926 * 1000).toISOString().slice(0, 10),
+      new Date(Date.now() + 2629743  * 1000).toISOString().slice(0, 10),
    ]);
    const refKeywordName = useRef(null);
-   const refKeywordTitle = useRef(null);
 
    const fetchPost = async () => {
       try {
@@ -80,37 +79,39 @@ const PromotionPage = () => {
 
    useEffect(() => {
       setTotalPage(Math.ceil(FilterArray(programs).length / lengthOfPage));
-   }, [programNameFilter, programTitleFilter, dateOrder]);
+   }, [programNameFilter, dateOrder]);
 
    const FilterArray = (array) => {
       let resultArray = array
          .filter(
             (program) =>
-               program.programTitle.toUpperCase().search(programTitleFilter) >=
-               0
+               unicodeParse(program.programName)
+                  .toUpperCase()
+                  .search(unicodeParse(programNameFilter)) >= 0
          )
          .filter(
             (program) =>
-               program.programName.toUpperCase().search(programNameFilter) >= 0
-         )
-         .filter(
-            (program) =>
-               program.beginUsable >= Date.parse(dateOrder[0]) &&
-               program.endUsable <= Date.parse(dateOrder[1])
+               program.createdDate >= Date.parse(dateOrder[0]) &&
+               program.createdDate <= Date.parse(dateOrder[1])
          );
-      console.log(resultArray);
 
       return resultArray;
    };
 
+   const unicodeParse = (string) => {
+      return string
+         .normalize("NFD")
+         .replace(/[\u0300-\u036f]/g, "")
+         .replace(/đ/g, "d")
+         .replace(/Đ/g, "D");
+   };
+
    const clearFilter = () => {
       setProgramNameFilter("");
-      setProgramTitleFilter("");
       refKeywordName.current.value = "";
-      refKeywordTitle.current.value = "";
       setDateOrder([
          "2001-03-20",
-         new Date(Date.now() + 31556926 * 1000).toISOString().slice(0, 10),
+         new Date(Date.now() + 2629743  * 1000).toISOString().slice(0, 10),
       ]);
       toast.success("Cleared filter");
    };
@@ -147,26 +148,14 @@ const PromotionPage = () => {
             >
                <input
                   type="text"
-                  placeholder="🔎Program Title"
-                  id="keywordCodeFilterOrder"
-                  ref={refKeywordTitle}
-                  className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
-                  onKeyDown={(e) => {
-                     !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) && e.preventDefault();
-                  }}
-                  onChange={(e) => {
-                     setProgramTitleFilter(e.target.value.toUpperCase());
-                     setPageCurrent(1);
-                  }}
-               />
-               <input
-                  type="text"
                   placeholder="🔎Program Name"
                   id="keywordCodeFilterOrder"
                   ref={refKeywordName}
                   className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
                   onKeyDown={(e) => {
-                     !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) && e.preventDefault();
+                     ["(", ")", "`", "`", "[", "]", "?", "\\"].includes(
+                        e.key
+                     ) && e.preventDefault();
                   }}
                   onChange={(e) => {
                      setProgramNameFilter(e.target.value.toUpperCase());
@@ -212,7 +201,7 @@ const PromotionPage = () => {
                   onClick={clearFilter}
                >
                   <BiTrashAlt className="text-2xl" />
-                  Clear
+                  Clear filter
                </div>
             </div>
             <div className="grid grid-cols-2 gap-8">
@@ -299,6 +288,12 @@ const PromotionPage = () => {
                                     program.endUsable
                                  ).toLocaleDateString("en-GB")}
                               </div>
+                           </div>
+                           <div className="flex justify-center items-center font-medium mt-2 italic">
+                              Created date:{" "}
+                              {new Date(program.createdDate).toLocaleDateString(
+                                 "en-GB"
+                              )}
                            </div>
                         </div>
                      </div>

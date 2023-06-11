@@ -100,10 +100,21 @@ const Posts = () => {
 
    const FilterArray = (array) => {
       let resultArray = array.filter(
-         (post) => post.title.toUpperCase().search(keywordSearch) >= 0
+         (post) =>
+            unicodeParse(post.title)
+               .toUpperCase()
+               .search(unicodeParse(keywordSearch)) >= 0
       );
 
       return resultArray;
+   };
+
+   const unicodeParse = (string) => {
+      return string
+         .normalize("NFD")
+         .replace(/[\u0300-\u036f]/g, "")
+         .replace(/đ/g, "d")
+         .replace(/Đ/g, "D");
    };
 
    return (
@@ -117,8 +128,9 @@ const Posts = () => {
                      placeholder="🔎Search post"
                      className="p-3 rounded-lg border-2 border-primary-color"
                      onKeyDown={(e) => {
-                        !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) &&
-                           e.preventDefault();
+                        ["(", ")", "`", "`", "[", "]", "?", "\\"].includes(
+                           e.key
+                        ) && e.preventDefault();
                      }}
                      onChange={(e) => {
                         setKeywordSearch(e.target.value.toUpperCase());

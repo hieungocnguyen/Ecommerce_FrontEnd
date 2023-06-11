@@ -32,10 +32,21 @@ const UsersAdminDashboard = () => {
 
    const FilterArray = (array) => {
       let resultArray = array.filter(
-         (users) => users.username.toUpperCase().search(keyword) >= 0
+         (users) =>
+            unicodeParse(users.username)
+               .toUpperCase()
+               .search(unicodeParse(keyword)) >= 0
       );
 
       return resultArray;
+   };
+
+   const unicodeParse = (string) => {
+      return string
+         .normalize("NFD")
+         .replace(/[\u0300-\u036f]/g, "")
+         .replace(/đ/g, "d")
+         .replace(/Đ/g, "D");
    };
 
    useEffect(() => {
@@ -53,8 +64,9 @@ const UsersAdminDashboard = () => {
                      placeholder="🔎 Username"
                      className="p-3 rounded-lg border-2 border-primary-color"
                      onKeyDown={(e) => {
-                        !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) &&
-                           e.preventDefault();
+                        ["(", ")", "`", "`", "[", "]", "?", "\\"].includes(
+                           e.key
+                        ) && e.preventDefault();
                      }}
                      onChange={(e) => {
                         setKeyword(e.target.value.toUpperCase());
