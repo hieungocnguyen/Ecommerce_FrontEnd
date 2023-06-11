@@ -134,7 +134,7 @@ const CompareProduct = ({ openCompare }) => {
                            </div>
 
                            <div className="line-through font-medium text-sm text-center">
-                              {post.finalPrice.toLocaleString("it-IT", {
+                              {post.initialPrice.toLocaleString("it-IT", {
                                  style: "currency",
                                  currency: "VND",
                               })}
