@@ -376,13 +376,16 @@ const AddPromotion = ({ posts, setisOpenModel, agencyInfo, setLoading }) => {
                                     ) && e.preventDefault();
                                  }}
                                  onChange={(e) => {
-                                    if (Number(e.target.value) > 100) {
-                                       setPercentageReduction(100);
-                                    } else {
-                                       setPercentageReduction(
-                                          Number(e.target.value)
-                                       );
-                                    }
+                                    // if (Number(e.target.value) > 100) {
+                                    //    setPercentageReduction(100);
+                                    // } else {
+                                    //    setPercentageReduction(
+                                    //       Number(e.target.value)
+                                    //    );
+                                    // }
+                                    setPercentageReduction(
+                                       Number(e.target.value)
+                                    );
                                  }}
                               />
                            </div>
