@@ -197,6 +197,7 @@ const CreateNewPost = () => {
                            type="text"
                            id="title"
                            minLength={20}
+                           maxLength={200}
                            {...register("title")}
                            required
                            placeholder="Title"

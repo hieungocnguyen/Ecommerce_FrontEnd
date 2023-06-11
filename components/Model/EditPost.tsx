@@ -196,6 +196,7 @@ const EditPost = ({ postID, setPostID, setLoading }) => {
                               id="title"
                               name="title"
                               minLength={20}
+                              maxLength={200}
                               onChange={handlePostChange}
                               required
                               defaultValue={post.title}

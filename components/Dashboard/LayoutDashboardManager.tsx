@@ -39,6 +39,7 @@ const LayoutDashboard = ({ title, children }) => {
    const [loading, setLoading] = useState(false);
    const [unSeen, setUnSeen] = useState(false);
    const [isMessages, setIsMessages] = useState(false);
+   const [numberLabelCurrent, setNumberLabelCurrent] = useState(0);
 
    const logoutClickHandler = () => {
       dispatch({ type: "USER_LOGOUT" });
@@ -77,6 +78,55 @@ const LayoutDashboard = ({ title, children }) => {
          router.push("/403");
       }
    }, []);
+
+   useEffect(() => {
+      console.log(router.pathname);
+
+      switch (router.pathname) {
+         case "/DashboardManager":
+            setNumberLabelCurrent(1);
+            break;
+         case "/DashboardManager/notification":
+            setNumberLabelCurrent(2);
+            break;
+         case "/DashboardManager/message":
+            setNumberLabelCurrent(3);
+            break;
+         case "/DashboardManager/posts/createnewpost":
+            setNumberLabelCurrent(4);
+            break;
+         case "/DashboardManager/posts":
+            setNumberLabelCurrent(5);
+            break;
+         case "/DashboardManager/posts/[id]":
+            setNumberLabelCurrent(5);
+            break;
+         case "/DashboardManager/promotion":
+            setNumberLabelCurrent(6);
+            break;
+         case "/DashboardManager/orders":
+            setNumberLabelCurrent(7);
+            break;
+         case "/DashboardManager/statisticle/category":
+            setNumberLabelCurrent(8);
+            break;
+         case "/DashboardManager/statisticle/bestseller":
+            setNumberLabelCurrent(8);
+            break;
+         case "/DashboardManager/statisticle/revenue":
+            setNumberLabelCurrent(8);
+            break;
+         case "/DashboardManager/renewal":
+            setNumberLabelCurrent(9);
+            break;
+         case "/DashboardManager/renewal/serviceplan":
+            setNumberLabelCurrent(9);
+            break;
+         default:
+            setNumberLabelCurrent(0);
+      }
+   }, []);
+
    useEffect(() => {
       try {
          const unsuscribe = onSnapshot(
@@ -149,13 +199,21 @@ const LayoutDashboard = ({ title, children }) => {
                {/* navigate */}
                <div className="my-4 mx-4 max-h-[360px] overflow-auto">
                   <Link href="/DashboardManager">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                     <div
+                        className={`font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 ${
+                           numberLabelCurrent == 1 && "bg-slate-300"
+                        }`}
+                     >
                         <BiHomeAlt className="text-lg" />
                         General
                      </div>
                   </Link>
                   <Link href="/DashboardManager/notification">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                     <div
+                        className={`font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 ${
+                           numberLabelCurrent == 2 && "bg-slate-300"
+                        }`}
+                     >
                         <BiBell className="text-lg" />
                         Notification{" "}
                         {unSeen ? (
@@ -166,7 +224,11 @@ const LayoutDashboard = ({ title, children }) => {
                      </div>
                   </Link>
                   <Link href="/DashboardManager/message">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                     <div
+                        className={`font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 ${
+                           numberLabelCurrent == 3 && "bg-slate-300"
+                        }`}
+                     >
                         <BiMessageDetail className="text-lg" />
                         Message{" "}
                         {isMessages && (
@@ -175,13 +237,21 @@ const LayoutDashboard = ({ title, children }) => {
                      </div>
                   </Link>
                   <Link href="/DashboardManager/posts/createnewpost">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                     <div
+                        className={`font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 ${
+                           numberLabelCurrent == 4 && "bg-slate-300"
+                        }`}
+                     >
                         <BiAddToQueue className="text-lg" />
                         Create Post
                      </div>
                   </Link>
                   <Link href="/DashboardManager/posts">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                     <div
+                        className={`font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 ${
+                           numberLabelCurrent == 5 && "bg-slate-300"
+                        }`}
+                     >
                         <BiCategoryAlt className="text-lg" />
                         List Product
                      </div>
@@ -217,20 +287,30 @@ const LayoutDashboard = ({ title, children }) => {
                      </div>
                   </div> */}
                   <Link href="/DashboardManager/promotion">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                     <div
+                        className={`font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 ${
+                           numberLabelCurrent == 6 && "bg-slate-300"
+                        }`}
+                     >
                         <BiPlanet className="text-lg" />
                         Promotion
                      </div>
                   </Link>
                   <Link href="/DashboardManager/orders">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                     <div
+                        className={`font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 ${
+                           numberLabelCurrent == 7 && "bg-slate-300"
+                        }`}
+                     >
                         <BiPackage className="text-lg" />
                         Order Tracking
                      </div>
                   </Link>
                   <div>
                      <div
-                        className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 relative"
+                        className={`font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 relative ${
+                           numberLabelCurrent == 8 && "bg-slate-300"
+                        }`}
                         onClick={() => setOpenStatisticle(!openStatisticle)}
                      >
                         <BiBarChartAlt2 className="text-lg" />
@@ -248,12 +328,12 @@ const LayoutDashboard = ({ title, children }) => {
                      >
                         <Link href="/DashboardManager/statisticle/category">
                            <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
-                              Category
+                              By Category
                            </div>
                         </Link>
                         <Link href="/DashboardManager/statisticle/bestseller">
                            <div className="p-2 dark:hover:bg-dark-spot hover:bg-slate-300 rounded-lg cursor-pointer">
-                              Best seller
+                              Best Seller
                            </div>
                         </Link>
                         <Link href="/DashboardManager/statisticle/revenue">
@@ -264,7 +344,11 @@ const LayoutDashboard = ({ title, children }) => {
                      </div>
                   </div>
                   <Link href="/DashboardManager/renewal">
-                     <div className="font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3">
+                     <div
+                        className={`font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 ${
+                           numberLabelCurrent == 9 && "bg-slate-300"
+                        }`}
+                     >
                         <BiRocket className="text-lg" />
                         Renewal
                      </div>
