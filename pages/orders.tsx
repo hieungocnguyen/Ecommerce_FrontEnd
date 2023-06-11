@@ -145,22 +145,58 @@ const Orders = () => {
    };
 
    const FilterArray = (array) => {
-      let resultArray = array
-         .filter((order) => order.orderExpressID.search(keywordCode) >= 0)
-         .filter((order) =>
-            filterState > 0 ? order.orderState.id == filterState : true
-         )
-         .filter(
-            (order) =>
-               Date.parse(
-                  new Date(order.orders.createdDate).toISOString().slice(0, 10)
-               ) >= Date.parse(dateOrder[0]) &&
-               Date.parse(
-                  new Date(order.orders.createdDate).toISOString().slice(0, 10)
-               ) <= Date.parse(dateOrder[1])
-         );
+      let resultArray;
+      try {
+         resultArray = array
+            .filter(
+               (order) =>
+                  unicodeParse(order.orderExpressID).search(
+                     unicodeParse(keywordCode)
+                  ) >= 0
+            )
+            .filter((order) =>
+               filterState > 0 ? order.orderState.id == filterState : true
+            )
+            .filter(
+               (order) =>
+                  Date.parse(
+                     new Date(order.orders.createdDate)
+                        .toISOString()
+                        .slice(0, 10)
+                  ) >= Date.parse(dateOrder[0]) &&
+                  Date.parse(
+                     new Date(order.orders.createdDate)
+                        .toISOString()
+                        .slice(0, 10)
+                  ) <= Date.parse(dateOrder[1])
+            );
+      } catch (error) {
+         resultArray = array;
+      }
+      // let resultArray = array
+      //    .filter((order) => order.orderExpressID?.search(keywordCode) >= 0)
+      //    .filter((order) =>
+      //       filterState > 0 ? order.orderState.id == filterState : true
+      //    )
+      //    .filter(
+      //       (order) =>
+      //          Date.parse(
+      //             new Date(order.orders.createdDate).toISOString().slice(0, 10)
+      //          ) >= Date.parse(dateOrder[0]) &&
+      //          Date.parse(
+      //             new Date(order.orders.createdDate).toISOString().slice(0, 10)
+      //          ) <= Date.parse(dateOrder[1])
+      //    );
 
       return resultArray;
+   };
+
+   const unicodeParse = (string) => {
+      return string
+         .normalize("NFD")
+         .replace(/[\u0300-\u036f]/g, "")
+         .replace(/đ/g, "d")
+         .replace(/Đ/g, "D");
    };
 
    const clearFilter = () => {
@@ -209,7 +245,8 @@ const Orders = () => {
                ref={refKeyword}
                className={`rounded-lg ${isOpenFilter ? "p-3" : "p-0"}`}
                onKeyDown={(e) => {
-                  !/^[a-zA-Z0-9._\b\s]+$/.test(e.key) && e.preventDefault();
+                  ["(", ")", "`", "`", "[", "]", "?", "\\"].includes(e.key) &&
+                     e.preventDefault();
                }}
                onChange={(e) => {
                   setKeywordCode(e.target.value.toUpperCase());

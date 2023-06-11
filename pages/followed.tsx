@@ -67,12 +67,23 @@ const Followed = () => {
    };
 
    const FilterArray = (array) => {
-      let resultArray = array.filter(
-         (agency) =>
-            unicodeParse(agency.name)
-               .toUpperCase()
-               .search(unicodeParse(keywordSearch)) >= 0
-      );
+      let resultArray;
+      try {
+         resultArray = array.filter(
+            (agency) =>
+               unicodeParse(agency.name)
+                  .toUpperCase()
+                  .search(unicodeParse(keywordSearch)) >= 0
+         );
+      } catch (error) {
+         resultArray = array;
+      }
+      // let resultArray = array.filter(
+      //    (agency) =>
+      //       unicodeParse(agency.name)
+      //          .toUpperCase()
+      //          .search(unicodeParse(keywordSearch)) >= 0
+      // );
       return resultArray;
    };
 
@@ -104,9 +115,9 @@ const Followed = () => {
                   placeholder="🔎Name of merchant"
                   className="p-3 rounded-lg border-2 border-primary-color"
                   onKeyDown={(e) => {
-                     ["(", ")", "`", "`", "[", "]", "?", "\\"].includes(e.key) &&
-                        e.preventDefault();
-                     
+                     ["(", ")", "`", "`", "[", "]", "?", "\\"].includes(
+                        e.key
+                     ) && e.preventDefault();
                   }}
                   onChange={(e) => {
                      setKeywordSearch(e.target.value.toUpperCase());

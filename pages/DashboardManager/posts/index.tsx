@@ -99,12 +99,24 @@ const Posts = () => {
    };
 
    const FilterArray = (array) => {
-      let resultArray = array.filter(
-         (post) =>
-            unicodeParse(post.title)
-               .toUpperCase()
-               .search(unicodeParse(keywordSearch)) >= 0
-      );
+      let resultArray;
+      try {
+         resultArray = array.filter(
+            (post) =>
+               unicodeParse(post.title)
+                  .toUpperCase()
+                  .search(unicodeParse(keywordSearch)) >= 0
+         );
+      } catch (error) {
+         resultArray = array;
+      }
+
+      // let resultArray = array.filter(
+      //    (post) =>
+      //       unicodeParse(post.title)
+      //          .toUpperCase()
+      //          .search(unicodeParse(keywordSearch)) >= 0
+      // );
 
       return resultArray;
    };

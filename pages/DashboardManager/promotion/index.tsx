@@ -40,7 +40,7 @@ const PromotionPage = () => {
    const [isOpenFilter, setIsOpenFilter] = useState(false);
    const [dateOrder, setDateOrder] = useState([
       "2001-03-20",
-      new Date(Date.now() + 2629743  * 1000).toISOString().slice(0, 10),
+      new Date(Date.now() + 2629743 * 1000).toISOString().slice(0, 10),
    ]);
    const refKeywordName = useRef(null);
 
@@ -82,18 +82,35 @@ const PromotionPage = () => {
    }, [programNameFilter, dateOrder]);
 
    const FilterArray = (array) => {
-      let resultArray = array
-         .filter(
-            (program) =>
-               unicodeParse(program.programName)
-                  .toUpperCase()
-                  .search(unicodeParse(programNameFilter)) >= 0
-         )
-         .filter(
-            (program) =>
-               program.createdDate >= Date.parse(dateOrder[0]) &&
-               program.createdDate <= Date.parse(dateOrder[1])
-         );
+      let resultArray;
+      try {
+         resultArray = array
+            .filter(
+               (program) =>
+                  unicodeParse(program.programName)
+                     .toUpperCase()
+                     .search(unicodeParse(programNameFilter)) >= 0
+            )
+            .filter(
+               (program) =>
+                  program.createdDate >= Date.parse(dateOrder[0]) &&
+                  program.createdDate <= Date.parse(dateOrder[1])
+            );
+      } catch (error) {
+         resultArray = array;
+      }
+      // let resultArray = array
+      //    .filter(
+      //       (program) =>
+      //          unicodeParse(program.programName)
+      //             .toUpperCase()
+      //             .search(unicodeParse(programNameFilter)) >= 0
+      //    )
+      //    .filter(
+      //       (program) =>
+      //          program.createdDate >= Date.parse(dateOrder[0]) &&
+      //          program.createdDate <= Date.parse(dateOrder[1])
+      //    );
 
       return resultArray;
    };
@@ -111,7 +128,7 @@ const PromotionPage = () => {
       refKeywordName.current.value = "";
       setDateOrder([
          "2001-03-20",
-         new Date(Date.now() + 2629743  * 1000).toISOString().slice(0, 10),
+         new Date(Date.now() + 2629743 * 1000).toISOString().slice(0, 10),
       ]);
       toast.success("Cleared filter");
    };
@@ -232,11 +249,11 @@ const PromotionPage = () => {
                            />
                         </div>
                         <div className="p-3">
-                           <div className="font-bold text-primary-color uppercase line-clamp-1 text-xl">
-                              {program.programTitle}
-                           </div>
-                           <div className="text-sm line-clamp-1 font-medium">
+                           <div className="font-bold text-primary-color  line-clamp-1 text-xl">
                               {program.programName}
+                           </div>
+                           <div className="line-clamp-1 font-medium">
+                              {program.programTitle}
                            </div>
                            <div className="h-[72px]">
                               <div className=" font-medium flex gap-2">

@@ -63,20 +63,39 @@ const AgenciesAdminDashboard = () => {
    };
 
    const FilterArray = (array) => {
-      let resultArray = array
-         .filter(
-            (agency) =>
-               unicodeParse(agency.name)
-                  .toUpperCase()
-                  .search(unicodeParse(keyword)) >= 0
-         )
-         .filter((agency) =>
-            filterState > 0
-               ? filterState == 1
-                  ? agency.isActive == 1
-                  : agency.isActive == 0
-               : true
-         );
+      let resultArray;
+      try {
+         resultArray = array
+            .filter(
+               (agency) =>
+                  unicodeParse(agency.name)
+                     .toUpperCase()
+                     .search(unicodeParse(keyword)) >= 0
+            )
+            .filter((agency) =>
+               filterState > 0
+                  ? filterState == 1
+                     ? agency.isActive == 1
+                     : agency.isActive == 0
+                  : true
+            );
+      } catch (error) {
+         resultArray = array;
+      }
+      // let resultArray = array
+      //    .filter(
+      //       (agency) =>
+      //          unicodeParse(agency.name)
+      //             .toUpperCase()
+      //             .search(unicodeParse(keyword)) >= 0
+      //    )
+      //    .filter((agency) =>
+      //       filterState > 0
+      //          ? filterState == 1
+      //             ? agency.isActive == 1
+      //             : agency.isActive == 0
+      //          : true
+      //    );
 
       return resultArray;
    };

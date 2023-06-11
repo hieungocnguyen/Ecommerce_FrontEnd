@@ -31,12 +31,23 @@ const UsersAdminDashboard = () => {
    }, []);
 
    const FilterArray = (array) => {
-      let resultArray = array.filter(
-         (users) =>
-            unicodeParse(users.username)
-               .toUpperCase()
-               .search(unicodeParse(keyword)) >= 0
-      );
+      let resultArray;
+      try {
+         resultArray = array.filter(
+            (users) =>
+               unicodeParse(users.username)
+                  .toUpperCase()
+                  .search(unicodeParse(keyword)) >= 0
+         );
+      } catch (error) {
+         resultArray = array;
+      }
+      // let resultArray = array.filter(
+      //    (users) =>
+      //       unicodeParse(users.username)
+      //          .toUpperCase()
+      //          .search(unicodeParse(keyword)) >= 0
+      // );
 
       return resultArray;
    };

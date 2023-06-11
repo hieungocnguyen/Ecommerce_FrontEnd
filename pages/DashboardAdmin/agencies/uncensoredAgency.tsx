@@ -70,10 +70,20 @@ const AgenciesAdminDashboard = () => {
    };
 
    const FilterArray = (array) => {
-      let resultArray = array.filter(
-         (agency) =>
-            unicodeParse(agency.agency.name).search(unicodeParse(keyword)) >= 0
-      );
+      let resultArray;
+      try {
+         resultArray = array.filter(
+            (agency) =>
+               unicodeParse(agency.agency.name).search(unicodeParse(keyword)) >=
+               0
+         );
+      } catch (error) {
+         resultArray = array;
+      }
+      // let resultArray = array.filter(
+      //    (agency) =>
+      //       unicodeParse(agency.agency.name).search(unicodeParse(keyword)) >= 0
+      // );
 
       return resultArray;
    };
