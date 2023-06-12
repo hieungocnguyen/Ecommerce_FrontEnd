@@ -13,6 +13,7 @@ import {
    BiMessageDetail,
    BiPackage,
    BiReceipt,
+   BiRocket,
    BiSpreadsheet,
    BiStore,
    BiUser,
@@ -145,6 +146,9 @@ const AdminLayoutDashboard = ({ title, children }) => {
             break;
          case "/DashboardAdmin/users":
             setNumberLabelCurrent(8);
+            break;
+         case "/DashboardAdmin/renewal":
+            setNumberLabelCurrent(9);
             break;
          default:
             setNumberLabelCurrent(0);
@@ -362,6 +366,16 @@ const AdminLayoutDashboard = ({ title, children }) => {
                            >
                               <BiGroup className="text-lg" />
                               User List
+                           </div>
+                        </Link>
+                        <Link href="/DashboardAdmin/renewal">
+                           <div
+                              className={`font-semibold rounded-lg p-2 mb-2 cursor-pointer hover:bg-slate-500 hover:bg-opacity-10 hover:text-primary-color flex items-center gap-3 ${
+                                 numberLabelCurrent == 9 && "bg-slate-300"
+                              }`}
+                           >
+                              <BiRocket className="text-lg" />
+                              Renewal
                            </div>
                         </Link>
                      </div>

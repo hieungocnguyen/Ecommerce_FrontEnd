@@ -162,6 +162,8 @@ export let endpoints = {
    stat_renewal_by_month: (year) =>
       `/renewal/stats-revenue-month-by-year/${year}`,
    get_all_renewal: `/renewal/get-all-orders-renewal`,
+   update_package: (packageID) => `/renewal/update-renewal-package/${packageID}
+   `,
 
    //promotion
    create_promotion_program: (agencyID) =>
