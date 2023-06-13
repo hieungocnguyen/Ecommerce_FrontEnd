@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -11,6 +11,7 @@ import API, { endpoints } from "../API";
 import ProgramModelHome from "./Model/ProgramModelHome";
 import useTrans from "../hook/useTrans";
 import Link from "next/link";
+import { Store } from "../utils/Store";
 
 const imageList = [
    {
@@ -40,6 +41,9 @@ const Advertise = () => {
    const [programs, setPrograms] = useState<any>([]);
    const [program, setProgram] = useState<any>({});
    const [openModelDetail, setOpenModelDetail] = useState(false);
+   const { state, dispatch } = useContext(Store);
+   const { userInfo } = state;
+
    const trans = useTrans();
 
    const fetchPrograms = async () => {
@@ -166,7 +170,7 @@ const Advertise = () => {
                         layout="fill"
                         className="object-cover"
                      />
-                     <Link href={`/profile`}>
+                     <Link href={`${userInfo ? "/profile" : "signin"}`}>
                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 font-bold text-lg uppercase py-3 px-5 bg-secondary-color rounded-lg hover:brightness-95 cursor-pointer hover:shadow-lg hover:shadow-secondary-color">
                            {trans.home.register_now}
                         </div>
