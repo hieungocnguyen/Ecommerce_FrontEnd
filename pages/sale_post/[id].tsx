@@ -24,6 +24,7 @@ import { ClipLoader } from "react-spinners";
 import PaginationComponent from "../../components/Pagination";
 import { AiFillStar } from "react-icons/ai";
 import RatingAdvanced from "../../components/RatingAdvanced";
+import Error from "../_error";
 
 const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
 const RelativePost = dynamic(() => import("../../components/RelativePost"));
@@ -111,6 +112,10 @@ const ProductPage = ({ salePost }) => {
    const handleRouteAgency = () => {
       router.push(`/agencyinfo/${salePost.agency.id}`);
    };
+
+   if (salePost.error) {
+      return <Error statusCode={undefined} />;
+   }
 
    return (
       <Layout title="Detail">
