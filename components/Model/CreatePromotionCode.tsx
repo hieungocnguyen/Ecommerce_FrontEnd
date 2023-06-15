@@ -67,6 +67,13 @@ const CreatePromotionCode = ({ setIsModelCreateCode, setLoading, program }) => {
          ].join(":")
       );
    }
+   const unicodeParse = (string) => {
+      return string
+         .normalize("NFD")
+         .replace(/[\u0300-\u036f]/g, "")
+         .replace(/đ/g, "d")
+         .replace(/Đ/g, "D");
+   };
 
    return (
       <div className="dark:bg-neutral-800 bg-light-primary rounded-lg w-full h-full relative p-6 shadow-lg border-2 border-primary-color">
@@ -95,7 +102,9 @@ const CreatePromotionCode = ({ setIsModelCreateCode, setLoading, program }) => {
                   required
                   value={prefix}
                   className="p-3 w-full rounded-lg"
-                  onChange={(e) => setPrefix(e.target.value.toUpperCase())}
+                  onChange={(e) =>
+                     setPrefix(unicodeParse(e.target.value).toUpperCase())
+                  }
                />
             </div>
             <div className="flex flex-col items-start">

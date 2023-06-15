@@ -8,7 +8,14 @@ import Layout from "../../components/Layout/Layout";
 import { ClipLoader } from "react-spinners";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { BiArrowBack, BiLike, BiMessageDetail, BiUser } from "react-icons/bi";
+import {
+   BiArrowBack,
+   BiChat,
+   BiLike,
+   BiMessageDetail,
+   BiPlus,
+   BiUser,
+} from "react-icons/bi";
 import useTrans from "../../hook/useTrans";
 import toast from "react-hot-toast";
 import { Store } from "../../utils/Store";
@@ -179,19 +186,21 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                         </div>
                         <div className="flex gap-4">
                            <div
-                              className="p-3 cursor-pointer bg-primary-color text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-primary-color"
+                              className="py-3 px-5 cursor-pointer bg-primary-color text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-primary-color flex justify-center items-center gap-1"
                               onClick={handleChat}
                            >
+                              <BiChat className="text-xl" />
                               Chat now
                            </div>
                            <div
-                              className={`px-4 py-3 border-primary-color border-2 inline-block cursor-pointer rounded-lg font-semibold hover:shadow-lg hover:shadow-primary-color ${
+                              className={`px-4 py-3 border-primary-color border-2 cursor-pointer rounded-lg font-semibold hover:shadow-lg flex justify-center items-center gap-1 hover:shadow-primary-color ${
                                  stateFollow
                                     ? ""
                                     : "bg-primary-color text-white"
                               }`}
                               onClick={() => handleFollowAgency()}
                            >
+                              {!stateFollow && <BiPlus className="text-xl" />}
                               {stateFollow
                                  ? trans.agencyPage.unfollow
                                  : trans.agencyPage.follow}

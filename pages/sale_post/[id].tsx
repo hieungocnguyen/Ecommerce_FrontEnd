@@ -259,7 +259,7 @@ const ProductPage = ({ salePost }) => {
                      </div>
                   </div>
                </div>
-               <div className="grid sm:grid-cols-12 grid-cols-6 gap-8 mt-8 ">
+               <div className="grid sm:grid-cols-12 grid-cols-6 gap-4 mt-8 ">
                   <button
                      className={`col-span-6 bg-primary-color text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90 transition-all disabled:bg-gray-400 disabled:shadow-gray-400 disabled:cursor-not-allowed`}
                      onClick={() => setIsOpenItemsModal(true)}
@@ -275,26 +275,34 @@ const ProductPage = ({ salePost }) => {
                         : trans.detailProduct.choose_items}
                   </button>
                   <div
-                     className="col-span-6 bg-secondary-color text-dark-primary rounded-lg flex items-center p-4 gap-2 cursor-pointer hover:shadow-lg hover:shadow-secondary-color hover:brightness-90 transition-all"
+                     className="col-span-6 grid grid-rows-6 gap-3"
                      onClick={handleRouteAgency}
                   >
-                     <div className="relative h-20 w-20 overflow-hidden rounded-xl ">
-                        <Image
-                           src={salePost.agency.avatar}
-                           alt="avatar"
-                           layout="fill"
-                           className="object-cover"
-                        />
+                     <div className="row-span-4 flex items-center p-3 gap-2 bg-secondary-color text-dark-primary rounded-lg cursor-pointer hover:shadow-lg hover:shadow-secondary-color hover:brightness-90 transition-all">
+                        <div className="relative h-14 aspect-square overflow-hidden rounded-xl ">
+                           <Image
+                              src={salePost.agency.avatar}
+                              alt="avatar"
+                              layout="fill"
+                              className="object-cover"
+                           />
+                        </div>
+                        <div className="text-left ">
+                           <div className="font-semibold text-lg">
+                              {salePost.agency.name}
+                           </div>
+                           <div>
+                              {locale == "vi"
+                                 ? salePost.agency.field.name
+                                 : salePost.agency.field.nameEn}
+                           </div>
+                        </div>
                      </div>
-                     <div className="text-left ">
-                        <div className="font-semibold text-lg">
-                           {salePost.agency.name}
-                        </div>
-                        <div>
-                           {locale == "vi"
-                              ? salePost.agency.field.name
-                              : salePost.agency.field.nameEn}
-                        </div>
+                     <div
+                        className="row-span-2 p-2 rounded-lg text-white bg-primary-color flex items-center justify-center font-semibold cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90 transition-all"
+                        onClick={handleRouteAgency}
+                     >
+                        Start chat
                      </div>
                   </div>
                </div>
