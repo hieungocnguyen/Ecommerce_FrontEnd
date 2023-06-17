@@ -302,7 +302,7 @@ const ProductPage = ({ salePost }) => {
                         className="row-span-2 p-2 rounded-lg text-white bg-primary-color flex items-center justify-center font-semibold cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90 transition-all"
                         onClick={handleRouteAgency}
                      >
-                        Start chat
+                        Contact seller
                      </div>
                   </div>
                </div>

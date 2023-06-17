@@ -187,7 +187,13 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                         <div className="flex gap-4">
                            <div
                               className="py-3 px-5 cursor-pointer bg-primary-color text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-primary-color flex justify-center items-center gap-1"
-                              onClick={handleChat}
+                              onClick={() => {
+                                 if (userInfo) {
+                                    handleChat();
+                                 } else {
+                                    toast.error("Sign in to start chat");
+                                 }
+                              }}
                            >
                               <BiChat className="text-xl" />
                               Chat now
@@ -375,7 +381,7 @@ const AgencyPage = ({ agencyInfo, posts, stats }) => {
                   </div>
                )}
             </div>
-            <div className="mb-8">
+            <div className="my-8">
                <div className="text-center font-bold text-2xl mb-4">
                   Hot Sellers
                </div>
