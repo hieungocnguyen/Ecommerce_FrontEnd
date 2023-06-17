@@ -374,7 +374,7 @@ const Orders = () => {
                                     {(
                                        order.totalPrice +
                                        order.reductionAmountVoucher
-                                    ).toLocaleString("it-IT", {
+                                    )?.toLocaleString("it-IT", {
                                        style: "currency",
                                        currency: "VND",
                                     })}
@@ -400,7 +400,7 @@ const Orders = () => {
                                     title="Discount"
                                  >
                                     -
-                                    {order.reductionAmountVoucher.toLocaleString(
+                                    {order.reductionAmountVoucher?.toLocaleString(
                                        "it-IT",
                                        {
                                           style: "currency",
