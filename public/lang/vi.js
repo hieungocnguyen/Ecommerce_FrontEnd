@@ -124,7 +124,7 @@ const viLang = {
       avaiable: "Đang có sẵn",
       unavailable: "Không có sẵn",
       merchant: "Đại lý",
-      choose_items: "Chọn sản phẩm thêm vào giỏ",
+      choose_items: "Thêm vào giỏ hàng",
       this_product_is_unavailable: "Sản phẩm hiện đang không có sẵn",
       description: "Mô tả sản phẩm",
       show_more: "Xem thêm",

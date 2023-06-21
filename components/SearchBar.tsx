@@ -7,7 +7,7 @@ import API, { endpoints } from "../API";
 import useTrans from "../hook/useTrans";
 import toast from "react-hot-toast";
 
-const quickSearch = ["airpod", "gaming desk", "blaze"];
+const quickSearch = ["smart tivi", "hảo hảo", "xiaomi"];
 
 const SearchBar = ({ categories, setNumberPage }) => {
    const router = useRouter();

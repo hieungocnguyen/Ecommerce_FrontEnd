@@ -125,7 +125,7 @@ const enLang = {
       avaiable: "Available",
       unavailable: "Unavailable",
       merchant: "Merchant",
-      choose_items: "Choose items add to cart",
+      choose_items: "Add to cart",
       this_product_is_unavailable: "This sale post is unavailable",
       description: "Description",
       show_more: "Show more",

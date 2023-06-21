@@ -22,9 +22,10 @@ import useTrans from "../../hook/useTrans";
 import { ClipLoader } from "react-spinners";
 // import RelativePost from "../../components/RelativePost";
 import PaginationComponent from "../../components/Pagination";
-import { AiFillStar } from "react-icons/ai";
 import RatingAdvanced from "../../components/RatingAdvanced";
 import Error from "../_error";
+import { BsCartPlus } from "react-icons/bs";
+import { BiPhone } from "react-icons/bi";
 
 const ItemsInPost = dynamic(() => import("../../components/Model/ItemsInPost"));
 const RelativePost = dynamic(() => import("../../components/RelativePost"));
@@ -210,7 +211,7 @@ const ProductPage = ({ salePost }) => {
                         })}
                      </div>
                   </div>
-                  <div className="mb-4 mt-8 grid sm:grid-cols-2 grid-cols-1 gap-2">
+                  <div className="mb-2 mt-10 grid sm:grid-cols-2 grid-cols-1 gap-2">
                      <div>
                         <div className="font-semibold mb-2 text-lg">
                            {trans.detailProduct.brand}:{" "}
@@ -222,10 +223,26 @@ const ProductPage = ({ salePost }) => {
                               {salePost.origin}
                            </span>
                         </div>
-                        <div className="font-semibold text-lg">
+                        <div className="font-semibold mb-2 text-lg">
                            {trans.detailProduct.manufacturer}:{" "}
                            <span className="font-medium">
                               {salePost.manufacturer}
+                           </span>
+                        </div>
+                        <div className="mb-2">
+                           <span className="font-semibold text-lg">
+                              Address:{" "}
+                           </span>
+                           <span className="text-lg font-medium">
+                              {salePost.agency.address}
+                           </span>
+                        </div>
+                        <div>
+                           <span className="font-semibold text-lg">
+                              Number of items:{" "}
+                           </span>
+                           <span className="text-lg font-medium">
+                              {salePost.itemPostSet.length} item(s)
                            </span>
                         </div>
                      </div>
@@ -248,7 +265,7 @@ const ProductPage = ({ salePost }) => {
                               ).toLocaleDateString("en-GB")}
                            </span>
                         </div>
-                        <div className="font-semibold text-lg">
+                        <div className="font-semibold mb-2 text-lg">
                            {trans.detailProduct.state_of_post}:{" "}
                            <span className="font-medium">
                               {salePost.isActive
@@ -256,12 +273,28 @@ const ProductPage = ({ salePost }) => {
                                  : trans.detailProduct.unavailable}
                            </span>
                         </div>
+                        <div className="mb-2">
+                           <span className="font-semibold text-lg">
+                              Hotline:{" "}
+                           </span>
+                           <span className="text-lg font-medium">
+                              {salePost.agency.hotline}
+                           </span>
+                        </div>
+                        <div className="mb-2">
+                           <span className="font-semibold text-lg">
+                              Merchant:{" "}
+                           </span>
+                           <span className="text-lg font-medium">
+                              {salePost.agency.name}
+                           </span>
+                        </div>
                      </div>
                   </div>
                </div>
-               <div className="grid sm:grid-cols-12 grid-cols-6 gap-4 mt-8 ">
+               <div className="grid sm:grid-cols-12 grid-cols-6 gap-3 mt-8 ">
                   <button
-                     className={`col-span-6 bg-primary-color text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90 transition-all disabled:bg-gray-400 disabled:shadow-gray-400 disabled:cursor-not-allowed`}
+                     className={`col-span-5 bg-primary-color text-dark-text rounded-lg py-10 font-semibold text-xl cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90 transition-all disabled:bg-gray-400 disabled:shadow-gray-400 disabled:cursor-not-allowed flex justify-center items-center gap-2`}
                      onClick={() => setIsOpenItemsModal(true)}
                      disabled={
                         salePost.agency.isActive === 0 ||
@@ -270,15 +303,17 @@ const ProductPage = ({ salePost }) => {
                            : false
                      }
                   >
+                     <BsCartPlus className="text-2xl" />
                      {salePost.agency.isActive === 0 || salePost.isActive === 0
                         ? trans.detailProduct.this_product_is_unavailable
                         : trans.detailProduct.choose_items}
                   </button>
+
                   <div
-                     className="col-span-6 grid grid-rows-6 gap-3"
+                     className="col-span-5 grid grid-rows-6 gap-3"
                      onClick={handleRouteAgency}
                   >
-                     <div className="row-span-4 flex items-center p-3 gap-2 bg-secondary-color text-dark-primary rounded-lg cursor-pointer hover:shadow-lg hover:shadow-secondary-color hover:brightness-90 transition-all">
+                     <div className="row-span-6 flex items-center p-3 gap-2 bg-secondary-color text-dark-primary rounded-lg cursor-pointer hover:shadow-lg hover:shadow-secondary-color hover:brightness-90 transition-all">
                         <div className="relative h-14 aspect-square overflow-hidden rounded-xl ">
                            <Image
                               src={salePost.agency.avatar}
@@ -298,12 +333,13 @@ const ProductPage = ({ salePost }) => {
                            </div>
                         </div>
                      </div>
-                     <div
-                        className="row-span-2 p-2 rounded-lg text-white bg-primary-color flex items-center justify-center font-semibold cursor-pointer hover:shadow-lg hover:shadow-primary-color hover:brightness-90 transition-all"
-                        onClick={handleRouteAgency}
-                     >
-                        Contact seller
-                     </div>
+                  </div>
+                  <div
+                     className="col-span-2 p-2 rounded-lg text-white bg-green-600 flex flex-col items-center justify-center font-semibold cursor-pointer hover:shadow-lg hover:shadow-green-600 hover:brightness-90 transition-all text-lg"
+                     onClick={handleRouteAgency}
+                  >
+                     <BiPhone className="text-2xl" />
+                     Contact
                   </div>
                </div>
             </div>
@@ -330,7 +366,7 @@ const ProductPage = ({ salePost }) => {
                <div className="dark:bg-dark-primary bg-light-primary rounded-lg p-4">
                   <div
                      className={`mx-4 text-left overflow-hidden relative py-8 ${
-                        isShowMore ? "h-fit" : "h-80"
+                        isShowMore ? "h-fit" : "h-[28rem]"
                      }`}
                   >
                      <div
