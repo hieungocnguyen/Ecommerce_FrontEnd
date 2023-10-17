@@ -2,22 +2,6 @@
 
 A granduate project at Ho Chi Minh City Open University
 
-## Features
-
-### Account
-
--  Register new account
--  Sign in
--  Sign in with Google account
--  Sign in with Facebook account
--  Reset Password
-
-### User infor and features
-
--  View detail of user
--  Change informaton
--  Wishlist
-
 ## Run Locally
 
 Must run [back-end](https://github.com/thuvan2512/ecommerce-springboot) first
