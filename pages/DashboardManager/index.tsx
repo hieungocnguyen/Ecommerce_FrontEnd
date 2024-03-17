@@ -187,7 +187,7 @@ const AgencyHome = () => {
                   <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center  rounded-lg text-lg font-medium px-2">
                      <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
                         <Image
-                           src="https://res.cloudinary.com/ngnohieu/image/upload/v1685823927/thumb-up_litsz7.png"
+                           src="https://res.cloudinary.com/dec25/image/upload/v1710666456/3d-like-love-social-media-png_b2e7k2.webp"
                            alt="img"
                            layout="fill"
                            className="object-cover"
@@ -203,7 +203,7 @@ const AgencyHome = () => {
                   <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center  rounded-lg text-lg font-medium px-2">
                      <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
                         <Image
-                           src="https://res.cloudinary.com/ngnohieu/image/upload/v1685823927/follow_ujed1n.png"
+                           src="https://res.cloudinary.com/dec25/image/upload/v1710666456/6516974_fh6iae.webp"
                            alt="img"
                            layout="fill"
                            className="object-cover"
@@ -219,7 +219,7 @@ const AgencyHome = () => {
                   <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center  rounded-lg text-lg font-medium px-2">
                      <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
                         <Image
-                           src="https://res.cloudinary.com/ngnohieu/image/upload/v1685823927/shelves_nyzik1.png"
+                           src="https://res.cloudinary.com/dec25/image/upload/v1710666457/3334538_uv8rrr.webp"
                            alt="img"
                            layout="fill"
                            className="object-cover"
@@ -235,7 +235,7 @@ const AgencyHome = () => {
                   <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center  rounded-lg text-lg font-medium px-2">
                      <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
                         <Image
-                           src="https://res.cloudinary.com/ngnohieu/image/upload/v1685823928/shopping_szg7a4.png"
+                           src="https://res.cloudinary.com/dec25/image/upload/v1710666457/followers-notification-5982098-4946513_cxiaek.webp"
                            alt="img"
                            layout="fill"
                            className="object-cover"

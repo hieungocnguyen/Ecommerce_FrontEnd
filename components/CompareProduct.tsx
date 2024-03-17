@@ -183,7 +183,7 @@ const CompareProduct = ({ openCompare }) => {
                      <div className="h-[310px] text-center p-2 m-2  rounded-lg flex justify-center items-center opacity-70">
                         <div className="relative w-40 mx-auto aspect-square overflow-hidden rounded-lg">
                            <Image
-                              src="https://res.cloudinary.com/ngnohieu/image/upload/v1686466243/balance_paeizk.png"
+                              src="https://res.cloudinary.com/dec25/image/upload/v1710663951/Empty_state_icon._l6myp6.svg"
                               alt="img"
                               layout="fill"
                               className="object-cover"
@@ -204,7 +204,7 @@ const CompareProduct = ({ openCompare }) => {
                         <div className="h-[310px] text-center p-2 m-2  rounded-lg flex justify-center items-center opacity-70">
                            <div className="relative w-40 mx-auto aspect-square overflow-hidden rounded-lg">
                               <Image
-                                 src="https://res.cloudinary.com/ngnohieu/image/upload/v1686466243/balance_paeizk.png"
+                                 src="https://res.cloudinary.com/dec25/image/upload/v1710663951/Empty_state_icon._l6myp6.svg"
                                  alt="img"
                                  layout="fill"
                                  className="object-cover"
@@ -228,7 +228,7 @@ const CompareProduct = ({ openCompare }) => {
                         <div className="h-[310px] text-center p-2 m-2  rounded-lg flex justify-center items-center opacity-70">
                            <div className="relative w-40 mx-auto aspect-square overflow-hidden rounded-lg">
                               <Image
-                                 src="https://res.cloudinary.com/ngnohieu/image/upload/v1686466243/balance_paeizk.png"
+                                 src="https://res.cloudinary.com/dec25/image/upload/v1710663951/Empty_state_icon._l6myp6.svg"
                                  alt="img"
                                  layout="fill"
                                  className="object-cover"

@@ -85,7 +85,7 @@ const MessagePanelManager = () => {
          await setDoc(docRef, {
             id: -1,
             avatar:
-               "https://res.cloudinary.com/ngnohieu/image/upload/v1685723176/thumbnailArtboard_19_Small_drrxuq.png",
+               "https://res.cloudinary.com/dec25/image/upload/v1710666209/3495358_l0kctj.webp",
             createdAt: serverTimestamp(),
             displayName: "✨Admin Open Market",
             messageLatest: "Click to start chat",

@@ -107,7 +107,7 @@ const Orders = () => {
             toast.success("Cancel order successful!");
             const resNotify = await API.post(endpoints["send_notify"], {
                details: `The order #${orderInfo.orderExpressID} is canceled by the user`,
-               image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682708935/cancel_rtlc2h.webp",
+               image: "https://res.cloudinary.com/dec25/image/upload/v1710665146/cancellation-of-order-1_za6jpp.png",
                recipientID: `agency-${orderInfo.agency.id}`,
                title: "An order is cancelled from user",
                type: "Order Processing",
@@ -130,7 +130,7 @@ const Orders = () => {
             toast.success("Successful! Please waiting for merchant accept");
             const resNotify = await API.post(endpoints["send_notify"], {
                details: `User requested to cancel the order #${orderInfo.orderExpressID}`,
-               image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682708935/cancel_rtlc2h.webp",
+               image: "https://res.cloudinary.com/dec25/image/upload/v1710665048/2795368_ivhkdn.png",
                recipientID: `agency-${orderInfo.agency.id}`,
                title: "Have a request to cancel order from user",
                type: "Order Processing",

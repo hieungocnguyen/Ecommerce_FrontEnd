@@ -202,7 +202,7 @@ const AddPromotion = ({ posts, setisOpenModel, agencyInfo, setLoading }) => {
                      src={
                         selectedImage
                            ? URL.createObjectURL(selectedImage)
-                           : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg"
+                           : "https://res.cloudinary.com/dec25/image/upload/v1681489022/oe9uw8dxb4sq8es1rfgh.png"
                      }
                      alt="avatar"
                      layout="fill"

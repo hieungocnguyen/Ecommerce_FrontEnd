@@ -33,7 +33,7 @@ const OrderAcceptCancel = ({
             toast.success("Cancel order successful!");
             const resNotify = await API.post(endpoints["send_notify"], {
                details: `Your request to cancel order has been accepted by merchant`,
-               image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682768680/istockphoto-690051340-612x612_bp1xyy.jpg",
+               image: "https://res.cloudinary.com/dec25/image/upload/v1683117159/avtArtboard_18_2x-100_l1mifl.jpg",
                recipientID: `user-${IDUserRequest}`,
                title: "Your order has accepted to cancel by merchant",
                type: "Order Processing",
@@ -58,7 +58,7 @@ const OrderAcceptCancel = ({
             );
             const resNotify = await API.post(endpoints["send_notify"], {
                details: `Your request to cancel order has been denied by merchant`,
-               image: "https://res.cloudinary.com/ngnohieu/image/upload/v1682768635/access-denied_illustration_fkvevm.jpg",
+               image: "https://res.cloudinary.com/dec25/image/upload/v1683117159/avtArtboard_18_2x-100_l1mifl.jpg",
                recipientID: `user-${IDUserRequest}`,
                title: "Your order has denied to cancel by merchant",
                type: "Order Processing",

@@ -84,7 +84,7 @@ const CreateNewPost = () => {
    }) => {
       const formData = new FormData();
       let imageURL =
-         "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg";
+         "https://res.cloudinary.com/dec25/image/upload/v1710666560/4673830_il7hu6.webp";
       if (selectedImage === undefined) {
          toast.error("Please upload an avatar for this post! ", {
             position: "top-center",
@@ -160,7 +160,7 @@ const CreateNewPost = () => {
                         src={
                            selectedImage
                               ? URL.createObjectURL(selectedImage)
-                              : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg"
+                              : "https://res.cloudinary.com/dec25/image/upload/v1710666663/5187865_gipkqk.webp"
                         }
                         alt="avatar"
                         layout="fill"

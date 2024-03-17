@@ -44,7 +44,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
    const handleAddItem = async (e) => {
       e.preventDefault();
       let imageURL =
-         "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg";
+         "https://res.cloudinary.com/dec25/image/upload/v1681489022/oe9uw8dxb4sq8es1rfgh.png";
       if (selectedImage === undefined) {
          toast.error("Please upload an avatar for this post! ", {
             position: "top-center",
@@ -141,7 +141,7 @@ const NewItem = ({ postID, setIsOpenNewItem, setLoading }) => {
                         src={
                            selectedImage
                               ? URL.createObjectURL(selectedImage)
-                              : "https://res.cloudinary.com/ngnohieu/image/upload/v1678612328/avatar2Artboard_1-100_impj99.jpg"
+                              : "https://res.cloudinary.com/dec25/image/upload/v1681489022/oe9uw8dxb4sq8es1rfgh.png"
                         }
                         alt="avatar"
                         layout="fill"

@@ -134,7 +134,7 @@ const AdminHome = () => {
                <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center rounded-lg font-medium p-2">
                   <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
                      <Image
-                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686028765/shop_eqhk6j.png"
+                        src="https://res.cloudinary.com/dec25/image/upload/v1710665630/vecteezy_3d-rendering-green-tick-icon-isolated_9369014_ggz7t2.png"
                         alt="img"
                         layout="fill"
                         className="object-cover"
@@ -150,7 +150,7 @@ const AdminHome = () => {
                <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center rounded-lg font-medium p-2">
                   <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
                      <Image
-                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686028765/shop_1_cns75j.png"
+                        src="https://res.cloudinary.com/dec25/image/upload/v1710665789/2389859_eam5e6.webp"
                         alt="img"
                         layout="fill"
                         className="object-cover"
@@ -166,7 +166,7 @@ const AdminHome = () => {
                <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center  rounded-lg font-medium p-2">
                   <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
                      <Image
-                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686028765/shop_3_qd8zcc.png"
+                        src="https://res.cloudinary.com/dec25/image/upload/v1710665724/expired-time-warning-3d-render-icon-illustration-with-transparent-background-empty-state-png_agmebr.png"
                         alt="img"
                         layout="fill"
                         className="object-cover"
@@ -182,7 +182,7 @@ const AdminHome = () => {
                <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center  rounded-lg font-medium p-2">
                   <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
                      <Image
-                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686028765/shop_4_sc53cz.png"
+                        src="https://res.cloudinary.com/dec25/image/upload/v1710665600/3d-realistic-cross-check-mark-button-icon-red-circle-with-white-cancel-tick-floating-on-transparent-symbol-no-wrong-negative-decline-danger-concept-cartoon-icon-minimal-style-3d-rendering-free-png_erzzde.webp"
                         alt="img"
                         layout="fill"
                         className="object-cover"
@@ -198,7 +198,7 @@ const AdminHome = () => {
                <div className="dark:bg-dark-primary bg-light-primary grid grid-cols-3 items-center  rounded-lg font-medium p-2">
                   <div className="relative overflow-hidden w-2/3 aspect-square mx-auto">
                      <Image
-                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686028765/shop_2_v4szs7.png"
+                        src="https://res.cloudinary.com/dec25/image/upload/v1710665947/4665720_htwjwo.webp"
                         alt="img"
                         layout="fill"
                         className="object-cover"

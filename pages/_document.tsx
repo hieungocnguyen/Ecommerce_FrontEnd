@@ -12,7 +12,7 @@ export default function Document() {
             />
             <meta
                property="og:image"
-               content="https://res.cloudinary.com/ngnohieu/image/upload/v1684215390/thumbnailArtboard_19_lh1aia.png"
+               content="https://res.cloudinary.com/dec25/image/upload/v1683117159/avtArtboard_18_2x-100_l1mifl.jpg"
             />
          </Head>
          <body>

@@ -16,23 +16,22 @@ import { Store } from "../utils/Store";
 const imageList = [
    {
       id: 1,
-      url: "https://res.cloudinary.com/ngnohieu/image/upload/v1681111574/0Mesa_de_trabajo_1_w8fhfs.png",
-
+      url: "https://res.cloudinary.com/dec25/image/upload/v1659697175/Artboard_1_2x_vdjvvy.png",
       title: "Test title 123",
    },
    {
       id: 2,
-      url: "https://res.cloudinary.com/ngnohieu/image/upload/v1683623668/7943920_w0uyra.png",
+      url: "https://res.cloudinary.com/dec25/image/upload/v1710667281/flat-sale-background-with-discount_23-2148965864_go1ye5.jpg",
       title: "Test title 123",
    },
    {
       id: 3,
-      url: "https://res.cloudinary.com/ngnohieu/image/upload/v1683623357/6314317_Medium_ko0i5o.png",
+      url: "https://res.cloudinary.com/dec25/image/upload/v1710667356/gradient-sale-background_23-2149050971_klcmye.jpg",
       title: "Test title 123",
    },
    {
       id: 4,
-      url: "https://res.cloudinary.com/ngnohieu/image/upload/v1683623113/4585310_stbybr.png",
+      url: "https://res.cloudinary.com/dec25/image/upload/v1710667416/sales-background-with-gradient-shapes_79603-1657_scyt5d.jpg",
       title: "Test title 123",
    },
 ];
@@ -165,7 +164,7 @@ const Advertise = () => {
                <div className="sm:h-1/2 h-full w-full rounded-lg shadow-lg">
                   <div className="relative h-full w-full rounded-lg overflow-hidden">
                      <Image
-                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1686507035/12123Artboard_19_copy_2_3x_mtt13q.png"
+                        src="https://res.cloudinary.com/dec25/image/upload/v1710667489/illustrated-isometric-e-commerce-concept_52683-40619_1_bjpmx3.jpg"
                         alt="img"
                         layout="fill"
                         className="object-cover"
@@ -180,7 +179,7 @@ const Advertise = () => {
                <div className="sm:h-1/2 h-full w-full bg-primary-color rounded-lg">
                   <div className="relative h-full w-full rounded-lg overflow-hidden">
                      <Image
-                        src="https://res.cloudinary.com/ngnohieu/image/upload/v1684215390/thumbnailArtboard_19_lh1aia.png"
+                        src="https://res.cloudinary.com/dec25/image/upload/v1710667280/flash-sale-banner-template-design_87202-1099_bbi3gt.avif"
                         alt="img"
                         layout="fill"
                         className="object-cover"

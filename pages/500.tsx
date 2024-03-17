@@ -9,7 +9,7 @@ const ServerError = () => {
       <Layout title="500 Error">
          <div className="relative overflow-hidden w-1/3 aspect-square mx-auto mt-8">
             <Image
-               src="https://res.cloudinary.com/ngnohieu/image/upload/v1686739645/12123Asset_1_hzpcxw.png"
+               src="https://res.cloudinary.com/dec25/image/upload/v1710664885/web-server-error-500-2511606-2133694_e7qu1f.webp"
                alt="500"
                layout="fill"
                className="object-cover"
